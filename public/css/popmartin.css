@@ -95,3 +95,6 @@ h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
     .pop-ads p{width: 58%;}
     .pop-ads{width: 60%;margin: 0 20%;}
 }
+
+.form-modern .alert{position: absolute;bottom: 0;right: 10px;padding: 1px 6px;background-color: red;color: #FFF;}
+.hidden{display: none;}

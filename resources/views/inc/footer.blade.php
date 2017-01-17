@@ -1,7 +1,6 @@
 <footer class="footer">
     <div class="content">
         <h1 class="font-0">Mais informações sobre PopMartin</h1>
-
         <div class="nav-footer-cat colbox">
             <div class="colbox-5">
                 <ul class="nav-footer">
@@ -72,14 +71,3 @@
 </footer>
 
 
-</main>
-
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="/frontend/js/jquery1.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="/frontend/js/bootstrap.js"></script>
-<script src="{{ url('/js/popmartin.js') }}"></script>
-</body>
-</html>
