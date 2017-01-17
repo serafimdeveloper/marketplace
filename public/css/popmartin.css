@@ -1,0 +1,97 @@
+.c-pop{color: #DA6262;}
+.c-poplight{color: #EB9292;}
+.c-popdark{color: #A74B4B;}
+.bg-popmartin{background-color: #DA6262;}
+.bg-popmartindark{background-color: #A74B4B; color: #FFFFFF;}
+.navicon-mobile{display: none;float: right; font-size: 2.2em;margin-top: -3px;margin-right: 20px;cursor: pointer;}
+h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
+.btn-popmartin{background-color: #DA6262; border-color: #A74B4B;} .btn-popmartin:hover{background-color: #A74B4B; border-color: #A74B4B;}
+.form-modern input:focus{border-bottom: 2px solid #DA6262;}
+.form-modern label:focus span{color: #DA6262;}
+.popicon{width: 40px; height: 28px;display: inline-block;background-size: 99%; background-repeat: no-repeat; background-position: center center;}
+.popicon.visa{background-image: url("../image/icons/visa.png");}
+.popicon.mastercard{background-image: url("../image/icons/mastercard.png");}
+.popicon.amex{background-image: url("../image/icons/amex.png");}
+.popicon.elo{background-image: url("../image/icons/elo.png");}
+.popicon.cart1{background-image: url("../image/icons/cart1.png");}
+.popicon.hiper{background-image: url("../image/icons/hiper.png");}
+.popicon.itau{background-image: url("../image/icons/itau.png");}
+.popicon.bradesco{background-image: url("../image/icons/bradesco.png");}
+.popicon.banco-do-brasil{background-image: url("../image/icons/banco-do-brasil.png");}
+.popicon.boleto{background-image: url("../image/icons/boleto.png");}
+.popicon.moip{background-image: url("../image/icons/moip.png");}
+
+
+.pop-top-header{padding:10px;background-color: #FFFFFF;}
+.pop-top-nav{width: 100%;display: inline-block;float: right;text-align: right;background-color: #FFF;}
+.pop-top-nav > div{display: inline-block;margin-left: 30px;}
+.pop-top-nav .search{width: 40%;}
+.pop-top-nav .fa{font-size: 1.6em;}
+.pop-search .input-group{width: 100%;}
+.pop-search input[name=search]{border-radius: 0;border: none;border-bottom: 2px solid #EB9292;padding: 5px 40px 5px 5px;color: #DA6262;}
+.pop-search .input-group button{position: absolute;right: 8px;top: 5px;width: 30px;color: #EB9292;font-size: 0.70em;background: none; border: transparent;cursor: pointer;}
+
+.pop-logo{position:absolute;top: 10px;min-width: 100px;z-index: 2;width: 10%; padding-bottom: 8%; background: url("../image/logo-popmartin.png") center center no-repeat;background-size: 98%;}
+.pop-ads{width: 85%; float: right;margin: 0 !important;}
+.pop-ads > div{position: relative;}
+.pop-ads img{display: inline-block !important;width: 35% !important;border: 1px solid #9d9d9d;margin-right: 2%;}
+.pop-ads p{display: inline-block !important;width: 62% !important;font-weight: 700;}
+.pop-ads a{position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+
+.pop-nav-main{background-color: #DA6262;text-align: center;}
+.pop-nav-main li{display: inline-block;padding: 0; margin: 0;border-right: 1px solid #FFF;}
+.pop-nav-main a{display: block; width: 107%; padding: 10px 15px;color: #FFF;margin-left: -5px;}
+.pop-nav-main a:hover{background-color: #FFF; color: #DA6262;}
+
+.pop-forms .colbox-2{padding: 0 30px;}
+.pop-forms .colbox-2:last-child{border-left: 1px solid #aaaaaa;}
+
+.footer{margin: 0;background-color: #C5040B;border-top: 7px solid #8F1E22;
+    box-shadow: 0 0 5px #000;
+    -moz-box-shadow: 0 0 5px #000;
+    -webkit-box-shadow: 0 0 5px #000;
+}
+.nav-footer-cat > div{margin-bottom: 20px;}
+.nav-footer{text-align: center;}
+.nav-footer a{display: block;padding: 2px 0;font-weight: 400;color: #FFB0B0;}
+.nav-footer a:hover{color: #FFF; text-decoration: underline;}
+.nav-footer-last{padding-bottom: 20px;float: right;}
+.nav-footer-last li{display: inline-block;border-right: 1px solid #FFF;}
+.nav-footer-last li:last-child{border-right: none;}
+.nav-footer-last a{font-size: 0.9em;display: block;color: #FFF; padding: 3px 5px;margin-right: 3px;}
+.nav-footer-last a:hover{text-decoration: underline;}
+.footer-icons{float: left;}
+
+@media(max-width: 69em){ /*1024px */
+    .pop-logo{top: 5px;padding: 0;min-width: inherit;width: 60px; height: 45px;}
+    .pop-ads{width: 100%;float: left;margin: 20px 0;}
+}
+@media(max-width: 62.5em){ /*1000px */
+    .pop-ads img{vertical-align: middle;}
+}
+@media(max-width: 56.25em){ /*900px */
+    .pop-top-header{height: 55px;}
+    .pop-top-nav{display: none;position: absolute;left: 0;top: 58px;z-index:3;text-align: center;
+        -webkit-box-shadow: 2px 2px 2px #000;
+        -moz-box-shadow: 2px 2px 2px #000;
+        box-shadow: 1px 0 3px #000;
+    }
+    .pop-top-nav > div{display: block;margin-left: 0;border-bottom: 1px solid #F0F0F0;padding: 10px 0;}
+    .pop-search input[name=search]{text-align: center;padding: 10px;}
+    .pop-search .input-group button{top: 15px; right: 20px;}
+    .navicon-mobile{display: block;}
+    .pop-nav-main .nav{display: none;}
+
+    .nav li{display: block;border-bottom: 1px solid #E08282;}
+}
+@media(max-width: 48.375em){ /*774px */
+    .pop-ads img{vertical-align: -50%;}
+}
+@media(max-width: 37.5em){ /*600px */
+    .pop-ads{width: 80% !important; margin: 0 10% !important;}
+}
+@media(max-width: 31.25em){ /*500px */
+    .pop-ads img{width: 40%; vertical-align: middle !important;}
+    .pop-ads p{width: 58%;}
+    .pop-ads{width: 60%;margin: 0 20%;}
+}
