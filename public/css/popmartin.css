@@ -85,7 +85,7 @@ h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
 .panel-content h2{border-bottom: 3px solid #ac2925;}
 .pop-form span.title{display: block;padding: 4px 7px;background-color: #0ABF95;color: #FFF;}
 .pop-form .title.title-gray{background-color: #2e3436;color: #FFF;}
-.pop-form input{color: #9d9d9d;border-bottom: 1px solid #0ABF95;}
+.pop-form input{color: #9d9d9d;border-bottom: 1px solid #0ABF95;background: none;}
 
 .panel-end{position: relative;border: 1px solid #e0e0e0;margin: 10px 0;border-radius: 5px 5px 0 0;-moz-border-radius: 5px 5px 0 0;-webkit-border-radius: 5px 5px 0 0;}
 .panel-end h4{padding: 5px 10px; border-bottom: 1px solid #a4aaae; background-color: #e0e0e0;color: #757575;font-weight: 500;}

@@ -33,25 +33,35 @@ $(function () {
     });
 
     /**
-     * Requisita endereço via ajax e abre modal para editar endereço
+     * Abre modal com formulário de preenchimento de endereço
+     * Requisita endereço via ajax caso seja uma edição
+     * Caso seja um cadastro, apnenas abre para preenchimento
      */
-    $(document).on('click', '.panel-end-edit', function(){
-        var data = 'token=token&action=requestAddress&id=' + $(this).data('id');
-        $.ajax({
-            url: '',
-            data: data,
-            type: 'POST',
-            dataType: 'json',
-            beforeSend: function () {
-                $('.adress').show();
-            },
-            success: function (e) {
+    $(document).on('click', '.jq-address', function(){
+        if(typeof ($(this).data('id')) !== "undefined"){
+            $('.alertbox-title').text('Editar endereço');
+            $('.address').find('button').text('atualizar');
+            var data = 'token=token&action=requestAddress&id=' + $(this).data('id');
+            $.ajax({
+                url: '',
+                data: data,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: function () {
 
-            }
-        });
+                },
+                success: function (e) {
 
+                }
+            });
+        }
+
+        $('.address').show();
     });
 
+    /**
+     * Menu mobile do painel de administração dos usuários
+     */
     $('.panel-icon-mobile').click(function () {
         if($('.panel-nav').is(':visible')){
             $(this).find('i').attr('class', 'fa fa-chevron-down');
