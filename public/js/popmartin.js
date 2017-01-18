@@ -68,6 +68,9 @@ function switchForm(t){
         case 'password':
             r = inputerror(is_count(6, t.val()), t, 'senha deve ter no mínimo 6 caracteres!');
             break;
+        default:
+            r = true;
+            break;
     }
     return r;
 }
