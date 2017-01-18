@@ -1,4 +1,5 @@
 /node_modules
+/material
 /public/storage
 /storage/*.key
 /vendor
