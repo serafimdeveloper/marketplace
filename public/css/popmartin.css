@@ -62,9 +62,45 @@ h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
 .nav-footer-last a:hover{text-decoration: underline;}
 .footer-icons{float: left;}
 
+/*******************************************************************
+************************PAINEL ADMINISTRATIVO**********************
+ ******************************************************************/
+.panel-icon-mobile{display: none;position: absolute;z-index: 10;top: 20px; left: 120px;cursor: pointer;font-size: 1.4em;color: #ac2925;}
+
+.panel-top-header{width: 100%;border-top: 5px solid #ac2925;border-bottom: 2px solid #E0E0E0;}
+.panel-top-header .pop-logo{background-color: #FFF;background-size: 80%;border-bottom: 2px solid #E0E0E0;top: 7px;left: 50px;padding-bottom: 0;min-width: inherit;width: 100px;height: 70px;float: left;}
+.panel-top-header .pop-top-nav{padding: 5px 10px;}
+.panel-top-header .pop-search{display: none;}
+.panel-top-header .menu-hidden{display: none;position: absolute; right: 10px;z-index: 9;margin-top: 5px;width: 100%; max-width: 280px; background-color: #FFF; border: 1px solid #e0e0e0;padding: 10px; text-align: center;border-radius: 5px;}
+.menu-hidden a{margin: 7px 0;}
+.menu-hidden .btn{width: 90%;}
+
+.panel-nav{float: left; width: 18%;min-width: 200px;padding: 15px 5px 5px 5px;background-color: #EEEEEE;}
+.panel-nav .panel-nav-acsess{margin: 10px 0;}
+.panel-nav h3{font-size: 1.2em;background-color: #ac2925;color: #e0e0e0;padding: 7px 5px; text-align: center;}
+.panel-nav-acsess a{display: block; width: 100%; padding: 10px 5px;border-bottom: 1px solid #BDBDBD;color: #757575;transition: all 0.4s;-moz-transition: all 0.4s;-webkit-transition: all 0.4s;}
+.panel-nav-acsess a:hover{background-color: #BDBDBD; color: #424242;padding-left: 20px; transition: all 0.4s;-moz-transition: all 0.4s;-webkit-transition: all 0.4s;}
+
+.panel-content{float: right;width: 80%;padding: 5px;}
+.panel-content h2{border-bottom: 3px solid #ac2925;}
+.pop-form span.title{display: block;padding: 4px 7px;background-color: #0ABF95;color: #FFF;}
+.pop-form .title.title-gray{background-color: #2e3436;color: #FFF;}
+.pop-form input{color: #9d9d9d;border-bottom: 1px solid #0ABF95;}
+
+.panel-end{position: relative;border: 1px solid #e0e0e0;margin: 10px 0;border-radius: 5px 5px 0 0;-moz-border-radius: 5px 5px 0 0;-webkit-border-radius: 5px 5px 0 0;}
+.panel-end h4{padding: 5px 10px; border-bottom: 1px solid #a4aaae; background-color: #e0e0e0;color: #757575;font-weight: 500;}
+.panel-end-content{padding: 10px;}
+.panel-end-edit{position: absolute; top: 0; left: 0; width: 100%; height: 100%;background-color: rgba(0,0,0,0.6);color: #FFF; text-align: center; font-size: 1.6em; font-weight: 600;filter: alpha(opacity=0);opacity:0;-webkit-opacity:0;-moz-opacity:0;transition: all 0.4s;-moz-transition: all 0.4s;-webkit-transition: all 0.4s;}
+.panel-end-edit:hover{filter: alpha(opacity=100);opacity:1;-webkit-opacity:1;-moz-opacity:1;transition: all 0.4s;-moz-transition: all 0.4s;-webkit-transition: all 0.4s;}
+
+
 @media(max-width: 69em){ /*1024px */
     .pop-logo{top: 5px;padding: 0;min-width: inherit;width: 60px; height: 45px;}
     .pop-ads{width: 100%;float: left;margin: 20px 0;}
+    .panel-nav{display: none;position: absolute;left: 0;z-index: 1;width: 250px;box-shadow: 2px 3px 8px #000;}
+    .panel-content{width: 100%;padding: 20px 10px;}
+    .panel-top-header .pop-logo{left: 5px;}
+    .panel-icon-mobile{display: block;}
 }
 @media(max-width: 62.5em){ /*1000px */
     .pop-ads img{vertical-align: middle;}
