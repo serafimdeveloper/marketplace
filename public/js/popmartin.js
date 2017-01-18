@@ -92,7 +92,7 @@ function verificaform(f) {
         var t = $(this);
         switchForm(t);
     }).focusin(function () {
-        $(this).removeClass('input-error').siblings('.alert-hidden').hide();
+        $(this).removeClass('input-error').siblings('.alert').addClass('hidden');
     });
 }
 /**
@@ -120,7 +120,7 @@ function verifySubmit(f){
  */
 function inputerror(is, param, msg) {
     if (!is) {
-        param.addClass('input-error').siblings('.alert-hidden').show().text(msg);
+        param.addClass('input-error').siblings('.alert').removeClass('hidden').text(msg);
         return false;
     }else{
         return true;
