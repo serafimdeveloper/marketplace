@@ -186,10 +186,7 @@ ul{list-style: none;}a{text-decoration: none;}a img{border: 0;}img{max-width: 10
     -moz-border-radius:8px 8px 0 0;
     border-radius:8px 8px 0 0;
 }
-.alertbox .alertbox-close{position: absolute;top: 0; right: 20px; color: #FF0000;background-color: #000;padding: 10px;cursor: pointer;
-    -webkit-border-radius:50%;;
-    -moz-border-radius:50%;;
-    border-radius:50%;}
+.alertbox .alertbox-close{position: absolute;top: 0; right: 20px; color: #FF0000;padding: 10px;cursor: pointer;  }
 .alertbox .alertbox-title{padding: 5px 0 5px 20px; margin: 10px 0;border-bottom: 4px solid #B71C1C; font-size: 1.4em;}
 
 /**** BTN - BOTÕES PERSONALIZADO *****/
@@ -237,9 +234,11 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .form-modern .radio input{display: inline-block; width: auto;position: absolute;visibility: hidden;}
 .form-modern .radio span{padding: 0;color: #626262;}
 .form-modern .radio .icon{vertical-align: middle;font-size: 1.4em;}
-
 .form-modern .alert-hidden{display: none;position: absolute; bottom:0; right: 10px;padding: 1px 6px;background-color: red; color: #FFF;}
 .form-modern .input-error{border: 1px solid red; background-color: #FFE5E5;}
+
+
+
 
 .form{width: 100%;}
 .form label, .form input, .form textarea, .form select{display: block; width: 96%; margin: 0 2%; padding: 10px; max-width: 100%;}
@@ -283,23 +282,20 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .form .file input[type='file'] {cursor: pointer;position:absolute; top:0;left:0; border:1px solid #ff0000; opacity:0.01; z-index:1; }
 .form .file input[type='text'] {display: inline-block; width: inherit;border:0px; background:#dedede;}
 .form .file button{margin-top: 10px;}
-
 .form .colbox{padding: 0 20px;}
-
-.form .radio{display: inline-block; position: relative; width: auto;margin: 5px;cursor: pointer;border: 1px solid #E0E0E0;}
-.form .radio input{display: inline-block; width: auto;position: absolute;visibility: hidden;}
-.form .radio span{padding: 0;color: #626262;}
-.form .radio .icon{vertical-align: middle;font-size: 1.4em;}
-
-.form .checkbox{display: inline-block; position: relative; width: auto;margin: 5px;cursor: pointer;border: 1px solid #E0E0E0;}
-.form .checkbox input{display: inline-block; width: auto;position: absolute;visibility: hidden;}
-.form .checkbox span{padding: 0;color: #626262;}
-.form .checkbox .icon{vertical-align: middle;font-size: 1.4em;}
-
 .form .input-group{position: relative;padding: 0;}
 .form .input-group span{position: absolute; top: 0; left: 0;height: 100%;min-width: 40px; text-align: center;}
 
-.checkbox-container{border: 1px solid #EEEEEE;}
+.radio{display: inline-block; position: relative; width: auto;margin: 5px;cursor: pointer;border: 1px solid #E0E0E0;}
+.radio input{display: inline-block; width: auto;position: absolute;visibility: hidden;}
+.radio span{padding: 0;color: #626262;}
+.radio .fa{vertical-align: middle;font-size: 1.4em;}
+
+.checkbox{display: inline-block; position: relative; width: auto;margin: 5px;cursor: pointer;border: 1px solid #E0E0E0;}
+.checkbox input{display: inline-block; width: auto;position: absolute;visibility: hidden;}
+.checkbox span{padding: 0;color: #626262;}
+.checkbox .fa{vertical-align: middle;font-size: 1.4em;}
+.checkbox-container{}
 .checkbox-container .checkbox-header{width: 100%;font-size: 0.7em;border-bottom: 1px solid #E3E3E3;padding: 10px 0;}
 .checkbox-header .checkbox-title{float: left;border-left: 5px solid #0D47A1;padding-left: 15px !important;font-size: 1.8em;}
 

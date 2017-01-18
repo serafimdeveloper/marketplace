@@ -27,7 +27,7 @@ $(function () {
     /**
      * efeito slidetoogle do menu no topo com nome do usuário
      */
-    $('.panel-top-header').find('.menu > a').click(function () {
+    $('.pop-top-header').find('.menu > a').click(function () {
         $(this).siblings('.menu-hidden').slideToggle();
         return false;
     });
@@ -52,6 +52,15 @@ $(function () {
 
     });
 
+    $('.panel-icon-mobile').click(function () {
+        if($('.panel-nav').is(':visible')){
+            $(this).find('i').attr('class', 'fa fa-chevron-down');
+        }else{
+            $(this).find('i').attr('class', 'fa fa-chevron-up');
+        }
+        $('.panel-nav').slideToggle();
+    });
+
 });
 
 /**
@@ -70,7 +79,6 @@ function switchForm(t){
             break;
         default:
             r = true;
-            break;
     }
     return r;
 }
@@ -84,7 +92,7 @@ function verificaform(f) {
         var t = $(this);
         switchForm(t);
     }).focusin(function () {
-        $(this).removeClass('input-error').siblings('.alert').addClass('hidden');
+        $(this).removeClass('input-error').siblings('.alert-hidden').hide();
     });
 }
 /**
@@ -112,7 +120,7 @@ function verifySubmit(f){
  */
 function inputerror(is, param, msg) {
     if (!is) {
-        param.addClass('input-error').siblings('.alert').removeClass('hidden').text(msg);
+        param.addClass('input-error').siblings('.alert-hidden').show().text(msg);
         return false;
     }else{
         return true;

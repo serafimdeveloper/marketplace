@@ -71,7 +71,7 @@ h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
 .panel-top-header .pop-logo{background-color: #FFF;background-size: 80%;border-bottom: 2px solid #E0E0E0;top: 7px;left: 50px;padding-bottom: 0;min-width: inherit;width: 100px;height: 70px;float: left;}
 .panel-top-header .pop-top-nav{padding: 5px 10px;}
 .panel-top-header .pop-search{display: none;}
-.panel-top-header .menu-hidden{display: none;position: absolute; right: 10px;z-index: 9;margin-top: 5px;width: 100%; max-width: 280px; background-color: #FFF; border: 1px solid #e0e0e0;padding: 10px; text-align: center;border-radius: 5px;}
+.menu .menu-hidden{display: none;position: absolute; right: 10px;z-index: 9;margin-top: 5px;width: 100%; max-width: 280px; background-color: #FFF; border: 1px solid #e0e0e0;padding: 10px; text-align: center;border-radius: 5px;}
 .menu-hidden a{margin: 7px 0;}
 .menu-hidden .btn{width: 90%;}
 

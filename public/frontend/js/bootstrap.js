@@ -199,24 +199,29 @@ var masks = {
  */
 function checkBox(e) {
     if(e.is(":checked")){
-        e.siblings('span').find('span').attr("class", "icon icon-checkbox-checked c-green").css({color: '#4CAF50'});
+        e.siblings('span').find('span').attr("class", "fa fa-check-square-o c-green").css({color: '#4CAF50'});
     }else{
-        e.siblings('span').find('span').attr("class", "icon icon-checkbox-unchecked").css({color: '#626262'});
+        e.siblings('span').find('span').attr("class", "fa fa-circle-o").css({color: '#626262'});
     }
 };
 
 /**
  * Estização para checkbox de formulário
- * @param e
+ * @param e object html DOM
  */
 function radiobox(e) {
     if(e.is(":checked")){
-        e.siblings('span').find('span').attr("class", "icon icon-radio-checked2 c-green").css({color: '#4CAF50'});
+        $("input[type=radio]").each(function(){
+            if($(this).attr('name') == e.attr('name')){
+                $(this).siblings('span').find('span').attr("class", "fa fa-circle-o").css({color: '#626262'});
+            }
+        });
+        e.siblings('span').find('span').attr("class", "fa fa-check-circle-o c-green").css({color: '#4CAF50'});
     }else{
-        e.siblings('span').find('span').attr("class", "icon icon-radio-unchecked").css({color: '#626262'});
+        e.siblings('span').find('span').attr("class", "fa fa-circle-o").css({color: '#626262'});
     }
 };
 
 $(document).on("keypress", ".masksMoney", masks.money);
-$(document).on("click", ".form .checkbox input[type=checkbox]", function(){checkBox($(this))});
-$(document).on("click", ".form .radio input[type=radio]", function(){radiobox($(this))});
+$(document).on("click", ".form-modern .checkbox input[type=checkbox]", function(){checkBox($(this))});
+$(document).on("click", ".form-modern .radio input[type=radio]", function(){radiobox($(this))});
