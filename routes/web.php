@@ -10,8 +10,8 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     /** Clientes */
     Route::get('/', 'Accont\Clients\HomeController@index')->name('accont.home');
-
     Route::post('/', 'Accont\Clients\HomeController@store')->name('account.home.store');
+    Route::post('auth/change_password', 'Accont\Clients\HomeController@change_password')->name('changepassword.store');
 
     Route::get('/requests', function(){
         return view('accont.requests');

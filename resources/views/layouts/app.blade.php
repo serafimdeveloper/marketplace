@@ -22,6 +22,7 @@
     <body>
         <main class="container">
             @include('inc.header')
+            @include('layouts.parties.messages')
             @yield('content')
             @include('inc.footer')
         </main>

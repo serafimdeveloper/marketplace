@@ -10,36 +10,36 @@
                     <label>
                         <span class="title">nome</span>
                         {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
-                        <span class="alert hidden"></span>
+                        <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
                     <label>
                         <span class="title">apelido</span>
                          {!! Form::text('nick',null, ['placeholder' => 'Apelido']) !!}
-                        <span class="alert hidden"></span>
+                       <span class="alert{{ $errors->has('nick') ? '' : ' hidden' }}">{{ $errors->first('nick') }}</span>
                     </label>
                     <label>
                         <span class="title">cpf</span>
                         {!! Form::text('document',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF']) !!}
-                        <span class="alert hidden"></span>
+                       <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
                     </label>
                     <label>
                         <span class="title">data de nascimento</span>                       
                         {!! Form::date('birth',null, ['placeholder' => 'data de nascimento']) !!}
-                        <span class="alert hidden"></span>
+                        <span class="alert{{ $errors->has('birth') ? '' : ' hidden' }}">{{ $errors->first('birth') }}</span>
                     </label>
                     <div class="checkbox-container padding10">
                         <span class="title">Gênero</span>
                         <div class="checkboxies">
                             <label class="radio">
-                                <span><span class="fa fa-circle-o"></span> masculino</span>
+                                <span><span class="fa {{ ($user->genre === 'M') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> masculino</span>
                                 {!! Form::radio('genre','M') !!}
                             </label>
                             <label class="radio">
-                                <span><span class="fa fa-circle-o"></span> feminino</span>
+                                <span><span class="fa {{ ($user->genre === 'F') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> feminino</span>
                                 {!! Form::radio('genre','F') !!}
                             </label>
                         </div>
-                        <span class="alert hidden"></span>
+                        <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                     </div>
                     <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
                         <button type="submit" class="btn btn-teal">atualizar dados</button>
@@ -73,27 +73,30 @@
         <div class="content">
             <h2 style="text-align: center;">Dados do conta</h2>
 
-            <form class="content form-modern pop-form">
+            {!! Form::open(['route' => ['changepassword.store'], 'method' => 'POST','class'=>'content form-modern pop-form']) !!}
                 <label>
                     <span class="title title-gray">email</span>
-                    <input type="text" name="email" value="contato@brunosite.com" disabled="true" style="color: #FFFFFF;background-color: #888888;">
+                    <input type="text" name="email" value="{{$user->email}}" disabled="true" style="color: #FFFFFF;background-color: #888888;">
                 </label>
                 <label>
                     <span>senha atual</span>
-                    <input type="password" name="password" placeholder="senha">
+                    {!! Form::password('password',null, [ 'placeholder' => 'Senha']) !!}                  
+                    <span class="alert{{ $errors->has('password') ? '' : ' hidden' }}">{{ $errors->first('password') }}</span>
                 </label>
                 <label>
                     <span>criar nova senha</span>
-                    <input type="password" name="newpassword" placeholder="senha">
+                    {!! Form::password('newpassword',null, [ 'placeholder' => 'Nova senha']) !!}
+                    <span class="alert{{ $errors->has('newpassword') ? '' : ' hidden' }}">{{ $errors->first('newpassword') }}</span>
                 </label>
                 <label>
                     <span>repetir senha</span>
-                    <input type="password" name="newpassword_repeat" placeholder="senha">
+                    {!! Form::password('newpassword_confirmation',null, [ 'placeholder' => 'Repita sua nova senha']) !!}
+                    <span class="alert{{ $errors->has('newpassword_confirmation') ? '' : ' hidden' }}">{{ $errors->first('newpassword_confirmation') }}</span>
                 </label>
                 <div class="txt-center">
                     <button type="submit" class="btn btn-teal">atualizar senha</button>
                 </div>
-            </form>
+             {!!Form::close()!!}
         </div>
     </section>
     <div class="alertbox address">

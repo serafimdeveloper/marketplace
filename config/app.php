@@ -168,6 +168,8 @@ return [
          */
         Collective\Html\HtmlServiceProvider::class,
         ResultSystems\Validation\ValidationServiceProvider::class,
+        Cagartner\CorreiosConsulta\ServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
         //
 
         /*
@@ -231,7 +233,7 @@ return [
         */
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-
+        'Correios'    => Cagartner\CorreiosConsulta\Facade::class,
     ],
 
 ];
