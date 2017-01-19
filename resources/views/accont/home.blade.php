@@ -6,26 +6,25 @@
         <div class="colbox">
             <div class="colbox-2">
                 <h2>Dados do usuários</h2>
-
-                <form class="form-modern pop-form">
+                  {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                     <label>
                         <span class="title">nome</span>
-                        <input type="text" name="name" value="Meu nome">
+                        {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
                         <span class="alert hidden"></span>
                     </label>
                     <label>
-                        <span class="title">sobrenome</span>
-                        <input type="text" name="lastname" value="Meu sobrenome">
+                        <span class="title">apelido</span>
+                         {!! Form::text('nick',null, ['placeholder' => 'Apelido']) !!}
                         <span class="alert hidden"></span>
                     </label>
                     <label>
                         <span class="title">cpf</span>
-                        <input type="text" name="cpf" class="masked_cpf" value="Meu cpf">
+                        {!! Form::text('document',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF']) !!}
                         <span class="alert hidden"></span>
                     </label>
                     <label>
-                        <span class="title">data de nascimento</span>
-                        <input type="date" name="birth" value="data de nascimento">
+                        <span class="title">data de nascimento</span>                       
+                        {!! Form::date('birth',null, ['placeholder' => 'data de nascimento']) !!}
                         <span class="alert hidden"></span>
                     </label>
                     <div class="checkbox-container padding10">
@@ -33,11 +32,11 @@
                         <div class="checkboxies">
                             <label class="radio">
                                 <span><span class="fa fa-circle-o"></span> masculino</span>
-                                <input type="radio" name="genre" value="M">
+                                {!! Form::radio('genre','M') !!}
                             </label>
                             <label class="radio">
                                 <span><span class="fa fa-circle-o"></span> feminino</span>
-                                <input type="radio" name="genre" value="F">
+                                {!! Form::radio('genre','F') !!}
                             </label>
                         </div>
                         <span class="alert hidden"></span>
@@ -45,7 +44,7 @@
                     <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
                         <button type="submit" class="btn btn-teal">atualizar dados</button>
                     </div>
-                </form>
+                {!!Form::close()!!}
             </div>
             <div class="colbox-2">
                 <h2>Endereços <span class="btn btn-smallextreme btn-blue fl-right jq-address"
