@@ -11,18 +11,22 @@
                     <label>
                         <span class="title">nome</span>
                         <input type="text" name="name" value="Meu nome">
+                        <span class="alert hidden"></span>
                     </label>
                     <label>
                         <span class="title">sobrenome</span>
                         <input type="text" name="lastname" value="Meu sobrenome">
+                        <span class="alert hidden"></span>
                     </label>
                     <label>
                         <span class="title">cpf</span>
                         <input type="text" name="cpf" class="masked_cpf" value="Meu cpf">
+                        <span class="alert hidden"></span>
                     </label>
                     <label>
                         <span class="title">data de nascimento</span>
                         <input type="date" name="birth" value="data de nascimento">
+                        <span class="alert hidden"></span>
                     </label>
                     <div class="checkbox-container padding10">
                         <span class="title">Gênero</span>
@@ -36,6 +40,7 @@
                                 <input type="radio" name="genre" value="F">
                             </label>
                         </div>
+                        <span class="alert hidden"></span>
                     </div>
                     <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
                         <button type="submit" class="btn btn-teal">atualizar dados</button>
@@ -75,16 +80,16 @@
                     <input type="text" name="email" value="contato@brunosite.com" disabled="true" style="color: #FFFFFF;background-color: #888888;">
                 </label>
                 <label>
+                    <span>senha atual</span>
+                    <input type="password" name="password" placeholder="senha">
+                </label>
+                <label>
                     <span>criar nova senha</span>
                     <input type="password" name="newpassword" placeholder="senha">
                 </label>
                 <label>
                     <span>repetir senha</span>
                     <input type="password" name="newpassword_repeat" placeholder="senha">
-                </label>
-                <label>
-                    <span>senha atual</span>
-                    <input type="password" name="password" placeholder="senha">
                 </label>
                 <div class="txt-center">
                     <button type="submit" class="btn btn-teal">atualizar senha</button>

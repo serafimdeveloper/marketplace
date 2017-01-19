@@ -54,6 +54,9 @@ $(function () {
 
                 }
             });
+        }else{
+            $('.alertbox-title').text('Cadastrar endereço');
+            $('.address').find('button').text('cadastrar');
         }
 
         $('.address').show();

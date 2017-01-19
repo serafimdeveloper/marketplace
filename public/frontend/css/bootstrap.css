@@ -300,30 +300,26 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .checkbox-header .checkbox-title{float: left;border-left: 5px solid #0D47A1;padding-left: 15px !important;font-size: 1.8em;}
 
 /**** TABLE - PADRÃO DE TABELAS *****/
-.table{width: 100%;margin: 10px; border: 1px solid #BBB; border-collapse: collapse;}
-.table thead{width: 100%; background-color: #BBB; text-align: center;}
-.table tbody{width: 100%;}
-.table tr{padding: 5px 0;}
-.table th{padding: 5px 10px; border: 1px solid #919191;color: #333;}
-.table td{padding: 5px; border: 1px solid #DDD; position: relative;}
-.table tbody tr:nth-child(even){background-color: #eee;}
-.table tbody tr:hover{color: #5757F0;}
+/* Table Base */
 
-.table .ico-theader{display: inline-block;width: 5px;vertical-align: middle;cursor: pointer;}
-.table .ic-lock2:hover{color: #EB4C4C !important;}
-.table .ic-bar-graph:hover{color: #4B70C8 !important;}
-.table .ic-trash:hover{color: #D5181B !important;}
-.table .ic-unlocked:hover{color: #00CC44 !important;}
-.table .ic-checkmark:hover{color: #00CC44 !important;}
-.table .ic-cross:hover{color: #D5181B !important;}
-.table .ic-triangle-up:hover, .table .ic-triangle-down:hover{color: #D61515;}
+.table {font-family: arial; max-width: 100%; background-color: transparent; border-collapse: collapse; border-spacing: 0;  }
 
-.table .hover-mouse{display: none;position: absolute;top: 100%; left: 0; z-index: 99;padding: 10px;
-                    background-color: rgba(0,0,0,0.7);
-}
-.table td:hover .hover-mouse{display: block;}
+.table {width: 100%; margin-bottom: 20px;}
 
-.spin{display: inline-block;margin:0;}
+.table th, .table td {font-weight: normal;font-size: 12px; padding: 8px 15px; line-height: 20px; text-align: left; vertical-align: middle; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd;}
+.table th:last-child, .table td:last-child{border-right: none;}
+.table thead th {background: #eeeeee;ertical-align: bottom;}
+.table tbody > tr:nth-child(odd) > td, .table tbody > tr:nth-child(odd) > th {background-color: #fafafa;}
+.table tbody > .t-unread > td{background: #777777 !important;}
+.table .t-small {width: 5%;}
+.table .t-medium {width: 15%;}
+.table .t-status {font-weight: bold;}
+.table .t-active {color: #46a546;}
+.table .t-inactive {color: #e00300;}
+.table .t-draft {color: #f89406;}
+.table .t-scheduled {color: #049cdb;}
+.table .btn{padding: 3px 8px;}
+
 
 /**** OUTRAS FORMATAÇÕES *****/
 .align-middle{vertical-align: middle;}
@@ -467,6 +463,12 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
     .accordion .accordion-content{padding: 5px 10px;}
     .accordion-box .padding20{padding: 5px;}
     .accordion-box .padding40{padding: 10px;}
+}
+@media(max-width: 30em) {  /* 480px */
+    .table-action thead {display: none;}
+    .table-action tr {border-bottom: 1px solid #dddddd;}
+    .table-action td {border: 0;}
+    .table-action td:not(:first-child) {display: block;}
 }
 @media(max-width: 25em) {  /* 400px */
     .colbox-5{width: 100% !important; margin-right: 0 !important;}
