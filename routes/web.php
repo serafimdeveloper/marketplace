@@ -16,6 +16,9 @@ Route::group(['prefix' => 'accont'], function(){
     Route::get('/requests', function(){
         return view('accont.requests');
     });
+    Route::get('/requests/{id}', function(){
+        return view('accont.request_info');
+    });
 
     Route::get('/searchstore', function(){
         return view('accont.searchstore');
@@ -23,6 +26,9 @@ Route::group(['prefix' => 'accont'], function(){
 
     Route::get('/messages', function(){
         return view('accont.messages');
+    });
+    Route::get('/messages/{id}', function(){
+        return view('accont.message_info');
     });
 
     /** Vendedores */

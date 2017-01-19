@@ -74,6 +74,23 @@ $(function () {
         $('.panel-nav').slideToggle();
     });
 
+    $(".searh_store input[name=search_store]").keyup(function () {
+        var data = 'token=token&action=searchStore&value=' + $(this).val();
+        var implementTr = $('#pop-searchStore tbody');
+        $.ajax({
+            url: '',
+            data: data,
+            type: 'POST',
+            dataType: 'json',
+            beforeSend: function () {
+                implementTr.html("<tr><td colspan=\"3\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
+            },
+            success: function (e) {
+                implementTr.html(e.resulttr);
+            }
+        });
+    });
+
 });
 
 /**

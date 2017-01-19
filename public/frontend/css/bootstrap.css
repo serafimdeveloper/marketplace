@@ -309,8 +309,9 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .table th, .table td {font-weight: normal;font-size: 12px; padding: 8px 15px; line-height: 20px; text-align: left; vertical-align: middle; border-top: 1px solid #dddddd; border-right: 1px solid #dddddd;}
 .table th:last-child, .table td:last-child{border-right: none;}
 .table thead th {background: #eeeeee;ertical-align: bottom;}
-.table tbody > tr:nth-child(odd) > td, .table tbody > tr:nth-child(odd) > th {background-color: #fafafa;}
-.table tbody > .t-unread > td{background: #777777 !important;}
+.table tbody > tr:nth-child(odd){background-color: #fafafa;}
+.table tbody tr:hover{background-color: #E0E0E0;}
+
 .table .t-small {width: 5%;}
 .table .t-medium {width: 15%;}
 .table .t-status {font-weight: bold;}
@@ -319,6 +320,8 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .table .t-draft {color: #f89406;}
 .table .t-scheduled {color: #049cdb;}
 .table .btn{padding: 3px 8px;}
+.table .txt-center{text-align: center;}
+.table .bold{font-weight: bold;}
 
 
 /**** OUTRAS FORMATAÇÕES *****/
