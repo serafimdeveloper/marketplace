@@ -5,25 +5,25 @@
     <section class="panel-content">
         <div class="colbox">
             <div class="colbox-2">
-                <h2>Dados do usuários</h2>
+                <h2>Dados do Usuários</h2>
                   {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                     <label>
-                        <span class="title">nome</span>
+                        <span class="title">Nome</span>
                         {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
                         <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
                     <label>
-                        <span class="title">apelido</span>
+                        <span class="title">Apelido</span>
                          {!! Form::text('nick',null, ['placeholder' => 'Apelido']) !!}
                        <span class="alert{{ $errors->has('nick') ? '' : ' hidden' }}">{{ $errors->first('nick') }}</span>
                     </label>
                     <label>
-                        <span class="title">cpf</span>
+                        <span class="title">Cpf</span>
                         {!! Form::text('document',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF']) !!}
                        <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
                     </label>
                     <label>
-                        <span class="title">data de nascimento</span>                       
+                        <span class="title">Data de Nascimento</span>                       
                         {!! Form::date('birth',null, ['placeholder' => 'data de nascimento']) !!}
                         <span class="alert{{ $errors->has('birth') ? '' : ' hidden' }}">{{ $errors->first('birth') }}</span>
                     </label>
@@ -50,21 +50,19 @@
                 <h2>Endereços <span class="btn btn-smallextreme btn-blue fl-right jq-address"
                                     style="font-size: 0.7em;"><i class="fa fa-plus vertical-middle"></i> novo</span>
                 </h2>
-                <div class="panel-end">
-                    <h4>Nome do endereço <span class="fl-right">principal</span></h4>
-                    <div class="panel-end-content">
-                        <p>CEP: 27286210</p>
-                        <p>Rua Dom Anônio Cabral, 123 - Rio de janeiro</p>
+                <div id="group-pnl-end">
+                @forelse($user->adresses as $adress)
+                    <div class="panel-end">
+                        <h4>Nome do endereço <span class="fl-right">principal</span></h4>
+                        <div class="panel-end-content">
+                            <p>CEP: {{$adress->zip_code}}</p>
+                            <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>
+                        </div>
+                        <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}">editar</a>
                     </div>
-                    <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="1">editar</a>
-                </div>
-                <div class="panel-end">
-                    <h4>Nome do endereço</h4>
-                    <div class="panel-end-content">
-                        <p>CEP: 27286210</p>
-                        <p>Rua Dom Anônio Cabral, 123 - Rio de janeiro</p>
-                    </div>
-                    <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="2">editar</a>
+                @empty
+                    <h3>Não tem endereços</h3>
+                @endforelse
                 </div>
             </div>
         </div>
@@ -99,60 +97,6 @@
              {!!Form::close()!!}
         </div>
     </section>
-    <div class="alertbox address">
-        <div class="alertbox-container">
-            <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
-            <div class="alertbox-content">
-                <h2 class="alertbox-title">Cadastrar novo endereço</h2>
-                <form class="form-modern pop-form">
-                    <label>
-                        <span>CEP:</span>
-                        <input type="text" name="cep" value="27286210">
-                    </label>
-                    <div class="colbox">
-                        <div class="colbox-2">
-                            <label>
-                                <span class="title">UF:</span>
-                                <input type="text" name="uf" value="27286210">
-                            </label>
-                        </div>
-                        <div class="colbox-2">
-                            <label>
-                                <span class="title">Município:</span>
-                                <input type="text" name="citie" value="27286210">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="clear-both"></div>
-                    <label>
-                        <span>Bairro:</span>
-                        <input type="text" name="neighborhood" value="27286210">
-                    </label>
-                    <label>
-                        <span>endereço:</span>
-                        <input type="text" name="logradouro" value="27286210">
-                    </label>
-                    <div class="colbox">
-                        <div class="colbox-2">
-                            <label>
-                                <span>Número:</span>
-                                <input type="text" name="number" value="27286210">
-                            </label>
-                        </div>
-                        <div class="colbox-2">
-                            <label>
-                                <span>Complemento:</span>
-                                <input type="text" name="complements" value="27286210">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="clear-both"></div>
-                    <div class="txt-center">
-                        <button type="submit" class="btn btn-teal">cadastrar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    @include('layouts.parties.alert_adress')
     <div class="clear-both"></div>
 @endsection

@@ -10,7 +10,9 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     /** Clientes */
     Route::get('/', 'Accont\Clients\HomeController@index')->name('accont.home');
+
     Route::post('/', 'Accont\Clients\HomeController@store')->name('account.home.store');
+
     Route::post('auth/change_password', 'Accont\Clients\HomeController@change_password')->name('changepassword.store');
 
     Route::get('/requests', function(){
@@ -66,5 +68,14 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('/report/notifications', function(){
         return view('accont.report.notifications');
     })->name('accont.report.notifications');
+
+    /** Adress */
+    Route::post('adresses','Accont\AdressesController@store')->name('accont.adress.store');
+
+    Route::get('adresses/{adress}','Accont\AdressesController@edit')->name('accont.adress.edit');
+
+    Route::put('adresses/{adress}','Accont\AdressesController@update')->name('accont.adress.update');
+
+    Route::get('adresses/zip_code/{zip}','Accont\AdressesController@search_cep')->name('accont.adress.zip_code');
 
 });

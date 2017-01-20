@@ -3,8 +3,7 @@
 
 	use App\Http\Controllers\Controller;
 	use Auth;
-	use App\Model\User;
-	use App\Http\Requests\Accont\Clients\HomeStoreRequest;
+ 	use App\Http\Requests\Accont\Clients\HomeStoreRequest;
 	use App\Http\Requests\Accont\Clients\ChangePasswordRequest;
 
 	class HomeController extends Controller

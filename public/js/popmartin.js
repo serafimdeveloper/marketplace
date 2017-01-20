@@ -41,19 +41,9 @@ $(function () {
         if(typeof ($(this).data('id')) !== "undefined"){
             $('.alertbox-title').text('Editar endereço');
             $('.address').find('button').text('atualizar');
-            var data = 'token=token&action=requestAddress&id=' + $(this).data('id');
-            $.ajax({
-                url: '',
-                data: data,
-                type: 'POST',
-                dataType: 'json',
-                beforeSend: function () {
-
-                },
-                success: function (e) {
-
-                }
-            });
+            $.get('/accont/adresses/'+$(this).data('id'), function(data){
+                inputvalue(data);
+            },'json');
         }else{
             $('.alertbox-title').text('Cadastrar endereço');
             $('.address').find('button').text('cadastrar');
@@ -72,6 +62,77 @@ $(function () {
             $(this).find('i').attr('class', 'fa fa-chevron-up');
         }
         $('.panel-nav').slideToggle();
+    });
+
+
+    $(".searh_store input[name=search_store]").keyup(function () {
+        var data = 'token=token&action=searchStore&value=' + $(this).val();
+        var implementTr = $('#pop-searchStore tbody');
+        $.ajax({
+            url: '',
+            data: data,
+            type: 'POST',
+            dataType: 'json',
+            beforeSend: function () {
+                implementTr.html("<tr><td colspan=\"3\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
+            },
+            success: function (e) {
+                implementTr.html(e.resulttr);
+            }
+        });
+    });
+
+    /**
+     * Busca o cep na API do correio
+     */
+
+     $('#zip_code').focusout(function() {
+        var cep = $(this).val();
+        if((/^\d{5}-?\d{3}$/).test(cep)){
+            $.get('/accont/adresses/zip_code/'+cep, function(data){
+               var dados =  {'state':data.uf, 'city':data.cidade,'neighborhood':data.bairro,'public_place':data.logradouro};
+               inputvalue(dados);
+            },"json");
+        }else{
+            inputerror(false,$(this),'Cep inválido');
+        }
+     });
+
+    /**
+     * grava ou atualiza o novo endereço
+     */
+
+    $('#form-adress').on('submit', function(event){
+        var dados = $(this).serialize();
+        var id = $(this).find('input[name=id]').val();
+        if(id.length == 0){
+            $.post('/accont/adresses',dados, function(data){
+                if(data.status === true){
+                    $('#group-pnl-end').append(window_adress(data.adress));
+                    $('.address').slideToggle();
+                }
+            }, 'json').error(function(data, status) {
+                console.log('data', data);
+                console.log('status', status);
+                /* Act on the event */
+            });
+        }else{
+            $.ajax({
+                url: '/accont/adresses/'+id,
+                type: 'PUT',
+                dataType: 'json',
+                data: dados,
+                success: function(data){
+                    console.log(data.status);
+                    if(data.status === true){
+                        $('#end_'+data.id).replaceWith(window_adress(data.adress));
+                    }else if(data.status === false){
+                        
+                    }
+                }
+            });            
+        }
+        return false;
     });
 
 });
@@ -138,4 +199,29 @@ function inputerror(is, param, msg) {
     }else{
         return true;
     }
+}
+
+/**
+ * Recebe um objeto e faz iteração neles passando pra uns inputs
+ * @param inputs object 
+ */
+
+function inputvalue(inputs){
+    if(inputs instanceof Object){
+        $.each(inputs, function(index,element){
+            $('input[name='+index+']').val(element);
+        });
+    }
+}
+
+function window_adress(obj){
+    var janela = '<div class="panel-end" id="end_'+obj.id+'">';
+    janela+='<h4>'+obj.name+' <span class="fl-right">principal</span></h4>';
+    janela+='<div class="panel-end-content">';
+    janela+='<p>CEP: '+obj.zip_code+'</p>';
+    janela+='<p> '+obj.public_place+', '+obj.number+' - '+obj.city+'</p>';
+    janela+='</div>';
+    janela+='<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="'+obj.id+'">editar</a>';
+    janela+='</div>';
+    return janela;
 }
