@@ -25,7 +25,7 @@ class CreateAdressesTable extends Migration
             $table->string('neighborhood',50);
             $table->integer('number');
             $table->string('complements');
-            $table->boolean('master');
+            $table->boolean('master')->default(0);
         });
     }
 

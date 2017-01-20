@@ -11,12 +11,14 @@
                             <label>
                                 <span class="title">Nome:</span>
                                 <input type="text" name="name" value="" placeholder="Digite um Nome para o endereço">
+                                <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-2">
                             <label>
-                                <span class="title">CEP:</span>
-                                <input type="text" id="zip_code" name="zip_code" value="" placeholder="Digite um CEP">
+                                <span class="title">CEP: <span class="btn btn-smallextreme btn-popmartin fl-right cursor-pointer" style="color: #FFF;">Não sei meu cep</span></span>
+                                <input type="text" id="zip_code" name="zip_code" value="" placeholder="Digite um CEP" onkeyup="maskInt(this)">
+                                <span class="alert hidden"></span>
                             </label>
                         </div>
                     </div>
@@ -25,12 +27,14 @@
                             <label>
                                 <span class="title">UF:</span>
                                 <input type="text" name="state" value="" placeholder="Digite sua UF">
+                                <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-2">
                             <label>
                                 <span class="title">Município:</span>
                                 <input type="text" name="city" value="" placeholder="Digite seu Município">
+                                <span class="alert hidden"></span>
                             </label>
                         </div>
                     </div>
@@ -38,30 +42,46 @@
                     <label>
                         <span>Bairro:</span>
                         <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
+                        <span class="alert hidden"></span>
                     </label>
                     <label>
                         <span>Endereço:</span>
                         <input type="text" name="public_place" value="" placeholder="Digite seu Endereço">
+                        <span class="alert hidden"></span>
                     </label>
                     <div class="colbox">
                         <div class="colbox-2">
                             <label>
                                 <span>Número:</span>
                                 <input type="text" name="number" value="" placeholder="Digite seu número">
+                                <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-2">
                             <label>
                                 <span>Complemento:</span>
-                                <input type="text" name="complements" value="" placeholder="Seu Complemento"> 
+                                <input type="text" name="complements" value="" placeholder="Seu Complemento">
+                                <span class="alert hidden"></span>
                             </label>
                         </div>
                     </div>
                     <div class="clear-both"></div>
+                    <div class="checkbox-container padding10">
+                        <div class="checkboxies">
+                            <label class="checkbox" style="border-color: #888888;">
+                                <span><span class="fa fa-square-o"></span> marcar como endereço principal</span>
+                                {!! Form::checkbox('master', '1') !!}
+                            </label>
+                        </div>
+                    </div>
                     <div class="txt-center">
                         <button type="submit" class="btn btn-teal">cadastrar</button>
                     </div>
+                    <div class="form-result"></div>
                 </form>
+                <div class="txt-right" style="margin-top: 10px;">
+                    <div class="address_remove"></div>
+                </div>
             </div>
         </div>
     </div>

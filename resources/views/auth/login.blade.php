@@ -40,7 +40,7 @@
             <form class="form-modern" role="form" method="POST" action="{{ url('/register') }}" novalidate>
                 {{ csrf_field() }}
                 <label>
-                    <span>Nome</span>
+                    <span>Nome completo</span>
                     <input type="text" name="name" placeholder="João" value="{{ old('name') }}" required>
                     <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                 </label>

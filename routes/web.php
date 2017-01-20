@@ -18,6 +18,10 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('/requests', function(){
         return view('accont.requests');
     })->name('accont.requests');
+    Route::get('/requests/{id}', function(){
+        return view('accont.request_info');
+    })->name('accont.request_info');
+
 
     Route::get('/searchstore', function(){
         return view('accont.searchstore');
@@ -26,6 +30,9 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('/messages', function(){
         return view('accont.messages');
     })->name('accont.messages');
+    Route::get('/messages/{id}', function(){
+        return view('accont.message_info');
+    })->name('accont.message_info');
 
     /** Vendedores */
     Route::get('/salesman', function(){
@@ -35,6 +42,10 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('/products', function(){
         return view('accont.products');
     })->name('accont.salesman.products');
+
+    Route::get('/stores', function(){
+        return view('accont.stores');
+    })->name('accont.salesman.stores');
 
     Route::get('/sales', function(){
         return view('accont.sales');

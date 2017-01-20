@@ -1,11 +1,31 @@
 $(function () {
     var urlBase = window.location.origin;
 
+    if($(".ajax-trigger:visible")){
+        setTimeout(function(){
+            $(".ajax-trigger").animate({
+                right: '-100%'
+            }, 1700);
+        }, 3000);
+    }
+
     $('.navicon-mobile').click(function () {
         $(this).siblings('.nav-mobile').slideToggle();
     });
 
+    /** altura da modal lightbox */
     $('.alertbox').height($(document).height());
+
+    /* ESTILIZAÇÃO DE FILE INPUT*/
+    $("form input[type='file']").on('change', function () {
+        var numArquivos = $(this).get(0).files.length;
+        if (numArquivos > 1) {
+            $(this).siblings("input[type='text']").val(numArquivos + ' arquivos selecionados');
+        } else {
+            $(this).siblings("input[type='text']").val($(this).val());
+        }
+        previewImg(this);
+    });
 
 });
 
@@ -51,33 +71,12 @@ function maskInt(t) {
     t.value = num;
 }
 
-/**
- * AJAX COM INFORMAÇÃO DE FORMULÁRIOS
- */
-$(document).on("submit", ".JQ-ajaxform", function () {
-    var data = $(this).serialize() + '&' + nametoken + '=' + keytoken;
-    $.ajax({
-        url: '/ajaxcrud',
-        data: data,
-        type: 'POST',
-        dataType: 'json',
-        beforeSend: function () {
-            $(".ajax-result").html('<span class="spinner spinner--steps icon-spinner fontem-12" style="color: #666;"></span>');
-        },
-        success: function (e) {
-            $(".ajax-result").html(e.result);
-        }
-    });
-
-    return false;
-});
-
 $(document).on("click", ".alertbox-close", function () {
     $(this).parents(".alertbox").hide(600);
 });
 
 /*
- * EFEITO ACCORDION
+ * EFEITO ACCORDION INPLEMENTAÇÂO
  * */
 $(document).on("click", ".accordion-box .accordion-header", function (e) {
     if ($(".accordion-box .accordion-content").not($(this).siblings(".accordion-content")).is(":visible")) {
@@ -124,14 +123,7 @@ function previewFile(t) {
 
 
 function previewImg(e) {
-    $(".prevImg").each(function(a){
-        alert($(this).eq(a).attr('data-preview') + '-' + e.getAttribute("data-preview"));
-        // if($(this).eq(a).data('preview') == e.getAttribute("data-preview")){
-        //
-        // }
-    });
     if (e.files && e.files[0]) {
-
         console.log(e.files[0]);
 
         var reader = new FileReader();
@@ -177,9 +169,9 @@ var masks = {
  */
 function checkBox(e) {
     if(e.is(":checked")){
-        e.siblings('span').find('span').attr("class", "fa fa-check-square-o c-green").css({color: '#4CAF50'});
+        e.siblings('span').find('span').attr("class", "fa fa-check-square-o").css({color: '#4CAF50'});
     }else{
-        e.siblings('span').find('span').attr("class", "fa fa-circle-o").css({color: '#626262'});
+        e.siblings('span').find('span').attr("class", "fa fa-square-o").css({color: '#626262'});
     }
 };
 

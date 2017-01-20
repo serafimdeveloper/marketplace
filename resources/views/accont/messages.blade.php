@@ -49,7 +49,7 @@
             </tr>
             </tbody>
         </table>
-        <!-- END TABLE -->
+       <a href="" class="btn btn-small btn-gray">remover mensagens selecionada</a>
     </section>
     <div class="clear-both"></div>
 @endsection
