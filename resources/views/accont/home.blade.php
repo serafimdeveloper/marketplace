@@ -5,67 +5,64 @@
     <section class="panel-content">
         <div class="colbox">
             <div class="colbox-2">
-                <h2>Dados do usuários</h2>
-
-                <form class="form-modern pop-form">
+                <h2>Dados do Usuários</h2>
+                  {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                     <label>
-                        <span class="title">nome</span>
-                        <input type="text" name="name" value="Meu nome">
-                        <span class="alert hidden"></span>
+                        <span class="title">Nome</span>
+                        {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
+                        <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
                     <label>
-                        <span class="title">sobrenome</span>
-                        <input type="text" name="lastname" value="Meu sobrenome">
-                        <span class="alert hidden"></span>
+                        <span class="title">Apelido</span>
+                         {!! Form::text('nick',null, ['placeholder' => 'Apelido']) !!}
+                       <span class="alert{{ $errors->has('nick') ? '' : ' hidden' }}">{{ $errors->first('nick') }}</span>
                     </label>
                     <label>
-                        <span class="title">cpf</span>
-                        <input type="text" name="cpf" class="masked_cpf" value="Meu cpf">
-                        <span class="alert hidden"></span>
+                        <span class="title">Cpf</span>
+                        {!! Form::text('document',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF']) !!}
+                       <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
                     </label>
                     <label>
-                        <span class="title">data de nascimento</span>
-                        <input type="date" name="birth" value="data de nascimento">
-                        <span class="alert hidden"></span>
+                        <span class="title">Data de Nascimento</span>                       
+                        {!! Form::date('birth',null, ['placeholder' => 'data de nascimento']) !!}
+                        <span class="alert{{ $errors->has('birth') ? '' : ' hidden' }}">{{ $errors->first('birth') }}</span>
                     </label>
                     <div class="checkbox-container padding10">
                         <span class="title">Gênero</span>
                         <div class="checkboxies">
                             <label class="radio">
-                                <span><span class="fa fa-circle-o"></span> masculino</span>
-                                <input type="radio" name="genre" value="M">
+                                <span><span class="fa {{ ($user->genre === 'M') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> masculino</span>
+                                {!! Form::radio('genre','M') !!}
                             </label>
                             <label class="radio">
-                                <span><span class="fa fa-circle-o"></span> feminino</span>
-                                <input type="radio" name="genre" value="F">
+                                <span><span class="fa {{ ($user->genre === 'F') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> feminino</span>
+                                {!! Form::radio('genre','F') !!}
                             </label>
                         </div>
-                        <span class="alert hidden"></span>
+                        <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                     </div>
                     <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
                         <button type="submit" class="btn btn-teal">atualizar dados</button>
                     </div>
-                </form>
+                {!!Form::close()!!}
             </div>
             <div class="colbox-2">
                 <h2>Endereços <span class="btn btn-smallextreme btn-blue fl-right jq-address"
                                     style="font-size: 0.7em;"><i class="fa fa-plus vertical-middle"></i> novo</span>
                 </h2>
-                <div class="panel-end">
-                    <h4>Nome do endereço <span class="fl-right">principal</span></h4>
-                    <div class="panel-end-content">
-                        <p>CEP: 27286210</p>
-                        <p>Rua Dom Anônio Cabral, 123 - Rio de janeiro</p>
+                <div id="group-pnl-end">
+                @forelse($user->adresses as $adress)
+                    <div class="panel-end">
+                        <h4>Nome do endereço <span class="fl-right">principal</span></h4>
+                        <div class="panel-end-content">
+                            <p>CEP: {{$adress->zip_code}}</p>
+                            <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>
+                        </div>
+                        <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}">editar</a>
                     </div>
-                    <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="1">editar</a>
-                </div>
-                <div class="panel-end">
-                    <h4>Nome do endereço</h4>
-                    <div class="panel-end-content">
-                        <p>CEP: 27286210</p>
-                        <p>Rua Dom Anônio Cabral, 123 - Rio de janeiro</p>
-                    </div>
-                    <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="2">editar</a>
+                @empty
+                    <h3>Não tem endereços</h3>
+                @endforelse
                 </div>
             </div>
         </div>
@@ -74,83 +71,32 @@
         <div class="content">
             <h2 style="text-align: center;">Dados do conta</h2>
 
-            <form class="content form-modern pop-form">
+            {!! Form::open(['route' => ['changepassword.store'], 'method' => 'POST','class'=>'content form-modern pop-form']) !!}
                 <label>
                     <span class="title title-gray">email</span>
-                    <input type="text" name="email" value="contato@brunosite.com" disabled="true" style="color: #FFFFFF;background-color: #888888;">
+                    <input type="text" name="email" value="{{$user->email}}" disabled="true" style="color: #FFFFFF;background-color: #888888;">
                 </label>
                 <label>
                     <span>senha atual</span>
-                    <input type="password" name="password" placeholder="senha">
+                    {!! Form::password('password',null, [ 'placeholder' => 'Senha']) !!}                  
+                    <span class="alert{{ $errors->has('password') ? '' : ' hidden' }}">{{ $errors->first('password') }}</span>
                 </label>
                 <label>
                     <span>criar nova senha</span>
-                    <input type="password" name="newpassword" placeholder="senha">
+                    {!! Form::password('newpassword',null, [ 'placeholder' => 'Nova senha']) !!}
+                    <span class="alert{{ $errors->has('newpassword') ? '' : ' hidden' }}">{{ $errors->first('newpassword') }}</span>
                 </label>
                 <label>
                     <span>repetir senha</span>
-                    <input type="password" name="newpassword_repeat" placeholder="senha">
+                    {!! Form::password('newpassword_confirmation',null, [ 'placeholder' => 'Repita sua nova senha']) !!}
+                    <span class="alert{{ $errors->has('newpassword_confirmation') ? '' : ' hidden' }}">{{ $errors->first('newpassword_confirmation') }}</span>
                 </label>
                 <div class="txt-center">
                     <button type="submit" class="btn btn-teal">atualizar senha</button>
                 </div>
-            </form>
+             {!!Form::close()!!}
         </div>
     </section>
-    <div class="alertbox address">
-        <div class="alertbox-container">
-            <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
-            <div class="alertbox-content">
-                <h2 class="alertbox-title">Cadastrar novo endereço</h2>
-                <form class="form-modern pop-form">
-                    <label>
-                        <span>CEP:</span>
-                        <input type="text" name="cep" value="27286210">
-                    </label>
-                    <div class="colbox">
-                        <div class="colbox-2">
-                            <label>
-                                <span class="title">UF:</span>
-                                <input type="text" name="uf" value="27286210">
-                            </label>
-                        </div>
-                        <div class="colbox-2">
-                            <label>
-                                <span class="title">Município:</span>
-                                <input type="text" name="citie" value="27286210">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="clear-both"></div>
-                    <label>
-                        <span>Bairro:</span>
-                        <input type="text" name="neighborhood" value="27286210">
-                    </label>
-                    <label>
-                        <span>endereço:</span>
-                        <input type="text" name="logradouro" value="27286210">
-                    </label>
-                    <div class="colbox">
-                        <div class="colbox-2">
-                            <label>
-                                <span>Número:</span>
-                                <input type="text" name="number" value="27286210">
-                            </label>
-                        </div>
-                        <div class="colbox-2">
-                            <label>
-                                <span>Complemento:</span>
-                                <input type="text" name="complements" value="27286210">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="clear-both"></div>
-                    <div class="txt-center">
-                        <button type="submit" class="btn btn-teal">cadastrar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    @include('layouts.parties.alert_adress')
     <div class="clear-both"></div>
 @endsection
