@@ -45,6 +45,16 @@
 			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
 		}
 
+		public function destroy($id){
+			$user = Auth::User();
+			$adress = $user->adresses()->find($id);
+			if($adress->delete())
+			{
+				return json_encode('status'=>true);
+			}
+			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao excluir o endereço !'], 500);
+		}
+
 		public function search_cep($cep){
 			return Correios::cep($cep);
 		}
