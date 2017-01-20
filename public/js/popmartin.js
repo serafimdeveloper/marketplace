@@ -107,12 +107,10 @@ $(function () {
         var id = $(this).find('input[name=id]').val();
         if(id.length == 0){
             $.post('/accont/adresses',dados, function(data){
-                if(data.status === true){
                     $('#group-pnl-end').append(window_adress(data.adress));
                     $('.address').slideToggle();
-                }
-            }, 'json').error(function(data, status) {
-                console.log('data', data);
+                }, 'json').error(function(data, status) {
+                console.log('data', data.responseText);
                 console.log('status', status);
                 /* Act on the event */
             });
@@ -123,12 +121,9 @@ $(function () {
                 dataType: 'json',
                 data: dados,
                 success: function(data){
-                    console.log(data.status);
-                    if(data.status === true){
-                        $('#end_'+data.id).replaceWith(window_adress(data.adress));
-                    }else if(data.status === false){
-                        
-                    }
+                    console.log(data);
+                    $('#end_'+data.id).replaceWith(window_adress(data.adress));
+                    $('.address').slideToggle();
                 }
             });            
         }

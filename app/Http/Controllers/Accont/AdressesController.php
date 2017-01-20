@@ -27,7 +27,7 @@
 			{
 				return json_encode(['status'=>true, 'adress'=>$dados]);
 			}
-			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao criar o endereço !']);
+			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao criar o endereço !'], 500);
 		}
 
 		public function edit($id){
@@ -42,7 +42,7 @@
 			{
 				return json_encode(['status'=>true,'adress'=>$adress]);
 			}
-			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao atualizar o endereço !']);
+			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
 		}
 
 		public function search_cep($cep){
