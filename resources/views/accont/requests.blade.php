@@ -12,8 +12,7 @@
                 <th class="t-small">ID</th>
                 <th class="t-medium">Data</th>
                 <th class="t-medium">Valor</th>
-                <th class="t-medium">Form de pagamento</th>
-                <th class="t-medium">State</th>
+                <th class="t-medium">Status</th>
                 <th class="t-small"></th>
             </tr>
             </thead>
@@ -23,7 +22,6 @@
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
-                <td>moip</td>
                 <td class="t-status t-draft">aguardando pagamento</td>
                 <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
             </tr>
@@ -32,7 +30,6 @@
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
-                <td>moip</td>
                 <td class="t-status t-scheduled">aguardando envio</td>
                 <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
             </tr>
@@ -40,7 +37,6 @@
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
-                <td>moip</td>
                 <td class="t-status t-scheduled">aguardando chegada</td>
                 <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
             </tr>
@@ -48,7 +44,6 @@
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
-                <td>moip</td>
                 <td class="t-status t-active">concluído</td>
                 <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
             </tr>
@@ -56,7 +51,6 @@
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
-                <td>moip</td>
                 <td class="t-status">devolvido</td>
                 <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
             </tr>
@@ -64,7 +58,6 @@
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
-                <td>moip</td>
                 <td class="t-status t-inactive">cancelado</td>
                 <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
             </tr>

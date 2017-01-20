@@ -10,27 +10,27 @@
             <table class="table table-action">
                 <thead>
                 <tr>
-                    <th class="t-small">ID</th>
                     <th>Produto</th>
                     <th class="t-small">Quantidade</th>
                     <th class="t-medium">Loja</th>
-                    <th class="t-small">Valor</th>
+                    <th class="t-medium">Valor unitário</th>
+                    <th class="t-small">Valor total</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr>
-                    <td>1</td>
                     <td><a href="/loja/nome/categoria/produto" target="_blank">produto X</a></td>
                     <td>1</td>
                     <td><a href="/loja/juca" target="_blank">Juca</a></td>
+                    <td><span class="fontem-12">R$14,90</span></td>
                     <td class="t-active bold"><span class="fontem-12">R$14,90</span></td>
                 </tr>
                 <tr>
-                    <td>1</td>
                     <td><a href="/loja/nome/categoria/produto" target="_blank">produto Y</a></td>
                     <td>1</td>
                     <td><a href="/loja/juca" target="_blank">Juca</a></td>
+                    <td><span class="fontem-12">R$27,90</span></td>
                     <td class="t-active bold"><span class="fontem-12">R$27,90</span></td>
                 </tr>
                 <tr>
@@ -44,8 +44,8 @@
                 <thead>
                 <tr>
                     <th class="t-small">Frete</th>
-                    <th>de</th>
-                    <th>para</th>
+                    <th>origem</th>
+                    <th>destino</th>
                     <th class="t-small">Valor</th>
                 </tr>
                 </thead>
@@ -53,14 +53,14 @@
                 <tbody>
                 <tr>
                     <td>PAC</td>
-                    <td>endereço 1</td>
-                    <td>endereço 2</td>
+                    <td>juca</td>
+                    <td>minha casa</td>
                     <td class="t-active bold"><span class="fontem-12">R$14,90</span></td>
                 </tr>
                 <tr>
                     <td>PAC</td>
-                    <td>endereço 1</td>
-                    <td>endereço 2</td>
+                    <td>juca</td>
+                    <td>casa da mamãe</td>
                     <td class="t-active bold"><span class="fontem-12">R$14,90</span></td>
                 </tr>
                 <tr>

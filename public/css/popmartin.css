@@ -97,6 +97,7 @@ h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
 .table .t-unread td, .table .t-unread a{font-weight: bold;}
 #pop-messages a{display: block;font-size: 1.1em;color: #1B5E20;}
 
+.selects_people{display: none;}
 @media(max-width: 69em){ /*1024px */
     .pop-logo{top: 5px;padding: 0;min-width: inherit;width: 60px; height: 45px;}
     .pop-ads{width: 100%;float: left;margin: 20px 0;}

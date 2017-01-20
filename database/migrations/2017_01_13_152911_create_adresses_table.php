@@ -19,13 +19,13 @@ class CreateAdressesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name',50);
             $table->string('zip_code',9);
-            $table->string('uf',2);
+            $table->string('state',2);
             $table->string('city',50);
             $table->string('public_place',50);
             $table->string('neighborhood',50);
             $table->integer('number');
             $table->string('complements');
-            $table->boolean('master');
+            $table->boolean('master')->default(0);
         });
     }
 

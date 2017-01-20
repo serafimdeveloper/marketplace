@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Adress extends Model
 {
-    protected $fillable = ['user_id','zip_code','state','city','public_place','neighborhood','number','complements','name'];
+    protected $fillable = ['user_id','zip_code','state','city','public_place','neighborhood','number','complements','name', 'master'];
     
     public $timestamps = false;
 

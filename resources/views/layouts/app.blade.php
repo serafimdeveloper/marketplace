@@ -36,7 +36,7 @@
                 $(".masked_date").mask("99/99/9999",{placeholder:"mm/dd/yyyy"});
                 $(".masked_phone").mask("(999) 999-9999");
                 $(".masked_cpf").mask("999.999.999-99");
-                $(".masked_cnpj").mask("99.999.999/9999-69");
+                $(".masked_cnpj").mask("99.999.999/9999-99");
             });
         </script>
     </body>

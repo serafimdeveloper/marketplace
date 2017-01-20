@@ -17,7 +17,7 @@
             </p>
             <form class="form-modern" action="" method="POST">
                 <label>
-                    <textarea name="message" rows="10"></textarea>
+                    <textarea name="message" rows="5"></textarea>
                 </label>
 
                 <div class="txt-center">

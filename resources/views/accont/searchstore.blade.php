@@ -14,7 +14,6 @@
             <tr>
                 <th class="t-medium">Loja</th>
                 <th class="t-medium">Vendedor</th>
-                <th class="t-medium">Cadastro</th>
             </tr>
             </thead>
 
@@ -22,7 +21,6 @@
             <tr>
                 <td><a href="/loja/nome" class="fontem-12 c-green-avocadodark">nome da loja</a> </td>
                 <td>Luíz Fernando</td>
-                <td>01/01/2015 às 00:00:00</td>
             </tr>
             </tbody>
         </table>

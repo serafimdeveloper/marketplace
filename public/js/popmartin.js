@@ -40,6 +40,7 @@ $(function () {
     $(document).on('click', '.jq-address', function(){
         if(typeof ($(this).data('id')) !== "undefined"){
             $('.alertbox-title').text('Editar endereço');
+            $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("'+$(this).data('id')+'")><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
             $.get('/accont/adresses/'+$(this).data('id'), function(data){
                 inputvalue(data);
@@ -65,6 +66,9 @@ $(function () {
     });
 
 
+    /**
+     * Procura de loja em tempo real no painel
+     */
     $(".searh_store input[name=search_store]").keyup(function () {
         var data = 'token=token&action=searchStore&value=' + $(this).val();
         var implementTr = $('#pop-searchStore tbody');
@@ -103,16 +107,42 @@ $(function () {
      */
 
     $('#form-adress').on('submit', function(event){
-        var dados = $(this).serialize();
-        var id = $(this).find('input[name=id]').val();
+        var form = $(this);
+        var dados = form.serialize();
+        var id = form.find('input[name=id]').val();
         if(id.length == 0){
-            $.post('/accont/adresses',dados, function(data){
-                    $('#group-pnl-end').append(window_adress(data.adress));
-                    $('.address').slideToggle();
-                }, 'json').error(function(data, status) {
-                console.log('data', data.responseText);
-                console.log('status', status);
-                /* Act on the event */
+            $.ajax({
+                url: '/accont/adresses/',
+                type: 'POST',
+                dataType: 'json',
+                data: dados,
+                beforeSend: function(){
+                    form.find('button').html('<i class="fa fa-spin fa-spinner"></i> cadastrando...');
+                },
+                error: function(data, status){
+                    form.find('button').html('cadastrar');
+                    var trigger = JSON.parse(data.responseText);
+                    console.log(trigger);
+                    $.each(trigger, function(index,element){
+                        inputerror(false, form.find('input[name='+index+']'), element[0]);
+                    });
+                },
+                success: function(data){
+                    if(!data.status){
+                        form.find('button').html('cadastrar');
+                        form.find('.form-result').html('<p class="trigger error">'+data.msg+'</p>');
+                    }else{
+                        form.find('button').html('cadastrado com sucesso!');
+                        form.parents('.address').slideUp(function(){
+                            if(data.adress.master){
+                                $('#group-pnl-end').find('.address-master').text('');
+                                $('#group-pnl-end').prepend(window_adress(data.adress));
+                            }else{
+                                $('#group-pnl-end').append(window_adress(data.adress));
+                            }
+                        });
+                    }
+                }
             });
         }else{
             $.ajax({
@@ -120,12 +150,30 @@ $(function () {
                 type: 'PUT',
                 dataType: 'json',
                 data: dados,
+                beforeSend: function(){
+                    form.find('button').html('<i class="fa fa-spin fa-spinner"></i> atualizando...');
+                },
                 success: function(data){
-                    console.log(data);
-                    $('#end_'+data.id).replaceWith(window_adress(data.adress));
-                    $('.address').slideToggle();
+                    form.find('button').html('atualizado com sucesso!');
+                    form.parents('.address').slideUp(function(){
+                        $('#end_'+data.id).replaceWith(window_adress(data.adress));
+                    });
                 }
             });            
+        }
+        return false;
+    });
+
+    /**
+     * Modelo de container aprecer conforme clique menu
+     */
+    $(".select_type_sallesman input").on("click", function () {
+        radiobox($(this));
+        $(".selects_people:visible").slideUp();
+        if($(this).val() === 'F'){
+            $('.select_cpf').slideDown();
+        }else{
+            $('.select_cnpj').slideDown();
         }
         return false;
     });
@@ -204,14 +252,36 @@ function inputerror(is, param, msg) {
 function inputvalue(inputs){
     if(inputs instanceof Object){
         $.each(inputs, function(index,element){
+            if(index === 'state'){
+                element = element.substr(0, 2);
+            }
+            if(!is_Number(element)){
+                element = element.replace(/\s+/g," ");
+            }
             $('input[name='+index+']').val(element);
+
+            var master = $("#form-adress .checkbox").find("input[name=master]");
+
+            if(index === 'master' && element){
+                $("#form-adress .checkbox").find('.fa').attr('class', 'fa fa-check-square-o');
+                if(!master.is(":checked")){
+                    master.click();
+                }
+
+            }else{
+                if(master.is(":checked")){
+                    master.click();
+                }
+            }
         });
+
     }
 }
 
 function window_adress(obj){
+    obj.master = (obj.master ? 'principal' : '');
     var janela = '<div class="panel-end" id="end_'+obj.id+'">';
-    janela+='<h4>'+obj.name+' <span class="fl-right">principal</span></h4>';
+    janela+='<h4>'+obj.name+' <span class="fl-right address-master">'+obj.master+'</span></h4>';
     janela+='<div class="panel-end-content">';
     janela+='<p>CEP: '+obj.zip_code+'</p>';
     janela+='<p> '+obj.public_place+', '+obj.number+' - '+obj.city+'</p>';

@@ -8,20 +8,20 @@
                 <h2>Dados do Usuários</h2>
                   {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                     <label>
-                        <span class="title">Nome</span>
+                        <span class="title">Nick</span>
+                        {!! Form::text('nick',null, ['placeholder' => 'Nome ao qual deseja ser chamado']) !!}
+                        <span class="alert{{ $errors->has('nick') ? '' : ' hidden' }}">{{ $errors->first('nick') }}</span>
+                    </label>
+                    <label>
+                        <span class="title">Nome completo</span>
                         {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
                         <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
-                    <label>
-                        <span class="title">Apelido</span>
-                         {!! Form::text('nick',null, ['placeholder' => 'Apelido']) !!}
-                       <span class="alert{{ $errors->has('nick') ? '' : ' hidden' }}">{{ $errors->first('nick') }}</span>
-                    </label>
-                    <label>
-                        <span class="title">Cpf</span>
-                        {!! Form::text('document',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF']) !!}
-                       <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
-                    </label>
+                    {{--<label>--}}
+                        {{--<span class="title">Cpf</span>--}}
+                        {{--{!! Form::text('document',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF']) !!}--}}
+                       {{--<span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>--}}
+                    {{--</label>--}}
                     <label>
                         <span class="title">Data de Nascimento</span>                       
                         {!! Form::date('birth',null, ['placeholder' => 'data de nascimento']) !!}
@@ -53,7 +53,7 @@
                 <div id="group-pnl-end">
                 @forelse($user->adresses as $adress)
                     <div class="panel-end">
-                        <h4>Nome do endereço <span class="fl-right">principal</span></h4>
+                        <h4>Nome do endereço <span class="fl-right address-master">{!! $adress->master ? 'principal' : '' !!}</span></h4>
                         <div class="panel-end-content">
                             <p>CEP: {{$adress->zip_code}}</p>
                             <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>
@@ -61,7 +61,9 @@
                         <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}">editar</a>
                     </div>
                 @empty
-                    <h3>Não tem endereços</h3>
+                        <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereços cadastrado</p>
+                    <p class="txt-center"><a href="javascript:void(0)" class="btn btn-blue jq-address">cadastrar um endereço</a></p>
+
                 @endforelse
                 </div>
             </div>
