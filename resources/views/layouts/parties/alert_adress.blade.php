@@ -70,7 +70,7 @@
                         <div class="checkboxies">
                             <label class="checkbox" style="border-color: #888888;">
                                 <span><span class="fa fa-square-o"></span> marcar como endereço principal</span>
-                                {!! Form::checkbox('master', '1') !!}
+                                {!! Form::checkbox('master', 1) !!}
                             </label>
                         </div>
                     </div>

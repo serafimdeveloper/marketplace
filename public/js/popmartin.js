@@ -135,7 +135,7 @@ $(function () {
                         form.find('button').html('cadastrado com sucesso!');
                         form.parents('.address').slideUp(function(){
                             if(data.adress.master){
-                                $('#group-pnl-end').find('.address-master').text('');
+                                $('#group-pnl-end').find('.address-master').text('principal');
                                 $('#group-pnl-end').prepend(window_adress(data.adress));
                             }else{
                                 $('#group-pnl-end').append(window_adress(data.adress));
@@ -156,12 +156,25 @@ $(function () {
                 success: function(data){
                     form.find('button').html('atualizado com sucesso!');
                     form.parents('.address').slideUp(function(){
-                        $('#end_'+data.id).replaceWith(window_adress(data.adress));
+                        if(data.adress.master){
+                            $(''#end_'+data.id').text('principal');
+                            $('#group-pnl-end').prepend(window_adress(data.adress));
+                        }else{
+                            $('#end_'+data.id).replaceWith(window_adress(data.adress));
+                        }                        
                     });
                 }
             });            
         }
         return false;
+    });
+
+    $(':checkbox').click(function(event) {
+        if($(this).is(":checked")){
+            $(this).val(1);
+        }else{
+          $(this).val(0); 
+        }
     });
 
     /**

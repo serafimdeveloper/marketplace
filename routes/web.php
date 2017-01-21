@@ -87,6 +87,8 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     Route::put('adresses/{adress}','Accont\AdressesController@update')->name('accont.adress.update');
 
+    Route::delete('adresses/{adress}','Accont\AdressesController@destroy')->name('accont.adress.destroy');
+
     Route::get('adresses/zip_code/{zip}','Accont\AdressesController@search_cep')->name('accont.adress.zip_code');
 
 });
