@@ -105,8 +105,6 @@ function previewFile(t) {
 
 
     }
-    alert(file);
-    // var file    = t.files[0];
     var reader  = new FileReader();
 
     reader.onloadend = function (e) {

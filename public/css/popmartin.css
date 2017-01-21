@@ -22,20 +22,23 @@ h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
 .popicon.moip{background-image: url("../image/icons/moip.png");}
 
 
-.pop-top-header{padding:10px;background-color: #FFFFFF;}
-.pop-top-nav{width: 100%;display: inline-block;float: right;text-align: right;background-color: #FFF;}
+.pop-top-header{padding:10px;background-color: #FFFFFF;border-top: 5px solid #ac2925;}
+.pop-top-header .content{padding: 0 10px;}
+.pop-top-nav{width: 100%;float: right;text-align: right;background-color: #FFF;}
 .pop-top-nav > div{display: inline-block;margin-left: 30px;}
-.pop-top-nav .search{width: 40%;}
 .pop-top-nav .fa{font-size: 1.6em;}
+.pop-search{width: 80%;min-width: 300px;}
 .pop-search .input-group{width: 100%;}
 .pop-search input[name=search]{border-radius: 0;border: none;border-bottom: 2px solid #EB9292;padding: 5px 40px 5px 5px;color: #DA6262;}
 .pop-search .input-group button{position: absolute;right: 8px;top: 5px;width: 30px;color: #EB9292;font-size: 0.70em;background: none; border: transparent;cursor: pointer;}
 
 .pop-logo{position:absolute;top: 10px;min-width: 100px;z-index: 2;width: 10%; padding-bottom: 8%; background: url("../image/logo-popmartin.png") center center no-repeat;background-size: 98%;}
+.pop-logo a{position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+.content-ads{padding: 5px;font-size: 0.8em;width: 80%; margin: 0 10%;}
 .pop-ads{width: 85%; float: right;margin: 0 !important;}
 .pop-ads > div{position: relative;}
-.pop-ads img{display: inline-block !important;width: 35% !important;border: 1px solid #9d9d9d;margin-right: 2%;}
-.pop-ads p{display: inline-block !important;width: 62% !important;font-weight: 700;}
+.pop-ads img{display: inline-block !important;width: 50px !important;border: 1px solid #9d9d9d;margin-right: 2%;}
+.pop-ads p{display: inline-block !important;width: 62% !important;font-weight: 700;padding-top: 10px;}
 .pop-ads a{position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
 
 .pop-nav-main{background-color: #DA6262;text-align: center;}
@@ -45,6 +48,24 @@ h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
 
 .pop-forms .colbox-2{padding: 0 30px;}
 .pop-forms .colbox-2:last-child{border-left: 1px solid #aaaaaa;}
+
+.pop-title h1{border-bottom: 1px solid #a4aaae;padding: 4px 0;}
+.pop-title h1 span{font-weight: 100;border-bottom: 5px solid #ac2925;padding: 3px 0 3px 0;}
+
+.modal-product{position: relative;padding: 0;margin: 10px 0;border: 1px solid #BDBDBD;}
+.modal-product ul{display: none;background-color: rgba(0,0,0,0.7);position: absolute;width: 100%;top: 0; left: 0;z-index: 1;padding: 5px;}
+.modal-product:hover ul{display: block !important;}
+.modal-product ul li{display: inline-block;width: 31.5%;}
+.modal-product ul a{color: #FFF;display: block;font-size: 1.2em;text-align: center;}
+.modal-product header{padding: 10px 5px;}
+.modal-product figure{position: relative;}
+.modal-product img{padding: 5px;}
+.modal-product figcaption{position: absolute;bottom:0;left:0; width:100%; padding: 7px 10px;text-align: right; font-weight: 700;font-size: 1.4em;color: #FFF;background-color: rgba(0,0,0,0.7);}
+.modal-product h2{border: none; font-size: 1em; margin: 0;padding: 3px 0;}
+.modal-product h2 a{color: #ac2925;font-weight: 600;}
+.modal-product .tagline a{color: #1F1F1F;}
+.modal-product .tagline a:hover{text-decoration: underline;}
+
 
 .footer{margin: 0;background-color: #C5040B;border-top: 7px solid #8F1E22;
     box-shadow: 0 0 5px #000;
@@ -67,7 +88,7 @@ h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}
  ******************************************************************/
 .panel-icon-mobile{display: none;position: absolute;z-index: 10;top: 20px; left: 120px;cursor: pointer;font-size: 1.4em;color: #ac2925;}
 
-.panel-top-header{width: 100%;border-top: 5px solid #ac2925;border-bottom: 2px solid #E0E0E0;}
+.panel-top-header{border-bottom: 2px solid #E0E0E0;}
 .panel-top-header .pop-logo{background-color: #FFF;background-size: 80%;border-bottom: 2px solid #E0E0E0;top: 7px;left: 50px;padding-bottom: 0;min-width: inherit;width: 100px;height: 70px;float: left;}
 .panel-top-header .pop-top-nav{padding: 5px 10px;}
 .panel-top-header .pop-search{display: none;}

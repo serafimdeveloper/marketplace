@@ -9,8 +9,12 @@ $(function () {
     $(".owl-carousel").owlCarousel({
         loop: true,
         margin: 10,
-        responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}}
+        responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}},
+        autoplay:true,
+        autoplayTimeout:5000,
+        autoplayHoverPause:false,
     });
+
 
     /**
      * Verifica os input segundo as regras atribuídas e para a escução caso haja um submit
@@ -29,7 +33,6 @@ $(function () {
      */
     $('.pop-top-header').find('.menu > a').click(function () {
         $(this).siblings('.menu-hidden').slideToggle();
-        return false;
     });
 
     /**

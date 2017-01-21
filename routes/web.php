@@ -45,7 +45,7 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     Route::get('/stores', function(){
         return view('accont.stores');
-    })->name('accont.salesman.stores');
+    })->name('accont.stores');
 
     Route::get('/sales', function(){
         return view('accont.sales');
