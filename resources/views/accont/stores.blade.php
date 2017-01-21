@@ -73,5 +73,5 @@
         </div>
     </section>
     <div class="clear-both"></div>
-    @include('accont.inc.lightboxaddress')
+     @include('layouts.parties.alert_adress')
 @endsection
