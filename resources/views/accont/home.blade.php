@@ -51,9 +51,9 @@
                                     style="font-size: 0.7em;"><i class="fa fa-plus vertical-middle"></i> novo</span>
                 </h2>
                 <div id="group-pnl-end">
-                @forelse($adresses as $adress)
+                @forelse($user->adresses as $adress)
                     <div class="panel-end">
-                        <h4>{{$adress->name}} <span class="fl-right address-master">{!! $adress->master ? 'principal' : '' !!}</span></h4>
+                        <h4>Nome do endereço <span class="fl-right address-master">{!! $adress->master ? 'principal' : '' !!}</span></h4>
                         <div class="panel-end-content">
                             <p>CEP: {{$adress->zip_code}}</p>
                             <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>

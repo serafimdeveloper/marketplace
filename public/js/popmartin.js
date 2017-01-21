@@ -9,8 +9,12 @@ $(function () {
     $(".owl-carousel").owlCarousel({
         loop: true,
         margin: 10,
-        responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}}
+        responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}},
+        autoplay:true,
+        autoplayTimeout:5000,
+        autoplayHoverPause:false,
     });
+
 
     /**
      * Verifica os input segundo as regras atribuídas e para a escução caso haja um submit
@@ -29,7 +33,6 @@ $(function () {
      */
     $('.pop-top-header').find('.menu > a').click(function () {
         $(this).siblings('.menu-hidden').slideToggle();
-        return false;
     });
 
     /**
@@ -135,7 +138,7 @@ $(function () {
                         form.find('button').html('cadastrado com sucesso!');
                         form.parents('.address').slideUp(function(){
                             if(data.adress.master){
-                                $('#group-pnl-end').find('.address-master').text('principal');
+                                $('#group-pnl-end').find('.address-master').text('');
                                 $('#group-pnl-end').prepend(window_adress(data.adress));
                             }else{
                                 $('#group-pnl-end').append(window_adress(data.adress));
@@ -156,25 +159,12 @@ $(function () {
                 success: function(data){
                     form.find('button').html('atualizado com sucesso!');
                     form.parents('.address').slideUp(function(){
-                        if(data.adress.master){
-                            $(''#end_'+data.id').text('principal');
-                            $('#group-pnl-end').prepend(window_adress(data.adress));
-                        }else{
-                            $('#end_'+data.id).replaceWith(window_adress(data.adress));
-                        }                        
+                        $('#end_'+data.id).replaceWith(window_adress(data.adress));
                     });
                 }
             });            
         }
         return false;
-    });
-
-    $(':checkbox').click(function(event) {
-        if($(this).is(":checked")){
-            $(this).val(1);
-        }else{
-          $(this).val(0); 
-        }
     });
 
     /**

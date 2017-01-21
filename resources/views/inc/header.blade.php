@@ -2,9 +2,10 @@
     @if (Request::segment(1) == 'accont')
         <div class="pop-top-header panel-top-header">
     @else
-        <div class="content shadow-box pop-top-header">
+        <div class="pop-top-header">
     @endif
-            <div class="pop-logo"></div>
+            <div class="content">
+            <div class="pop-logo"><a href="/" title="página inicial"></a></div>
             <div class="navicon-mobile"><i class="fa fa-navicon c-popdark"></i></div>
             <div class="nav-mobile pop-top-nav">
                 <div>
@@ -31,24 +32,26 @@
                     @if (Auth::check())
                         <a class="" href="javascript:void(0)"><i class="fa fa-user-circle-o c-popdark"></i>
                             <span class="c-popdark"
-                                  style="vertical-align: super;">Olá, {{ Auth::user()->name }}</span></a>
+                                  style="vertical-align: super;">Olá, {{ Auth::user()->name }} <i class="fa fa-caret-down vertical-middle"></i></span></a>
                         <div class="menu-hidden">
                             <ul>
-                                <li><a href="/accont" class="btn btn-green">minha conta</a></li>
-                                <li><a href="/logout" class="btn btn-red">sair</a></li>
+                                <li><a href="/accont" class="btn btn-green"><i class="fa fa-dashboard vertical-middle"></i> minha conta</a></li>
+                                <li><a href="/logout" class="btn btn-red"><i class="fa fa-sign-out vertical-middle"></i> sair</a></li>
                             </ul>
                         </div>
                     @else
-                        <a class="" href="/auth/login"><i class="fa fa-user-circle-o c-popdark"></i>
-                            <span class="c-popdark"
-                                  style="vertical-align: super;">faça login ou cadastre-se</span></a>
+                        <a href="/login" title="entrar">
+                            <i class="fa fa-user-circle-o c-popdark"></i>
+                            <span class="c-popdark"tyle="vertical-align: super;">faça login ou cadastre-se</span>
+                        </a>
                     @endif
                 </div>
+            </div>
             </div>
             <div class="clear-both"></div>
         </div>
         @if (Request::segment(1) != 'accont')
-            <div class="content">
+            <div class="content-ads">
                 <div class="pop-ads owl-carousel">
                     <div class="vertical-flex">
                         <img src="{{ url('/image/loja/L1V1U1.gif') }}" title="" alt="[]">
@@ -84,7 +87,7 @@
                             class="fa fa-navicon c-popdark" style="color: #FFF;font-size: 0.875em"></i> <span
                             class="fontem-06" style="vertical-align: middle;">categorias</span></div>
                 <div class="clear-both"></div>
-                <ul class="nav nav-mobile">
+                <ul class="nav hidden-sm nav-mobile">
                     <li><a href="">menu 1</a></li>
                     <li><a href="">menu 2</a></li>
                     <li><a href="">menu 3</a></li>
