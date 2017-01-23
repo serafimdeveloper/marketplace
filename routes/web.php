@@ -15,12 +15,8 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     Route::post('auth/change_password', 'Accont\Clients\HomeController@change_password')->name('changepassword.store');
 
-    Route::get('/requests', function(){
-        return view('accont.requests');
-    })->name('accont.requests');
-    Route::get('/requests/{id}', function(){
-        return view('accont.request_info');
-    })->name('accont.request_info');
+    Route::get('/requests','Accont\Clients\RequestsController@index')->name('accont.requests');
+    Route::get('/requests/{id}','Accont\Clients\RequestsController@show')->name('accont.request_info');
 
 
     Route::get('/searchstore', function(){

@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->string('name',100);
             $table->decimal('price',8,2);
             $table->decimal('price_with_desconto',8,2);
+            $table->string('slug')->nullable();
             $table->tinyInteger('deadline');
             $table->boolean('free_shipping');
             $table->tinyInteger('minimum_tock');

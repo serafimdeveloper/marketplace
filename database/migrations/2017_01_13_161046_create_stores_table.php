@@ -24,6 +24,7 @@ class CreateStoresTable extends Migration
             $table->text('exchange_policy');
             $table->text('freight_policy');
             $table->string('logo_file',100);
+            $table->string('slug')->nullable();
             $table->decimal('rate',3,2);
             $table->boolean('active');
             $table->softDeletes();

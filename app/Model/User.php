@@ -30,4 +30,8 @@ class User extends Authenticatable
     public function adresses(){
         return $this->hasMany(Adress::class);
     }
+
+    public function requests(){
+        return $this->hasMany(Request::class);
+    }
 }

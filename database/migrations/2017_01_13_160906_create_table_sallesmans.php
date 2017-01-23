@@ -22,7 +22,6 @@ class CreateTableSallesmans extends Migration
             $table->string('facebook',200)->nullable();
             $table->string('whatsapp',15)->nullable();
             $table->string('cellphone',15);
-            $table->string('phone',15);
             $table->string('photo_document',50);
             $table->string('proof_adress',50);
             $table->boolean('active')->default(0);
