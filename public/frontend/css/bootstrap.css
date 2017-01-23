@@ -240,7 +240,7 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .form-modern .file input[type='file'] {cursor: pointer;position:absolute; top:0;left:0; border:1px solid #ff0000; opacity:0.01; z-index:1; }
 .form-modern .file input[type='text'] {display: inline-block; width: inherit;border:0px; background:#dedede;}
 .form-modern .file button{margin-top: 2px;}
-
+.prevImg{max-width: 120px;margin: 0 auto;}
 
 
 .form{width: 100%;}
@@ -325,6 +325,11 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .table .btn{padding: 3px 8px;}
 .table .txt-center{text-align: center;}
 .table .bold{font-weight: bold;}
+.table .t-btn{margin: 4px 0;}
+.table .t-edit{color: green !important; border: 1px solid green; padding: 2px;}
+.table .t-edit:hover{background-color: green; color: #FFF !important;}
+.table .t-remove{color: red !important; border: 1px solid red; padding: 2px;}
+.table .t-remove:hover{background-color: red; color: #FFF !important;}
 
 
 /**** OUTRAS FORMATAÇÕES *****/

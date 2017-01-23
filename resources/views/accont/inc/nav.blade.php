@@ -13,7 +13,7 @@
          <h3>Área do vendedor</h3>
          <ul>
              <li><a href="/accont/salesman">informações</a></li>
-             <li><a href="/accont/stores">minhas lojas</a></li>
+             <li><a href="/accont/stores">minha loja</a></li>
              <li><a href="/accont/products">meus produtos</a></li>
              <li><a href="/accont/sales">minhas vendas</a></li>
              <li><a href="/accont/messages/salesman">mensagens</a></li>

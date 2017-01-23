@@ -45,7 +45,8 @@
         </div>
         <div class="clear-both"></div>
     </div>
-    <div class="content">
+    <div class="content" style="padding: 0 10px;">
+        <h2 class="c-white">Formas de pagamento</h2>
         <div class="footer-icons">
             <span class="popicon visa"></span>
             <span class="popicon mastercard"></span>
@@ -60,13 +61,17 @@
         </div>
         <div class="">
             <ul class="nav-footer-last">
-                <li><a href="" class="btn btn-small">monte sua loja</a></li>
+                <li><a href="">monte sua loja</a></li>
+                <li><a href="">como comprar</a></li>
                 <li><a href="">fale conosco</a></li>
                 <li><a href="">termos de uso</a> </li>
                 <li><a href="">políticas de privacidade</a></li>
             </ul>
         </div>
         <div class="clear-both"></div>
+    </div>
+    <div class="txt-center padding10">
+        &copy; 2016 Pop Martin - Todos os direitos reservados
     </div>
 </footer>
 

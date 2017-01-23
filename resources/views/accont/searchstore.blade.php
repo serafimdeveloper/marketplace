@@ -3,7 +3,9 @@
 @section('content')
     @include('accont.inc.nav')
     <section class="panel-content">
-        <h2>Procure uma loja</h2>
+        <header class="pop-title">
+            <h1>Procure uma loja</h1>
+        </header>
         <form class="form-modern searh_store" action="" method="POST">
             <label>
                 <input type="search" name="search_store" placeholder="Pesquisar Loja">

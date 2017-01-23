@@ -4,16 +4,18 @@
     @include('accont.inc.nav')
     <section class="panel-content">
         <div class="colbox">
-            <div class="colbox-2">
-                <h2>Dados do Usuários</h2>
-                  {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
+            <article class="colbox-2">
+                <header class="pop-title">
+                    <h1>Dados do Usuários</h1>
+                </header>
+                  {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern'])!!}
                     <label>
-                        <span class="title">Nick</span>
+                        <span>Nome</span>
                         {!! Form::text('nick',null, ['placeholder' => 'Nome ao qual deseja ser chamado']) !!}
                         <span class="alert{{ $errors->has('nick') ? '' : ' hidden' }}">{{ $errors->first('nick') }}</span>
                     </label>
                     <label>
-                        <span class="title">Nome completo</span>
+                        <span>Sobrenome</span>
                         {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
                         <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
@@ -23,42 +25,48 @@
                        {{--<span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>--}}
                     {{--</label>--}}
                     <label>
-                        <span class="title">Data de Nascimento</span>                       
+                        <span>Data de Nascimento</span>
                         {!! Form::date('birth',null, ['placeholder' => 'data de nascimento']) !!}
                         <span class="alert{{ $errors->has('birth') ? '' : ' hidden' }}">{{ $errors->first('birth') }}</span>
                     </label>
                     <div class="checkbox-container padding10">
-                        <span class="title">Gênero</span>
+                        <span>Gênero</span>
                         <div class="checkboxies">
-                            <label class="radio">
+                            <label class="radio" style="border: none;">
                                 <span><span class="fa {{ ($user->genre === 'M') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> masculino</span>
                                 {!! Form::radio('genre','M') !!}
                             </label>
-                            <label class="radio">
+                            <label class="radio" style="border: none;">
                                 <span><span class="fa {{ ($user->genre === 'F') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> feminino</span>
                                 {!! Form::radio('genre','F') !!}
                             </label>
                         </div>
                         <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                     </div>
+                <label>
+                    <span>Telefone</span>
+                    {!! Form::text('phone',null, ['placeholder' => 'Informar telefone', 'class' => 'masked_phone']) !!}
+                    <span class="alert{{ $errors->has('birth') ? '' : ' hidden' }}">{{ $errors->first('birth') }}</span>
+                </label>
                     <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
-                        <button type="submit" class="btn btn-teal">atualizar dados</button>
+                        <button type="submit" class="btn btn-popmartin">atualizar dados</button>
                     </div>
                 {!!Form::close()!!}
-            </div>
+            </article>
             <div class="colbox-2">
-                <h2>Endereços <span class="btn btn-smallextreme btn-blue fl-right jq-address"
-                                    style="font-size: 0.7em;"><i class="fa fa-plus vertical-middle"></i> novo</span>
-                </h2>
+                <header class="pop-title">
+                    <h1>Endereços</h1>
+                    <span class="btn btn-smallextreme btn-blue jq-address"><i class="fa fa-plus vertical-middle"></i> novo</span>
+                </header>
                 <div id="group-pnl-end">
                 @forelse($user->adresses as $adress)
                     <div class="panel-end">
-                        <h4>Nome do endereço <span class="fl-right address-master">{!! $adress->master ? 'principal' : '' !!}</span></h4>
+                        <h4>Destinatário <span class="fl-right address-master">{!! $adress->master ? 'principal' : '' !!}</span></h4>
                         <div class="panel-end-content">
                             <p>CEP: {{$adress->zip_code}}</p>
                             <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>
                         </div>
-                        <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}">editar</a>
+                        <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}">editar|excluir</a>
                     </div>
                 @empty
                         <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereços cadastrado</p>
@@ -73,7 +81,7 @@
         <div class="content">
             <h2 style="text-align: center;">Dados do conta</h2>
 
-            {!! Form::open(['route' => ['changepassword.store'], 'method' => 'POST','class'=>'content form-modern pop-form']) !!}
+            {!! Form::open(['route' => ['changepassword.store'], 'method' => 'POST','class'=>'content form-modern']) !!}
                 <label>
                     <span class="title title-gray">email</span>
                     <input type="text" name="email" value="{{$user->email}}" disabled="true" style="color: #FFFFFF;background-color: #888888;">
@@ -94,7 +102,7 @@
                     <span class="alert{{ $errors->has('newpassword_confirmation') ? '' : ' hidden' }}">{{ $errors->first('newpassword_confirmation') }}</span>
                 </label>
                 <div class="txt-center">
-                    <button type="submit" class="btn btn-teal">atualizar senha</button>
+                    <button type="submit" class="btn btn-popmartin">atualizar senha</button>
                 </div>
              {!!Form::close()!!}
         </div>

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content" style="padding: 0 10px;">
+    <section class="content">
         <header class="pop-title">
-            <h1><span>Destaque</span></h1>
+            <h1>Destaque</h1>
         </header>
         <div class="pop-home-prd owl-carousel">
         @for ($i = 0; $i < 5; $i++)
@@ -11,7 +11,7 @@
                 <ul>
                     <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
                     <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
-                    <li><a href="javascript:void(0)"><i class="fa fa-shopping-bag"></i></a></li>
+                    <li><a href="javascript:void(0)"><i class="fa fa-cart-plus"></i></a></li>
                 </ul>
                 <figure>
                     <img src="{{ url('image/img-exemple.jpg') }}" alt="[]" title="">
@@ -30,7 +30,7 @@
     </section>
     <section class="content" style="padding: 0 10px;">
         <header class="pop-title">
-            <h1><span>Novidades</span></h1>
+            <h1>Novidades</h1>
         </header>
         <div class="pop-home-prd owl-carousel owl-theme owl-loaded">
             @for ($i = 0; $i < 5; $i++)

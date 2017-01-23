@@ -3,20 +3,20 @@
             <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
             <div class="alertbox-content">
                 <h2 class="alertbox-title">Cadastrar novo endereço</h2>
-                <form action="javascript:void(0)" class="form-modern pop-form" id="form-adress">
+                <form action="javascript:void(0)" class="form-modern" id="form-adress">
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value=""/>
                     <div class="colbox">
                         <div class="colbox-2">
                             <label>
-                                <span class="title">Nome:</span>
+                                <span>Nome:</span>
                                 <input type="text" name="name" value="" placeholder="Digite um Nome para o endereço">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-2">
                             <label>
-                                <span class="title">CEP: <span class="btn btn-smallextreme btn-popmartin fl-right cursor-pointer" style="color: #FFF;">Não sei meu cep</span></span>
+                                <span>CEP: <span class="btn btn-smallextreme btn-popmartin fl-right cursor-pointer" style="color: #FFF;">Não sei meu cep</span></span>
                                 <input type="text" id="zip_code" name="zip_code" value="" placeholder="Digite um CEP" onkeyup="maskInt(this)">
                                 <span class="alert hidden"></span>
                             </label>
@@ -25,14 +25,14 @@
                     <div class="colbox">
                         <div class="colbox-2">
                             <label>
-                                <span class="title">UF:</span>
+                                <span>UF:</span>
                                 <input type="text" name="state" value="" placeholder="Digite sua UF">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-2">
                             <label>
-                                <span class="title">Município:</span>
+                                <span>Município:</span>
                                 <input type="text" name="city" value="" placeholder="Digite seu Município">
                                 <span class="alert hidden"></span>
                             </label>
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="txt-center">
-                        <button type="submit" class="btn btn-teal">cadastrar</button>
+                        <button type="submit" class="btn btn-popmartin">cadastrar</button>
                     </div>
                     <div class="form-result"></div>
                 </form>

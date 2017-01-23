@@ -3,7 +3,10 @@
 @section('content')
     @include('accont.inc.nav')
     <section class="panel-content">
-        <h2>Meus pedidos</h2>
+        <header class="pop-title">
+            <h1>Meus pedidos</h1>
+        </header>
+
         <!-- TABLE -->
         <table class="table table-action">
 
@@ -12,6 +15,7 @@
                 <th class="t-small">ID</th>
                 <th class="t-medium">Data</th>
                 <th class="t-medium">Valor</th>
+                <th class="t-medium">Loja</th>
                 <th class="t-medium">Status</th>
                 <th class="t-small"></th>
             </tr>
@@ -22,44 +26,50 @@
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
+                <td>Pop Martin</td>
                 <td class="t-status t-draft">aguardando pagamento</td>
-                <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
+                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
 
             <tr>
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
+                <td>Pop Martin</td>
                 <td class="t-status t-scheduled">aguardando envio</td>
-                <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
+                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             <tr>
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
+                <td>Pop Martin</td>
                 <td class="t-status t-scheduled">aguardando chegada</td>
-                <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
+                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             <tr>
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
+                <td>Pop Martin</td>
                 <td class="t-status t-active">concluído</td>
-                <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
+                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             <tr>
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
+                <td>Pop Martin</td>
                 <td class="t-status">devolvido</td>
-                <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
+                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             <tr>
                 <td>1</td>
                 <td>27/09/2013</td>
                 <td>R$25,00</td>
+                <td>Pop Martin</td>
                 <td class="t-status t-inactive">cancelado</td>
-                <td><a href="/accont/requests/1" class="btn btn-blue">detalhe</a></td>
+                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             </tbody>
         </table>
