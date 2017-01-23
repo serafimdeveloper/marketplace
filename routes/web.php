@@ -45,7 +45,7 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     Route::get('/stores', function(){
         return view('accont.stores');
-    })->name('accont.stores');
+    })->name('accont.salesman.stores');
 
     Route::get('/sales', function(){
         return view('accont.sales');
@@ -86,6 +86,8 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('adresses/{adress}','Accont\AdressesController@edit')->name('accont.adress.edit');
 
     Route::put('adresses/{adress}','Accont\AdressesController@update')->name('accont.adress.update');
+
+    Route::delete('adresses/{adress}','Accont\AdressesController@destroy')->name('accont.adress.destroy');
 
     Route::get('adresses/zip_code/{zip}','Accont\AdressesController@search_cep')->name('accont.adress.zip_code');
 

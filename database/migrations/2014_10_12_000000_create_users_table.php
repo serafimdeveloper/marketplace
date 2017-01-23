@@ -22,12 +22,7 @@ class CreateUsersTable extends Migration
             $table->date('birth')->nullable();
             $table->enum('genre',['F','M'])->nullable();
             $table->timestamp('last_access')->nullable();
-            $table->enum('type_people',['F','J'])->nullable()->default('F');
-            $table->string('document',25)->nullable();
-            $table->string('facebook',150)->nullable();
-            $table->string('phone',15)->nullable();
             $table->string('confirm_token',100);
-            $table->string('cellphone',15)->nullable();
             $table->boolean('active')->default(0);
             $table->rememberToken();
             $table->softDeletes();

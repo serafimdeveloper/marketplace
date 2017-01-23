@@ -15,7 +15,7 @@
                 </ul>
                 <figure>
                     <img src="{{ url('image/img-exemple.jpg') }}" alt="[]" title="">
-                    <figcaption>R$24.90</figcaption>
+                    <figcaption>R$ 24,90</figcaption>
                     <span class="frete"></span>
                     <span class="descont"></span>
                 </figure>
@@ -42,7 +42,7 @@
                     </ul>
                     <figure>
                         <img src="{{ url('image/img-exemple.jpg') }}" alt="[]" title="">
-                        <figcaption>R$24.90</figcaption>
+                        <figcaption>R$ 24,90</figcaption>
                         <span class="frete"></span>
                         <span class="descont"></span>
                     </figure>

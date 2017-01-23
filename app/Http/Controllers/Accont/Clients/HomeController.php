@@ -11,7 +11,11 @@
 
 		public function index(){
 			$user = Auth::User();
-			return view('accont.home', compact('user'));
+			$collection = $user->adresses->sortByDesc(function($adress, $key){
+				return $adress->master;
+			});
+			$adresses = $collection->values()->all();
+			return view('accont.home', compact('user','adresses'));
 		}
 
 		public function store(HomeStoreRequest $request){
