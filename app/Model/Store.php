@@ -12,4 +12,16 @@ class Store extends Model
     public function sallesman(){
         return $this->belongsTo(Sallesman::class);
     }
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
+
+    public function requests(){
+        return $this->hasMany(Request::class);
+    }
+
+    public function shopvaluation(){
+        return $this->hasMany(ShopValuation::class);
+    }
 }

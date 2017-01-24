@@ -3,7 +3,9 @@
 @section('content')
     @include('accont.inc.nav')
     <section class="panel-content">
-        <h2>Mensagem enviada por Luís Fernando</h2>
+        <header class="pop-title">
+            <h1>Mensagem enviada por Luís Fernando</h1>
+        </header>
         <p>enviada hoje às 10:25:48</p>
         <div>
             <p>
@@ -21,7 +23,7 @@
                 </label>
 
                 <div class="txt-center">
-                    <button type="submit" class="btn btn-teal">Responder</button>
+                    <button type="submit" class="btn btn-popmartin">Responder</button>
                 </div>
             </form>
         </div>

@@ -23,14 +23,17 @@ class CreateRequestsTable extends Migration
             $table->foreign('freight_id')->references('id')->on('freights')->onUpdate('cascade');
             $table->integer('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('cascade');
-            $table->date('settlement_date');
-            $table->datetime('cancellation_date');
-            $table->datetime('send_date');
-            $table->tinyInteger('number_installments');
-            $table->decimal('freight_amount',7,2);
+            $table->integer('request_status_id')->unsigned();
+            $table->foreign('request_status_id')->references('id')->on('request_status')->onUpdate('cascade')->onDelete('cascade');
+            $table->date('settlement_date')->nullable();
+            $table->datetime('cancellation_date')->nullable();
+            $table->datetime('send_date')->nullable();
+            $table->tinyInteger('number_installments')->nullable()->default(1);
+            $table->string('tracking_code',15)->nullable();
+            $table->decimal('freight_price',7,2);
             $table->decimal('amount',7,2);
-            $table->string('payment_reference',50);
-            $table->text('note');
+            $table->string('payment_reference',50)->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
@@ -45,6 +48,9 @@ class CreateRequestsTable extends Migration
         Schema::table('requests', function(Blueprint $table){
             $table->dropForeign(['user_id']);
             $table->dropForeign(['payment_id']);
+            $table->dropForeign(['freight_id']);
+            $table->dropForeign(['adress_id']);
+            $table->dropForeign(['request_status_id']);
         });
 
         Schema::dropIfExists('requests');

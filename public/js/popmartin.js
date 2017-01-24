@@ -8,7 +8,7 @@ $(function () {
      */
     $(".owl-carousel").owlCarousel({
         loop: true,
-        margin: 10,
+        margin: 30,
         responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}},
         autoplay:true,
         autoplayTimeout:5000,

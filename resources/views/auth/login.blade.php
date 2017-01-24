@@ -3,8 +3,10 @@
 @section('content')
 <section class="pop-forms content">
     <div class="colbox">
-        <div class="colbox-2">
-            <h2>Já sou usuário do Popmartin</h2>
+        <article class="colbox-2">
+            <header class="pop-title">
+                <h1>Já sou usuário do Pop Martin</h1>
+            </header>
             <div class="txt-center">
                 <a class="modal modal-blueface" href="">
                     <span><i class="fa fa-facebook-f"></i> | conecte-se usando o facebook</span>
@@ -28,9 +30,12 @@
                     <a class="txt-decoration-underline c-gray"  href="{{ url('/password/reset') }}" style="margin-top: 10px;">esqueci minha senha</a>
                 </div>
             </form>
-        </div>
-        <div class="colbox-2">
-            <h2>Quero fazer parte do Popmartin</h2>
+        </article>
+        <article class="colbox-2">
+            <header class="pop-title">
+                <h1>Quero fazer parte do Pop Martin</h1>
+            </header>
+
             <div class="txt-center">
                 <a class="modal modal-blueface" href="">
                     <span><i class="fa fa-facebook-f"></i> | cadastre-se usando o facebook</span>
@@ -69,10 +74,10 @@
                                 href="/politicas">Politica de Privacidade</a> .</span>
                 </div>
                 <div class="txt-center" style="padding: 0 30px;margin-top: 20px;">
-                    <button class="btn btn-blue" type="submit">Cadastrar</button>
+                    <button class="btn btn-popmartin" type="submit">Cadastrar</button>
                 </div>
             </form>
-        </div>
+        </article>
     </div>
     <div class="clear-both"></div>
 </section>

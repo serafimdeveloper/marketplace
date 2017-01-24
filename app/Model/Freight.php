@@ -4,9 +4,9 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Payment extends Model
+class Freight extends Model
 {
-    protected $fillable = ['name','active'];
+    protected $fillable = ['name','code','active'];
 
     public function requests(){
         return $this->hasMany(Request::class);
