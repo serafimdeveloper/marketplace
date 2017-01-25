@@ -2,6 +2,8 @@
  * Created by asiw.com.br on 16/01/2017.
  */
 $(function () {
+    /** Inicia plugin tooltipster */
+    $('.tooltip').tooltipster();
 
     /**
      * Estilização dos banners de anúncios usando o plugin owlCarousel
@@ -125,7 +127,7 @@ $(function () {
                 error: function(data, status){
                     form.find('button').html('cadastrar');
                     var trigger = JSON.parse(data.responseText);
-                    console.log(trigger);
+                    // console.log(trigger);
                     $.each(trigger, function(index,element){
                         inputerror(false, form.find('input[name='+index+']'), element[0]);
                     });
@@ -181,7 +183,59 @@ $(function () {
         return false;
     });
 
+    /** Trazer subcategoria de acordo com a categoria selecionada */
+    $('.select_subcat').change(function(){
+        var id = $(this).val();
+        $.post('', { category_id: id}, function(data){
+            $('.subcat_info').html(data.option);
+        },"json");
+    });
+
+    /**
+     * Verificar ao clicar em selecionar mensagem se o botão de remover aparece ou não
+     */
+    $(".select_msg").click(function(){
+        var array = checkInputsMsg($(this).attr('class'));
+        if(array.length !== 0){
+            $("#pop-remove-msg").show();
+        }else{
+            $("#pop-remove-msg").hide();
+        }
+    });
+
+    /**
+     * Apagar mensagens selecionadas em tempo real
+     */
+    $("#pop-remove-msg").click(function(){
+        var indexes = arrayToObject(checkInputsMsg('select_msg'));
+        $.get('', indexes, function(response){
+            if(response.status){
+                indexes.each(function(e){
+                    $('.select_msg').eq(e).hide();
+                });
+            }
+        }, 'json');
+        return false;
+    });
 });
+
+
+/**
+ * verivica se um determinado grupo de mensagens de array estão checados(marcados) ou não
+ * Retorna um array com a posição index e os valores dos inputs marcados respectivamente
+ * @param class_element - classe em comun dos elementos
+ * @returns {Array}
+ */
+function checkInputsMsg(class_element){
+    var status = [];
+    $('.' + class_element).each(function(){
+        var idx = $(this).index('.' + class_element);
+        if($(this).is(':checked')){
+            status[idx] = $(this).val();
+        }
+    });
+    return status;
+}
 
 /**
  * Verifica qual o campo do input para filtrar de acordo com sua característica

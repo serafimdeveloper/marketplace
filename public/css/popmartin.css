@@ -3,7 +3,7 @@
 .c-popdark{color: #A74B4B;}
 .bg-popmartin{background-color: #DA6262;}
 .bg-popmartindark{background-color: #A74B4B; color: #FFFFFF;}
-.navicon-mobile{display: none;float: right; font-size: 2.2em;margin-top: -3px;margin-right: 20px;cursor: pointer;}
+.navicon-mobile{display: none;float: right; font-size: 2.2em;margin-top: -1px;margin-right: 20px;cursor: pointer;}
 /*h2{font-size: 1.4em;border-bottom: 1px solid #aaaaaa;padding: 5px;}*/
 .btn-popmartin{background-color: #D32F2F; border-color: #A74B4B;} .btn-popmartin:hover{background-color: #B40004; border-color: #A74B4B;}
 .form-modern input:focus{border-bottom: 2px solid #DA6262;}
@@ -20,6 +20,8 @@
 .popicon.banco-do-brasil{background-image: url("../image/icons/banco-do-brasil.png");}
 .popicon.boleto{background-image: url("../image/icons/boleto.png");}
 .popicon.moip{background-image: url("../image/icons/moip.png");}
+.table .t-popmartin{color: #B40004 !important; border: 1px solid red; padding: 2px;}
+.table .t-popmartin:hover{background-color: #B40004; color: #FFF !important;}
 
 
 .pop-header{height: 120px;margin-bottom: 0;
@@ -102,7 +104,8 @@
 /*******************************************************************
 ************************PAINEL ADMINISTRATIVO**********************
  ******************************************************************/
-.panel-icon-mobile{display: none;position: absolute;z-index: 10;top: 20px; left: 120px;cursor: pointer;font-size: 1.4em;color: #ac2925;}
+.panel-icon-mobile{display: none;position: absolute;z-index: 10;top: 14px; left: 100px;cursor: pointer;font-size: 1.2em;color: #ac2925;border: 1px solid #e0e0e0;padding: 5px 8px;}
+.panel-icon-mobile:active{box-shadow: 0 0 2px #B40004;}
 
 .panel-top-header{border-bottom: 2px solid #E0E0E0;}
 .panel-top-header .pop-logo{background-size: 80%;top: 7px;left: 50px;padding-bottom: 0;min-width: inherit;width: 100px;height: 70px;float: left;}
@@ -124,7 +127,8 @@
 .panel-content{float: right;width: 80%;padding: 5px;}
 .pop-form span.title{display: block;padding: 4px 7px;background-color: #0ABF95;color: #FFF;}
 .pop-form .title.title-gray{background-color: #2e3436;color: #FFF;}
-.pop-form input{color: #9d9d9d;border-bottom: 1px solid #0ABF95;background: none;}
+.pop-form input{color: #9d9d9d;border: 1px solid #a4aaae;}
+.pop-form input:focus{border: 1px solid #B40004;box-shadow: 0 0 2px #000;}
 
 .panel-end{position: relative;border: 1px solid #e0e0e0;margin: 10px 0;border-radius: 5px 5px 0 0;-moz-border-radius: 5px 5px 0 0;-webkit-border-radius: 5px 5px 0 0;}
 .panel-end h4{padding: 5px 10px; border-bottom: 1px solid #a4aaae; background-color: #e0e0e0;color: #757575;font-weight: 500;}
@@ -136,20 +140,27 @@
 .table .t-unread td, .table .t-unread a{font-weight: bold;}
 #pop-messages a{display: block;font-size: 1.1em;color: #000;}
 
+.pop-tracking{margin-top: -10px;}
+.pop-tracking button{position: absolute; right: 30px; bottom: 25px;}
+
 .selects_people{display: none;}
+
+#pop-remove-msg{display: none;}
+
 @media(max-width: 69em){ /*1024px */
     .pop-logo{top: 5px;padding: 0;min-width: inherit;width: 60px; height: 45px;}
     .pop-ads{width: 100%;float: left;margin: 20px 0;}
     .panel-nav{display: none;position: absolute;left: 0;z-index: 1;width: 250px;box-shadow: 2px 3px 8px #000;}
     .panel-content{width: 100%;padding: 20px 10px;}
-    .panel-top-header .pop-logo{left: 5px;}
+    .panel-top-header{height: 60px;padding: 8px 0;}
+    .panel-top-header .pop-logo{left: 5px;top: -5px;width: 80px;}
     .panel-icon-mobile{display: block;}
 }
 @media(max-width: 62.5em){ /*1000px */
     .pop-ads img{vertical-align: middle;}
 }
 @media(max-width: 56.25em){ /*900px */
-    .pop-top-header{height: 55px;}
+    .pop-top-header{}
     .pop-top-nav{display: none;position: absolute;left: 0;top: 58px;z-index:3;text-align: center;z-index: 10;
         -webkit-box-shadow: 2px 2px 2px #000;
         -moz-box-shadow: 2px 2px 2px #000;
@@ -185,4 +196,8 @@
     .pop-nav-content .nav{display: inline-block !important;}
     .pop-nav-content{background-color: transparent;}
     .nav li{float: left;width: inherit;border-bottom: 0;}
+}
+
+@media(min-width: 69em){ /*1024px */
+    .panel-nav{display: block !important;position: relative;width: 18%;min-width: 200px;box-shadow: none;}
 }

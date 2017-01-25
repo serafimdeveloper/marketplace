@@ -30,6 +30,20 @@ $(function () {
 });
 
 /**
+ * Transforma array em objeto javascript
+ * @param array
+ * @returns {*}
+ */
+function arrayToObject(array){
+    var obj = array.reduce(function(acc, cur, i) {
+        acc[i] = cur;
+        return acc;
+    }, {});
+
+    return obj;
+}
+
+/**
  * VALIDAÇÃO DE E-MAIL COM EXPRESSÃO REGULAR FORNECIDA PELA W3C HTML
  * @param {string} mail
  * @returns {Boolean}
@@ -121,21 +135,19 @@ function previewFile(t) {
 
 
 function previewImg(e) {
+    var prevImg = document.getElementById('preview_img' + e.getAttribute('data-preview'));
+    console.log(prevImg);
     if (e.files && e.files[0]) {
-        console.log(e.files[0]);
-
         var reader = new FileReader();
         reader.onload = function (e) {
             // console.log(e);
-            $(".prevImg").html('<img src="' + e.target.result + '">');
+            prevImg.innerHTML = '<img src="' + e.target.result + '">';
         };
-        console.log(reader);
         reader.readAsDataURL(e.files[0]);
     }
     else {
-        // console.log("info");
         var img = e.value;
-        p.find(".prevImg").html('<img src="' + img + '">');
+        prevImg.html('<img src="' + img + '">');
     }
 }
 

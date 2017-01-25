@@ -12,7 +12,7 @@
 
             <thead>
             <tr>
-                <th class="t-small">ID</th>
+                <th class="t-small">Pedidos</th>
                 <th class="t-medium">Data</th>
                 <th class="t-medium">Valor</th>
                 <th class="t-medium">Loja</th>
@@ -28,7 +28,7 @@
                 <td>R$25,00</td>
                 <td>Pop Martin</td>
                 <td class="t-status t-draft">aguardando pagamento</td>
-                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
+                <td class="txt-center"><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
 
             <tr>
@@ -37,7 +37,7 @@
                 <td>R$25,00</td>
                 <td>Pop Martin</td>
                 <td class="t-status t-scheduled">aguardando envio</td>
-                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
+                <td class="txt-center"><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             <tr>
                 <td>1</td>
@@ -45,7 +45,7 @@
                 <td>R$25,00</td>
                 <td>Pop Martin</td>
                 <td class="t-status t-scheduled">aguardando chegada</td>
-                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
+                <td class="txt-center"><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             <tr>
                 <td>1</td>
@@ -53,7 +53,7 @@
                 <td>R$25,00</td>
                 <td>Pop Martin</td>
                 <td class="t-status t-active">concluído</td>
-                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
+                <td class="txt-center"><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             <tr>
                 <td>1</td>
@@ -61,7 +61,7 @@
                 <td>R$25,00</td>
                 <td>Pop Martin</td>
                 <td class="t-status">devolvido</td>
-                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
+                <td class="txt-center"><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             <tr>
                 <td>1</td>
@@ -69,7 +69,7 @@
                 <td>R$25,00</td>
                 <td>Pop Martin</td>
                 <td class="t-status t-inactive">cancelado</td>
-                <td><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
+                <td class="txt-center"><a href="/accont/requests/1" class="btn btn-popmartin">detalhe</a></td>
             </tr>
             </tbody>
         </table>
