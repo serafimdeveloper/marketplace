@@ -9,6 +9,7 @@
         <link href="/frontend/css/bootstrap.css" rel="stylesheet">
         <link href="/frontend/lib/owlcarousel/owl.carousel.min.css" rel="stylesheet">
         <link href="/frontend/lib/owlcarousel/theme/owl.theme.default.min.css" rel="stylesheet">
+        <link href="/frontend/lib/tooltipster/css/tooltipster.bundle.min.css" rel="stylesheet">
         <link href="/css/popmartin.css" rel="stylesheet">
 
 
@@ -29,6 +30,7 @@
         <script src="/frontend/js/jquery1.js"></script>
         <script src="/frontend/js/jquery.maskedinput.min.js"></script>
         <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/frontend/lib/tooltipster/js/tooltipster.bundle.min.js"></script>
         <script src="/frontend/js/bootstrap.js"></script>
         <script src="{{ url('/js/popmartin.js') }}"></script>
         <script>

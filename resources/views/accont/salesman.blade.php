@@ -11,19 +11,19 @@
                 <div class="colbox-2">
                     <label>
                         <span>CPF</span>
-                        <input type="text" name="cpf" class="masked_cpf" placeholder="CPF">
+                        {!! Form::text('cpf', null, ['class' => 'masked_cpf', 'placeholder' => 'CPF']) !!}
                     </label>
                     <label>
                         <span>Telefone fixo</span>
-                        <input type="text" name="phone" class="masked_phone">
+                        {!! Form::text('phone', null, ['class' => 'masked_phone']) !!}
                     </label>
                     <label>
                         <span>Telefone celular</span>
-                        <input type="text" name="cellphone" class="masked_cellphone">
+                        {!! Form::text('cellphone', null, ['class' => 'masked_cellphone']) !!}
                     </label>
                     <label>
                         <span>Whatsapp</span>
-                        <input type="text" name="cellphone" class="masked_cellphone">
+                        {!! Form::text('whatsapp', null, ['class' => 'masked_cellphone']) !!}
                     </label>
                     <br>
                     <div class="form-modern">
@@ -38,8 +38,7 @@
                         <div class="txt-center">
                             <p>Documento com foto (formato PNG ou JPG)</p>
                             <div class="file" style="border:1px solid #B0BEC5;padding: 10px;">
-                                <input type="file" name="an_logo" multiple="multiple" data-preview="1"
-                                       onchange="previewFile($(this))">
+                                {!! Form::file('photo_document') !!}
                                 <input type="text">
                                 <button type="button" class="btn btn-orange">imagem</button>
                                 <div class="clear-both"></div>
@@ -47,8 +46,7 @@
                             <br>
                             <p>Comprovante de residência (formato PNG ou JPG ou PDF)</p>
                             <div class="file" style="border:1px solid #B0BEC5;padding: 10px;">
-                                <input type="file" name="an_logo" multiple="multiple" data-preview="1"
-                                       onchange="previewFile($(this))">
+                                {!! Form::file('proof_adress') !!}
                                 <input type="text">
                                 <button type="button" class="btn btn-orange">imagem</button>
                                 <div class="clear-both"></div>
@@ -73,7 +71,7 @@
                     </p>
                     <label>
                         <span>login MOIP</span>
-                        <input type="text" name="moip" placeholder="meulogin">
+                        {!! Form::text('moip', null, ['placeholder' => 'meulogin']) !!}
                     </label>
                     <div class="padding10"></div>
                     <p class="c-pop padding05 fontw-800">Ainda não me cadastrei no MOIP</p>

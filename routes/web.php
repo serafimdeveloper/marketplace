@@ -35,21 +35,42 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
         return view('accont.salesman');
     })->name('accont.salesman');
 
-    Route::get('/products', function(){
+    Route::get('/salesman/products', function(){
         return view('accont.products');
     })->name('accont.salesman.products');
 
-    Route::get('/stores', function(){
+    Route::get('/salesman/product', function(){
+        return view('accont.product_info');
+    })->name('accont.salesman.product_create');
+
+    Route::get('/salesman/product/{id}', function(){
+        return view('accont.product_info');
+    })->name('accont.salesman.product_info');
+
+    Route::get('/salesman/stores', function(){
         return view('accont.stores');
     })->name('accont.salesman.stores');
 
-    Route::get('/sales', function(){
+    Route::get('/salesman/sales', function(){
         return view('accont.sales');
     })->name('accont.salesman.sales');
 
-    Route::get('/messages/salesman', function(){
+    Route::get('/salesman/sale/{id}', function(){
+        return view('accont.sale_info');
+    })->name('accont.salesman.sale_info');
+
+    Route::get('/salesman/messages', function(){
         return view('accont.messages');
     })->name('accont.salesman.messages');
+
+    Route::get('/salesman/message/{id}', function(){
+        return view('accont.message_info');
+    })->name('accont.salesman.messages_info');
+
+    Route::get('/etiqueta', function(){
+        return view('layouts.parties.etiqueta');
+    })->name('layouts.parties.etiqueta');
+
 
     /** Administrador */
     Route::get('/report/users', function(){
@@ -64,6 +85,7 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
         return view('accont.report.products');
     })->name('accont.report.products');
 
+
     Route::get('/categories', function(){
         return view('accont.categories');
     })->name('account.categories');
@@ -75,6 +97,12 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('/report/notifications', function(){
         return view('accont.report.notifications');
     })->name('accont.report.notifications');
+
+
+
+    /**
+     * PROCESSO DE REQUISIÇÕES VIA AJAX DO SISTEMA
+     */
 
     /** Adress */
     Route::post('adresses','Accont\AdressesController@store')->name('accont.adress.store');
