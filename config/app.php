@@ -170,6 +170,8 @@ return [
         ResultSystems\Validation\ValidationServiceProvider::class,
         Cagartner\CorreiosConsulta\ServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         //
 
         /*
@@ -234,6 +236,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Correios'    => Cagartner\CorreiosConsulta\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
