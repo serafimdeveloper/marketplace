@@ -11,13 +11,13 @@
                   {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern'])!!}
                     <label>
                         <span>Nome</span>
-                        {!! Form::text('nick',null, ['placeholder' => 'Nome ao qual deseja ser chamado']) !!}
-                        <span class="alert{{ $errors->has('nick') ? '' : ' hidden' }}">{{ $errors->first('nick') }}</span>
+                        {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
+                        <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
                     <label>
                         <span>Sobrenome</span>
-                        {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
-                        <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
+                        {!! Form::text('last_name',null, ['placeholder' => 'Sobrenome']) !!}
+                        <span class="alert{{ $errors->has('last_name') ? '' : ' hidden' }}">{{ $errors->first('last_name') }}</span>
                     </label>
                     {{--<label>--}}
                         {{--<span class="title">Cpf</span>--}}
@@ -46,7 +46,7 @@
                 <label>
                     <span>Telefone</span>
                     {!! Form::text('phone',null, ['placeholder' => 'Informar telefone', 'class' => 'masked_phone']) !!}
-                    <span class="alert{{ $errors->has('birth') ? '' : ' hidden' }}">{{ $errors->first('birth') }}</span>
+                    <span class="alert{{ $errors->has('phone') ? '' : ' hidden' }}">{{ $errors->first('phone') }}</span>
                 </label>
                     <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
                         <button type="submit" class="btn btn-popmartin">atualizar dados</button>

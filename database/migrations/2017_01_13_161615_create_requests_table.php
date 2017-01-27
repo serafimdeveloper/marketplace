@@ -16,15 +16,17 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->integer('adress_id')->unsigned();
             $table->foreign('adress_id')->references('id')->on('adresses')->onUpdate('cascade');
-            $table->integer('freight_id')->unsigned();
-            $table->foreign('freight_id')->references('id')->on('freights')->onUpdate('cascade');
-            $table->integer('payment_id')->unsigned();
-            $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('store_id')->unsigned();
+            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('NO ACTION');
+            $table->integer('freight_id')->unsigned()->nullable();
+            $table->foreign('freight_id')->references('id')->on('freights')->onUpdate('cascade')->onDelete('SET NULL');
+            $table->integer('payment_id')->unsigned()->nullable();
+            $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('SET NULL');
             $table->integer('request_status_id')->unsigned();
-            $table->foreign('request_status_id')->references('id')->on('request_status')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('request_status_id')->references('id')->on('request_status')->onUpdate('cascade');
             $table->date('settlement_date')->nullable();
             $table->datetime('cancellation_date')->nullable();
             $table->datetime('send_date')->nullable();
@@ -34,6 +36,8 @@ class CreateRequestsTable extends Migration
             $table->decimal('amount',7,2);
             $table->string('payment_reference',50)->nullable();
             $table->text('note')->nullable();
+            $table->boolean('closed')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -50,6 +54,7 @@ class CreateRequestsTable extends Migration
             $table->dropForeign(['payment_id']);
             $table->dropForeign(['freight_id']);
             $table->dropForeign(['adress_id']);
+            $table->dropForeign(['store_id']);
             $table->dropForeign(['request_status_id']);
         });
 

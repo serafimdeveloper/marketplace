@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->date('birth')->nullable();
             $table->enum('genre',['F','M'])->nullable();
             $table->timestamp('last_access')->nullable();
-            $table->enum('profile_acess',['client','sallesman','admin'])->default('client');
+            $table->enum('profile_access',['client','salesman','admin'])->default('client');
             $table->string('phone',15)->nullable();
             $table->boolean('active')->default(0);
             $table->rememberToken();

@@ -6,7 +6,8 @@
         <header class="pop-title">
             <h1>Procure uma loja</h1>
         </header>
-        <form class="form-modern searh_store" action="" method="POST">
+        <form class="form-modern searh_store" action="javascript:void(0)">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <label>
                 <input type="search" name="search_store" placeholder="Pesquisar Loja">
             </label>

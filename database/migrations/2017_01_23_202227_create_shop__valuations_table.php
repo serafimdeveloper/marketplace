@@ -16,8 +16,11 @@ class CreateShopValuationsTable extends Migration
         Schema::create('shop_valuations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->integer('store_id')->unsigned();
+            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->integer('request_id')->unsigned();
+            $table->foreign('request_id')->references('id')->on('requests')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->tinyInteger('note_store');
             $table->tinyInteger('note_term');
             $table->tinyInteger('note_service');

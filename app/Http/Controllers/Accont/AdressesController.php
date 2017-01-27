@@ -1,32 +1,33 @@
 <?php
 	namespace App\Http\Controllers\Accont;
 
-	use App\Http\Controllers\Controller;
+	use App\Http\Controllers\AbstractController;
 	use Auth;
 	use Correios;
-	use App\Repositories\Accont\AdressesRepository as Repository;
+	use App\Repositories\Accont\AdressesRepository;
 	use App\Http\Requests\Accont\AdressesStoreRequest;
 
-	class AdressesController extends Controller
+	class AdressesController extends AbstractController
 	{
-		protected $repo, $user;
+        public function repo()
+        {
+           return AdressesRepository::class;
+        }
 
-		public function __construct(Repository $repo){
-			$this->repo = $repo;
-            $this->user = Auth::user();
-		}
-
-		public function index()
+        public function index()
 		{
             $adresses = $this->repo->all(null,null,['user_id'=>$this->user->id]);
             return $adresses;
 		}
 
 		public function store(AdressesStoreRequest $request){
+            $user = Auth::user();
 			if($request->get('master')){
-				$this->change_master($this->user->adresses);
-			}			
-			if($dados = $this->user->adresses()->fill($request->all())->save())
+				$this->change_master($user->adresses);
+			}
+			$adress = $request->except('id','_token');
+            $adress['user_id'] = $user->id;
+			if($dados = $this->repo->store($adress))
 			{
 				return json_encode(['status'=>true, 'adress'=>$dados]);
 			}
@@ -39,9 +40,10 @@
 		}
 
 		public function update(AdressesStoreRequest $request, $id){
-			$adress = $this->user->adresses()->find($id)->fill($request->all());
+            $user = Auth::user();
+            $adress = $user->adresses()->find($id)->fill($request->all());
 			if($request->get('master')){
-				$this->change_master($this->user->adresses);
+				$this->change_master($user->adresses);
 			}	
 			if($adress->save())
 			{
@@ -51,7 +53,8 @@
 		}
 
 		public function destroy($id){
-			$adress = $this->user->adresses()->find($id);
+            $user = Auth::user();
+            $adress = $user->adresses()->find($id);
 			if($adress->delete())
 			{
 				return json_encode(['status'=>true]);
@@ -70,6 +73,8 @@
 				}
 			});
 		}
-	}
+
+
+    }
 
 	

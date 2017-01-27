@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','confirm_token','last_name','document','birth','genre'
+        'name', 'email', 'password','confirm_token','last_name','document','birth','genre','phone','profile_access'
     ];
 
     /**
@@ -35,8 +35,8 @@ class User extends Authenticatable
         return $this->hasMany(Request::class);
     }
 
-    public function sallesman(){
-        return $this->hasOne(Sallesman::class);
+    public function salesman(){
+        return $this->hasOne(Salesman::class);
     }
 
     public function admin(){

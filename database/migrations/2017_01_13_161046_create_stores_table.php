@@ -15,8 +15,8 @@ class CreateStoresTable extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sallesman_id')->unsigned();
-            $table->foreign('sallesman_id')->references('id')->on('sallesmans')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('salesman_id')->unsigned();
+            $table->foreign('salesman_id')->references('id')->on('salesmans')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name',50);
             $table->string('branch_activity')->nullable();
             $table->string('identifier',20);

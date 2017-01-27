@@ -75,10 +75,10 @@ $(function () {
      * Procura de loja em tempo real no painel
      */
     $(".searh_store input[name=search_store]").keyup(function () {
-        var data = 'token=token&action=searchStore&value=' + $(this).val();
+        var data = '_token='+$('input[name=_token]').val()+'&name=' + $(this).val();
         var implementTr = $('#pop-searchStore tbody');
         $.ajax({
-            url: '',
+            url: '/accont/searchstore',
             data: data,
             type: 'POST',
             dataType: 'json',
@@ -86,6 +86,7 @@ $(function () {
                 implementTr.html("<tr><td colspan=\"3\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
             },
             success: function (e) {
+                console.log(e);
                 implementTr.html(e.resulttr);
             }
         });

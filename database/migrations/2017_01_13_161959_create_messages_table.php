@@ -47,6 +47,8 @@ class CreateMessagesTable extends Migration
             $table->dropForeign(['message_type_id']);
             $table->dropForeign(['request_id']);
             $table->dropForeign(['product_id']);
+            $table->dropForeign(['message_id']);
+
         });
 
         Schema::dropIfExists('messages');

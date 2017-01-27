@@ -22,7 +22,6 @@
 	    public function rules()
 	    {
 	        return [
-	            'name'=>'required|string|max:30',
 	            'zip_code'=>'required|string|max:9',
 	            'state'=>'required|string|min:2|max:2',
 	            'city'=>'required|min:3|max:100',

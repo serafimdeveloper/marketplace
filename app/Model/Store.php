@@ -3,20 +3,28 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
 
-class Store extends Model implements SluggableInterface
+class Store extends Model
 {
     protected $fillable = ['sallesman_id','name','type_people','document','fantasy_name','social_name','slug','brach_activity','about',
     'exchange_policy','freigth_policy','logo_file','rate','active'];
 
-    use SluggableTrait;
+    use Sluggable;
 
-    protected $sluggable = [
-        'build_from' => 'name',
-        'save_to' => 'slug'
-    ];
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
     public function sallesman(){
         return $this->belongsTo(Sallesman::class);

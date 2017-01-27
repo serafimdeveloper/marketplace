@@ -13,7 +13,7 @@ class CreateTableSallesmans extends Migration
      */
     public function up()
     {
-        Schema::create('sallesmans', function(Blueprint $table){
+        Schema::create('salesmans', function(Blueprint $table){
             $table->increments('id');
             $table->string('moip',50);
             $table->integer('user_id')->unsigned();
@@ -22,11 +22,11 @@ class CreateTableSallesmans extends Migration
             $table->string('facebook',200)->nullable();
             $table->string('whatsapp',15)->nullable();
             $table->string('cellphone',15);
-            $table->string('photo_document',50);
-            $table->string('proof_adress',50);
+            $table->string('photo_document',50)->nullable();
+            $table->string('proof_adress',50)->nullable();
             $table->boolean('active')->default(0);
-            $table->timestamps();      
-
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -37,10 +37,10 @@ class CreateTableSallesmans extends Migration
      */
     public function down()
     {
-        Schema::table('sallesmans', function(Blueprint $table){
+        Schema::table('salesmans', function(Blueprint $table){
             $table->dropForeign(['user_id']);
         });
 
-        Schema::dropIfExists('sallesmans');
+        Schema::dropIfExists('salesmans');
     }
 }

@@ -19,9 +19,8 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('/requests/{id}','Accont\Clients\RequestsController@show')->name('accont.request_info');
 
 
-    Route::get('/searchstore', function(){
-        return view('accont.searchstore');
-    })->name('accont.searchstore');
+    Route::get('/searchstore', 'Accont\StoresController@searchstore')->name('accont.searchstore');
+    Route::post('/searchstore', 'Accont\StoresController@search')->name('accont.search.store');
 
     Route::get('/messages', function(){
         return view('accont.messages');
@@ -31,9 +30,10 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     })->name('accont.message_info');
 
     /** Vendedores */
-    Route::get('/salesman', function(){
-        return view('accont.salesman');
-    })->name('accont.salesman');
+    Route::get('/salesman/create','Accont\Salesmans\SalesmanController@create')->name('accont.salesman.create');
+    Route::post('/salesman/store','Accont\Salesmans\SalesmanController@store')->name('accont.salesman.store');
+    Route::get('/salesman/info','Accont\Salesmans\SalesmanController@edit')->name('accont.salesman.info');
+    Route::put('/salesman/update','Accont\Salesmans\SalesmanController@update')->name('accont.salesman.update');
 
     Route::get('/salesman/products', function(){
         return view('accont.products');

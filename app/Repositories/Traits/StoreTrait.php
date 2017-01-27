@@ -36,9 +36,11 @@ trait StoreTrait
         }
 
         try {
+
             $model->save();
             return $model;
         } catch (Exception $e) {
+            dd($e->getMessage());
             Log::error($e->getMessage());
             throw new RepositoryException('Error store');
         }

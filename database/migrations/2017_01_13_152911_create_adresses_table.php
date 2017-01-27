@@ -26,6 +26,7 @@ class CreateAdressesTable extends Migration
             $table->integer('number');
             $table->string('complements');
             $table->boolean('master')->default(0);
+            $table->softDeletes();
         });
     }
 
