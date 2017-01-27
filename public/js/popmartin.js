@@ -2,6 +2,20 @@
  * Created by asiw.com.br on 16/01/2017.
  */
 $(function () {
+
+
+    var obsrequest = {
+        open: true,
+        width: '80%',
+        maxWidth: 500,
+        description: false,
+        type: 'form'
+    }
+    $('.obsRequest').on('click', function () {
+        $(this).bsdialog(obsrequest);
+    });
+
+
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
 
@@ -12,9 +26,9 @@ $(function () {
         loop: true,
         margin: 30,
         responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}},
-        autoplay:true,
-        autoplayTimeout:5000,
-        autoplayHoverPause:false,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: false,
     });
 
 
@@ -42,15 +56,15 @@ $(function () {
      * Requisita endereço via ajax caso seja uma edição
      * Caso seja um cadastro, apnenas abre para preenchimento
      */
-    $(document).on('click', '.jq-address', function(){
-        if(typeof ($(this).data('id')) !== "undefined"){
+    $(document).on('click', '.jq-address', function () {
+        if (typeof ($(this).data('id')) !== "undefined") {
             $('.alertbox-title').text('Editar endereço');
-            $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("'+$(this).data('id')+'")><i class="fa fa-trash"></i> remover endereço</span>');
+            $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
-            $.get('/accont/adresses/'+$(this).data('id'), function(data){
+            $.get('/accont/adresses/' + $(this).data('id'), function (data) {
                 inputvalue(data);
-            },'json');
-        }else{
+            }, 'json');
+        } else {
             $('.alertbox-title').text('Cadastrar endereço');
             $('.address').find('button').text('cadastrar');
         }
@@ -62,9 +76,9 @@ $(function () {
      * Menu mobile do painel de administração dos usuários
      */
     $('.panel-icon-mobile').click(function () {
-        if($('.panel-nav').is(':visible')){
+        if ($('.panel-nav').is(':visible')) {
             $(this).find('i').attr('class', 'fa fa-chevron-down');
-        }else{
+        } else {
             $(this).find('i').attr('class', 'fa fa-chevron-up');
         }
         $('.panel-nav').slideToggle();
@@ -96,76 +110,81 @@ $(function () {
      * Busca o cep na API do correio
      */
 
-     $('#zip_code').focusout(function() {
+    $('#zip_code').focusout(function () {
         var cep = $(this).val();
-        if((/^\d{5}-?\d{3}$/).test(cep)){
-            $.get('/accont/adresses/zip_code/'+cep, function(data){
-               var dados =  {'state':data.uf, 'city':data.cidade,'neighborhood':data.bairro,'public_place':data.logradouro};
-               inputvalue(dados);
-            },"json");
-        }else{
-            inputerror(false,$(this),'Cep inválido');
+        if ((/^\d{5}-?\d{3}$/).test(cep)) {
+            $.get('/accont/adresses/zip_code/' + cep, function (data) {
+                var dados = {
+                    'state': data.uf,
+                    'city': data.cidade,
+                    'neighborhood': data.bairro,
+                    'public_place': data.logradouro
+                };
+                inputvalue(dados);
+            }, "json");
+        } else {
+            inputerror(false, $(this), 'Cep inválido');
         }
-     });
+    });
 
     /**
      * grava ou atualiza o novo endereço
      */
 
-    $('#form-adress').on('submit', function(event){
+    $('#form-adress').on('submit', function (event) {
         var form = $(this);
         var dados = form.serialize();
         var id = form.find('input[name=id]').val();
-        if(id.length == 0){
+        if (id.length == 0) {
             $.ajax({
                 url: '/accont/adresses/',
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
-                beforeSend: function(){
+                beforeSend: function () {
                     form.find('button').html('<i class="fa fa-spin fa-spinner"></i> cadastrando...');
                 },
-                error: function(data, status){
+                error: function (data, status) {
                     form.find('button').html('cadastrar');
                     var trigger = JSON.parse(data.responseText);
                     // console.log(trigger);
-                    $.each(trigger, function(index,element){
-                        inputerror(false, form.find('input[name='+index+']'), element[0]);
+                    $.each(trigger, function (index, element) {
+                        inputerror(false, form.find('input[name=' + index + ']'), element[0]);
                     });
                 },
-                success: function(data){
-                    if(!data.status){
+                success: function (data) {
+                    if (!data.status) {
                         form.find('button').html('cadastrar');
-                        form.find('.form-result').html('<p class="trigger error">'+data.msg+'</p>');
-                    }else{
+                        form.find('.form-result').html('<p class="trigger error">' + data.msg + '</p>');
+                    } else {
                         form.find('button').html('cadastrado com sucesso!');
-                        form.parents('.address').slideUp(function(){
-                            if(data.adress.master){
+                        form.parents('.address').slideUp(function () {
+                            if (data.adress.master) {
                                 $('#group-pnl-end').find('.address-master').text('');
                                 $('#group-pnl-end').prepend(window_adress(data.adress));
-                            }else{
+                            } else {
                                 $('#group-pnl-end').append(window_adress(data.adress));
                             }
                         });
                     }
                 }
             });
-        }else{
+        } else {
             $.ajax({
-                url: '/accont/adresses/'+id,
+                url: '/accont/adresses/' + id,
                 type: 'PUT',
                 dataType: 'json',
                 data: dados,
-                beforeSend: function(){
+                beforeSend: function () {
                     form.find('button').html('<i class="fa fa-spin fa-spinner"></i> atualizando...');
                 },
-                success: function(data){
+                success: function (data) {
                     form.find('button').html('atualizado com sucesso!');
-                    form.parents('.address').slideUp(function(){
-                        $('#end_'+data.id).replaceWith(window_adress(data.adress));
+                    form.parents('.address').slideUp(function () {
+                        $('#end_' + data.id).replaceWith(window_adress(data.adress));
                     });
                 }
-            });            
+            });
         }
         return false;
     });
@@ -176,30 +195,30 @@ $(function () {
     $(".select_type_sallesman input").on("click", function () {
         radiobox($(this));
         $(".selects_people:visible").slideUp();
-        if($(this).val() === 'F'){
+        if ($(this).val() === 'F') {
             $('.select_cpf').slideDown();
-        }else{
+        } else {
             $('.select_cnpj').slideDown();
         }
         return false;
     });
 
     /** Trazer subcategoria de acordo com a categoria selecionada */
-    $('.select_subcat').change(function(){
+    $('.select_subcat').change(function () {
         var id = $(this).val();
-        $.post('', { category_id: id}, function(data){
+        $.post('', {category_id: id}, function (data) {
             $('.subcat_info').html(data.option);
-        },"json");
+        }, "json");
     });
 
     /**
      * Verificar ao clicar em selecionar mensagem se o botão de remover aparece ou não
      */
-    $(".select_msg").click(function(){
+    $(".select_msg").click(function () {
         var array = checkInputsMsg($(this).attr('class'));
-        if(array.length !== 0){
+        if (array.length !== 0) {
             $("#pop-remove-msg").show();
-        }else{
+        } else {
             $("#pop-remove-msg").hide();
         }
     });
@@ -207,19 +226,43 @@ $(function () {
     /**
      * Apagar mensagens selecionadas em tempo real
      */
-    $("#pop-remove-msg").click(function(){
+    $("#pop-remove-msg").click(function () {
         var indexes = arrayToObject(checkInputsMsg('select_msg'));
-        $.get('', indexes, function(response){
-            if(response.status){
-                indexes.each(function(e){
+        $.get('', indexes, function (response) {
+            if (response.status) {
+                indexes.each(function (e) {
                     $('.select_msg').eq(e).hide();
                 });
             }
         }, 'json');
         return false;
     });
-});
 
+    /**  */
+    $(".wt-header span").click(function () {
+        windowToggle($(this), 'wt-selected');
+    });
+
+    /** Eventos para a troca de imagens da galeria */
+    $(".pop-product-galery img").click(function () {
+        $(this).parent().siblings().css({opacity: 0.5})
+        $(this).parent().css({opacity: 1});
+        var src = $(this).attr('src');
+        var src = src.split('?');
+        var newSrc = src[0] + '?w=500&h=500&fit=crop';
+        console.log(newSrc);
+
+        $("#img-product").attr('src', newSrc);
+    });
+
+    $('.show-formobs').click(function(){
+        $(this).hide().siblings('form').show().find('textarea').focus();
+    });
+    $('.pop-cart-obs form a').click(function(){
+        $(this).parents('form').hide().siblings('.show-formobs').show();
+    });
+    $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
+});
 
 /**
  * verivica se um determinado grupo de mensagens de array estão checados(marcados) ou não
@@ -227,11 +270,11 @@ $(function () {
  * @param class_element - classe em comun dos elementos
  * @returns {Array}
  */
-function checkInputsMsg(class_element){
+function checkInputsMsg(class_element) {
     var status = [];
-    $('.' + class_element).each(function(){
+    $('.' + class_element).each(function () {
         var idx = $(this).index('.' + class_element);
-        if($(this).is(':checked')){
+        if ($(this).is(':checked')) {
             status[idx] = $(this).val();
         }
     });
@@ -243,7 +286,7 @@ function checkInputsMsg(class_element){
  * @param t object html DOM <input>
  * @returns {boolean}
  */
-function switchForm(t){
+function switchForm(t) {
     var r = false;
     switch (t.attr('name')) {
         case 'email':
@@ -275,12 +318,12 @@ function verificaform(f) {
  * @param f object html DOM <form>
  * @returns {boolean}
  */
-function verifySubmit(f){
+function verifySubmit(f) {
     var r = false;
-    f.find('input').each(function(){
+    f.find('input').each(function () {
         var t = $(this);
         r = switchForm(t);
-        if(!r){
+        if (!r) {
             return false;
         }
     });
@@ -297,37 +340,37 @@ function inputerror(is, param, msg) {
     if (!is) {
         param.addClass('input-error').siblings('.alert').removeClass('hidden').text(msg);
         return false;
-    }else{
+    } else {
         return true;
     }
 }
 
 /**
  * Recebe um objeto e faz iteração neles passando pra uns inputs
- * @param inputs object 
+ * @param inputs object
  */
 
-function inputvalue(inputs){
-    if(inputs instanceof Object){
-        $.each(inputs, function(index,element){
-            if(index === 'state'){
+function inputvalue(inputs) {
+    if (inputs instanceof Object) {
+        $.each(inputs, function (index, element) {
+            if (index === 'state') {
                 element = element.substr(0, 2);
             }
-            if(!is_Number(element)){
-                element = element.replace(/\s+/g," ");
+            if (!is_Number(element)) {
+                element = element.replace(/\s+/g, " ");
             }
-            $('input[name='+index+']').val(element);
+            $('input[name=' + index + ']').val(element);
 
             var master = $("#form-adress .checkbox").find("input[name=master]");
 
-            if(index === 'master' && element){
+            if (index === 'master' && element) {
                 $("#form-adress .checkbox").find('.fa').attr('class', 'fa fa-check-square-o');
-                if(!master.is(":checked")){
+                if (!master.is(":checked")) {
                     master.click();
                 }
 
-            }else{
-                if(master.is(":checked")){
+            } else {
+                if (master.is(":checked")) {
                     master.click();
                 }
             }
@@ -336,15 +379,15 @@ function inputvalue(inputs){
     }
 }
 
-function window_adress(obj){
+function window_adress(obj) {
     obj.master = (obj.master ? 'principal' : '');
-    var janela = '<div class="panel-end" id="end_'+obj.id+'">';
-    janela+='<h4>'+obj.name+' <span class="fl-right address-master">'+obj.master+'</span></h4>';
-    janela+='<div class="panel-end-content">';
-    janela+='<p>CEP: '+obj.zip_code+'</p>';
-    janela+='<p> '+obj.public_place+', '+obj.number+' - '+obj.city+'</p>';
-    janela+='</div>';
-    janela+='<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="'+obj.id+'">editar</a>';
-    janela+='</div>';
+    var janela = '<div class="panel-end" id="end_' + obj.id + '">';
+    janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
+    janela += '<div class="panel-end-content">';
+    janela += '<p>CEP: ' + obj.zip_code + '</p>';
+    janela += '<p> ' + obj.public_place + ', ' + obj.number + ' - ' + obj.city + '</p>';
+    janela += '</div>';
+    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '">editar</a>';
+    janela += '</div>';
     return janela;
 }

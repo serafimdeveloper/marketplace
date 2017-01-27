@@ -1,8 +1,8 @@
 $(function () {
     var urlBase = window.location.origin;
 
-    if($(".ajax-trigger:visible")){
-        setTimeout(function(){
+    if ($(".ajax-trigger:visible")) {
+        setTimeout(function () {
             $(".ajax-trigger").animate({
                 right: '-100%'
             }, 1700);
@@ -34,8 +34,8 @@ $(function () {
  * @param array
  * @returns {*}
  */
-function arrayToObject(array){
-    var obj = array.reduce(function(acc, cur, i) {
+function arrayToObject(array) {
+    var obj = array.reduce(function (acc, cur, i) {
         acc[i] = cur;
         return acc;
     }, {});
@@ -57,25 +57,44 @@ function is_mail(mail) {
     }
 }
 
+/**
+ * Verifica se um determinado valor passado como parâmetro é vazio
+ * @param data
+ * @returns {boolean}
+ */
 function is_null(data) {
     if (data === null || data.strlen === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+/**
+ * Verifica se um determinado valor passado como parâmetro é u, múmero
+ * @param val
+ * @returns {boolean}
+ */
+function is_Number(val) {
+    return typeof val === "number"
+}
+
+/**
+ * Verifica a quantidade de caracteres de um campo de acordo com o valor passado "v"
+ * @param n
+ * @param v
+ * @returns {boolean}
+ */
+function is_count(n, v) {
+    if (v.length < n) {
         return false;
     } else {
         return true;
     }
 }
-
-function is_Number(val) {
-    return typeof val === "number"
-}
-
-function is_count(n, v) {
-   if(v.length < n){
-       return false;
-   }else{
-       return true;
-   }
-}
+/**
+ * Máscara para números inteiros em um campo input
+ * @param t
+ */
 function maskInt(t) {
     var num = t.value;
 
@@ -105,35 +124,25 @@ $(document).on("click", ".accordion-box .accordion-header", function (e) {
     $(this).siblings('.accordion-content').slideToggle(600);
 });
 
-function previewFile(t) {
-    var p = '';
-    $(".prevImg").each(function(a){
-        if($(".prevImg").eq(a).data('preview') == t.data("preview")){
-            // alert($(".prevImg").eq(a).data('preview') + '-' + t.data("preview"));
-            p = $(".prevImg").eq(a);
-        }
-    });
+/**
+ * Verifica se um determinado elemento está visivel ou não ao manuseal o scroll do navegador
+ * @param e
+ * @returns {boolean}
+ */
+function isScrollVisibleElement(e) {
+    var docViewTop = $(window).scrollTop;
+    var docViewBottom = docViewTop + $(window).height();
 
-    var preview = p;
-    if (t.files && t.files[0]) {
+    var elemTop = $(e).offset().top;
+    var elemBottom = elemTop + $(e).height();
 
-
-    }
-    var reader  = new FileReader();
-
-    reader.onloadend = function (e) {
-        p.html('<img src="' + e.target.result + '">');
-    }
-
-    if (t.files[0]) {
-        reader.readAsDataURL(t.files[0]);
-    } else {
-        preview.src = "";
-    }
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
-
-
+/**
+ * Incrementa uma pré visualização de uma imagem arquivada em um input qualquer do tipo file
+ * @param e
+ */
 function previewImg(e) {
     var prevImg = document.getElementById('preview_img' + e.getAttribute('data-preview'));
     console.log(prevImg);
@@ -151,26 +160,31 @@ function previewImg(e) {
     }
 }
 
+/**
+ * Máscara de formato dinheiro em tempo real embutido no campo de imput
+ * usando class="masksMoney"
+ * @type {{money: masks.money}}
+ */
 var masks = {
-    money: function() {
+    money: function () {
         var el = this
-            ,exec = function(v) {
-            v = v.replace(/\D/g,"");
+            , exec = function (v) {
+            v = v.replace(/\D/g, "");
             v = new String(Number(v));
             var len = v.length;
-            if (1== len)
-                v = v.replace(/(\d)/,"0.0$1");
+            if (1 == len)
+                v = v.replace(/(\d)/, "0.0$1");
             else if (2 == len)
-                v = v.replace(/(\d)/,"0.$1");
+                v = v.replace(/(\d)/, "0.$1");
             else if (len > 2) {
-                v = v.replace(/(\d{2})$/,'.$1');
+                v = v.replace(/(\d{2})$/, '.$1');
             }
             return v;
         };
 
-        setTimeout(function(){
+        setTimeout(function () {
             el.value = exec(el.value);
-        },1);
+        }, 1);
     }
 }
 /**
@@ -178,9 +192,9 @@ var masks = {
  * @param e
  */
 function checkBox(e) {
-    if(e.is(":checked")){
+    if (e.is(":checked")) {
         e.siblings('span').find('span').attr("class", "fa fa-check-square-o").css({color: '#4CAF50'});
-    }else{
+    } else {
         e.siblings('span').find('span').attr("class", "fa fa-square-o").css({color: '#626262'});
     }
 };
@@ -190,18 +204,44 @@ function checkBox(e) {
  * @param e object html DOM
  */
 function radiobox(e) {
-    if(e.is(":checked")){
-        $("input[type=radio]").each(function(){
-            if($(this).attr('name') == e.attr('name')){
+    if (e.is(":checked")) {
+        $("input[type=radio]").each(function () {
+            if ($(this).attr('name') == e.attr('name')) {
                 $(this).siblings('span').find('span').attr("class", "fa fa-circle-o").css({color: '#626262'});
             }
         });
         e.siblings('span').find('span').attr("class", "fa fa-check-circle-o c-green").css({color: '#4CAF50'});
-    }else{
+    } else {
         e.siblings('span').find('span').attr("class", "fa fa-circle-o").css({color: '#626262'});
     }
 };
 
+/**
+ * Abrir e fechar containers unsando menu em um bloco fechado
+ * @param e - menu
+ * @param selector - class de estização a ser integrada ao abrir um container
+ */
+function windowToggle(e, selector) {
+    var content = e.parent().siblings('div');
+    content.children().each(function () {
+        if (content.children().eq(e.index()).is(":hidden")) {
+            e.siblings().removeClass(selector);
+            e.addClass(selector);
+            content.children().hide().removeClass(selector);
+            content.children().eq(e.index()).show().addClass(selector);
+        }
+    });
+}
+
 $(document).on("keypress", ".masksMoney", masks.money);
 $(document).on("click", ".form-modern .checkbox input[type=checkbox]", function(){checkBox($(this))});
-$(document).on("click", ".form-modern .radio input[type=radio]", function(){radiobox($(this))});
+$(document).on("click", ".form-modern .radio input[type=radio]", function(){
+    radiobox($(this))
+});
+
+
+
+
+
+
+

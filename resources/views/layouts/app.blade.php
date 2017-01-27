@@ -28,9 +28,11 @@
             @include('inc.footer')
         </main>
         <script src="/frontend/js/jquery1.js"></script>
+        <script src="/frontend/lib/jqueryui/jquery-ui.min.js"></script>
         <script src="/frontend/js/jquery.maskedinput.min.js"></script>
         <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
         <script src="/frontend/lib/tooltipster/js/tooltipster.bundle.min.js"></script>
+        <script src="/frontend/lib/bsdialog/jquery.bsdialog.js"></script>
         <script src="/frontend/js/bootstrap.js"></script>
         <script src="{{ url('/js/popmartin.js') }}"></script>
         <script>

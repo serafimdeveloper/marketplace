@@ -204,6 +204,7 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .btn-pinkred{background-color: #DA4453; border-color: #EB4D4D;} .btn-pinkred:hover{background-color: #EB4D4D; border-color: #DA4453;}
 .btn-yellow{background-color: #FFEB3B; border-color: #F2DF38; color: #000000;} .btn-yellow:hover{background-color: #F2DF38; border-color: #E3D239; color: #000000;}
 .btn-transparent{background-color: transparent; border-color: #FFFFFF;color: inherit;} .btn-transparent:hover{background-color: #FFFFFF; color: #000000;}
+.btn-facebook{background-color: #3b5998; border-color: #01579B;color: #FFF;} .btn-facebook:hover{background-color: #4527A0; color: #FFF;}
 
 /** PEROSONALIZAÇÃO DE MODELS **/
 .modal{padding: 10px;display: inline-block; width: auto;margin: 10px auto;}
@@ -411,6 +412,33 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
     justify-content: center;
 }
 
+
+.wt{width: 100%;
+    border-radius: 4px;
+}
+.wt-header{padding: 5px 0;}
+.wt-header span{border: 1px solid #E0E0E0; padding: 6px 10px; cursor: pointer;
+    background-color: #EEEEEE;
+    border-bottom-color: transparent;
+    border-radius: 6px 6px 0 0;-moz-border-radius: 6px 6px 0 0;-webkit-border-radius: 6px 6px 0 0;
+}
+.wt-content{padding: 10px;border: 1px solid #E0E0E0;background-color: #EEEEEE;display: none; }
+.wt-header .wt-selected{background: #FFFFFF;}
+.wt-selected{background: #FFFFFF;}
+.wt-visible{display: block;}
+
+.bs-dialog-body{position: absolute;z-index: 99999; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);}
+.bs-dialog{display: none;position:relative;width: 50%; min-width: 300px;padding: 3px;background-color: #EEEEEE;}
+.bs-dialog-title{position: relative;background-color: #E0E0E0;padding: 7px 28px 7px 10px;cursor: move;font-size: 1.2em;font-weight: 500;border: 1px solid #BDBDBD;text-shadow: 1px 1px 1px #FFF;-moz-text-shadow: 1px 1px 1px #FFF;-webkit-text-shadow: 1px 1px 1px #FFF;}
+.bs-dialog-close{position: absolute; top: 15%; right: 5px; padding: 2px 8px; border: 1px solid #E53935; background-color: #F44336; color: #FFF;font-weight: bold;cursor: pointer;margin-top: -2px;text-align: center;-moz-text-shadow: none !important;text-shadow: none !important;-webkit-text-shadow: none !important;}
+.bs-dialog-content{padding: 20px 10px 30px 10px;font-size: 1.2em;}
+.bs-dialog-content form{width: 90%; margin: 0 5%;}
+.bs-dialog-content label, .bs-dialog-content textarea, .bs-dialog-content input{width: 100%;padding: 5px;margin: 5px 0;}
+.bs-dialog-footer{padding: 20px 10px; border-top: 1px solid #8e8e8e;text-align: right;}
+.bs-dialog-footer .bsbtn{font-weight:400;padding: 7px 15px;cursor: pointer;background-color: #E0E0E0; border: 1px solid #BDBDBD;margin-right: 5px;border-bottom: 3px solid #8e8e8e;}
+.bs-dialog-footer .bsbtn:hover{background-color: #D8D8D8;}
+.bs-dialog-footer .bsbtn.bsbtn-accept:active{background-color: #2E64FE;color: #FFF;border-color: #2E64FE;}
+.bs-dialog-footer .bsbtn.bsbtn-cancel:active{background-color: #F44336;color: #FFF;border-color: #F44336;}
 
 /**** PADRONIZAÇÃO DESIGN RESPONSIVO ******************************
     aAplicação de media query responsivas
