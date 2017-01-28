@@ -26,7 +26,7 @@
                                     <a class="" href=""><i class="fa fa-heart c-reddark vertical-middle"></i> </a>
                                 </div>
                                 <div class="cart">
-                                    <a class="vertical-middle" href="">
+                                    <a class="vertical-middle" href="/carrinho">
                                         <i class="fa fa-shopping-cart c-green-avocadodark vertical-middle"></i>
                                         <div class="dp-inblock fontem-07 txt-center">
                                             <span class="c-green fontw-500">R$ 0,00</span>
@@ -62,31 +62,13 @@
                 @if (Request::segment(1) != 'accont')
                     <div class="content-ads">
                         <div class="pop-ads owl-carousel">
+                            @for($i = 0; $i < 5; $i++)
                             <div class="vertical-flex">
-                                <img src="{{ url('/image/loja/L1V1U1.gif') }}" title="" alt="[]">
+                                <img src="{{ url('imagem/loja/L1V1U1.gif?w=80&h=80&fit=crop') }}" title="" alt="[]">
                                 <p>nome da loja <br> <span>frase de impactação</span></p>
                                 <a href=""></a>
                             </div>
-                            <div class="vertical-flex">
-                                <img src="{{ url('/image/loja/L1V1U1.gif') }}" title="" alt="[]">
-                                <p>nome da loja <br> <span>frase de impactação</span></p>
-                                <a href=""></a>
-                            </div>
-                            <div class="vertical-flex">
-                                <img src="{{ url('/image/loja/L1V1U1.gif') }}" title="" alt="[]">
-                                <p>nome da loja <br> <span>frase de impactação</span></p>
-                                <a href=""></a>
-                            </div>
-                            <div class="vertical-flex">
-                                <img src="{{ url('/image/loja/L1V1U1.gif') }}" title="" alt="[]">
-                                <p>nome da loja <br> <span>frase de impactação</span></p>
-                                <a href=""></a>
-                            </div>
-                            <div class="vertical-flex">
-                                <img src="{{ url('/image/loja/L1V1U1.gif') }}" title="" alt="[]">
-                                <p>nome da loja <br> <span>frase de impactação</span></p>
-                                <a href=""></a>
-                            </div>
+                            @endfor
                         </div>
                         <div class="clear-both"></div>
                     </div>

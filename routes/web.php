@@ -1,11 +1,19 @@
 <?php
+/** Rotas de páginas */
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/carrinho', function () {
+    return view('pages.cart');
+})->name('pages.cart');
+
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+
 Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     /** Clientes */
@@ -113,3 +121,14 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('adresses/zip_code/{zip}','Accont\AdressesController@search_cep')->name('accont.adress.zip_code');
 
 });
+Route::get('/imagem/{path}', function(\League\Glide\Server $server, $path){
+    $server->outputImage($path, $_GET);
+})->where('path', '.*');
+
+Route::get('/{store}', function(){
+    return view('pages.store');
+})->name('pages.store');
+
+Route::get('/{store}/{category}/{product}', function(){
+    return view('pages.product');
+})->name('pages.product');
