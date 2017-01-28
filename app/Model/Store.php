@@ -7,8 +7,8 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Store extends Model
 {
-    protected $fillable = ['sallesman_id','name','type_people','document','fantasy_name','social_name','slug','brach_activity','about',
-    'exchange_policy','freigth_policy','logo_file','rate','active'];
+    protected $fillable = ['salesman_id','name','type_people','cpf','cnpj','fantasy_name','social_name','slug','brach_activity'
+        ,'about','exchange_policy','freigth_policy','logo_file','rate','active'];
 
     use Sluggable;
 
@@ -17,8 +17,7 @@ class Store extends Model
      *
      * @return array
      */
-    public function sluggable()
-    {
+    public function sluggable(){
         return [
             'slug' => [
                 'source' => 'name'

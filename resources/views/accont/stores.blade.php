@@ -10,51 +10,50 @@
                 ver loja
             </a>
         </header>
-        <form class="form-modern">
+        @if(isset($store))
+            {!!Form::model($store,['route'=>['accont.salesman.stores.update'], 'method'=>'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data'])!!}
+        @else
+            {!! Form::open(['route' => ['accont.salesman.stores.store'], 'method' => 'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data']) !!}
+        @endif
             <div class="colbox">
                 <div class="colbox-2">
                     <label>
                         <span>Nome da loja</span>
                         {!! Form::text('name', null, ['placeholder' => 'Nome da Loja']) !!}
-                        <span class="alert hidden"></span>
+                        <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
                     <div class="checkbox-container padding10">
                         <span>Tipo</span>
                         <div class="checkboxies">
                             <label class="radio select_type_sallesman" style="border: none;">
-                                <span><span class="fa fa-circle-o"></span> física</span>
-                                {!! Form::radio('type_sallesman', 'F') !!}
+                                <span><span class="fa {{ ($store->type_salesman === 'F') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> física</span>
+                                {!! Form::radio('type_salesman','F') !!}
                             </label>
                             <label class="radio select_type_sallesman" style="border: none;">
-                                <span><span class="fa fa-circle-o"></span> jurídica</span>
-                                {!! Form::radio('type_sallesman', 'J') !!}
+                                <span><span class="fa {{ ($store->type_salesman === 'J') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> jurídica</span>
+                                {!! Form::radio('type_salesman','J') !!}
                             </label>
                         </div>
-                        <span class="alert hidden"></span>
-                    </div>
+                        <span class="alert{{ $errors->has('type_salesman') ? '' : ' hidden' }}">{{ $errors->first('type_salesman') }}</span>                    </div>
                     <div class="selects_people select_cpf">
                         <label>
                             <span>CPF</span>
                             {!! Form::text('cpf', null, ['class' => 'masked_cpf', 'placeholder' => 'CPF']) !!}
-                            <span class="alert hidden"></span>
-                        </label>
+                            <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>                        </label>
                     </div>
                     <div class="selects_people select_cnpj">
                         <label>
                             <span>CNPJ</span>
                             {!! Form::text('cnpj', null, ['class' => 'masked_cnpj', 'placeholder' => 'CNPJ']) !!}
-                            <span class="alert hidden"></span>
-                        </label>
+                            <span class="alert{{ $errors->has('cnpj') ? '' : ' hidden' }}">{{ $errors->first('cnpj') }}</span>                        </label>
                         <label>
                             <span>Nome Fantasia</span>
                             {!! Form::text('fantasy_name', null, ['placeholder' => 'nome fantasia da Loja']) !!}
-                            <span class="alert hidden"></span>
-                        </label>
+                            <span class="alert{{ $errors->has('fantasy_name') ? '' : ' hidden' }}">{{ $errors->first('fantasy_name') }}</span>                        </label>
                         <label>
                             <span>Razão social</span>
                             {!! Form::text('social_name', null) !!}
-                            <span class="alert hidden"></span>
-                        </label>
+                            <span class="alert{{ $errors->has('social_name') ? '' : ' hidden' }}">{{ $errors->first('social_name') }}</span>                        </label>
                     </div>
                 </div>
                 <div class="colbox-2">
@@ -65,15 +64,18 @@
                             <input type="text">
                             <button type="button" class="btn btn-orange">Escolher Logo</button>
                             <div class="clear-both"></div>
+                            <span class="alert{{ $errors->has('logo_file') ? '' : ' hidden' }}">{{ $errors->first('logo_file') }}</span>
                         </div>
                     </div>
                     <label>
                         <span>Sobre a Loja (máximo de 500 caracteres)</span>
-                        <textarea name="content" placeholder="Digite aqui uma informação sobre a sua loja" rows="7"></textarea>
+                        {!! Form::textarea('about', null,['placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
+                        <span class="alert{{ $errors->has('about') ? '' : ' hidden' }}">{{ $errors->first('about') }}</span>
                     </label>
                     <label>
                         <span>Política de troca (máximo de 500 caracteres)</span>
-                        <textarea name="content" placeholder="Digite aqui uma informação sobre a sua loja" rows="7"></textarea>
+                        {!! Form::textarea('exchange_policy', null, ['placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
+                        <span class="alert{{ $errors->has('exchange_policy') ? '' : ' hidden' }}">{{ $errors->first('exchange_policy') }}</span>
                     </label>
                 </div>
             </div>
@@ -81,7 +83,7 @@
             <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
                 <button type="submit" class="btn btn-popmartin">cadastrar</button>
             </div>
-        </form>
+        {!! Form::close() !!}
         <div id="group-pnl-end">
                 <div class="panel-end">
                     <h4>Endereço</h4>

@@ -37,7 +37,7 @@ class SalesmanController extends AbstractController
         if($salesman = $this->repo->store($dados)){
             $dados['photo_document'] = $this->upload($request->photo_document,'img/vendedor','D1V'.$salesman->id);
             $dados['proof_adress'] = $this->upload($request->proof_adress,'img/vendedor','D2V'.$salesman->id);
-            $salesman = $this->repo->update($dados,$salesman->id);
+            $this->repo->update($dados,$salesman->id);
             $user->fill(['profile_access'=>'salesman'])->save();
             flash('Vendedor salvo com sucesso!', 'accept');
             return redirect()->route('accont.salesman.info');

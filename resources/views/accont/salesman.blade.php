@@ -7,7 +7,7 @@
             <h1>Minhas informações de Vendedor</h1>
         </header>
         @if(isset($salesman))
-            {!!Form::model($salesman,['route'=>['accont.salesman.update'],'method'=>'PUT','class' => 'form-modern', 'enctype'=>'multipart/form-data'])!!}
+            {!!Form::model($salesman,['route' => ['accont.salesman.update'], 'method' => 'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data'])!!}
         @else
             {!! Form::open(['route' => ['accont.salesman.store'], 'method' => 'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data']) !!}
         @endif
