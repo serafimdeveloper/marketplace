@@ -34,7 +34,7 @@
                                             <span>Código: 0gos8d4</span>
                                             <br>
                                             <br>
-                                            <a class="btn btn-smallextreme btn-popmartin pop-remove-product-cart" href="javascript:void(0)"><i
+                                            <a class="pop-remove-product-cart c-pop" href="javascript:void(0)"><i
                                                         class="fa fa-trash"></i> remover</a>
                                         </div>
                                     </div>

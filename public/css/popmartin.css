@@ -264,6 +264,7 @@
     .pop-store .pop-store-info{padding-bottom: 10px;}
     .pop-store .pop-store-info img{width: 100%; float: none;}
     .pop-store .pop-store-info div{width: 100%; float: none;text-align: center;}
+    .pop-cart-info-product{margin-top: 20px;}
     .pop-cart-info-product thead {display: none;}
     .pop-cart-info-product tr {border-bottom: 1px solid #dddddd;}
     .pop-cart-info-product td {border: 0;}

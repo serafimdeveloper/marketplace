@@ -6,6 +6,10 @@ Route::get('/', function () {
 Route::get('/carrinho', function () {
     return view('pages.cart');
 })->name('pages.cart');
+Route::get('/info/{page}', function ($title) {
+    $data['title'] = $title;
+    return view('pages.dinamic', $data);
+})->name('pages.dinamic');
 
 
 Auth::routes();

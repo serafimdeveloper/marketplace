@@ -68,7 +68,7 @@
                 <li><a href="">como comprar</a></li>
                 <li><a href="">fale conosco</a></li>
                 <li><a href="">termos de uso</a> </li>
-                <li><a href="">políticas de privacidade</a></li>
+                <li><a href="/politicas-de-privacidade">políticas de privacidade</a></li>
             </ul>
         </div>
         <div class="clear-both"></div>
