@@ -65,10 +65,10 @@
         <div class="colbox-2">
             <ul class="nav-footer-last">
                 <li><a href="">monte sua loja</a></li>
-                <li><a href="">como comprar</a></li>
-                <li><a href="">fale conosco</a></li>
-                <li><a href="">termos de uso</a> </li>
-                <li><a href="/politicas-de-privacidade">políticas de privacidade</a></li>
+                <li><a href="/info/como-comprar">como comprar</a></li>
+                <li><a href="/contato">fale conosco</a></li>
+                <li><a href="/info/termos-de-uso">termos de uso</a> </li>
+                <li><a href="/info/politicas-de-privacidade">políticas de privacidade</a></li>
             </ul>
         </div>
         <div class="clear-both"></div>
