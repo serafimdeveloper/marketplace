@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content">
+    <br>
+    <section class="content pop-carousel-home">
         <header class="pop-title">
             <h1>Destaque</h1>
         </header>
         <div class="pop-home-prd owl-carousel">
-        @for ($i = 0; $i < 5; $i++)
+        @for ($i = 0; $i < 20; $i++)
             <article class="modal-product">
                 <ul>
                     <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
@@ -28,12 +29,12 @@
         </div>
         <div class="clear-both"></div>
     </section>
-    <section class="content" style="padding: 0 10px;">
+    <section class="content pop-carousel-home">
         <header class="pop-title">
             <h1>Novidades</h1>
         </header>
-        <div class="pop-home-prd owl-carousel owl-theme owl-loaded">
-            @for ($i = 0; $i < 5; $i++)
+        <div class="pop-home-prd owl-carousel">
+            @for ($i = 0; $i < 20; $i++)
                 <article class="modal-product">
                     <ul>
                         <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
