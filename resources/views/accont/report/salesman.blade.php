@@ -4,7 +4,7 @@
     @include('accont.inc.nav')
     <section class="panel-content">
         <header class="pop-title">
-            <h1>Vendas / Comissões</h1>
+            <h1>{{ (Request::segment(3) == 'users' ? 'Usuários' : 'Vendedores')  }} cadastrado na loja</h1>
         </header>
         <form class="form-modern searh_store" action="javascript:void(0)">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -15,13 +15,13 @@
         <table id="jq-search-table-result" class="table table-action">
             <thead>
             <tr>
-                <th class="t-medium">Pedido</th>
-                <th class="t-medium">Data</th>
-                <th>Cliente</th>
-                <th>Vendedor</th>
+                <th>Nome</th>
+                <th class="t-medium">Loja</th>
+                <th class="t-medium">Local</th>
+                <th class="t-small">Produtos</th>
+                <th class="t-medium">Moip</th>
                 <th class="t-small">Status</th>
-                <th class="t-small">Valor</th>
-                <th class="t-small">Comissão</th>
+                <th class="t-small">Taxa</th>
                 <th class="t-small txt-center"><i class="fa fa-gears"></i></th>
             </tr>
             </thead>
@@ -29,15 +29,17 @@
             <tbody>
             @for($i = 0;$i < 3; $i++)
                 <tr>
-                    <td>#lbcsd769yqob</td>
-                    <td>Ontem às 12:45:85</td>
-                    <td>Antônio Alvez</td>
-                    <td>Loja do juca</td>
-                    <td class="t-active">concluída</td>
-                    <td>R$58,00</td>
-                    <td>R$5.80</td>
+                    <td>Maria Luíza da Silva</td>
+                    <td>Da Juca</td>
+                    <td>Volta Redonda/RJ</td>
+                    <td>5</td>
+                    <td>DonaMaria</td>
+                    <td>ativo</td>
+                    <td>12,00%</td>
                     <td class="txt-center">
-                        <a href="javascript:void(0)" class="t-btn t-edit jq-info-user" data-sales="{{$i}}">detalhes</a>
+                        <a href="javascript:void(0)" class="t-btn t-edit jq-info-user" data-user="{{$i}}">detalhes</a>
+                        <a href="javascript:void(0)" class="t-btn t-edit2 jq-info-user" data-user="{{$i}}">bloquear</a>
+                        <a href="javascript:void(0)" class="t-btn t-remove" data-user="{{$i}}">remover</a>
                     </td>
                 </tr>
             @endfor
