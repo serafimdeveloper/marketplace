@@ -8,8 +8,8 @@
         @for($i = 0; $i < 2; $i++)
             <article class="pop-cart">
                 <h1>Loja do Juca</h1>
-                <div class="">
-                    <table class="table">
+                <div>
+                    <table class="table pop-cart-info-product">
                         <thead>
                         <tr>
                             <th></th>
@@ -36,7 +36,7 @@
                             <td>5 dias</td>
                             <td><label><input type="number" name="" value="1"></label></td>
                             <td class="price">R$ 14,90</td>
-                            <td class="price">R$ 14,90</td>
+                            <td class="price" style="font-weight: bold;">R$ 14,90</td>
                         </tr>
                         <tr>
                             <td>
@@ -54,7 +54,7 @@
                             <td>5 dias</td>
                             <td><label><input type="number" name="" value="1"></label></td>
                             <td class="price">R$ 14,90</td>
-                            <td class="price">R$ 14,90</td>
+                            <td class="price" style="font-weight: bold;">R$ 14,90</td>
                         </tr>
                         </tbody>
                     </table>
@@ -92,7 +92,7 @@
                     <option value="1">endereço 3</option>
                 </select>
             </form>
-             ou &nbsp;
+            <span class="pop-cart-cep-ou">ou</span> &nbsp;
             {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
             <a href="javascript:void(0)" class="btn btn-popmartin">CALCULAR</a>
             <p>Frete referente a (loja do Juca) Valor <span class="fontw-500 c-pop">R$ 18,60</span></p>

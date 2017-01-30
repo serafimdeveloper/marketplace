@@ -85,23 +85,6 @@
 .modal-product .tagline a{color: #1F1F1F;}
 .modal-product .tagline a:hover{text-decoration: underline;}
 
-
-.footer{margin: 0;background-color: #C5040B;border-top: 7px solid #8F1E22;
-    box-shadow: 0 0 5px #000;
-    -moz-box-shadow: 0 0 5px #000;
-    -webkit-box-shadow: 0 0 5px #000;
-}
-.nav-footer-cat > div{margin-bottom: 20px;}
-.nav-footer{text-align: center;}
-.nav-footer a{display: block;padding: 2px 0;font-weight: 400;color: #FFB0B0;}
-.nav-footer a:hover{color: #FFF; text-decoration: underline;}
-.nav-footer-last{float: right;}
-.nav-footer-last li{display: inline-block;border-right: 1px solid #FFF;}
-.nav-footer-last li:last-child{border-right: none;}
-.nav-footer-last a{font-size: 0.9em;display: block;color: #FFF; padding: 3px 5px;margin-right: 3px;}
-.nav-footer-last a:hover{text-decoration: underline;}
-.footer-icons{float: left;}
-
 .btn-purshace{text-align: center;display: inline-block;width: 230px;}
 .btn-purshace span{display: block;margin-top: 5px;font-size: 0.875em;}
 .pop-product figure{padding: 0 10%;}
@@ -190,6 +173,36 @@
 
 #pop-remove-msg{display: none;}
 
+/*******************************************************************
+********************** FIM PAINEL ADMINISTRATIVO *******************
+ ******************************************************************/
+
+.footer{margin: 0;background-color: #C5040B;border-top: 7px solid #8F1E22;
+    box-shadow: 0 0 5px #000;
+    -moz-box-shadow: 0 0 5px #000;
+    -webkit-box-shadow: 0 0 5px #000;
+}
+.nav-footer-cat > div{margin-bottom: 20px;}
+.nav-footer{text-align: center;}
+.nav-footer a{display: block;padding: 2px 0;font-weight: 400;color: #FFB0B0;}
+.nav-footer a:hover{color: #FFF; text-decoration: underline;}
+.nav-footer-last{text-align: center;margin-top: 7px;}
+.nav-footer-last li{display: inline-block;border-right: 1px solid #FFF;margin: 5px 0;}
+.nav-footer-last li:last-child{border-right: none;}
+.nav-footer-last a{font-size: 0.9em;display: block;color: #FFF; padding: 1px 5px;margin-right: 3px;}
+.nav-footer-last a:hover{text-decoration: underline;}
+.pop-footer-info{text-align: center;}
+.pop-footer-info .colbox-2{margin: 10px 0;}
+
+
+/**
+    Reescrita terceira
+ */
+.form-modern .alert{position: absolute;bottom: 0;right: 10px;padding: 1px 6px;background-color: red;color: #FFF;}
+.hidden{display: none;}
+
+/** RESPONSIVIDADE */
+
 @media(max-width: 69em){ /*1024px */
     .pop-logo{top: 5px;padding: 0;min-width: inherit;width: 60px; height: 45px;}
     .pop-ads{width: 100%;float: left;margin: 20px 0;}
@@ -226,6 +239,10 @@
     .pop-store .pop-store-info{padding-bottom: 20%;}
     .pop-store .pop-store-info img{width: 20%; float: left;}
     .pop-store .pop-store-info div{width: 79%; float: right; text-align: left;margin-top: 1%;}
+    .pop-cart-info-product td{text-align: center !important;}
+    .pop-cart-info-product .coltable-4{width: 100%;}
+    .pop-cart-info-product .coltable-8{width: 100%;}
+    .pop-cart .table .price{font-size: 1em;}
 }
     @media(max-width: 48.375em){ /*774px */
     .pop-ads img{vertical-align: -50%;}
@@ -237,16 +254,26 @@
     .pop-store .pop-store-info{padding-bottom: 10px;}
     .pop-store .pop-store-info img{width: 100%; float: none;}
     .pop-store .pop-store-info div{width: 100%; float: none;text-align: center;}
+    .pop-cart-info-product thead {display: none;}
+    .pop-cart-info-product tr {border-bottom: 1px solid #dddddd;}
+    .pop-cart-info-product td {border: 0;}
+    .pop-cart-info-product td:not(:first-child) {display: block;}
 }
 @media(max-width: 31.25em){ /*500px */
     .pop-ads img{width: 40%; vertical-align: middle !important;}
     .pop-ads p{width: 58%;}
     .pop-ads{width: 60%;margin: 0 20%;}
+    .pop-cart-cep{text-align: center;}
+    .pop-cart-cep-ou{display: block;margin-bottom: 10px;}
+    .pop-cart-cep input{text-align: center;}
+    .pop-cart-cep .btn{margin-top: 10px;width: 80%;}
+}
+@media(max-width: 25em) { /*400px */
+    .nav-footer-cat .colbox-5{width: 48% !important;margin-right: 0 !important;}
+    .pop-footer-info h2{font-size: 1.2em;}
 }
 
-.form-modern .alert{position: absolute;bottom: 0;right: 10px;padding: 1px 6px;background-color: red;color: #FFF;}
-.hidden{display: none;}
-
+/** VOOLTAR RESPONSIVIDADE */
 @media(min-width: 56.25em){ /*900px */
     .pop-top-nav{display: block !important;}
     .pop-nav-content .nav{display: inline-block !important;}
