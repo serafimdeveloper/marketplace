@@ -56,9 +56,9 @@
 
 .pop-nav-main{float: left;width: 100%;height: 20px;position: relative;border-bottom: 2px solid #b3bdd0;text-align: center;}
 .pop-nav-content{position: absolute; width: 100%;text-align: center;}
-.pop-nav-content ul{display: inline-block;background-color: #DA4453;border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;padding: 0;background-color: #DA4453;}
+.pop-nav-content ul{margin-top: 5px;display: inline-block;background-color: #DA4453;border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;padding: 0;background-color: #DA4453;}
 .pop-nav-content li{float: left;padding: 0; margin: 0;border-right: 1px solid #FFF;}
-.pop-nav-content a{display: block; padding: 10px 15px;color: #FFF;}
+.pop-nav-content a{display: block; padding: 5px 10px;color: #FFF;}
 .pop-nav-content li:hover{background-color: #ac2925;}
 .pop-nav-content li:first-child{border-radius: 5px 0 0 5px;-webkit-border-radius: 5px 0 0 5px;-moz-border-radius: 5px 0 0 5px;}
 .pop-nav-content li:last-child{border-right-color: transparent;border-radius: 0 5px 5px 0;-webkit-border-radius: 0 5px 5px 0;-moz-border-radius: 0 5px 5px 0;}
@@ -77,7 +77,7 @@
 .modal-product ul li{display: inline-block;width: 31.5%;}
 .modal-product ul a{color: #000;display: block;font-size: 1.6em;text-align: center;}
 .modal-product header{padding: 2px 5px;}
-.modal-product figure{position: relative;border: 1px solid #BDBDBD;border-radius: 5px;}
+.modal-product figure{position: relative;border: 1px solid #BDBDBD;border-radius: 5px; text-align: center;}
 .modal-product img{padding: 5px;}
 .modal-product figcaption{position: absolute;bottom:0;left:0; width:100%; padding: 7px 10px;text-align: right; font-weight: 700;font-size: 1.4em;color: #B40004;background-color: rgba(255,255,255,0.8);}
 .modal-product h2{border: none; font-size: 1em; margin: 0;padding: 3px 0;}
@@ -140,6 +140,10 @@
 .pop-cart-total{margin-bottom: 50px;border-top: 1px solid #E0E0E0;padding: 20px 10px;}
 .pop-cart-total p{font-size: 1.6em;font-weight: bold;}
 
+.pop-store .pop-store-products{padding: 0 20px;}
+.pop-store-info{text-align: center;padding: 10px;background-color: #E0E0E0;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px;}
+.pop-store-info img{width: 100%;max-width: 250px;}
+
 /*******************************************************************
 ************************PAINEL ADMINISTRATIVO**********************
  ******************************************************************/
@@ -199,6 +203,7 @@
     .pop-ads img{vertical-align: middle;}
 }
 @media(max-width: 56.25em){ /*900px */
+
     .pop-top-header{}
     .pop-top-nav{display: none;position: absolute;left: 0;top: 58px;z-index:3;text-align: center;z-index: 10;
         -webkit-box-shadow: 2px 2px 2px #000;
@@ -215,11 +220,23 @@
 
     .nav li{float: inherit;width: 100%;border-bottom: 1px solid #E08282;}
 }
-@media(max-width: 48.375em){ /*774px */
+@media(max-width: 50em){ /* 800 */
+    .pop-store .coltable-3{width: 100%;}
+    .pop-store .coltable-9{width: 100%;}
+    .pop-store .pop-store-info{padding-bottom: 20%;}
+    .pop-store .pop-store-info img{width: 20%; float: left;}
+    .pop-store .pop-store-info div{width: 79%; float: right; text-align: left;margin-top: 1%;}
+}
+    @media(max-width: 48.375em){ /*774px */
     .pop-ads img{vertical-align: -50%;}
 }
 @media(max-width: 37.5em){ /*600px */
     .pop-ads{width: 80% !important; margin: 0 10% !important;}
+}
+@media(max-width: 36.25em){ /*580px */
+    .pop-store .pop-store-info{padding-bottom: 10px;}
+    .pop-store .pop-store-info img{width: 100%; float: none;}
+    .pop-store .pop-store-info div{width: 100%; float: none;text-align: center;}
 }
 @media(max-width: 31.25em){ /*500px */
     .pop-ads img{width: 40%; vertical-align: middle !important;}

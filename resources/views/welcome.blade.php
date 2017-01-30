@@ -38,13 +38,13 @@
                     <ul>
                         <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
                         <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
-                        <li><a href="javascript:void(0)"><i class="fa fa-shopping-bag"></i></a></li>
+                        <li><a href="javascript:void(0)"><i class="fa fa-cart-plus"></i></a></li>
                     </ul>
                     <figure>
                         <img src="{{ url('imagem/produto/camisa.jpg?w=350&h=350&fit=crop') }}" alt="[]" title="">
                         <figcaption>R$ 24,90</figcaption>
-                        <span class="frete"></span>
-                        <span class="descont"></span>
+                        <span class="modal-product-frete"></span>
+                        <span class="modal-product-descont"></span>
                     </figure>
                     <header>
                         <h2><a href="/juca/produto/nome-produto">Produto X customizado...</a></h2>
