@@ -20,7 +20,7 @@
                 <header class="pop-title">
                     <h1>Produtos - nome da loja</h1>
                 </header>
-                <div class="pop-home-prd colbox">
+                <div class="colbox">
                     @for ($i = 0; $i < 5; $i++)
                         <div class="colbox-4">
                             <article class="modal-product">
