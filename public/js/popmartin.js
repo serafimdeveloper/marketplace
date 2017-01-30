@@ -101,9 +101,9 @@ $(function () {
     /**
      * Procura de loja em tempo real no painel
      */
-    $(".searh_store input[name=search_store]").keyup(function () {
+    $(".jq-input-search").keyup(function () {
         var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
-        var implementTr = $('#pop-searchStore tbody');
+        var implementTr = $('#jq-search-table-result tbody');
         $.ajax({
             url: '/accont/searchstore',
             data: data,
@@ -275,6 +275,9 @@ $(function () {
         $(this).parents('form').hide().siblings('.show-formobs').show();
     });
     $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
+});
+$(document).on('click', '.jq-info-user', function(){
+    $("#jq-info-user").slideDown();
 });
 
 // $(document).on('click', '.pop-remove-product-cart', function(){

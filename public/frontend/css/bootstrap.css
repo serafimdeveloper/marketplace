@@ -317,6 +317,8 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .table .t-btn{margin: 4px 0;}
 .table .t-edit{color: green !important; border: 1px solid green; padding: 2px;}
 .table .t-edit:hover{background-color: green; color: #FFF !important;}
+.table .t-edit2{color: blue !important; border: 1px solid blue; padding: 2px;}
+.table .t-edit2:hover{background-color: blue; color: #FFF !important;}
 .table .t-remove{color: red !important; border: 1px solid red; padding: 2px;}
 .table .t-remove:hover{background-color: red; color: #FFF !important;}
 
@@ -328,13 +330,13 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .clear-both{clear: both;}
 .vertical-middle{vertical-align: middle;}
 
-.accordion{padding: 20px;}
+.accordion{padding: 10px 20px;}
 .accordion .accordion-box{margin: 10px 0;}
-.accordion .accordion-header{padding: 20px; border: 1px solid #95a5a6;border-bottom-color: #d7e0e2;cursor: pointer;background-color: #FFFFFF;color: #333333;
+.accordion .accordion-header{padding: 15px; border: 1px solid #95a5a6;border-bottom-color: #d7e0e2;cursor: pointer;background-color: #FFFFFF;color: #333333;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;}
-.accordion .accordion-header .icon{float: right;}
+.accordion .accordion-header .fa{float: right;}
 .accordion .accordion-content{display: none;padding: 10px 30px;border: 1px solid #95a5a6;border-top-color: transparent;background-color: #FFF;
     -webkit-border-radius: 0 0 6px 6px;
     -moz-border-radius: 0 0 6px 6px;
