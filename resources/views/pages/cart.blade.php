@@ -113,8 +113,16 @@
         </div>
         <br>
         <div class="pop-cart-total">
-            <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">R$ 24,60</span></p>
-            <a href="" class="btn btn-green">FINALIZAR PEDIDO</a>
+            <div class="colbox">
+                <div class="colbox-2 txt-left">
+                    <a href="" class="btn btn-popmartin">CONTINUAR COMPRANDO</a>
+                </div>
+                <div class="colbox-2">
+                    <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">R$ 24,60</span></p>
+                    <a href="" class="btn btn-green">FINALIZAR PEDIDO</a>
+                </div>
+            </div>
+            <div class="clear-both"></div>
         </div>
     </section>
     <div class="bs-dialog radius-small" title="Enviar observação para LOJA DO JUCA"></div>

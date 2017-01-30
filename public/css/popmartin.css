@@ -253,6 +253,7 @@
     .pop-cart-info-product .coltable-8{width: 100%;}
     .pop-cart .table .price{font-size: 1em;}
     .pop-cart-subtotal .colbox .colbox-2:first-of-type{text-align: right;margin-bottom: 20px;}
+    .pop-cart-total .colbox .colbox-2{text-align: center !important;margin: 20px 0;}
 }
     @media(max-width: 48.375em){ /*774px */
     .pop-ads img{vertical-align: -50%;}
