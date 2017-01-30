@@ -4,6 +4,34 @@
 $(function () {
 
 
+    var owlAds = {
+        loop: true,
+        margin: 30,
+        responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}},
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: false,
+    }
+    $(".pop-ads").owlCarousel(owlAds);
+
+    var owlHomeProducts = {
+        loop: true,
+        margin: 30,
+        nav: true,
+        navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
+        dots: false,
+        responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}},
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: false,
+    }
+    $(".pop-home-prd").owlCarousel(owlHomeProducts);
+
+
+    /**
+     * Alert Dialog Systen
+     * @type {{open: boolean, width: string, maxWidth: number, description: boolean, type: string}}
+     */
     var obsrequest = {
         open: true,
         width: '80%',
@@ -14,23 +42,8 @@ $(function () {
     $('.obsRequest').on('click', function () {
         $(this).bsdialog(obsrequest);
     });
-
-
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
-
-    /**
-     * Estilização dos banners de anúncios usando o plugin owlCarousel
-     */
-    $(".owl-carousel").owlCarousel({
-        loop: true,
-        margin: 30,
-        responsive: {0: {items: 1}, 400: {items: 2}, 600: {items: 3}, 700: {items: 4}, 900: {items: 5}},
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayHoverPause: false,
-    });
-
 
     /**
      * Verifica os input segundo as regras atribuídas e para a escução caso haja um submit
@@ -89,7 +102,7 @@ $(function () {
      * Procura de loja em tempo real no painel
      */
     $(".searh_store input[name=search_store]").keyup(function () {
-        var data = '_token='+$('input[name=_token]').val()+'&name=' + $(this).val();
+        var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
         var implementTr = $('#pop-searchStore tbody');
         $.ajax({
             url: '/accont/searchstore',
@@ -255,14 +268,36 @@ $(function () {
         $("#img-product").attr('src', newSrc);
     });
 
-    $('.show-formobs').click(function(){
+    $('.show-formobs').click(function () {
         $(this).hide().siblings('form').show().find('textarea').focus();
     });
-    $('.pop-cart-obs form a').click(function(){
+    $('.pop-cart-obs form a').click(function () {
         $(this).parents('form').hide().siblings('.show-formobs').show();
     });
     $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
 });
+
+// $(document).on('click', '.pop-remove-product-cart', function(){
+//     var pr = $(this).parents("tr");
+//     var countProducts = $("#jq-count-product");
+//     var prId = pr.attr('id');
+//     var prThis = pr.parents('tbody').find('tr').length;
+//
+//
+//     console.log(prThis);
+
+    // $.get('', {product_id: prId}, function (response) {
+    //     if(response.status === true){
+    //         countProducts.text((parseInt(countProducts.text() - 1) >= 0 ? parseInt(countProducts.text() - 1) : 0));
+    //         if (prThis > 1) {
+    //             pr.slideUp().remove('');
+    //         } else {
+    //             pr.parents('.pop-cart').slideUp().html('');
+    //         }
+    //     }
+    // }, "json");
+// });
+
 
 /**
  * verivica se um determinado grupo de mensagens de array estão checados(marcados) ou não

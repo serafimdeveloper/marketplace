@@ -7,6 +7,9 @@ Route::get('/carrinho', function () {
     return view('pages.cart');
 })->name('pages.cart');
 
+Route::get('/contato', function () {
+    return view('pages.contact');
+})->name('pages.contact');
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
@@ -121,6 +124,11 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('adresses/zip_code/{zip}','Accont\AdressesController@search_cep')->name('accont.adress.zip_code');
 
 });
+Route::get('/info/{page}', function ($title) {
+    $data['title'] = $title;
+    return view('pages.dinamic', $data);
+})->name('pages.dinamic');
+
 Route::get('/imagem/{path}', function(\League\Glide\Server $server, $path){
     $server->outputImage($path, $_GET);
 })->where('path', '.*');

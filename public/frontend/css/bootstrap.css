@@ -487,10 +487,10 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
     .accordion-box .padding40{padding: 10px;}
 }
 @media(max-width: 30em) {  /* 480px */
-    .table-action thead {display: none;}
-    .table-action tr {border-bottom: 1px solid #dddddd;}
-    .table-action td {border: 0;}
-    .table-action td:not(:first-child) {display: block;}
+    .table thead {display: none;}
+    .table tr {border-bottom: 1px solid #dddddd;}
+    .table td {border: 0;}
+    .table td:not(:first-child) {display: block;}
 }
 @media(max-width: 25em) {  /* 400px */
     .colbox-5{width: 100% !important; margin-right: 0 !important;}

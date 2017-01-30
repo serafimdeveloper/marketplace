@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="content">
-        <ul class="segment-menu">
-            <li><a href="">Home</a></li>
-            <li><a href=""></a></li>
-        </ul>
+        {{--<ul class="segment-menu">--}}
+            {{--<li><a href="">Home</a></li>--}}
+            {{--<li><a href=""></a></li>--}}
+        {{--</ul>--}}
     </div>
     <section class="content pop-product">
         <div class="colbox">
@@ -38,7 +38,7 @@
                         </div>
                         <div class="colbox-2 txt-center">
                             <div class="btn-purshace">
-                                <a class="btn btn-popmartin" href="" title="">COMPRAR</a>
+                                <a class="btn btn-popmartin" href="/carrinho" title="">COMPRAR</a>
                                 <span>30 peça(s) disponível(veis)Prazo de 2 dias para envio</span>
                             </div>
                         </div>
