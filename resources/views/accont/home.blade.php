@@ -8,7 +8,7 @@
                 <header class="pop-title">
                     <h1>Dados do Usuários</h1>
                 </header>
-                  {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern'])!!}
+                  {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                     <label>
                         <span>Nome</span>
                         {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
@@ -56,7 +56,7 @@
             <div class="colbox-2">
                 <header class="pop-title">
                     <h1>Endereços</h1>
-                    <span class="btn btn-smallextreme btn-blue jq-address"><i class="fa fa-plus vertical-middle"></i> novo</span>
+                    <span class="btn btn-smallextreme btn-popmartin jq-address"><i class="fa fa-plus vertical-middle"></i> novo</span>
                 </header>
                 <div id="group-pnl-end">
                 @forelse($user->adresses as $adress)
@@ -70,7 +70,7 @@
                     </div>
                 @empty
                         <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereços cadastrado</p>
-                    <p class="txt-center"><a href="javascript:void(0)" class="btn btn-blue jq-address">cadastrar um endereço</a></p>
+                    <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address">cadastrar um endereço</a></p>
 
                 @endforelse
                 </div>

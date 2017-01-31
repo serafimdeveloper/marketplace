@@ -7,9 +7,13 @@
             <h1>Minhas informações de Vendedor</h1>
         </header>
         @if(isset($salesman))
+<<<<<<< HEAD
             {!!Form::model($salesman,['url' => '/accont/salesman/update', 'method' => 'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data'])!!}
+=======
+            {!!Form::model($salesman,['route'=>['accont.salesman.update'],'method'=>'PUT','class' => 'form-modern pop-form', 'enctype'=>'multipart/form-data'])!!}
+>>>>>>> bce18fe29dae55b5652124c4ac0127862a822b3e
         @else
-            {!! Form::open(['route' => ['accont.salesman.store'], 'method' => 'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data']) !!}
+            {!! Form::open(['route' => ['accont.salesman.store'], 'method' => 'POST', 'class' => 'form-modern pop-form', 'enctype'=>'multipart/form-data']) !!}
         @endif
             <div class="colbox">
                 <div class="colbox-2">

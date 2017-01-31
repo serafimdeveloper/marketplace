@@ -104,14 +104,10 @@ function maskInt(t) {
     t.value = num;
 }
 
-$(document).on("click", ".alertbox-close", function () {
-    $(this).parents(".alertbox").hide(600);
-});
-
 /*
  * EFEITO ACCORDION INPLEMENTAÇÂO
  * */
-$(document).on("click", ".accordion-box .accordion-header", function (e) {
+$(document).on("click", ".accordion-box .accordion-header", function () {
     if ($(".accordion-box .accordion-content").not($(this).siblings(".accordion-content")).is(":visible")) {
         $(".accordion-box .accordion-content").slideUp(600);
     }
@@ -189,9 +185,24 @@ var masks = {
 }
 /**
  * Estização para checkbox de formulário
- * @param e
+ * <b>Exemplo:</b>
+ *  <div class="checkbox-container padding10">
+ *      <span>Cores</span>
+ *      <div class="checkboxies">
+ *          <label class="checkbox" style="border: none;">
+ *             <span><span class="fa fa-circle-o"></span> Red</span>
+ *             <input type="checkbox" name="cor[]" value="red">
+ *         </label>
+ *         <label class="checkbox" style="border: none;">
+ *              <span><span class="fa fa-circle-o"></span> Black</span>
+ *              <input type="checkbox" name="cor[]" value="black">
+ *          </label>
+ *      </div>
+ *  </div>
+ *
  */
-function checkBox(e) {
+function checkBox() {
+    var e = $(this);
     if (e.is(":checked")) {
         e.siblings('span').find('span').attr("class", "fa fa-check-square-o").css({color: '#4CAF50'});
     } else {
@@ -201,9 +212,24 @@ function checkBox(e) {
 
 /**
  * Estização para checkbox de formulário
- * @param e object html DOM
+ * <b>Exemplo:</b>
+ *  <div class="checkbox-container padding10">
+ *      <span>Gênero</span>
+ *      <div class="checkboxies">
+ *          <label class="radio" style="border: none;">
+ *             <span><span class="fa fa-circle-o"></span> masculino</span>
+ *             <input type="radio" name="genero" value="M">
+ *         </label>
+ *         <label class="radio" style="border: none;">
+ *              <span><span class="fa fa-circle-o"></span> feminino</span>
+ *              <input type="radio" name="genero" value="F">
+ *          </label>
+ *      </div>
+ *  </div>
  */
-function radiobox(e) {
+function radiobox() {
+    // var e = (e == 'undefined' ? $(this) : e);
+    var e = $(this);
     if (e.is(":checked")) {
         $("input[type=radio]").each(function () {
             if ($(this).attr('name') == e.attr('name')) {
@@ -233,11 +259,39 @@ function windowToggle(e, selector) {
     });
 }
 
+/**
+ * Função para limitar quantidades de caracteres em um campo qualquer
+ * estrutura básica:
+ * <b>Exemplo:</b>
+ *  <label>
+ *      <textarea id="comments-limit" class="limiter-textarea" name="message" rows="4" maxlength="500"></textarea>
+ *      <span class="limiter-result" for="comments-limit">limite de 500 caracteres</span>
+ *  </label>
+ */
+function limiter() {
+    var idElement = $(this).attr('id');
+    var limiter = '';
+    $(".limiter-result").each(function () {
+        if ($(this).attr('for') === idElement) {
+            limiter = $(this);
+            return false;
+        }
+    });
+
+    var max_limit = parseInt($(this).attr('maxlength'));
+    var r = parseInt(max_limit - $(this).val().length);
+    if (r <= 0) {
+        $(this).val($(this).val().substr(0, (max_limit - 1)));
+        r = '<span style="color: red;">limite de caracteres alcançado!</span>';
+    }
+    limiter.html(r);
+}
+
+$(document).on('keyup', '.limiter-textarea', limiter);
 $(document).on("keypress", ".masksMoney", masks.money);
-$(document).on("click", ".form-modern .checkbox input[type=checkbox]", function(){checkBox($(this))});
-$(document).on("click", ".form-modern .radio input[type=radio]", function(){
-    radiobox($(this))
-});
+$(document).on("click", ".form-modern .checkbox input[type=checkbox]", checkBox);
+$(document).on("click", ".form-modern .radio input[type=radio]", radiobox);
+$(document).on("click", ".alertbox-close", function () {$(this).parents(".alertbox").hide(600);});
 
 
 

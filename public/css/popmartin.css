@@ -173,12 +173,12 @@
 .table-action a{display: block;font-size: 1.1em;color: #000;}
 
 .pop-tracking{margin-top: -10px;}
-.pop-tracking button{position: absolute; right: 30px; bottom: 25px;}
+.pop-tracking button{position: absolute; right: 30px; bottom: 26px;}
 
 .selects_people{display: none;}
 
 #pop-remove-msg{display: none;}
-
+.limiter-result{float: right; color: #B40004;font-weight: bold !important;}
 /*******************************************************************
 ********************** FIM PAINEL ADMINISTRATIVO *******************
  ******************************************************************/
@@ -209,6 +209,11 @@
 .owl-nav i{font-size: 1.6em;font-weight: bold; color: #B40004;}
 .owl-nav .owl-prev{position: absolute; top: 40%; left: -25px;}
 .owl-nav .owl-next{position: absolute; top: 40%; right: -25px;}
+.trigger{padding: 10px 20px;text-align: center;}
+.trigger.accept{background-color: #1E820E;color: #FFF;border: none;}
+.trigger.warning{background-color: #FBC02D;color: #FFF;border: none;}
+.trigger.notice{background-color: #1565C0;color: #FFF;border: none;}
+.trigger.error{background-color: #EF5350;color: #FFF;border: none;}
 
 /** RESPONSIVIDADE */
 

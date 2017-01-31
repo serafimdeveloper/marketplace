@@ -13,12 +13,16 @@
             </label>
             <div class="coltable">
                 <div class="coltable-3">
-                    <div id="preview_img1" class="prevImg"><img src="{{ url('image/img-exemple.jpg') }}"></div>
+                    <div id="preview_img0" class="prevImg"><img src="{{ url('image/img-exemple.jpg') }}"></div>
                 </div>
                 <div class="coltable-9">
                     <label>
                         <div class="file" style="margin-top: 2.5%;">
+<<<<<<< HEAD
                             {!! Form::file('image_master', ['data-preview' => '1', 'onchange' => 'previewFile($(this))']) !!}
+=======
+                            {!! Form::file('image[]', ['data-preview' => '0', 'onchange' => 'previewFile($(this))']) !!}
+>>>>>>> bce18fe29dae55b5652124c4ac0127862a822b3e
                             <input type="text" placeholder="informe aqui a imagem principal deste produto">
                             <button type="button" class="btn btn-orange">Imagem</button>
                             <div class="clear-both"></div>
@@ -97,10 +101,10 @@
                     <label>
                         <span>Estoque mínimo <i class="fa fa-info-circle c-blue tooltip"
                                                 title="Informações sobre este assunto"></i></span>
-                        {!! Form::text('minimum_tock', null, ['placeholder' => '0', 'class' => 'masksMoney']) !!}
+                        {!! Form::text('minimum_tock', null, ['placeholder' => '0', 'onkeyup' => 'maskInt(this)']) !!}
                     </label>
                 </div>
-                @if (Request::segment(3))
+                @if (Request::segment(4))
                     <div class="colbox-3">
                         <label>
                             <span>Movimentação de estoque <i class="fa fa-info-circle c-blue tooltip"
@@ -140,25 +144,25 @@
                 <div class="colbox-4">
                     <label>
                         <span>Altura (cm)</span>
-                        {!! Form::text('diameter_cm', null, ['placeholder' => '0']) !!}
+                        {!! Form::text('diameter_cm', null, ['placeholder' => '0', 'class' => 'masksMoney']) !!}
                     </label>
                 </div>
                 <div class="colbox-4">
                     <label>
                         <span>Preso (gramas)</span>
-                        {!! Form::text('weight_gr', null, ['placeholder' => '0']) !!}
+                        {!! Form::text('weight_gr', null, ['placeholder' => '0', 'class' => 'masksMoney']) !!}
                     </label>
                 </div>
             </div>
             <div class="clear-both"></div>
             <br>
 
-            @if (Request::segment(3))
+            @if (Request::segment(4))
                 <p class="c-pop fontw-500">Galeria de imagens deste produto
                     <i class="fa fa-info-circle c-blue tooltip" title="Informações sobre este assunto"></i>
                 </p>
                 <div class="colbox">
-                    @for ($i = 2; $i < 6; $i++)
+                    @for ($i = 1; $i < 5; $i++)
                         <div class="colbox-4">
                             <p class="c-blue fontw-500">Imagem {{$i}}</p>
                             <div class="txt-center">

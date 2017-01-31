@@ -32,12 +32,12 @@
                         <td><a href="/loja/nome/categoria/produto" class="fontem-12" target="_blank">produto X</a></td>
                         <td>1</td>
                         <td><span class="fontem-12">R$14,90</span></td>
-                        <td class="t-active bold"><span class="fontem-12">R$14,90</span></td>
+                        <td class="bold"><span class="fontem-12">R$14,90</span></td>
                     </tr>
                 @endfor
                 <tr>
-                    <td colspan="4">Total</td>
-                    <td class="t-active bold"><span class="fontem-18 fontw-800">R$42,80</span></td>
+                    <td>Total</td>
+                    <td class="bold" colspan="4" style="text-align: right;"><span class="fontem-18 fontw-800">R$42,80</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -58,12 +58,12 @@
                         <span>Maria da Silva Pereira</span><br>
                         <span>46560-000 (BA)</span><br>
                     </td>
-                    <td class="t-active bold"><span class="fontem-12">R$14,90</span></td>
+                    <td class="bold"><span class="fontem-12">R$14,90</span></td>
                 </tr>
                 </tbody>
             </table>
             <hr>
-            <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-green fontw-900">R$74,80</span></p>
+            <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-pop fontw-900">R$74,80</span></p>
         </div>
     </section>
     <div class="clear-both"></div>

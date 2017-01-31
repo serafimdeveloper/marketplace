@@ -10,11 +10,15 @@
                 ver loja
             </a>
         </header>
+<<<<<<< HEAD
         @if(isset($store))
             {!!Form::model($store,['route'=>['accont.salesman.stores.update'], 'method'=>'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data'])!!}
         @else
             {!! Form::open(['route' => ['accont.salesman.stores.store'], 'method' => 'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data']) !!}
         @endif
+=======
+        <form class="form-modern pop-form">
+>>>>>>> bce18fe29dae55b5652124c4ac0127862a822b3e
             <div class="colbox">
                 <div class="colbox-2">
                     <label>

@@ -206,13 +206,13 @@ $(function () {
      * Modelo de container aprecer conforme clique menu
      */
     $(".select_type_sallesman input").on("click", function () {
-        radiobox($(this));
         $(".selects_people:visible").slideUp();
         if ($(this).val() === 'F') {
             $('.select_cpf').slideDown();
         } else {
             $('.select_cnpj').slideDown();
         }
+        callback(radiobox);
         return false;
     });
 
@@ -279,6 +279,7 @@ $(function () {
 $(document).on('click', '.jq-info-user', function(){
     $("#jq-info-user").slideDown();
 });
+
 
 // $(document).on('click', '.pop-remove-product-cart', function(){
 //     var pr = $(this).parents("tr");

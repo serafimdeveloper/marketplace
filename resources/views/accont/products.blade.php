@@ -35,11 +35,10 @@
             @endfor
             </tbody>
         </table>
-        {{--<p><span class="btn btn-small btn-blue fl-right" style="font-size:1em;"><i class="fa fa-plus vertical-middle"></i> adicionar novo produto</span></p>--}}
     </section>
     <div class="txt-right">
-        <a href="/accont/product" class="btn btn-small btn-popmartin"><i class="fa fa-plus vertical-middle"></i> adicionar novo produto</a>
+        <a href="/accont/salesman/product" class="btn btn-small btn-popmartin"><i class="fa fa-plus vertical-middle"></i> adicionar novo produto</a>
     </div>
-
+    <br>
     <div class="clear-both"></div>
 @endsection
