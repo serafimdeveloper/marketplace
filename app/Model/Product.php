@@ -3,21 +3,29 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
 
-class Product extends Model implements SluggableInterface
+
+class Product extends Model
 {
     protected  $fillable = ['store_id','category_id','subcategory_id','name','price','price_out_discount','deadline',
-        'free_shippping','minimum_stock','delivery_time','details','length_cm','width_cm','height_cm','weight_gr',
+        'free_shippping','minimum_stock','delivery_time','details','length_cm','width_cm','height_cm','weight_gr','slug',
         'diameter_cm','active','featured'];
 
-    use SluggableTrait;
+    use Sluggable;
 
-    protected $sluggable = [
-        'build_from' => 'name',
-        'save_to' => 'slug'
-    ];
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable(){
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
     public function store(){
         return $this->belongsTo(Store::class);

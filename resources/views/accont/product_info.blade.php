@@ -18,7 +18,7 @@
                 <div class="coltable-9">
                     <label>
                         <div class="file" style="margin-top: 2.5%;">
-                            {!! Form::file('image[]', ['data-preview' => '1', 'onchange' => 'previewFile($(this))']) !!}
+                            {!! Form::file('image_master', ['data-preview' => '1', 'onchange' => 'previewFile($(this))']) !!}
                             <input type="text" placeholder="informe aqui a imagem principal deste produto">
                             <button type="button" class="btn btn-orange">Imagem</button>
                             <div class="clear-both"></div>

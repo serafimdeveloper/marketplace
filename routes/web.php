@@ -49,9 +49,7 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::post('/salesman/stores', 'Accont\StoresController@store')->name('accont.salesman.stores.store');
     Route::post('/salesman/update', 'Accont\StoresController@update')->name('accont.salesman.stores.update');
 
-    Route::get('/salesman/products', function(){
-        return view('accont.products');
-    })->name('accont.salesman.products');
+    Route::get('/salesman/products', 'Accont\Salesmans\ProductsController@index')->name('accont.salesman.products');
 
     Route::get('/salesman/product', function(){
         return view('accont.product_info');

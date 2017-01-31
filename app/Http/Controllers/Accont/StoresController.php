@@ -12,6 +12,7 @@ use App\Http\Controllers\AbstractController;
 use App\Repositories\Accont\StoresRepository;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\Storage;
 
 class StoresController extends AbstractController
 {
@@ -77,7 +78,8 @@ class StoresController extends AbstractController
         $this->validate($request, $validate);
         $dados = $request->except('logo_file');
         if($request->hasFile('logo_file')){
-            $dados['logo_file'] = $this->upload($request->logo_file,storage_path('imagem/loja'),'L'.$store->id.'V'.$user->salesman->id.'U'.$user->id);
+            Storage::delete('imagem/loja'.$store->logo_file);
+            $dados['logo_file'] = $this->upload($request->logo_file,storage_path('app/imagem/loja'),'L'.$store->id.'V'.$user->salesman->id.'U'.$user->id);
         }
         if($this->repo->update($dados,$store->id)){
             flash('Loja atualizada com sucesso!', 'accept');
