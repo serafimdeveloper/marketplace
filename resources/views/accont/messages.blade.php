@@ -24,7 +24,7 @@
                     <td><label><input type="checkbox" class="select_msg" name="msg" value="{{$i}}"></label></td>
                     <td>Luíz Fernando</td>
                     <td><a href="/accont/messages/1">Alguma informação sobre esta mensagem...</a></td>
-                    <td class="txt-center">hoje ás 10:25:14</td>
+                    <td>hoje ás 10:25:14</td>
                     <td class="t-active"></td>
                 </tr>
             @endfor
@@ -32,7 +32,7 @@
                 <td><label><input type="checkbox" class="select_msg" name="msg" value="13"></label></td>
                 <td>Luíz Fernando</td>
                 <td><a href="/accont/messages/1">Alguma informação sobre esta mensagem...</a></td>
-                <td class="txt-center">hoje ás 10:25:14</td>
+                <td>hoje ás 10:25:14</td>
                 <td class="t-active">respondida</td>
             </tr>
             </tbody>

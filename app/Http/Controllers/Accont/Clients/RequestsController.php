@@ -1,28 +1,27 @@
 <?php
 namespace App\Http\Controllers\Accont\Clients;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AbstractController;
 use App\Repositories\Accont\RequestsRepository;
 use Auth;
 
-class RequestsController extends Controller
+class RequestsController extends AbstractController
 {
-    protected $repo, $user;
-
-    public function __construct(RequestsRepository $repo)
+    public function repo()
     {
-        $this->repo = $repo;
-        $this->user = Auth::User();
+        return RequestsRepository::class;
     }
 
     public function index(){
-        $requests = $this->repo->all(null,null,['user_id'=>$this->user->id]);
+        $user = Auth::User();
+        $requests = $this->repo->all($this->columns,$this->with,['user_id'=>$user->id]);
         return view('accont.requests', compact('requests'));
     }
 
     public function show($id){
-        $request = $this->repo->get($id);
-        return view('accont.request_info', compact('request'));
+        #$request = $this->repo->get($id);
+        return view('accont.request_info');
     }
+
 
 }

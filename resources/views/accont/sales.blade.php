@@ -26,7 +26,7 @@
                     <td>R$ 25,00</td>
                     <td>Maria da Silva</td>
                     <td class="t-status t-active">concuído</td>
-                    <td class="txt-center"><a href="/accont/sale/1" class="btn btn-popmartin">detalhes</a></td>
+                    <td class="txt-center"><a href="/accont/salesman/sale/1" class="t-popmartin">detalhes</a></td>
                 </tr>
                 <tr>
                     <td>#125875</td>
@@ -34,7 +34,7 @@
                     <td>R$ 25,00</td>
                     <td>Maria da Silva</td>
                     <td class="t-status t-scheduled">esperando envio</td>
-                    <td class="txt-center"><a href="/accont/sale/1" class="btn btn-popmartin">detalhes</a></td>
+                    <td class="txt-center"><a href="/accont/salesman/sale/1" class="t-popmartin">detalhes</a></td>
                 </tr>
             @endfor
             </tbody>

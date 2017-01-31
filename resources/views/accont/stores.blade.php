@@ -10,7 +10,7 @@
                 ver loja
             </a>
         </header>
-        <form class="form-modern">
+        <form class="form-modern pop-form">
             <div class="colbox">
                 <div class="colbox-2">
                     <label>

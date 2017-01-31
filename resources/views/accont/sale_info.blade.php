@@ -17,7 +17,7 @@
                     </p>
                 </div>
                 <div class="colbox-2">
-                    <form class="form-modern pst-relative pop-tracking" action="" method="POST">
+                    <form class="form-modern pop-form pst-relative pop-tracking" action="" method="POST">
                         <label>
                             <span>Código de rastreio dos correios</span>
                             {!! Form::text('tracking', null, ['placeholder' => 'código']) !!}
@@ -49,8 +49,8 @@
                     </tr>
                 @endfor
                 <tr>
-                    <td colspan="4">Total</td>
-                    <td class="t-active bold"><span class="fontem-18 fontw-800">R$42,80</span></td>
+                    <td>Total</td>
+                    <td class="t-active bold" colspan="4"><span class="fontem-18 fontw-800">R$42,80</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -77,6 +77,7 @@
             </table>
             <hr>
             <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-green fontw-900">R$74,80</span></p>
+            <div class="clear-both"></div>
         </div>
         <div class="txt-center">
             <a href="" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
