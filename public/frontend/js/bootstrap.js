@@ -116,9 +116,9 @@ $(document).on("click", ".accordion-box .accordion-header", function (e) {
         $(".accordion-box .accordion-content").slideUp(600);
     }
     if ($(this).siblings('.accordion-content').is(":visible")) {
-        $(this).find('.icon').attr("class", "icon icon-arrow-right2");
+        $(this).find('.fa').attr("class", "fa fa-chevron-right");
     } else {
-        $(this).find('.icon').attr("class", "icon icon-arrow-down2");
+        $(this).find('.fa').attr("class", "fa fa-chevron-down");
 
     }
     $(this).siblings('.accordion-content').slideToggle(600);

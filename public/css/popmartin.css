@@ -169,7 +169,8 @@
 
 .table .t-unread{background-color: #E0E0E0 !important;font-weight: bold !important;}
 .table .t-unread td, .table .t-unread a{font-weight: bold;}
-#pop-messages a{display: block;font-size: 1.1em;color: #000;}
+
+.table-action a{display: block;font-size: 1.1em;color: #000;}
 
 .pop-tracking{margin-top: -10px;}
 .pop-tracking button{position: absolute; right: 30px; bottom: 25px;}
