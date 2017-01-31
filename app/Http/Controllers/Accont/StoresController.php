@@ -77,7 +77,7 @@ class StoresController extends AbstractController
         $this->validate($request, $validate);
         $dados = $request->except('logo_file');
         if($request->hasFile('logo_file')){
-            $dados['logo_file'] = $this->upload($request->logo_file,'img/loja','L'.$store->id.'V'.$user->salesman->id.'U'.$user->id);
+            $dados['logo_file'] = $this->upload($request->logo_file,storage_path('imagem/loja'),'L'.$store->id.'V'.$user->salesman->id.'U'.$user->id);
         }
         if($this->repo->update($dados,$store->id)){
             flash('Loja atualizada com sucesso!', 'accept');

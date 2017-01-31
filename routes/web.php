@@ -140,3 +140,7 @@ Route::get('/{store}', function(){
 Route::get('/{store}/{category}/{product}', function(){
     return view('pages.product');
 })->name('pages.product');
+
+Route::get('/imagem/{path}', function(\League\Glide\Server $server, $path){
+    $server->outputImage($path, $_GET);
+})->where('path', '.*');
