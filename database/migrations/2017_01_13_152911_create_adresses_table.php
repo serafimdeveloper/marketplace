@@ -17,7 +17,6 @@ class CreateAdressesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('name',50);
             $table->string('zip_code',9);
             $table->string('state',2);
             $table->string('city',50);

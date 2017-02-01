@@ -127,6 +127,9 @@ $(function () {
         var cep = $(this).val();
         if ((/^\d{5}-?\d{3}$/).test(cep)) {
             $.get('/accont/adresses/zip_code/' + cep, function (data) {
+
+                console.log(data);
+
                 var dados = {
                     'state': data.uf,
                     'city': data.cidade,
@@ -160,7 +163,6 @@ $(function () {
                 error: function (data, status) {
                     form.find('button').html('cadastrar');
                     var trigger = JSON.parse(data.responseText);
-                    // console.log(trigger);
                     $.each(trigger, function (index, element) {
                         inputerror(false, form.find('input[name=' + index + ']'), element[0]);
                     });
@@ -170,6 +172,7 @@ $(function () {
                         form.find('button').html('cadastrar');
                         form.find('.form-result').html('<p class="trigger error">' + data.msg + '</p>');
                     } else {
+                        $("#isAddress").remove();
                         form.find('button').html('cadastrado com sucesso!');
                         form.parents('.address').slideUp(function () {
                             if (data.adress.master) {
@@ -422,12 +425,12 @@ function inputvalue(inputs) {
 function window_adress(obj) {
     obj.master = (obj.master ? 'principal' : '');
     var janela = '<div class="panel-end" id="end_' + obj.id + '">';
-    janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
+    janela += '<h4>Destinatário <span class="fl-right address-master">' + obj.master + '</span></h4>';
     janela += '<div class="panel-end-content">';
     janela += '<p>CEP: ' + obj.zip_code + '</p>';
     janela += '<p> ' + obj.public_place + ', ' + obj.number + ' - ' + obj.city + '</p>';
     janela += '</div>';
-    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '">editar</a>';
+    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '">editar|excluir</a>';
     janela += '</div>';
     return janela;
 }

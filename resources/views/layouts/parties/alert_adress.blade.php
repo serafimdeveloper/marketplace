@@ -9,20 +9,11 @@
                     <div class="colbox">
                         <div class="colbox-2">
                             <label>
-                                <span>Nome:</span>
-                                <input type="text" name="name" value="" placeholder="Digite um Nome para o endereço">
-                                <span class="alert hidden"></span>
-                            </label>
-                        </div>
-                        <div class="colbox-2">
-                            <label>
                                 <span>CEP: <span class="btn btn-smallextreme btn-popmartin fl-right cursor-pointer" style="color: #FFF;">Não sei meu cep</span></span>
                                 <input type="text" id="zip_code" name="zip_code" value="" placeholder="Digite um CEP" onkeyup="maskInt(this)">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
-                    </div>
-                    <div class="colbox">
                         <div class="colbox-2">
                             <label>
                                 <span>UF:</span>
@@ -30,6 +21,9 @@
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
+                    </div>
+                    <div class="colbox">
+
                         <div class="colbox-2">
                             <label>
                                 <span>Município:</span>
@@ -37,13 +31,15 @@
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
+                        <div class="colbox-2">
+                            <label>
+                                <span>Bairro:</span>
+                                <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
+                                <span class="alert hidden"></span>
+                            </label>
+                        </div>
                     </div>
                     <div class="clear-both"></div>
-                    <label>
-                        <span>Bairro:</span>
-                        <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
-                        <span class="alert hidden"></span>
-                    </label>
                     <label>
                         <span>Endereço:</span>
                         <input type="text" name="public_place" value="" placeholder="Digite seu Endereço">
