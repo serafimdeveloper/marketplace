@@ -60,7 +60,7 @@
                 </header>
                 <div id="group-pnl-end">
                 @forelse($adresses as $adress)
-                    <div class="panel-end">
+                    <div class="panel-end" id="end_{{$adress->id}}">
                         <h4>Destinatário <span class="fl-right address-master">{!! $adress->master ? 'principal' : '' !!}</span></h4>
                         <div class="panel-end-content">
                             <p>CEP: {{$adress->zip_code}}</p>

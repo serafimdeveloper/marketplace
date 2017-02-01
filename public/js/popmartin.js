@@ -197,7 +197,10 @@ $(function () {
                 success: function (data) {
                     form.find('button').html('atualizado com sucesso!');
                     form.parents('.address').slideUp(function () {
-                        $('#end_' + data.id).replaceWith(window_adress(data.adress));
+                        if(data.adress.master == 1){
+                            $('.panel-end h4 .address-master').text(" ");
+                        }
+                        $('#end_' + data.adress.id).replaceWith(window_adress(data.adress));
                     });
                 }
             });

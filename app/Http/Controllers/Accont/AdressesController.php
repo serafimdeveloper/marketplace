@@ -36,7 +36,8 @@
 
 		public function edit($id){
 			$adress = $this->repo->get($id);
-			return json_encode($adress);
+            unset($adress->deleted_at);
+            return json_encode($adress);
 		}
 
 		public function update(AdressesStoreRequest $request, $id){
@@ -49,6 +50,7 @@
             $adress = $user->adresses()->find($id)->fill($dados);
             if($adress->save())
 			{
+                unset($adress->deleted_at);
 				return json_encode(['status'=>true,'adress'=>$adress]);
 			}
 			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
