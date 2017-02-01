@@ -24,12 +24,12 @@
                             <tr id="pr{{$j.$i}}">
                                 <td>
                                     <div class="coltable">
-                                        <div class="coltable-4">
+                                        <div class="coltable-4 product-cart-img">
                                             <img src="{{ url('imagem/produto/camisa.jpg?w=300&h=200&fit=crop') }}"
                                                  alt="[]"
                                                  title="">
                                         </div>
-                                        <div class="coltable-8">
+                                        <div class="coltable-8 product-cart-info">
                                             <p class="c-pop fontem-12 fontw-400">Nome do produto</p>
                                             <span>Código: 0gos8d4</span>
                                             <br>

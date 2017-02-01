@@ -10,7 +10,7 @@
                         <div class="navicon-mobile"><i class="fa fa-navicon c-popdark"></i></div>
                         <div class="nav-mobile pop-top-nav">
                             <div class="header-search">
-                                <form class="form pop-search" action="" method="get">
+                                <form class="form pop-search" action="/pesquisa" method="get">
                                     <div class="input-group">
                                         <input type="text" name="search" placeholder="o que procura?">
                                         <button type="submit"><i class="fa fa-search"></i></button>
@@ -23,7 +23,7 @@
                                                 class="fa fa-facebook-official c-facebook vertical-middle"></i> </a>
                                 </div>
                                 <div class="favorite">
-                                    <a class="" href=""><i class="fa fa-heart c-reddark vertical-middle"></i> </a>
+                                    <a class="" href="/favoritos"><i class="fa fa-heart c-reddark vertical-middle"></i> </a>
                                 </div>
                                 <div class="cart">
                                     <a class="vertical-middle" href="/carrinho">
