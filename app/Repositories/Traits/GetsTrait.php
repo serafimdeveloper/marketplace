@@ -36,10 +36,8 @@ trait GetsTrait
             $all = $all->where($where);
         }
 
-        foreach ($orders as $order) {
-            $order['order'] = isset($order['order']) ? $order['order'] : 'ASC';
-
-            $all = $all->orderBy($order['column'], $order['order']);
+        foreach ($orders as $column => $order) {
+            $all = $all->orderBy($column, $order);
         }
 
         $all = $all->paginate($limit, $columns, 'page', $page);

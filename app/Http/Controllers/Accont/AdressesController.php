@@ -16,7 +16,7 @@
 
         public function index()
 		{
-            $adresses = $this->repo->all(null,null,['user_id'=>$this->user->id]);
+            $adresses = $this->repo->all($this->columns,$this->with,['user_id'=>$this->user->id],['master'=>'DESC']);
             return $adresses;
 		}
 
@@ -41,11 +41,13 @@
 
 		public function update(AdressesStoreRequest $request, $id){
             $user = Auth::user();
-            $adress = $user->adresses()->find($id)->fill($request->all());
-			if($request->get('master')){
+            $dados = $request->all();
+            if($request->master === "0"){
 				$this->change_master($user->adresses);
-			}	
-			if($adress->save())
+                $dados['master'] = 1;
+			}
+            $adress = $user->adresses()->find($id)->fill($dados);
+            if($adress->save())
 			{
 				return json_encode(['status'=>true,'adress'=>$adress]);
 			}

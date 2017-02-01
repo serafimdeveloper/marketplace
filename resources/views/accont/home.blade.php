@@ -59,7 +59,7 @@
                     <span class="btn btn-smallextreme btn-popmartin jq-address"><i class="fa fa-plus vertical-middle"></i> novo</span>
                 </header>
                 <div id="group-pnl-end">
-                @forelse($user->adresses as $adress)
+                @forelse($adresses as $adress)
                     <div class="panel-end">
                         <h4>Destinatário <span class="fl-right address-master">{!! $adress->master ? 'principal' : '' !!}</span></h4>
                         <div class="panel-end-content">
