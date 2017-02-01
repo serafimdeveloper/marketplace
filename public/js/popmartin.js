@@ -57,6 +57,12 @@ $(function () {
         });
     });
 
+    $('.pop-search').submit(function () {
+        window.location = $(this).attr('action') + '/' + $(this).find("input[name=search]").val();
+        return false;
+    })
+
+
     /**
      * efeito slidetoogle do menu no topo com nome do usuário
      */

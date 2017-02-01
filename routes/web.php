@@ -135,7 +135,7 @@ Route::get('/categoria/{category}', function(){
     return view('pages.products');
 })->name('pages.products.categoria');
 
-Route::get('/pesquisa', function(){
+Route::get('/pesquisa/{search}', function(){
     return view('pages.products');
 })->name('pages.products.pesquisa');
 

@@ -2,46 +2,15 @@
     <div class="content">
         <h1 class="font-0">Mais informações sobre PopMartin</h1>
         <div class="nav-footer-cat colbox">
-            <div class="colbox-5">
-                <ul class="nav-footer">
-                    <li><a href="">categoria 1</a></li>
-                    <li><a href="">categoria 2</a></li>
-                    <li><a href="">categoria 3</a></li>
-                    <li><a href="">categoria 4</a></li>
-                </ul>
-            </div>
-            <div class="colbox-5">
-                <ul class="nav-footer">
-                    <li><a href="">categoria 1</a></li>
-                    <li><a href="">categoria 2</a></li>
-                    <li><a href="">categoria 3</a></li>
-                    <li><a href="">categoria 4</a></li>
-                </ul>
-            </div>
-            <div class="colbox-5">
-                <ul class="nav-footer">
-                    <li><a href="">categoria 1</a></li>
-                    <li><a href="">categoria 2</a></li>
-                    <li><a href="">categoria 3</a></li>
-                    <li><a href="">categoria 4</a></li>
-                </ul>
-            </div>
-            <div class="colbox-5">
-                <ul class="nav-footer">
-                    <li><a href="">categoria 1</a></li>
-                    <li><a href="">categoria 2</a></li>
-                    <li><a href="">categoria 3</a></li>
-                    <li><a href="">categoria 4</a></li>
-                </ul>
-            </div>
-            <div class="colbox-5">
-                <ul class="nav-footer">
-                    <li><a href="">categoria 1</a></li>
-                    <li><a href="">categoria 2</a></li>
-                    <li><a href="">categoria 3</a></li>
-                    <li><a href="">categoria 4</a></li>
-                </ul>
-            </div>
+            @for($i = 0; $i < 5; $i++)
+                <div class="colbox-5">
+                    <ul class="nav-footer">
+                        @for($j = 0; $j < 5; $j++)
+                            <li><a href="/categoria/">categoria 1</a></li>
+                        @endfor
+                    </ul>
+                </div>
+            @endfor
         </div>
         <div class="clear-both"></div>
     </div>
@@ -67,7 +36,7 @@
                 <li><a href="/login">monte sua loja</a></li>
                 <li><a href="/info/como-comprar">como comprar</a></li>
                 <li><a href="/contato">fale conosco</a></li>
-                <li><a href="/info/termos-de-uso">termos de uso</a> </li>
+                <li><a href="/info/termos-de-uso">termos de uso</a></li>
                 <li><a href="/info/politicas-de-privacidade">políticas de privacidade</a></li>
             </ul>
         </div>
