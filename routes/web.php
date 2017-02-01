@@ -131,6 +131,18 @@ Route::get('/imagem/{path}', function(\League\Glide\Server $server, $path){
     $server->outputImage($path, $_GET);
 })->where('path', '.*');
 
+Route::get('/categoria/{category}', function(){
+    return view('pages.products');
+})->name('pages.products.categoria');
+
+Route::get('/pesquisa', function(){
+    return view('pages.products');
+})->name('pages.products.pesquisa');
+
+Route::get('/favoritos', function(){
+    return view('pages.favorites');
+})->name('pages.favorites');
+
 Route::get('/{store}', function(){
     return view('pages.store');
 })->name('pages.store');
@@ -138,7 +150,3 @@ Route::get('/{store}', function(){
 Route::get('/{store}/{category}/{product}', function(){
     return view('pages.product');
 })->name('pages.product');
-
-Route::get('/imagem/{path}', function(\League\Glide\Server $server, $path){
-    $server->outputImage($path, $_GET);
-})->where('path', '.*');

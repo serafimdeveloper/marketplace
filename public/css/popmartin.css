@@ -255,8 +255,8 @@
     .pop-store .pop-store-info img{width: 20%; float: left;}
     .pop-store .pop-store-info div{width: 79%; float: right; text-align: left;margin-top: 1%;}
     .pop-cart-info-product td{text-align: center !important;}
-    .pop-cart-info-product .coltable-4{width: 100%;}
-    .pop-cart-info-product .coltable-8{width: 100%;}
+    .pop-cart-info-product .product-cart-img{width: 100%;margin-top: 25px !important;}
+    .pop-cart-info-product .product-cart-info{width: 100%;}
     .pop-cart .table .price{font-size: 1em;}
     .pop-cart-subtotal .colbox .colbox-2:first-of-type{text-align: right;margin-bottom: 20px;}
     .pop-cart-total .colbox .colbox-2{text-align: center !important;margin: 20px 0;}
