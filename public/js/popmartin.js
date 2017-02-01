@@ -212,6 +212,7 @@ $(function () {
         } else {
             $('.select_cnpj').slideDown();
         }
+        $(".selects_people").find('input').val('');
         callback(radiobox);
         return false;
     });

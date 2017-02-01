@@ -9,11 +9,7 @@ class RequestsController extends AbstractController
 {
     public function repo()
     {
-<<<<<<< HEAD
        return RequestsRepository::class;
-=======
-        return RequestsRepository::class;
->>>>>>> bce18fe29dae55b5652124c4ac0127862a822b3e
     }
 
     public function index(){

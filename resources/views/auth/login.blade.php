@@ -12,7 +12,7 @@
                     <span><i class="fa fa-facebook-f"></i> | conecte-se usando o facebook</span>
                 </a>
             </div>
-            <form class="form-modern" role="form" method="POST" action="{{ url('/login') }}">
+            <form class="form-modern pop-form" role="form" method="POST" action="{{ url('/login') }}">
                 {{ csrf_field() }}
                 <label>
                     <span>E-mail</span>
@@ -42,12 +42,17 @@
                 </a>
             </div>
 
-            <form class="form-modern" role="form" method="POST" action="{{ url('/register') }}" novalidate>
+            <form class="form-modern pop-form" role="form" method="POST" action="{{ url('/register') }}" novalidate>
                 {{ csrf_field() }}
                 <label>
-                    <span>Nome completo</span>
+                    <span>Nome</span>
                     <input type="text" name="name" placeholder="João" value="{{ old('name') }}" required>
                     <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
+                </label>
+                <label>
+                    <span>Sobrenome</span>
+                    <input type="text" name="lastname" placeholder="da Silva santos" value="{{ old('lastname') }}" required>
+                    <span class="alert{{ $errors->has('lastname') ? '' : ' hidden' }}">{{ $errors->first('lastname') }}</span>
                 </label>
                 <label>
                     <span>E-mail</span>

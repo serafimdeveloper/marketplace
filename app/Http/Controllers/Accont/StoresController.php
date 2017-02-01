@@ -63,6 +63,7 @@ class StoresController extends AbstractController
     public function update(Request $request){
         $user = Auth::user();
         $store = $user->salesman->store;
+//        dd($store);
         $validate = [
             'name' => 'required|unique:stores,name,'.$store->id,
             'type_salesman' => 'required',

@@ -10,15 +10,12 @@
                 ver loja
             </a>
         </header>
-<<<<<<< HEAD
         @if(isset($store))
             {!!Form::model($store,['route'=>['accont.salesman.stores.update'], 'method'=>'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data'])!!}
         @else
             {!! Form::open(['route' => ['accont.salesman.stores.store'], 'method' => 'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data']) !!}
         @endif
-=======
         <form class="form-modern pop-form">
->>>>>>> bce18fe29dae55b5652124c4ac0127862a822b3e
             <div class="colbox">
                 <div class="colbox-2">
                     <label>
@@ -30,16 +27,16 @@
                         <span>Tipo</span>
                         <div class="checkboxies">
                             <label class="radio select_type_sallesman" style="border: none;">
-                                <span><span class="fa {{ ($store->type_salesman === 'F') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> física</span>
-                                {!! Form::radio('type_salesman','F') !!}
+                                <span><span class="fa {{ (isset($store->type_salesman) && $store->type_salesman === 'F') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> física</span>
+                                {!! Form::radio('type_salesman','F', true) !!}
                             </label>
                             <label class="radio select_type_sallesman" style="border: none;">
-                                <span><span class="fa {{ ($store->type_salesman === 'J') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> jurídica</span>
+                                <span><span class="fa {{ (isset($store->type_salesman) && $store->type_salesman === 'J') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> jurídica</span>
                                 {!! Form::radio('type_salesman','J') !!}
                             </label>
                         </div>
                         <span class="alert{{ $errors->has('type_salesman') ? '' : ' hidden' }}">{{ $errors->first('type_salesman') }}</span>                    </div>
-                    <div class="selects_people select_cpf">
+                    <div class="selects_people select_cpf" style="display: block;">
                         <label>
                             <span>CPF</span>
                             {!! Form::text('cpf', null, ['class' => 'masked_cpf', 'placeholder' => 'CPF']) !!}
@@ -59,27 +56,35 @@
                             {!! Form::text('social_name', null) !!}
                             <span class="alert{{ $errors->has('social_name') ? '' : ' hidden' }}">{{ $errors->first('social_name') }}</span>                        </label>
                     </div>
-                </div>
-                <div class="colbox-2">
                     <div class="txt-center">
-                        <div id="preview_img1" class="prevImg"></div>
+                        <div id="preview_img1" class="prevImg"><img src="sada"></div>
                         <div class="file" style="padding: 10px;">
                             {!! Form::file('logo_file', ['data-preview' => 1, 'onchange' => 'previewFile($(this))']) !!}
-                            <input type="text">
+                            <input type="text" value="sdasdd">
                             <button type="button" class="btn btn-orange">Escolher Logo</button>
                             <div class="clear-both"></div>
                             <span class="alert{{ $errors->has('logo_file') ? '' : ' hidden' }}">{{ $errors->first('logo_file') }}</span>
                         </div>
                     </div>
+                </div>
+                <div class="colbox-2">
                     <label>
                         <span>Sobre a Loja (máximo de 500 caracteres)</span>
-                        {!! Form::textarea('about', null,['placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
+                        {!! Form::textarea('about', null,['id' => 'sobre1', 'class' => 'limiter-textarea', 'maxlength' => '500', 'placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
                         <span class="alert{{ $errors->has('about') ? '' : ' hidden' }}">{{ $errors->first('about') }}</span>
+                        <span class="limiter-result" for="sobre1" data-limit="500">500</span>
                     </label>
                     <label>
                         <span>Política de troca (máximo de 500 caracteres)</span>
-                        {!! Form::textarea('exchange_policy', null, ['placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
+                        {!! Form::textarea('exchange_policy', null, ['id' => 'sobre2', 'class' => 'limiter-textarea', 'maxlength' => '500','placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
                         <span class="alert{{ $errors->has('exchange_policy') ? '' : ' hidden' }}">{{ $errors->first('exchange_policy') }}</span>
+                        <span class="limiter-result" for="sobre2" data-limit="500">500</span>
+                    </label>
+                    <label>
+                        <span>Política de frete (máximo de 500 caracteres)</span>
+                        {!! Form::textarea('freight_policy', null, ['id' => 'sobre3', 'class' => 'limiter-textarea', 'maxlength' => '500','placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
+                        <span class="alert{{ $errors->has('exchange_policy') ? '' : ' hidden' }}">{{ $errors->first('exchange_policy') }}</span>
+                        <span class="limiter-result" for="sobre3" data-limit="500">500</span>
                     </label>
                 </div>
             </div>

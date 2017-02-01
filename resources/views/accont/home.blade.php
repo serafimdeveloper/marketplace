@@ -45,7 +45,7 @@
                     </div>
                 <label>
                     <span>Telefone</span>
-                    {!! Form::text('phone',null, ['placeholder' => 'Informar telefone', 'class' => 'masked_phone']) !!}
+                    {!! Form::text('phone',null, ['placeholder' => 'Informar telefone', 'class' => 'masked_cellphone']) !!}
                     <span class="alert{{ $errors->has('phone') ? '' : ' hidden' }}">{{ $errors->first('phone') }}</span>
                 </label>
                     <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
