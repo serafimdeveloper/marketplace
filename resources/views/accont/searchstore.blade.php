@@ -12,7 +12,7 @@
                 <input type="search" name="search_store" class="jq-input-search" placeholder="Pesquisar Loja">
             </label>
         </form>
-        <table id="pop-searchStore" class="table table-action">
+        <table id="jq-search-table-result" class="table table-action">
             <thead>
                 <tr>
                     <th class="t-medium">Loja</th>

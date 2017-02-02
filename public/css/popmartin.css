@@ -26,7 +26,7 @@
 .frete{display: inline-block;padding: 8px 10px;font-weight: bold;font-size: 1.4em;margin: 0 0 20px 0;}
 .frete.frete-gratis{background-color: #FFD600; color: #FFF;}
 .frete.frete-pac{background-color: #01579B; color: #FFD600;}
-
+input{padding: 5px;width: 100%;}
 .pop-header{height: 120px;margin-bottom: 0;
     background: -moz-linear-gradient(top, #E0E0E0 0%, #FFFFFF 100%);
     background: -webkit-linear-gradient(top, #E0E0E0 0%, #FFFFFF 100%);
@@ -179,6 +179,18 @@
 
 #pop-remove-msg{display: none;}
 .limiter-result{float: right; color: #B40004;font-weight: bold !important;}
+
+.pop-user-info{padding: 10px;}
+.pop-user-info .colbox{padding: 0 10px;}
+.pop-user-info .colbox > div{border: 1px solid #7f8aa3;padding: 5px;margin-bottom: 10px;}
+.pop-user-info form, .pop-user-info label{padding: 0; margin: 0;}
+.pop-user-info .pop-tracking .btn{bottom: 8px; right: 5px;}
+.pop-info-user p{color: #0D47A1;font-weight: 500;margin: 0px;}
+.pop-user-info .accordion{margin: 0;padding: 0;}
+.pop-user-info .accordion-header{padding: 10px; background-color: transparent; border: none;}
+.pop-user-info .accordion-header .fa{display: none;}
+.pop-user-info .accordion-content{display: block;padding: 0; background-color: transparent; border: none;}
+
 /*******************************************************************
 ********************** FIM PAINEL ADMINISTRATIVO *******************
  ******************************************************************/
@@ -260,6 +272,11 @@
     .pop-cart .table .price{font-size: 1em;}
     .pop-cart-subtotal .colbox .colbox-2:first-of-type{text-align: right;margin-bottom: 20px;}
     .pop-cart-total .colbox .colbox-2{text-align: center !important;margin: 20px 0;}
+
+    .pop-user-info .accordion-header{padding: 10px; background-color: #B71C1C;}
+    .pop-user-info .accordion-header span{color: #ffffff;}
+    .pop-user-info .accordion-header .fa{display: inline-block;}
+    .pop-user-info .accordion-content{display: none;padding: 10px 0;}
 }
     @media(max-width: 48.375em){ /*774px */
     .pop-ads img{vertical-align: -50%;}

@@ -28,7 +28,7 @@
                 <td class="txt-center">5</td>
                 <td class="t-draft txt-center">não</td>
                 <td class="txt-center">
-                    <a href="/accont/salesman/product/1" class="t-btn t-edit">detalhe</a>
+                    <a href="/accont/salesman/product/1" class="t-btn t-edit">detalhes</a>
                     <a href="javscript:void(0)" class="t-btn t-remove">remover</a>
                 </td>
             </tr>

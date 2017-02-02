@@ -33,9 +33,7 @@
                     <td class="txt-center">5</td>
                     <td class="t-draft txt-center">não</td>
                     <td class="txt-center">
-                        <a href="/accont/salesman/product/1" class="t-btn t-edit">detalhe</a>
-                        <a href="javscript:void(0)" class="t-btn t-edit2">bloquear</a>
-                        <a href="javscript:void(0)" class="t-btn t-remove">remover</a>
+                        <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-product">detalhes</a>
                     </td>
                 </tr>
             @endfor
@@ -43,5 +41,5 @@
         </table>
     </section>
     <div class="clear-both"></div>
-    @include('layouts.parties.alert_user_info')
+    @include('layouts.parties.alert_product_info')
 @endsection

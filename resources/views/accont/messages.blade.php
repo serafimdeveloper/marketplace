@@ -12,7 +12,7 @@
             <tr>
                 <th class="t-small"></th>
                 <th class="t-medium">De</th>
-                <th>Menssagem</th>
+                <th>Mensagem</th>
                 <th class="t-medium">Data</th>
                 <th class="t-small"></th>
             </tr>

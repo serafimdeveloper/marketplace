@@ -9,7 +9,7 @@
         <form class="form-modern searh_store" action="javascript:void(0)">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <label>
-                <input type="search" class="jq-input-search" name="user_name" placeholder="Pesquisar {{ (Request::segment(3) == 'users' ? 'usuário' : 'vendedor')  }}">
+                <input type="search" class="jq-input-search" name="user_name" placeholder="Pesquisar vendedor por e-mail">
             </label>
         </form>
         <table id="jq-search-table-result" class="table table-action">
@@ -37,9 +37,7 @@
                     <td>ativo</td>
                     <td>12,00%</td>
                     <td class="txt-center">
-                        <a href="javascript:void(0)" class="t-btn t-edit jq-info-user" data-user="{{$i}}">detalhes</a>
-                        <a href="javascript:void(0)" class="t-btn t-edit2 jq-info-user" data-user="{{$i}}">bloquear</a>
-                        <a href="javascript:void(0)" class="t-btn t-remove" data-user="{{$i}}">remover</a>
+                        <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-user" data-user="{{$i}}">detalhes</a>
                     </td>
                 </tr>
             @endfor
