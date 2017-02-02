@@ -291,10 +291,82 @@ $(function () {
     });
     $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
 });
+/** Modal de informações de usuarios */
 $(document).on('click', '.jq-info-user', function(){
     $("#jq-info-user").slideDown();
 });
+/** Modal de informações de produtos */
+$(document).on('click', '.jq-info-product', function(){
+    $("#jq-info-product").slideDown();
+});
 
+/**
+ * Abrir modal de categoria
+ */
+$(document).on('click', '.jq-new-category', function(){
+    var e = $(this);
+    var modal = $("#jq-new-category");
+    var form = modal.find('form');
+    var title = (e.data('category') ? 'Atualizar categoria - nome da categoria' : 'Cadastrar categoria');
+    var buttonText = (e.data('category') ? 'atualizar' : 'cadastrar');
+    modal.find('h2').text(title);
+    modal.find('button').text(buttonText);
+
+    $.get('', e.data('category'), function (response) {
+        form.find('input').val(response.name);
+        form.find('select').find('optin').each(function () {
+            if($(this).val() == response.id){
+                $(this).attr('selected', 'true');
+                return false;
+            }
+        });
+    })
+
+    $("#jq-new-category").slideDown();
+});
+
+/**
+ * Atualizae e cadastrar categorias no sistema
+ */
+$(document).on('submit', '#jq-new-category form', function(){
+    var form = $(this);
+    var dados = form.serialize();
+    var buttonText = form.find('button').text();
+    var buttonTextloading = '<i class="fa fa-spin fa-spinner"></i> processando...';
+
+    if (!dados.id) {
+        $.ajax({
+            url: '',
+            type: 'POST',
+            dataType: 'json',
+            data: dados,
+            beforeSend: function () {
+                form.find('button').html(buttonTextloading);
+            },
+            error: function (data, status) {
+                form.find('button').html(buttonText);
+            },
+            success: function (data) {
+                form.find('button').html(buttonText);
+            }
+        });
+    } else {
+        $.ajax({
+            url: '',
+            type: 'PUT',
+            dataType: 'json',
+            data: dados,
+            beforeSend: function () {
+                form.find('button').html(buttonTextloading);
+            },
+            success: function (data) {
+                form.find('button').html(buttonText);
+            }
+        });
+    }
+
+    return false;
+});
 
 // $(document).on('click', '.pop-remove-product-cart', function(){
 //     var pr = $(this).parents("tr");

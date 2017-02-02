@@ -37,9 +37,7 @@
                     <td>ativo</td>
                     <td>12,00%</td>
                     <td class="txt-center">
-                        <a href="javascript:void(0)" class="t-btn t-edit jq-info-user" data-user="{{$i}}">detalhes</a>
-                        <a href="javascript:void(0)" class="t-btn t-edit2 jq-info-user" data-user="{{$i}}">bloquear</a>
-                        <a href="javascript:void(0)" class="t-btn t-remove" data-user="{{$i}}">remover</a>
+                        <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-user" data-user="{{$i}}">detalhes</a>
                     </td>
                 </tr>
             @endfor
