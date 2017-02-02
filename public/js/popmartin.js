@@ -58,7 +58,8 @@ $(function () {
     });
 
     $('.pop-search').submit(function () {
-        window.location = $(this).attr('action') + '/' + $(this).find("input[name=search]").val();
+        var val = ($(this).find("input[name=search]").val() != '' ? $(this).find("input[name=search]").val() : 'pesquisa');
+        window.location = $(this).attr('action') + '/' + val;
         return false;
     })
 
@@ -296,8 +297,37 @@ $(document).on('click', '.jq-info-user', function(){
     $("#jq-info-user").slideDown();
 });
 /** Modal de informações de produtos */
+$(document).on('click', '.jq-info-sales', function(){
+    $("#jq-info-sales").slideDown();
+});
+
+
+/** Modal de informações de produtos */
 $(document).on('click', '.jq-info-product', function(){
     $("#jq-info-product").slideDown();
+});
+
+
+/** Modal de atualização e cadastro de banners */
+$(document).on('click', '.jq-new-banner', function(){
+    var e = $(this);
+    var modal = $("#jq-new-banner");
+    var form = modal.find('form');
+    var title = (e.data('banner') ? 'Atualizar banner - loja' : 'Cadastrar banner');
+    var buttonText = (e.data('banner') ? 'atualizar' : 'cadastrar');
+    modal.find('h2').text(title);
+    modal.find('button').text(buttonText);
+
+    $.get('', e.data('banner'), function (response) {
+        inputvalue(response);
+        form.find('select').find('option').each(function () {
+            if($(this).val() == response.id){
+                $(this).attr('selected', 'true');
+                return false;
+            }
+        });
+    })
+    $("#jq-new-banner").slideDown();
 });
 
 /**

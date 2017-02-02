@@ -9,7 +9,7 @@
         <form class="form-modern searh_store" action="javascript:void(0)">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <label>
-                <input type="search" class="jq-input-search" name="user_name" placeholder="Pesquisar {{ (Request::segment(3) == 'users' ? 'usuário' : 'vendedor')  }}">
+                <input type="search" class="jq-input-search" name="user_name" placeholder="Pesquisar pedido pelo código">
             </label>
         </form>
         <table id="jq-search-table-result" class="table table-action">
@@ -37,7 +37,7 @@
                     <td>R$58,00</td>
                     <td>R$5.80</td>
                     <td class="txt-center">
-                        <a href="javascript:void(0)" class="t-btn t-edit jq-info-user" data-sales="{{$i}}">detalhes</a>
+                        <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-sales" data-sales="{{$i}}">detalhes</a>
                     </td>
                 </tr>
             @endfor
@@ -45,5 +45,5 @@
         </table>
     </section>
     <div class="clear-both"></div>
-    @include('layouts.parties.alert_user_info')
+    @include('layouts.parties.alert_sales_info')
 @endsection

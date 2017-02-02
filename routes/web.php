@@ -108,6 +108,22 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
         return view('accont.report.notifications');
     })->name('accont.report.notifications');
 
+    Route::get('/pages', function(){
+        return view('accont.pages');
+    })->name('accont.pages');
+
+    Route::get('/page', function(){
+        return view('accont.page');
+    })->name('accont.page.create');
+
+    Route::get('/page/{id}', function(){
+        return view('accont.page');
+    })->name('accont.page.update');
+
+    Route::get('/banners', function(){
+        return view('accont.banners');
+    })->name('accont.banners');
+
 
 
     /**
