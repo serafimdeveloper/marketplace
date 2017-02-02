@@ -21,13 +21,14 @@ class SalesmanPolicy
         //
     }
 
-    public function store_acess(User $user, Store $store){
-        return $user->sallesman->id === $store->sallesman->id;
+    public function store_access(User $user, Store $store){
+        dd($user);
+       return $user->salesman->id === $store->salesman->id;
 
     }
 
-    public function request_acess(User $user, Store $store, Request $request){
-        if($this->store_acess($user,$store)){
+    public function request_access(User $user, Store $store, Request $request){
+        if($this->store_access($user,$store)){
             return $request->store_id === $store->id;
         }
         return false;

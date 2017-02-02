@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        \App\Model\Salesman::class => \App\Policies\SalesmanPolicy::class,
+       # \App\Model\Salesman::class => \App\Policies\SalesmanPolicy::class,
     ];
 
     /**
@@ -33,6 +33,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin', function (User $user){
            return  !!$user->admin;
         });
-        //
+
+        Gate::define('store_access', function($user, $store){
+            return $user->salesman->id === $store->salesman->id;
+        });
     }
 }

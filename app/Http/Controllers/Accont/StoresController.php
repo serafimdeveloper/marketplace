@@ -12,6 +12,7 @@ use App\Http\Controllers\AbstractController;
 use App\Repositories\Accont\StoresRepository;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class StoresController extends AbstractController
@@ -27,6 +28,9 @@ class StoresController extends AbstractController
     }
 
     public function create(){
+        if(Gate::denies('vendedor')){
+            return  redirect()->route('accont.home');
+        }
         $salesman = Auth::user()->salesman;
         if($store = $salesman->store){
             return view('accont.stores', compact('store','salesman'));
@@ -36,6 +40,9 @@ class StoresController extends AbstractController
 
 
     public function store(Request $request){
+        if(Gate::denies('vendedor')){
+            return  redirect()->route('accont.home');
+        }
         $validate = [
             'name' => 'required|unique:stores',
             'type_salesman' => 'required',
@@ -59,12 +66,17 @@ class StoresController extends AbstractController
             flash('Loja criada com sucesso!', 'accept');
             return redirect()->route('accont.salesman.stores');
         }
+        flash('Erro ao criar a loja!', 'error');
+        return redirect()->route('accont.salesman.stores');
 
     }
 
     public function update(Request $request){
         $user = Auth::user();
         $store = $user->salesman->store;
+        if(Gate::denies('store_access', $store)){
+            return  redirect()->route('accont.home');
+        }
         $validate = [
             'name' => 'required|unique:stores,name,'.$store->id,
             'type_salesman' => 'required',
@@ -102,7 +114,15 @@ class StoresController extends AbstractController
     }
 
     public function searchstore(){
-        return view('accont.searchstore');
+        $stores = $this->repo->all($this->columns, $this->with);
+        $stores = $stores->map(function($item){
+            return [
+                'name' => $item->name,
+                'slug' => $item->slug,
+                'salesman' => $item->salesman->user->name.''.$item->salesman->user->last_name
+            ];
+        });
+        return view('accont.searchstore', compact('stores'));
     }
 
     public function search(Request $request){

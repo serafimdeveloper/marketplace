@@ -20,7 +20,13 @@
                 </tr>
             </thead>
             <tbody>
-
+            @forelse($stores as $store)
+                <tr>
+                    <td><a href="{{url($store['slug'])}}" class="fontem-12 c-green-avocadodark">{{$store['name']}}</a> </td>
+                    <td>{{$store['salesman']}}</td>
+                </tr>
+            @empty
+            @endforelse
             </tbody>
         </table>
     </section>
