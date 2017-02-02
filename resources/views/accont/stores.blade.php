@@ -5,17 +5,18 @@
     <section class="panel-content">
         <header class="pop-title">
             <h1>Minha loja</h1>
-            <a href="" class="btn btn-smallextreme btn-popmartin" target="_blank">
-                <i class="fa fa-external-link vertical-middle"></i>
-                ver loja
-            </a>
+            @if(isset($store))
+                <a href="" class="btn btn-smallextreme btn-popmartin" target="_blank">
+                    <i class="fa fa-external-link vertical-middle"></i>
+                    ver loja
+                </a>
+            @endif
         </header>
         @if(isset($store))
-            {!!Form::model($store,['route'=>['accont.salesman.stores.update'], 'method'=>'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data'])!!}
+            {!!Form::model($store,['route'=>['accont.salesman.stores.update'], 'method'=>'POST', 'class' => 'form-modern pop-form', 'enctype'=>'multipart/form-data'])!!}
         @else
-            {!! Form::open(['route' => ['accont.salesman.stores.store'], 'method' => 'POST', 'class' => 'form-modern', 'enctype'=>'multipart/form-data']) !!}
+            {!! Form::open(['route' => ['accont.salesman.stores.store'], 'method' => 'POST', 'class' => 'form-modern pop-form', 'enctype'=>'multipart/form-data']) !!}
         @endif
-        <form class="form-modern pop-form">
             <div class="colbox">
                 <div class="colbox-2">
                     <label>
@@ -27,22 +28,41 @@
                         <span>Tipo</span>
                         <div class="checkboxies">
                             <label class="radio select_type_sallesman" style="border: none;">
-                                <span><span class="fa {{ (isset($store->type_salesman) && $store->type_salesman === 'F') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> física</span>
-                                {!! Form::radio('type_salesman','F', true) !!}
+                                @if(isset($store))
+                                    <span><span class="fa {{ ($store->type_salesman === 'F') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> física</span>
+                                    {!! Form::radio('type_salesman','F',($store->type_salesman === 'F') ? true : ' ') !!}
+                                @else
+                                    <span><span class="fa fa-check-circle-o c-green"></span> física</span>
+                                    {!! Form::radio('type_salesman','F', true) !!}
+                                @endif
                             </label>
                             <label class="radio select_type_sallesman" style="border: none;">
-                                <span><span class="fa {{ (isset($store->type_salesman) && $store->type_salesman === 'J') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> jurídica</span>
-                                {!! Form::radio('type_salesman','J') !!}
+                                @if(isset($store))
+                                    <span><span class="fa {{ ($store->type_salesman === 'J') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> jurídica</span>
+                                    {!! Form::radio('type_salesman','J', ($store->type_salesman === 'J') ? true : ' ') !!}
+                                @else
+                                    <span><span class="fa fa-circle-o"></span> jurídica</span>
+                                    {!! Form::radio('type_salesman','J') !!}
+                                @endif
                             </label>
                         </div>
-                        <span class="alert{{ $errors->has('type_salesman') ? '' : ' hidden' }}">{{ $errors->first('type_salesman') }}</span>                    </div>
-                    <div class="selects_people select_cpf" style="display: block;">
+                        <span class="alert{{ $errors->has('type_salesman') ? '' : ' hidden' }}">{{ $errors->first('type_salesman') }}</span>
+                    </div>
+                    @if(isset($store))
+                        <div class="selects_people select_cpf" style="{{ $store->type_salesman === 'F' ? 'display: block' : ''}}">
+                    @else
+                        <div class="selects_people select_cpf" style="display: block;">
+                    @endif
                         <label>
                             <span>CPF</span>
-                            {!! Form::text('cpf', null, ['class' => 'masked_cpf', 'placeholder' => 'CPF']) !!}
+                            {!! Form::text('cpf',$salesman->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF','readonly'=>'readonly']) !!}
                             <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>                        </label>
                     </div>
-                    <div class="selects_people select_cnpj">
+                    @if(isset($store))
+                        <div class="selects_people select_cnpj" style="{{ $store->type_salesman === 'J' ? 'display: block' : ''}}">
+                    @else
+                        <div class="selects_people select_cnpj">
+                    @endif
                         <label>
                             <span>CNPJ</span>
                             {!! Form::text('cnpj', null, ['class' => 'masked_cnpj', 'placeholder' => 'CNPJ']) !!}
@@ -57,10 +77,16 @@
                             <span class="alert{{ $errors->has('social_name') ? '' : ' hidden' }}">{{ $errors->first('social_name') }}</span>                        </label>
                     </div>
                     <div class="txt-center">
-                        <div id="preview_img1" class="prevImg"><img src="sada"></div>
+                        <div id="preview_img1" class="prevImg">
+                            @if(old('logo_file'))
+                                {{old('logo_file')}}
+                            @elseif(isset($store))
+                                <img src="{{url('imagem/loja/'.$store->logo_file)}}">
+                            @endif
+                        </div>
                         <div class="file" style="padding: 10px;">
                             {!! Form::file('logo_file', ['data-preview' => 1, 'onchange' => 'previewFile($(this))']) !!}
-                            <input type="text" value="sdasdd">
+                            <input type="text" value="{{(!isset($store->logo_file)) ? old('logo_file') : $store->logo_file}}">
                             <button type="button" class="btn btn-orange">Escolher Logo</button>
                             <div class="clear-both"></div>
                             <span class="alert{{ $errors->has('logo_file') ? '' : ' hidden' }}">{{ $errors->first('logo_file') }}</span>
@@ -83,14 +109,14 @@
                     <label>
                         <span>Política de frete (máximo de 500 caracteres)</span>
                         {!! Form::textarea('freight_policy', null, ['id' => 'sobre3', 'class' => 'limiter-textarea', 'maxlength' => '500','placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
-                        <span class="alert{{ $errors->has('exchange_policy') ? '' : ' hidden' }}">{{ $errors->first('exchange_policy') }}</span>
+                        <span class="alert{{ $errors->has('freight_policy') ? '' : ' hidden' }}">{{ $errors->first('freight_policy') }}</span>
                         <span class="limiter-result" for="sobre3" data-limit="500">500</span>
                     </label>
                 </div>
             </div>
             <div class="clear-both"></div>
             <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
-                <button type="submit" class="btn btn-popmartin">cadastrar</button>
+                <button type="submit" class="btn btn-popmartin">{{isset($store) ? 'atualizar' :'cadastrar'}}</button>
             </div>
         {!! Form::close() !!}
         <div id="group-pnl-end">

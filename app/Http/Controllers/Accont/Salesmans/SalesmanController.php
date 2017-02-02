@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Accont\Salesmans;
+
 use App\Http\Controllers\AbstractController;
 use App\Repositories\Accont\SalemanRepository;
 use App\Http\Requests\Accont\Salesman\SalesmanStoreRequest;
@@ -38,7 +39,6 @@ class SalesmanController extends AbstractController
             $dados['photo_document'] = $this->upload($request->photo_document,'imagem/vendedor','D1V'.$salesman->id);
             $dados['proof_adress'] = $this->upload($request->proof_adress,'imagem/vendedor','D2V'.$salesman->id);
             $this->repo->update($dados,$salesman->id);
-            $user->fill(['profile_access'=>'salesman'])->save();
             flash('Vendedor salvo com sucesso!', 'accept');
             return redirect()->route('accont.salesman.info');
         }
@@ -88,7 +88,7 @@ class SalesmanController extends AbstractController
     }
 
 
-    public function destroy(Request $request){
+    public function destroy(){
         $user = Auth::user();
         if($pendency = $this->check_pending($user->salesman)){
             return response()->json(['salesman'=>$user->salesman, 'pendency'=>$pendency, 'status'=>'pendency']);

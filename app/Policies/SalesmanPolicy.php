@@ -7,7 +7,7 @@ use App\Model\Request;
 use App\Model\Store;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class VendedorPolicy
+class SalesmanPolicy
 {
     use HandlesAuthorization;
 

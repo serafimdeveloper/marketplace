@@ -6,25 +6,21 @@
         <header class="pop-title">
             <h1>Procure uma loja</h1>
         </header>
-        <form class="form-modern searh_store" action="javascript:void(0)">
+        <form class="form-modern pop-form searh_store" action="javascript:void(0)">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <label>
-                <input type="search" name="search_store" placeholder="Pesquisar Loja">
+                <input type="search" name="search_store" class="jq-input-search" placeholder="Pesquisar Loja">
             </label>
         </form>
         <table id="pop-searchStore" class="table table-action">
             <thead>
-            <tr>
-                <th class="t-medium">Loja</th>
-                <th class="t-medium">Vendedor</th>
-            </tr>
+                <tr>
+                    <th class="t-medium">Loja</th>
+                    <th class="t-medium">Vendedor</th>
+                </tr>
             </thead>
-
             <tbody>
-            <tr>
-                <td><a href="/loja/nome" class="fontem-12 c-green-avocadodark">nome da loja</a> </td>
-                <td>Luíz Fernando</td>
-            </tr>
+
             </tbody>
         </table>
     </section>

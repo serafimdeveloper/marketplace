@@ -51,8 +51,8 @@
                 </label>
                 <label>
                     <span>Sobrenome</span>
-                    <input type="text" name="lastname" placeholder="da Silva santos" value="{{ old('lastname') }}" required>
-                    <span class="alert{{ $errors->has('lastname') ? '' : ' hidden' }}">{{ $errors->first('lastname') }}</span>
+                    <input type="text" name="last_name" placeholder="da Silva santos" value="{{ old('last_name') }}" required>
+                    <span class="alert{{ $errors->has('last_name') ? '' : ' hidden' }}">{{ $errors->first('last_name') }}</span>
                 </label>
                 <label>
                     <span>E-mail</span>
@@ -61,17 +61,17 @@
                 </label>
                 <label>
                     <span>Confirmar E-mail</span>
-                    <input type="email" name="email_confirmation" placeholder="exemplo@exemplo.com" >
+                    <input type="email" name="email_confirmation" placeholder="exemplo@exemplo.com" required>
                     <span class="alert hidden"></span>
                 </label>
                 <label>
                     <span>Criar Senha</span>
-                    <input type="password" name="password">
+                    <input type="password" name="password" min="6" max="20" required>
                     <span class="alert{{ $errors->has('password') ? '' : ' hidden' }}">{{ $errors->first('password') }}</span>
                 </label>
                 <label>
                     <span>Repetir Senha</span>
-                    <input type="password" name="password_confirmation" required>
+                    <input type="password" name="password_confirmation" min="6" max="20" required>
                     <span class="alert hidden"></span>
                 </label>
                 <div style="border: 1px solid #B0BEC5; padding: 10px;">

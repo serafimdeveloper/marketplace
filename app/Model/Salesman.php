@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Salesman extends Model
 {
-    protected $fillable = ['moip','user_id','cpf','facebook','phone','whatsapp','cellphone','photo_document','proof_adress',
+    protected $fillable = ['moip','user_id','cpf','facebook','phone','whatsapp','cellphone','photo_document',
         'active'];
     protected $table = 'salesmans';
 

@@ -1,8 +1,8 @@
 <?php
 	namespace App\Http\Requests\Accont;
-	use Illuminate\Foundation\Http\FormRequest;
+    use App\Http\Requests\Request;
 
-	class AdressesStoreRequest extends FormRequest
+	class AdressesStoreRequest extends Request
 	{
 	    /**
 	     * Determine if the user is authorized to make this request.

@@ -57,6 +57,12 @@ $(function () {
         });
     });
 
+    $('.pop-search').submit(function () {
+        window.location = $(this).attr('action') + '/' + $(this).find("input[name=search]").val();
+        return false;
+    })
+
+
     /**
      * efeito slidetoogle do menu no topo com nome do usuário
      */
@@ -97,26 +103,29 @@ $(function () {
         $('.panel-nav').slideToggle();
     });
 
-
     /**
      * Procura de loja em tempo real no painel
      */
     $(".jq-input-search").keyup(function () {
-        var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
-        var implementTr = $('#jq-search-table-result tbody');
-        $.ajax({
-            url: '/accont/searchstore',
-            data: data,
-            type: 'POST',
-            dataType: 'json',
-            beforeSend: function () {
-                implementTr.html("<tr><td colspan=\"3\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
-            },
-            success: function (e) {
-                console.log(e);
-                implementTr.html(e.resulttr);
-            }
-        });
+        if($(this).val().length > 2) {
+            var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
+            var implementTr = $('#pop-searchStore tbody');
+            $.ajax({
+                url: '/accont/searchstore',
+                data: data,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: function () {
+                    implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
+                },
+                success: function (e) {
+                    implementTr.html('');
+                    $.each(e, function (i, element) {
+                        implementTr.append('<tr><td><a href="/' + element.slug + '" class="fontem-12 c-green-avocadodark">' + element.name + '</a></td><td>' + element.salesman + '</td></tr>');
+                    });
+                }
+            });
+        }
     });
 
     /**
@@ -127,9 +136,6 @@ $(function () {
         var cep = $(this).val();
         if ((/^\d{5}-?\d{3}$/).test(cep)) {
             $.get('/accont/adresses/zip_code/' + cep, function (data) {
-
-                console.log(data);
-
                 var dados = {
                     'state': data.uf,
                     'city': data.cidade,
@@ -215,11 +221,13 @@ $(function () {
         $(".selects_people:visible").slideUp();
         if ($(this).val() === 'F') {
             $('.select_cpf').slideDown();
+            $(".selects_people").find('input[name=cpf]').removeAttr('disabled');
         } else {
             $('.select_cnpj').slideDown();
+            $(".select_cnpj").find('input').val('');
+            $(".selects_people").find('input[name=cpf]').attr('disabled','disabled');
         }
-        $(".selects_people").find('input').val('');
-        callback(radiobox);
+        call(radiobox);
         return false;
     });
 

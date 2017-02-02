@@ -9,8 +9,9 @@
 namespace App\Http\Requests\Accont\Salesman;
 Use Auth;
 use Illuminate\Validation\Rule;
+use App\Http\Requests\Request;
 
-class ProductsStoreRequest extends FormRequest
+class ProductsStoreRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

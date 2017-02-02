@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Accont\Clients;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Request;
 
-class HomeStoreRequest extends FormRequest
+class HomeStoreRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
