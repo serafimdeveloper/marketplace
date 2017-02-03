@@ -151,6 +151,14 @@ $(function () {
         }
     });
 
+    $('.alertbox-close').click(function () {
+        var form = $(this).siblings('div').find('form');
+        form.find('input').val('');
+        if(form.find(":checkbox").is(":checked")){
+            form.find(":checkbox").click();
+        }
+        // console.log();
+    })
     /**
      * grava ou atualiza o novo endereço
      */
@@ -213,6 +221,7 @@ $(function () {
                 }
             });
         }
+        form.find('input').val('');
         return false;
     });
 
