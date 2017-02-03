@@ -133,7 +133,7 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     /** Adress */
     Route::post('/adresses','Accont\AdressesController@store')->name('accont.adress.store');
     Route::get('/adresses/{adress}','Accont\AdressesController@edit')->name('accont.adress.edit');
-    Route::put('/adresses/{adress}','Accont\AdressesController@update')->name('accont.adress.update');
+    Route::post('/adresses/{adress}','Accont\AdressesController@update')->name('accont.adress.update');
     Route::delete('/adresses/{adress}','Accont\AdressesController@destroy')->name('accont.adress.destroy');
     Route::get('/adresses/zip_code/{zip}','Accont\AdressesController@search_cep')->name('accont.adress.zip_code');
 

@@ -85,6 +85,7 @@ $(function () {
                 inputvalue(data);
             }, 'json');
         } else {
+
             $('.alertbox-title').text('Cadastrar endereço');
             $('.address').find('button').text('cadastrar');
         }
@@ -195,7 +196,7 @@ $(function () {
         } else {
             $.ajax({
                 url: '/accont/adresses/' + id,
-                type: 'PUT',
+                type: 'POST',
                 dataType: 'json',
                 data: dados,
                 beforeSend: function () {
@@ -506,7 +507,7 @@ function inputerror(is, param, msg) {
  * @param inputs object
  */
 
-function inputvalue(inputs) {
+function inputvalue(inputs, e) {
     if (inputs instanceof Object) {
         $.each(inputs, function (index, element) {
             if (index === 'state') {
