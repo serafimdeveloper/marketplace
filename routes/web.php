@@ -59,8 +59,6 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
         return view('accont.product_info');
     })->name('accont.salesman.product_info');
 
-
-
     Route::get('/salesman/sales', function(){
         return view('accont.sales');
     })->name('accont.salesman.sales');

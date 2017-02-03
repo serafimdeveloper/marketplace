@@ -12,11 +12,14 @@ use App\Http\Controllers\AbstractController;
 use App\Repositories\Accont\StoresRepository;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 
 class StoresController extends AbstractController
 {
+
+    protected $with = ['salesman'];
+
     public function repo()
     {
         return StoresRepository::class;
@@ -97,7 +100,7 @@ class StoresController extends AbstractController
         $dados = $request->except('logo_file');
         $dados['cpf'] = isset($request->cpf) ? $request->cpf : '';
         if($request->hasFile('logo_file')){
-            Storage::delete('imagem/loja/'.$store->logo_file);
+            File::delete('imagem/loja/'.$store->logo_file);
             $dados['logo_file'] = $this->upload($request->logo_file,'imagem/loja','L'.$store->id.'V'.$user->salesman->id.'U'.$user->id);
         }
         if($this->repo->update($dados,$store->id)){

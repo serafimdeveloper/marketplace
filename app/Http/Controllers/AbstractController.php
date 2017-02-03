@@ -59,7 +59,7 @@ abstract class AbstractController extends Controller
     protected function upload($arquivo,$path,$nome){
         if($arquivo->isValid()){
             $nomeArquivo = $nome.'.'.$arquivo->extension();
-            $arquivo->move(storage_path('app/'.$path),$nomeArquivo);
+            $arquivo->move($path, $nomeArquivo);
             return $nomeArquivo;
         }
     }
