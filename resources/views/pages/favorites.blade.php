@@ -27,7 +27,7 @@
                                                  title="" style="width: 100%; max-width: 230px;">
                                         </div>
                                         <div class="coltable-10 product-cart-info">
-                                            <p class="c-pop fontem-12 fontw-400"><a href="/juca/produto/nome-produto">Nome do produto</a></p>
+                                            <p><a class="c-pop fontem-12 fontw-400" href="/juca/produto/nome-produto">Nome do produto</a></p>
                                             <span>Código: 0gos8d4</span>
                                             <br>
                                             <br>

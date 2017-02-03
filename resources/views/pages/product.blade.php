@@ -11,7 +11,7 @@
         <div class="colbox">
             <div class="colbox-2">
                 <figure style="border-bottom: 1px solid #e0e0e0;margin-bottom: 10px;">
-                    <img id="img-product" src="{{ url('/imagem/produto/camisa3.jpg') }}" alt="[]" title="">
+                    <img id="img-product" src="{{ url('imagem/produto/camisa2.jpg') }}" alt="[]" title="">
                 </figure>
                 <ul class="pop-product-galery">
                     <li><img src="{{ url('imagem/produto/camisa.jpg') }}"></li>

@@ -9,10 +9,10 @@
         "barryvdh/laravel-dompdf": "^0.7.1",
         "cagartner/correios-consulta": "0.1.*",
         "cviebrock/eloquent-sluggable": "4.1",
+        "intervention/image": "^2.3",
         "laracasts/flash": "^2.0",
         "laravel/framework": "5.3.*",
         "laravelcollective/html": "^5.3",
-        "league/glide-laravel": "^1.0",
         "resultsystems/validation": "^3.0"
     },
     "require-dev": {
