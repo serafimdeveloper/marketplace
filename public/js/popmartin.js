@@ -538,7 +538,7 @@ function inputvalue(inputs) {
 function window_adress(obj) {
     obj.master = (obj.master ? 'principal' : '');
     var janela = '<div class="panel-end" id="end_' + obj.id + '">';
-    janela += '<h4>Destinatário <span class="fl-right address-master">' + obj.master + '</span></h4>';
+    janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
     janela += '<div class="panel-end-content">';
     janela += '<p>CEP: ' + obj.zip_code + '</p>';
     janela += '<p> ' + obj.public_place + ', ' + obj.number + ' - ' + obj.city + '</p>';

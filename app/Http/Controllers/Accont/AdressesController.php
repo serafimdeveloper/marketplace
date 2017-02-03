@@ -43,7 +43,7 @@
 		public function update(AdressesStoreRequest $request, $id){
             $user = Auth::user();
             $dados = $request->all();
-            if($request->master === "0"){
+            if($request->master == "0"){
 				$this->change_master($user->adresses);
                 $dados['master'] = 1;
 			}
