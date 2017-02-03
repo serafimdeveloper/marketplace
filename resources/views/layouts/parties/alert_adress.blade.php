@@ -9,29 +9,35 @@
                     <div class="colbox">
                         <div class="colbox-2">
                             <label>
+                                <span>Destinatário: </span>
+                                <input type="text" name="name" value="" placeholder="Informe um nome">
+                                <span class="alert hidden"></span>
+                            </label>
+                        </div>
+                        <div class="colbox-2">
+                            <label>
                                 <span>CEP: <span class="btn btn-smallextreme btn-popmartin fl-right cursor-pointer" style="color: #FFF;">Não sei meu cep</span></span>
                                 <input type="text" id="zip_code" name="zip_code" value="" placeholder="Digite um CEP" onkeyup="maskInt(this)">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
-                        <div class="colbox-2">
+                    </div>
+                    <div class="colbox">
+                        <div class="colbox-3">
                             <label>
                                 <span>UF:</span>
                                 <input type="text" name="state" value="" placeholder="Digite sua UF">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
-                    </div>
-                    <div class="colbox">
-
-                        <div class="colbox-2">
+                        <div class="colbox-3">
                             <label>
                                 <span>Município:</span>
                                 <input type="text" name="city" value="" placeholder="Digite seu Município">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
-                        <div class="colbox-2">
+                        <div class="colbox-3">
                             <label>
                                 <span>Bairro:</span>
                                 <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
