@@ -160,7 +160,7 @@ $(function () {
         var id = form.find('input[name=id]').val();
         if (id.length == 0) {
             $.ajax({
-                url: '/accont/adresses/',
+                url: '/accont/adresses',
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
