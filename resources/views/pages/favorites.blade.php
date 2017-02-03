@@ -22,7 +22,7 @@
                                 <td>
                                     <div class="coltable">
                                         <div class="coltable-2 product-cart-img">
-                                            <img src="{{ url('imagem/produto/camisa.jpg?w=300&h=200&fit=crop') }}"
+                                            <img src="{{ url('imagem/produto/camisa.jpg') }}"
                                                  alt="[]"
                                                  title="" style="width: 100%; max-width: 230px;">
                                         </div>

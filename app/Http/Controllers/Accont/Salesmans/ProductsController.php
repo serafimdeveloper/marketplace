@@ -23,9 +23,13 @@ class ProductsController extends AbstractController
     }
 
     public function index(){
-        $store = Auth::user()->salesman->store;
-        $products = $this->repo->all($this->columns,$this->with,['store_id' => $store->id]);
-        return view('accont.products', compact('products'));
+        if($store = Auth::user()->salesman->store){
+            $products = $this->repo->all($this->columns,$this->with,['store_id' => $store->id]);
+            return view('accont.products', compact('products'));
+        }
+        flash('Antes dde cadastrar um produto tem que criar uma loja!', 'warning');
+        return redirect()->route('accont.salesman.stores');
+
     }
 
     public function create(Category $category){

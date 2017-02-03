@@ -17,6 +17,8 @@ class CreateStoresTable extends Migration
             $table->increments('id');
             $table->integer('salesman_id')->unsigned();
             $table->foreign('salesman_id')->references('id')->on('salesmans')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('adress_id')->unsigned()->nullable();
+            $table->foreign('adress_id')->references('id')->on('adresses')->onUpdate('cascade')->onDelete('SET NULL');
             $table->string('name',50);
             $table->string('branch_activity')->nullable();
             $table->string('cpf', 15)->nullable();
@@ -44,7 +46,8 @@ class CreateStoresTable extends Migration
     public function down()
     {
         Schema::table('stores', function(Blueprint $table){
-            $table->dropForeign(['sallesman_id']);
+            $table->dropForeign(['salesman_id']);
+            $table->dropForeign(['adress_id']);
         });
 
         Schema::dropIfExists('stores');

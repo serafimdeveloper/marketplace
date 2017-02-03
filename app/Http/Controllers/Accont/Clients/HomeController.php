@@ -23,7 +23,7 @@
 			$user = Auth::User()->fill($input);
 			$user->save();
 			flash('Dados atualizado com sucesso!', 'accept');	
-			return view('accont.home', compact('user'));
+			return redirect()->route('accont.home');
 		}
 
 		public function change_password(ChangePasswordRequest $request){

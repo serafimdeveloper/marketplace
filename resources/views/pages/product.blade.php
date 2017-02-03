@@ -14,10 +14,10 @@
                     <img id="img-product" src="{{ url('/imagem/produto/camisa3.jpg') }}" alt="[]" title="">
                 </figure>
                 <ul class="pop-product-galery">
-                    <li><img src="{{ url('imagem/produto/camisa.jpg?w=120&h=120&fit=crop') }}"></li>
-                    <li><img src="{{ url('/imagem/produto/camisa2.jpg?w=120&h=120&fit=crop') }}"></li>
-                    <li><img src="{{ url('/imagem/produto/camisa3.jpg?w=120&h=120&fit=crop') }}"></li>
-                    <li><img src="{{ url('/imagem/produto/camisa4.jpg?w=120&h=120&fit=crop') }}"></li>
+                    <li><img src="{{ url('imagem/produto/camisa.jpg') }}"></li>
+                    <li><img src="{{ url('/imagem/produto/camisa2.jpg') }}"></li>
+                    <li><img src="{{ url('/imagem/produto/camisa3.jpg') }}"></li>
+                    <li><img src="{{ url('/imagem/produto/camisa4.jpg') }}"></li>
                 </ul>
             </div>
             <article class="colbox-2">
