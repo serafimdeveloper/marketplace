@@ -46,22 +46,22 @@
                 {{ csrf_field() }}
                 <label>
                     <span>Nome</span>
-                    <input type="text" name="name" placeholder="João" value="{{ old('name') }}" required>
+                    <input type="text" name="name" placeholder="Ex: João" value="{{ old('name') }}" required>
                     <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                 </label>
                 <label>
                     <span>Sobrenome</span>
-                    <input type="text" name="last_name" placeholder="da Silva santos" value="{{ old('last_name') }}" required>
+                    <input type="text" name="last_name" placeholder="Ex: da Silva santos" value="{{ old('last_name') }}" required>
                     <span class="alert{{ $errors->has('last_name') ? '' : ' hidden' }}">{{ $errors->first('last_name') }}</span>
                 </label>
                 <label>
                     <span>E-mail</span>
-                    <input type="email" name="email" placeholder="exemplo@exemplo.com" value="{{ old('email') }}" required>
+                    <input type="email" name="email" placeholder="Ex: exemplo@exemplo.com" value="{{ old('email') }}" required>
                     <span class="alert{{ $errors->has('email') ? '' : ' hidden' }}">{{ $errors->first('email') }}</span>
                 </label>
                 <label>
                     <span>Confirmar E-mail</span>
-                    <input type="email" name="email_confirmation" placeholder="exemplo@exemplo.com" required>
+                    <input type="email" name="email_confirmation" placeholder="Ex: exemplo@exemplo.com" required>
                     <span class="alert hidden"></span>
                 </label>
                 <label>
@@ -75,8 +75,8 @@
                     <span class="alert hidden"></span>
                 </label>
                 <div style="border: 1px solid #B0BEC5; padding: 10px;">
-                    <span>Ao clicar em "Cadastrar", você confirma que aceita o <a href="/termos">Termos de Uso</a> e <a
-                                href="/politicas">Politica de Privacidade</a> .</span>
+                    <span>Ao clicar em "Cadastrar", você confirma que aceita o <a href="/info/termos-de-uso">Termos de Uso</a> e <a
+                                href="/info/politicas-de-privacidade">Politica de Privacidade</a> .</span>
                 </div>
                 <div class="txt-center" style="padding: 0 30px;margin-top: 20px;">
                     <button class="btn btn-popmartin" type="submit">Cadastrar</button>

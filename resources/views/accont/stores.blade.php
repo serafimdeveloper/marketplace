@@ -102,13 +102,13 @@
                     </label>
                     <label>
                         <span>Política de troca (máximo de 500 caracteres)</span>
-                        {!! Form::textarea('exchange_policy', null, ['id' => 'sobre2', 'class' => 'limiter-textarea', 'maxlength' => '500','placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
+                        {!! Form::textarea('exchange_policy', null, ['id' => 'sobre2', 'class' => 'limiter-textarea', 'maxlength' => '500','placeholder'=>'Digite aqui suas políticas de troca', 'rows'=>'7']) !!}
                         <span class="alert{{ $errors->has('exchange_policy') ? '' : ' hidden' }}">{{ $errors->first('exchange_policy') }}</span>
                         <span class="limiter-result" for="sobre2" data-limit="500">500</span>
                     </label>
                     <label>
                         <span>Política de frete (máximo de 500 caracteres)</span>
-                        {!! Form::textarea('freight_policy', null, ['id' => 'sobre3', 'class' => 'limiter-textarea', 'maxlength' => '500','placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
+                        {!! Form::textarea('freight_policy', null, ['id' => 'sobre3', 'class' => 'limiter-textarea', 'maxlength' => '500','placeholder'=>'Digite aqui suas políticas de frete', 'rows'=>'7']) !!}
                         <span class="alert{{ $errors->has('freight_policy') ? '' : ' hidden' }}">{{ $errors->first('freight_policy') }}</span>
                         <span class="limiter-result" for="sobre3" data-limit="500">500</span>
                     </label>

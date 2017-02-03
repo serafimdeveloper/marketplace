@@ -50,6 +50,7 @@
                             <div class="wt-header">
                                 <span class="wt-selected">DETALHES</span>
                                 <span>POLÍTICAS DA LOJA</span>
+                                <span>POLÍTICAS DE FRETE</span>
                             </div>
                             <div class="wt-container">
                                 <div class="wt-content wt-selected wt-visible">
@@ -57,6 +58,11 @@
                                     e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor
                                     desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro
                                     de modelos de tipos. Lorem Ipsum sobreviveu
+                                </div>
+                                <div class="wt-content">
+                                    Lorem Ipsum 2 é simplesmente uma simulação de texto da indústria tipográfica
+                                    e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor
+                                    desconhecido pegou uma bandeja
                                 </div>
                                 <div class="wt-content">
                                     Lorem Ipsum 2 é simplesmente uma simulação de texto da indústria tipográfica

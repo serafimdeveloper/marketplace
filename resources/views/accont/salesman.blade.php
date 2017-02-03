@@ -95,7 +95,7 @@
                     vendas no Pop Martin e consequentemente aceitará compras feitas com cartão de
                     crédito, cartão de débito, boleto e débito online. Sem uma conta de vendedor no
                     MoIP não é possível ativar a sua loja e vender no Pop Martin.</p>
-                <a href="" class="btn btn-small btn-popmartin" target="_blank">Saiba mais</a>
+                <a href="https://moip.com.br/" class="btn btn-small btn-popmartin" target="_blank">Saiba mais</a>
                 <div class="padding10"></div>
                 <p class="c-pop padding05 fontw-800">Já me cadastrei no Moip</p>
                 <p>
