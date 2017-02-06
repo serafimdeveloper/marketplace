@@ -13,7 +13,8 @@
         "laracasts/flash": "^2.0",
         "laravel/framework": "5.3.*",
         "laravelcollective/html": "^5.3",
-        "resultsystems/validation": "^3.0"
+        "resultsystems/validation": "^3.0",
+        "spatie/laravel-glide": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -42,7 +42,8 @@
                         <li><a href="javascript:void(0)"><i class="fa fa-cart-plus"></i></a></li>
                     </ul>
                     <figure>
-                        <img src="{{ url('imagem/produto/camisa.jpg') }}" alt="[]" title="">
+
+                        <img src="{{ GlideImage::load('teste/camisa.jpg')->modify(['w'=> 50, 'h'=>200]) }}" alt="[]" title="">
                         <figcaption>R$ 24,90</figcaption>
                         <span class="modal-product-frete"></span>
                         <span class="modal-product-descont"></span>

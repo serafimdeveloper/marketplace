@@ -173,6 +173,7 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Spatie\Glide\GlideServiceProvider::class,
         //
 
         /*
@@ -238,7 +239,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Correios'    => Cagartner\CorreiosConsulta\Facade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'GlideImage' => Spatie\Glide\GlideImageFacade::class
     ],
 
 ];

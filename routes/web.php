@@ -141,12 +141,6 @@ Route::get('/info/{page}', function ($title) {
     return view('pages.dinamic', $data);
 })->name('pages.dinamic');
 
-Route::get('/imagem/{path}/{image}/{w?}/{h?}', function($path, $image, $w = 200, $h = 200){
-    $img = Image::make('/img/'. $path .'/' . $image)->resize($w, $h);
-//    dd($img->response());
-    return $img->response();
-})->where('path', '.*');
-
 Route::get('/categoria/{category}', function(){
     return view('pages.products');
 })->name('pages.products.categoria');
@@ -166,3 +160,4 @@ Route::get('/{store}', function(){
 Route::get('/{store}/{category}/{product}', function(){
     return view('pages.product');
 })->name('pages.product');
+
