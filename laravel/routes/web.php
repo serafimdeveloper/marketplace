@@ -1,8 +1,7 @@
 <?php
 /** Rotas de páginas */
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('homepage');
+
 Route::get('/carrinho', function () {
     return view('pages.cart');
 })->name('pages.cart');
@@ -13,7 +12,6 @@ Route::get('/contato', function () {
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
-Route::get('/home', 'HomeController@index')->name('home');
 
 
 

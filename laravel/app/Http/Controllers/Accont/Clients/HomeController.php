@@ -19,6 +19,7 @@
 		}
 
 		public function store(HomeStoreRequest $request){
+//            dd($request);
 			$input = $request->all();
 			$user = Auth::User()->fill($input);
 			$user->save();
