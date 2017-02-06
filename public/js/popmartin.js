@@ -3,7 +3,10 @@
  */
 $(function () {
 
-
+    /**
+     * Carousel para container de publicidade no topo do site
+     * @type {{loop: boolean, margin: number, responsive: {0: {items: number}, 400: {items: number}, 600: {items: number}, 700: {items: number}, 900: {items: number}}, autoplay: boolean, autoplayTimeout: number, autoplayHoverPause: boolean}}
+     */
     var owlAds = {
         loop: true,
         margin: 30,
@@ -14,6 +17,10 @@ $(function () {
     }
     $(".pop-ads").owlCarousel(owlAds);
 
+    /**
+     * Carousel para container de apresentação de produtos na página inicial do site
+     * @type {{loop: boolean, margin: number, nav: boolean, navText: [*], dots: boolean, responsive: {0: {items: number}, 400: {items: number}, 600: {items: number}, 700: {items: number}, 900: {items: number}}, autoplay: boolean, autoplayTimeout: number, autoplayHoverPause: boolean}}
+     */
     var owlHomeProducts = {
         loop: true,
         margin: 30,
@@ -42,6 +49,9 @@ $(function () {
     $('.obsRequest').on('click', function () {
         $(this).bsdialog(obsrequest);
     });
+
+
+
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
 
@@ -311,6 +321,10 @@ $(document).on('click', '.jq-info-sales', function(){
     $("#jq-info-sales").slideDown();
 });
 
+/** Modal de informações das notificações */
+$(document).on('click', '.jq-notification', function(){
+    $("#jq-notification").slideDown();
+});
 
 /** Modal de informações de produtos */
 $(document).on('click', '.jq-info-product', function(){

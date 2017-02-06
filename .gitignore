@@ -1,7 +1,7 @@
-/node_modules
+laravel/node_modules
 /material
-/vendor
+laravel/vendor
 /.idea
-Homestead.json
-Homestead.yaml
-.env
+laravel/Homestead.json
+laravel/Homestead.yaml
+laravel/.env
