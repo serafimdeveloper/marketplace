@@ -1,5 +1,6 @@
 /**
- * Created by asiw.com.br on 16/01/2017.
+ * Criado por asiw
+ * @author: asiw - contato@asiw.com.br
  */
 $(function () {
 
