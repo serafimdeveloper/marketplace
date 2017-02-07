@@ -92,9 +92,7 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     })->name('accont.report.products');
 
 
-    Route::get('/categories', function(){
-        return view('accont.categories');
-    })->name('account.categories');
+    Route::get('/categories', 'Accont\CategoriesController@index')->name('account.categories');
 
     Route::get('/report/sales', function(){
         return view('accont.report.sales');

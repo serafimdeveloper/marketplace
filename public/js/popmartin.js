@@ -162,6 +162,12 @@ $(function () {
         }
     });
 
+    /**
+     * Máscara do Telefone e Celular
+     */
+
+    $('.celphone').mask("(99) 9999?-9999");
+
     $('.alertbox-close').click(function () {
         var form = $(this).siblings('div').find('form');
         form.find('input').val('');
