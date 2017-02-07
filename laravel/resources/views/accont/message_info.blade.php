@@ -4,8 +4,33 @@
     @include('accont.inc.nav')
     <section class="panel-content">
         <header class="pop-title">
-            <h1>Conversa com Luís Fernando</h1>
+            <h1><i class="fa fa-comments-o"></i> Conversa com Luís Fernando</h1>
         </header>
+        <div class="trigger notice">
+            <a href="/accont/requests/1" class="c-white">
+                <i class="fa fa-newspaper-o"></i>
+                Conversa relacionada ao pedido de id: #s7c9sa6c
+                <span class="btn btn-smallextreme btn-popmartin vertical-middle">ver pedido</span>
+            </a>
+        </div>
+
+        <div class="trigger notice">
+            <a href="/accont/salesman/sale/1" class="c-white">
+                <i class="fa fa-newspaper-o"></i>
+                Conversa relacionada a venda de id: #byashs0d8
+                <span class="btn btn-smallextreme btn-popmartin vertical-middle"> ver venda</span>
+            </a>
+        </div>
+
+        <div class="trigger notice">
+            <a href="/juca/produto/nome-produto" class="c-white">
+                <img class="dp-inblock vertical-middle" src="{{ url('imagem/produto/camisa.jpg?w=50&h=50&filt=crop') }}"
+                     alt="imagem" title="imagem">
+                Conversa relacionada ao produto <b>Camisa que ruje</b>
+                <span class="btn btn-smallextreme btn-popmartin vertical-middle">ver produto</span>
+            </a>
+        </div>
+
         <table class="table table-action">
             <thead>
             <tr>
@@ -38,7 +63,8 @@
             <form class="form-modern" action="" method="POST">
                 <p class="c-pop fontw-600 box-marginzero">Responder</p>
                 <label>
-                    <textarea id="comments-limit" class="limiter-textarea" name="message" rows="4" maxlength="500"></textarea>
+                    <textarea id="comments-limit" class="limiter-textarea" name="message" rows="4"
+                              maxlength="500"></textarea>
                     <span class="limiter-result" for="comments-limit">limite de 500 caracteres</span>
                 </label>
                 <div class="txt-left">

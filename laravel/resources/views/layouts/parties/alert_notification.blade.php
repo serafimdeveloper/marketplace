@@ -32,17 +32,28 @@
             <span class="dp-block fontw-500 c-pop">Menssagem relacionada:</span>
             <span class="dp-block"><b>Id:</b> 568 </span>
             <div class="">
-                <form class="form-modern">
+                <form class="form-modern pop-form form-notfy">
                     <label>
                         {!! Form::textarea('content', 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI,',
                     ['id' => 'msg-notify', 'class' => 'limiter-textarea', 'maxlength' => '500']) !!}
                         <span class="limiter-result" for="msg-notify" data-limit="500">500</span>
                     </label>
 
-                    <div class="txt-center">
-                        <button type="submit" name="edit" class="btn btn-popmartin">editar</button>
-                        <button type="submit" name="edit" class="btn btn-red"><i class="fa fa-trash"></i> remover</button>
+                    <div class="colbox">
+                        <div class="colbox-2 txt-left">
+                            <button type="submit" name="edit" class="btn btn-small btn-popmartin">editar mensagem
+                            </button>
+                            <button type="submit" name="edit" class="btn btn-small btn-red"><i class="fa fa-trash"></i>
+                                remover mensagem
+                            </button>
+                        </div>
+                        <div class="colbox-2 txt-right">
+                            <button name="edit" class="btn btn-small btn-red"><i class="fa fa-trash"></i> remover
+                                notificação
+                            </button>
+                        </div>
                     </div>
+                    <div class="clear-both"></div>
                 </form>
             </div>
         </div>

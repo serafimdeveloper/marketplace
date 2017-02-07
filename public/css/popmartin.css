@@ -242,7 +242,7 @@ input{padding: 5px;width: 100%;}
 .trigger.warning{background-color: #FBC02D;color: #FFF;border: none;}
 .trigger.notice{background-color: #1565C0;color: #FFF;border: none;}
 .trigger.error{background-color: #EF5350;color: #FFF;border: none;}
-
+.table input{min-width: 20px;}
 /** RESPONSIVIDADE */
 
 @media(max-width: 69em){ /*1024px */
@@ -313,6 +313,8 @@ input{padding: 5px;width: 100%;}
     .pop-favrities .product-cart-img img{max-width: 50px;}
     .pop-favrities .product-cart-info{width: 100%;text-align: center;}
     /*.pop-favrities tbody td:last-of-type{border-top: 1px solid #dff0d8;}*/
+
+    .form-notfy .colbox-2{text-align: center;}
 }
 @media(max-width: 36.25em){ /*580px */
     .pop-store .pop-store-info{padding-bottom: 10px;}
