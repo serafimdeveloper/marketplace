@@ -43,7 +43,7 @@
                     </ul>
                     <figure>
                         <img src="{{ url('imagem/produto/camisa.jpg') }}" alt="[]" title="">
-                        <figcaption>R$ 24,90</figcaption>
+                        <figcaption><a href="/juca/produto/nome-produto">R$ 24,90</a></figcaption>
                         <span class="modal-product-frete"></span>
                         <span class="modal-product-descont"></span>
                     </figure>

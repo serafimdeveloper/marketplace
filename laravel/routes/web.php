@@ -13,8 +13,6 @@ Route::get('/contato', function () {
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
-
-
 Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     /** Clientes */
@@ -141,7 +139,9 @@ Route::get('/info/{page}', function ($title) {
     return view('pages.dinamic', $data);
 })->name('pages.dinamic');
 
-Route::get('/imagem/{path}', 'ImageController@show')->where('path', '.*');
+Route::get('imagem/{path}', function(League\Glide\Server $server, Illuminate\Http\Request $request, $path){
+    $server->outputImage($path, $request->input());
+})->where('path', '.+');
 
 Route::get('/categoria/{category}', function(){
     return view('pages.products');
