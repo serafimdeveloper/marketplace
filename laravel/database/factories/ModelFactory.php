@@ -15,8 +15,6 @@
 use App\Model\Salesman;
 use App\Model\User;
 use Faker\Generator;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
 
 $factory->define(User::class, function (Generator $faker) {
     static $password;
@@ -55,6 +53,4 @@ $factory->define(Salesman::class, function(Generator $faker){
         'proof_adress' => $faker->image(storage_path() . $folder, 640, 480, 'cats', false),
         'active' => 0
     ];
-
-//    ,,'','','', 'active'
 });
