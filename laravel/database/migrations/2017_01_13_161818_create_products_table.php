@@ -19,8 +19,8 @@ class CreateProductsTable extends Migration
             $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('NO ACTION');
-            $table->integer('subcategory_id')->unsigned()->nullable();
-            $table->foreign('subcategory_id')->references('id')->on('sub_categories')->onUpdate('cascade')->onDelete('NO ACTION');
+//            $table->integer('subcategory_id')->unsigned()->nullable();
+//            $table->foreign('subcategory_id')->references('id')->on('sub_categories')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->string('name',100);
             $table->decimal('price',8,2);
             $table->decimal('price_with_desconto',8,2);
@@ -49,7 +49,7 @@ class CreateProductsTable extends Migration
         Schema::table('products', function(Blueprint $table){
             $table->dropForeign(['store_id']);
             $table->dropForeign(['category_id']);
-            $table->dropForeign(['subcategory_id']);
+//            $table->dropForeign(['subcategory_id']);
         });
         Schema::dropIfExists('products');
     }
