@@ -5,7 +5,7 @@
                 <h2 class="alertbox-title">Cadastrar novo endereço</h2>
                 <form action="javascript:void(0)" class="form-modern" id="form-adress">
                     {{ csrf_field() }}
-                    <label><input type="hidden" name="id" value=""/></label>
+                    <input type="hidden" name="id" value=""/>
                     <div class="colbox">
                         <div class="colbox-2">
                             <label>

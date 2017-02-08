@@ -14,6 +14,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Model\Adress;
 use App\Model\Category;
+use App\Model\Galery;
 use App\Model\Product;
 use App\Model\Salesman;
 use App\Model\Store;
@@ -76,12 +77,12 @@ $factory->define(Store::class, function(Generator $faker){
         'fantasy_name' => $faker->unique()->sentence(2),
         'social_name' => $faker->unique()->name . ' ltda',
         'slug' => $faker->unique()->slug,
-        'about' => $faker->sentence(20),
-        'exchange_policy' => $faker->sentence(40),
-        'freight_policy' => $faker->sentence(25),
+        'about' => $faker->text(500),
+        'exchange_policy' => $faker->text(500),
+        'freight_policy' => $faker->text(500),
         'logo_file' => $faker->image(storage_path(). $folder, 640, 480, 'cats', false),
         'rate' => $faker->randomFloat(2, 0, 5),
-        'active' => 0
+        'active' => 0,
         ];
     });
 $factory->define(Adress::class, function(Generator $faker){
@@ -89,7 +90,9 @@ $factory->define(Adress::class, function(Generator $faker){
         'user_id' => function(){
             return factory(User::class, 1)->create()->id;
         },
-        'store_id' => null,
+        'store_id' => function(){
+            return factory(Store::class, 1)->create()->id;
+        },
         'name' => $faker->name,
         'zip_code' => $faker->postcode,
         'state' => $faker->stateAbbr,
@@ -104,11 +107,41 @@ $factory->define(Adress::class, function(Generator $faker){
 
 $factory->define(Category::class, function(Generator $faker){
     return [
-        'name' => $faker->word(6),
-        'category_id' => function(){
-
-        },
+        'name' => $faker->unique()->word,
+        'slug' => $faker->slug(2),
         'menu' => 0,
         'active' => 1
+    ];
+});
+
+$factory->define(Product::class, function(Generator $faker){
+    return [
+        'store_id' => function(){
+            return factory(Store::class)->create()->id;
+        },
+        'category_id' => function(){
+            return factory(Category::class)->create()->id;
+        },
+        'name' => $faker->sentence(3),
+        'price' => $faker->randomFloat(2, 50, 200),
+        'price_out_discount' => $faker->randomFloat(2, 1, 50),
+        'deadline' => $faker->numberBetween(1, 15),
+        'free_shipping' => $faker->randomElement(array('0','1')),
+        'minimum_stock' => $faker->numberBetween(1, 50),
+        'details' => $faker->text(500),
+        'length_cm' => $faker->randomFloat(2, 1, 500),
+        'width_cm' => $faker->randomFloat(2, 1, 500),
+        'height_cm' => $faker->randomFloat(2, 1, 500),
+        'weight_gr' => $faker->randomFloat(2, 1, 500),
+        'diameter_cm' => $faker->randomFloat(2, 1, 500),
+        'slug' => $faker->slug,
+        'active' => 1
+    ];
+});
+
+$factory->define(Galery::class, function(Generator $faker){
+    $folder = DIRECTORY_SEPARATOR . 'app'. DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . 'produto';
+    return [
+        'image' => $faker->image(storage_path(). $folder, 640, 480, 'cats', false),
     ];
 });

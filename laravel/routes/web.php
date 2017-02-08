@@ -96,8 +96,8 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('/category', 'Accont\CategoriesController@create')->name('account.category.create');
     Route::post('/category', 'Accont\CategoriesController@store')->name('account.category.store');
     Route::get('/category/{id}', 'Accont\CategoriesController@edit')->name('account.category.edit');
-    Route::post('/category/{id}', 'Accont\CategoriesController@update')->name('account.category.update');
-    Route::get('/category/{id}', 'Accont\CategoriesController@destroy')->name('account.category.destroy');
+    Route::put('/category/{id}', 'Accont\CategoriesController@update')->name('account.category.update');
+    Route::delete('/category/{id}', 'Accont\CategoriesController@destroy')->name('account.category.destroy');
 
 
     Route::get('/report/sales', function(){

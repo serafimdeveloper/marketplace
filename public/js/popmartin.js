@@ -198,7 +198,9 @@ $(function () {
 
     $('.alertbox-close').click(function () {
         var form = $(this).siblings('div').find('form');
+        var _token = form.find('input[name=_token]').val();
         form.find('input').val('');
+        form.find('input[name=_token]').val(_token);
         if(form.find(":checkbox").is(":checked")){
             form.find(":checkbox").click();
         }
@@ -398,37 +400,43 @@ $(document).on('click', '.jq-new-category', function(){
     var form = modal.find('form');
     var title = (e.data('category') ? 'Atualizar categoria - nome da categoria' : 'Cadastrar categoria');
     var buttonText = (e.data('category') ? 'atualizar' : 'cadastrar');
+    var category = (e.data('category') ? '/'+e.data('category') : '');
     modal.find('h2').text(title);
     modal.find('button').text(buttonText);
 
-    $.get('/accont/category', e.data('category'), function (response) {
+    $.get('/accont/category'+category, function (response) {
         var select = form.find('select');
-        select.empty();
-        form.find('input').val(response.name);
+        select.html('<option value="">Escolher uma categória pai</option>');
+        if(response.category){
+            var dados = {'id':response.category.id,'name':response.category.name};
+            inputvalue(dados);
+        }
         $.each(response.categories, function (i,obj) {
-           selectgit s.append('<option value="'+i+'">'+obj+'</option>');
-            /*if($(this).val() == response.id){
-                $(this).attr('selected', 'true');
-                return false;
-            }*/
+            var selected = '';
+            if(response.category){
+                selected = (response.category.category_id === i) ? ' selected="selected"' : '';
+            }
+            select.append('<option value="'+i+'"'+selected+'>'+obj+'</option>');
         });
-    })
+    });
 
     $("#jq-new-category").slideDown();
 });
 
 /**
- * Atualizae e cadastrar categorias no sistema
+ * Atualizar e cadastrar categorias no sistema
  */
 $(document).on('submit', '#jq-new-category form', function(){
     var form = $(this);
     var dados = form.serialize();
+    console.log(dados);
+    var id = $('input[name=id]').val();
     var buttonText = form.find('button').text();
     var buttonTextloading = '<i class="fa fa-spin fa-spinner"></i> processando...';
 
-    if (!dados.id) {
+    if (!id) {
         $.ajax({
-            url: '',
+            url: '/accont/category',
             type: 'POST',
             dataType: 'json',
             data: dados,
@@ -444,7 +452,7 @@ $(document).on('submit', '#jq-new-category form', function(){
         });
     } else {
         $.ajax({
-            url: '',
+            url: '/accont/category/'+id,
             type: 'PUT',
             dataType: 'json',
             data: dados,

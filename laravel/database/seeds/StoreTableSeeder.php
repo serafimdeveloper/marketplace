@@ -1,4 +1,5 @@
 <?php
+use App\Model\Adress;
 use App\Model\Store;
 use Illuminate\Database\Seeder;
 

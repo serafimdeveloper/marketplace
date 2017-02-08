@@ -19,11 +19,11 @@
             </tr>
             </thead>
             <tbody>
-            @for ($i = 0; $i < 5; $i++)
+             @forelse($categories as $category)
                 <tr id="category_01">
-                    <td>Nome da categoria</td>
-                    <td>nome categoria pai</td>
-                    <td>nome-da-categoria</td>
+                    <td>{{$category->name}}</td>
+                    <td>{{isset($category->category) ? $category->category->name : ''}}</td>
+                    <td>{{$category->slug}}</td>
                     <td class="txt-center">
                         <div class="form-modern">
                             <div class="checkbox-container">
@@ -38,11 +38,15 @@
                         </div>
                     </td>
                     <td class="txt-center">
-                        <a href="javascript:void(0)" class="t-btn t-edit jq-new-category" data-category="1">editar</a>
-                        <a href="javascript:void(0)" class="t-btn t-remove">remover</a>
+                        <a href="javascript:void(0)" class="t-btn t-edit jq-new-category" data-category="{{$category->id}}">editar</a>
+                        <a href="javascript:void(0)" class="t-btn t-remove" data-category="{{$category->id}}">remover</a>
                     </td>
                 </tr>
-            @endfor
+            @empty
+                 <tr>
+                     <td colspan="4">Nenhuma Categoria Cadastrada</td>
+                 </tr>
+            @endforelse
             </tbody>
         </table>
     </section>

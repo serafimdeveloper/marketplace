@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Accont;
 
 
 use App\Http\Controllers\AbstractController;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use App\Model\Category;
 use App\Repositories\Accont\CategoriesRepository;
 
@@ -26,7 +26,8 @@ class CategoriesController extends AbstractController
 
     public function store(Request $request){
         $this->validate($request, ['name'=>'required|unique:categories']);
-        $dados = $request->all();
+        $dados = $request->except('_token','id');
+        $dados['category_id'] = ($dados['category_id'] === "") ? null : $dados['category_id'];
         if($category = $this->repo->store($dados)){
             return response()->json(['status'=>true, 'category'=>$category],201);
         }else{
@@ -36,8 +37,8 @@ class CategoriesController extends AbstractController
 
     public function edit($id){
         $category = $this->repo->get($id);
-        $categories = $this->repo->all();
-        response()->json(compact('category','categories'));
+        $categories = Category::pluck('name','id');
+        return response()->json(compact('categories','category'));
     }
 
     public function update(Request $request, $id){
