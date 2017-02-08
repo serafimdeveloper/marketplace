@@ -13,8 +13,6 @@ Route::get('/contato', function () {
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
-
-
 Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     /** Clientes */
@@ -94,9 +92,13 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     })->name('accont.report.products');
 
 
-    Route::get('/categories', function(){
-        return view('accont.categories');
-    })->name('account.categories');
+    Route::get('/categories', 'Accont\CategoriesController@index')->name('account.categories');
+    Route::get('/category', 'Accont\CategoriesController@create')->name('account.category.create');
+    Route::post('/category', 'Accont\CategoriesController@store')->name('account.category.store');
+    Route::get('/category/{id}', 'Accont\CategoriesController@edit')->name('account.category.edit');
+    Route::put('/category/{id}', 'Accont\CategoriesController@update')->name('account.category.update');
+    Route::delete('/category/{id}', 'Accont\CategoriesController@destroy')->name('account.category.destroy');
+
 
     Route::get('/report/sales', function(){
         return view('accont.report.sales');
@@ -141,7 +143,9 @@ Route::get('/info/{page}', function ($title) {
     return view('pages.dinamic', $data);
 })->name('pages.dinamic');
 
-Route::get('/imagem/{path}', 'ImageController@show')->where('path', '.*');
+Route::get('imagem/{path}', function(League\Glide\Server $server, Illuminate\Http\Request $request, $path){
+    $server->outputImage($path, $request->input());
+})->where('path', '.+');
 
 Route::get('/categoria/{category}', function(){
     return view('pages.products');

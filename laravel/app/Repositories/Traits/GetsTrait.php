@@ -106,4 +106,8 @@ trait GetsTrait
 
         throw new RepositoryException('Items not found');
     }
+
+    public function pluck($columns){
+        return $this->model->pluck($columns);
+    }
 }
