@@ -165,8 +165,36 @@ $(function () {
     /**
      * Máscara do Telefone e Celular
      */
+     $('.celphone').bind("keyup", function(e){
+             var valor = $(this).val();
+         if(e.keyCode != 8) {
+             valor = valor.replace(/[^0-9]+g/, "");
 
-    $('.celphone').mask("(99) 9999?-9999");
+             if (valor.length == 2) {
+                 $(this).val('(' + valor.substring(0, 2) + ') ');
+             }
+             else if (valor.length == 9) {
+                 $(this).val(valor + "-");
+             }
+             else if (valor.length == 14) {
+                 var hifen = valor.indexOf('-');
+                 if (hifen != 9) {
+                     var elem = valor.charAt(hifen - 1);
+                     valor = valor.replace(elem + '-', '-' + elem);
+                 }
+                 $(this).val(valor.substring(0, 14));
+             }
+             else if (valor.length == 15) {
+                 var hifen = valor.indexOf('-');
+                 if (hifen == 9) {
+                     var elem = valor.charAt(hifen + 1);
+                     valor = valor.replace('-' + elem, elem + '-');
+                 }
+                 $(this).val(valor.substring(0, 15));
+             }
+         }
+    });
+
 
     $('.alertbox-close').click(function () {
         var form = $(this).siblings('div').find('form');
@@ -373,13 +401,16 @@ $(document).on('click', '.jq-new-category', function(){
     modal.find('h2').text(title);
     modal.find('button').text(buttonText);
 
-    $.get('', e.data('category'), function (response) {
+    $.get('/accont/category', e.data('category'), function (response) {
+        var select = form.find('select');
+        select.empty();
         form.find('input').val(response.name);
-        form.find('select').find('optin').each(function () {
-            if($(this).val() == response.id){
+        $.each(response.categories, function (i,obj) {
+           selectgit s.append('<option value="'+i+'">'+obj+'</option>');
+            /*if($(this).val() == response.id){
                 $(this).attr('selected', 'true');
                 return false;
-            }
+            }*/
         });
     })
 

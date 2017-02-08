@@ -25,11 +25,11 @@
 			if($request->get('master')){
 				$this->change_master($user->adresses);
 			}
-			$adress = $request->except('id','_token');
-            $adress['user_id'] = $user->id;
-			if($dados = $this->repo->store($adress))
+			$dados = $request->except('id','_token');
+            $dados['user_id'] = $user->id;
+			if($adress = $this->repo->store($dados))
 			{
-				return json_encode(['status'=>true, 'adress'=>$dados]);
+				return json_encode(['status'=>true, 'adress'=>$adress]);
 			}
 			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao criar o endereço !'], 500);
 		}

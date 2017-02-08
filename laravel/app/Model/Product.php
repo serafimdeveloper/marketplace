@@ -9,7 +9,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Product extends Model
 {
     protected  $fillable = ['store_id','category_id','subcategory_id','name','price','price_out_discount','deadline',
-        'free_shippping','minimum_stock','delivery_time','details','length_cm','width_cm','height_cm','weight_gr','slug',
+        'free_shipping','minimum_stock','delivery_time','details','length_cm','width_cm','height_cm','weight_gr','slug',
         'diameter_cm','active','featured'];
 
     use Sluggable;
