@@ -25,12 +25,12 @@ class Store extends Model
         ];
     }
 
-    public function adress(){
-        return $this->belongsTo(Adress::class);
-    }
-
     public function salesman(){
         return $this->belongsTo(Salesman::class);
+    }
+
+    public function address(){
+        return $this->hasOne(Adress::class);
     }
 
     public function products(){

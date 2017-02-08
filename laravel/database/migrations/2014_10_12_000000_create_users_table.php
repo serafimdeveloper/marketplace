@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('confirm_token',100);
             $table->date('birth')->nullable();
             $table->enum('genre',['F','M'])->nullable();
+            $table->enum('type',['client','salesman', 'admin'])->default('client');
             $table->timestamp('last_access')->nullable();
             $table->string('phone',15)->nullable();
             $table->boolean('active')->default(0);

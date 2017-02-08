@@ -1,8 +1,8 @@
 <?php
-use App\Model\Adress;
+use App\Model\ProductRequest;
 use Illuminate\Database\Seeder;
 
-class AddressTableSeeder extends Seeder
+class ProductRequestTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class AddressTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Adress::class, 1)->create();
+        factory(ProductRequest::class, 3)->create();
     }
 }

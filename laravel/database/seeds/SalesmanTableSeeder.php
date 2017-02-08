@@ -11,6 +11,6 @@ class SalesmanTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Salesman::class, 1)->create();
+        factory(Salesman::class, 3)->create();
     }
 }

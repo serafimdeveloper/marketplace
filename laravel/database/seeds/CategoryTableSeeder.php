@@ -12,10 +12,10 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Category::class, 2)->create()->each(function($c){
-            for($i = 0; $i < 4; $i++){
+        factory(Category::class, 3)->create()->each(function($c){
+            for($z = 0; $z < 4; $z++){
                 $c->subcategories()->save(factory(Category::class)->make());
-                $c->products()->save(factory(Product::class)->make());
+//                $c->products()->save(factory(Product::class)->make());
             }
         });
     }
