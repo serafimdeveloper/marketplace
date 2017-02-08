@@ -17,7 +17,7 @@ use Auth;
 
 class ProductsController extends AbstractController
 {
-    protected $with = ['category','subcategory'];
+    protected $with = ['category','store'];
     public function repo(){
         return ProductsRepository::class;
     }

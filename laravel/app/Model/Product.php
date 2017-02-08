@@ -36,13 +36,13 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function subcategory(){
+    /*public function subcategory(){
         return $this->belongsTo(SubCategory::class);
     }
 
     public function requests(){
         return $this->belongsToMany(Request::class);
-    }
+    }*/
 
     public function movementstocks(){
         return $this->hasMany(MovementStock::class);
