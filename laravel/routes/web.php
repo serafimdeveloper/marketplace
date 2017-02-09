@@ -46,16 +46,11 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::post('/salesman/stores/update', 'Accont\StoresController@update')->name('accont.salesman.stores.update');
 
     Route::get('/salesman/products', 'Accont\Salesmans\ProductsController@index')->name('accont.salesman.products');
-
-    Route::get('/salesman/product', function(){
-        return view('accont.product_info');
-    })->name('accont.salesman.product_create');
-
-    Route::get('/salesman/product/{id}', function(){
-        return view('accont.product_info');
-    })->name('accont.salesman.product_info');
-
-
+    Route::get('/salesman/product', 'Accont\Salesmans\ProductsController@create')->name('accont.salesman.product.create');
+    Route::post('/salesman/product', 'Accont\Salesmans\ProductsController@store')->name('accont.salesman.product.store');
+    Route::get('/salesman/product/{id}', 'Accont\Salemans\ProductsController@edit')->name('accont.salesman.product.edit');
+    Route::post('/salesman/product/{id}', 'Accont\Salemans\ProductsController@update')->name('accont.salesman.product.update');
+    Route::delete('/salesman/product/{id}', 'Accont\Salemans\ProductsController@destroy')->name('accont.salesman.product.destroy');
 
     Route::get('/salesman/sales', function(){
         return view('accont.sales');
@@ -131,12 +126,11 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
      */
 
     /** Adress */
-    Route::post('/adresses','Accont\AdressesController@store')->name('accont.adress.store');
-    Route::get('/adresses/{adress}','Accont\AdressesController@edit')->name('accont.adress.edit');
-    Route::post('/adresses/{adress}','Accont\AdressesController@update')->name('accont.adress.update');
-    Route::delete('/adresses/{adress}','Accont\AdressesController@destroy')->name('accont.adress.destroy');
     Route::get('/adresses/zip_code/{zip}','Accont\AdressesController@search_cep')->name('accont.adress.zip_code');
-
+    Route::post('/adresses/{action}','Accont\AdressesController@store')->name('accont.adress.store');
+    Route::get('/adresses/{action}/{adress}','Accont\AdressesController@edit')->name('accont.adress.edit');
+    Route::post('/adresses/{action}/{adress}','Accont\AdressesController@update')->name('accont.adress.update');
+    Route::delete('/adresses/{action}/{adress}','Accont\AdressesController@destroy')->name('accont.adress.destroy');
 });
 Route::get('/info/{page}', function ($title) {
     $data['title'] = $title;

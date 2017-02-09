@@ -36,21 +36,21 @@
                         <div class="colbox-3">
                             <label>
                                 <span>UF:</span>
-                                <input type="text" name="state" value="" placeholder="Digite sua UF">
+                                <input type="text" name="state" value="" placeholder="Digite sua UF" readonly="readonly">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-3">
                             <label>
                                 <span>Município:</span>
-                                <input type="text" name="city" value="" placeholder="Digite seu Município">
+                                <input type="text" name="city" value="" placeholder="Digite seu Município" readonly="readonly">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-3">
                             <label>
                                 <span>Bairro:</span>
-                                <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
+                                <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro" readonly="readonly">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -58,7 +58,7 @@
                     <div class="clear-both"></div>
                     <label>
                         <span>Endereço:</span>
-                        <input type="text" name="public_place" value="" placeholder="Digite seu Endereço">
+                        <input type="text" name="public_place" value="" placeholder="Digite seu Endereço" readonly="readonly">
                         <span class="alert hidden"></span>
                     </label>
                     <div class="colbox">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="clear-both"></div>
-                    <div class="checkbox-container padding10">
+                    <div class="checkbox-container padding10" id="chk-master">
                         <div class="checkboxies">
                             <label class="checkbox" style="border-color: #888888;border: none;">
                                 <span><span class="fa fa-square-o"></span> marcar como endereço principal</span>

@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Accont;
 
 use App\Http\Controllers\AbstractController;
 use App\Repositories\Accont\StoresRepository;
+use App\Http\Requests\Accont\AdressesStoreRequest;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -46,7 +47,6 @@ class StoresController extends AbstractController
         $validate = [
             'name' => 'required|unique:stores',
             'type_salesman' => 'required',
-            'cpf' => 'required|cpf_mascara|unique:stores',
             'logo_file' => 'required|image|mimes:png,jpg,jpeg',
             'about' => 'required|max:500'
         ];
@@ -54,7 +54,6 @@ class StoresController extends AbstractController
             $validate['cnpj'] = 'required|cnpj_mascara|unique:stores';
             $validate['social_name'] = 'required';
             $validate['fantasy_name'] = 'required';
-            unset($validate['cpf']);
         }
         $this->validate($request, $validate);
         $dados = $request->except('logo_file');
@@ -80,7 +79,6 @@ class StoresController extends AbstractController
         $validate = [
             'name' => 'required|unique:stores,name,'.$store->id,
             'type_salesman' => 'required',
-            'cpf' => 'required|cpf_mascara|unique:stores,cpf,'.$store->id,
             'logo_file' => 'image|mimes:png,jpg,jpeg',
             'about' => 'required|max:500',
             'exchange_policy' => 'required|max:500',
@@ -91,7 +89,6 @@ class StoresController extends AbstractController
             $validate['cnpj'] = 'required|cnpj_mascara|unique:stores,cnpj,'.$store->id;
             $validate['social_name'] = 'required';
             $validate['fantasy_name'] = 'required';
-            unset($validate['cpf']);
         }
         $this->validate($request, $validate);
         $dados = $request->except('logo_file');
@@ -107,7 +104,6 @@ class StoresController extends AbstractController
         flash('Erro ao atualizar a loja!', 'error');
         return redirect()->route('accont.salesman.stores');
     }
-
 
     public function show($slug){
         $store = $this->repo->bySlug($slug);

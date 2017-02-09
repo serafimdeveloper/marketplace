@@ -93,6 +93,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="colbox-2">
                     <label>
                         <span>Sobre a Loja (máximo de 500 caracteres)</span>
@@ -118,18 +119,27 @@
             <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">
                 <button type="submit" class="btn btn-popmartin">{{isset($store) ? 'atualizar' :'cadastrar'}}</button>
             </div>
-        {!! Form::close() !!}
-        <div id="group-pnl-end">
-                <div class="panel-end">
-                    <h4>Endereço</h4>
-                    <div class="panel-end-content">
-                        <p>CEP: 27163000</p>
-                        <p>rua 5, 126 - Califórnia da Barra</p>
-                    </div>
-                    <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="">editar|excluir</a>
-                </div>
-                <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Essa loja ainda não possui um endereço cadastrado</p>
-        </div>
+            {!! Form::close() !!}
+            <div id="group-pnl-end">
+                @if(isset($store))
+                    @if(isset($adress))
+                        <div class="panel-end" id="end_{{$adress->id}}">
+                            <h4><span>Endereço da Loja</span></h4>
+                            <div class="panel-end-content">
+                                <p>CEP: {{$adress->zip_code}}</p>
+                                <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>
+                            </div>
+                            <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}" data-action="store">editar|excluir</a>
+                        </div>
+                    @else
+                        <div id="isAddress">
+                            <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereços cadastrado</p>
+                            <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address" data-action="store">cadastrar um endereço</a></p>
+                        </div>
+                    @endif
+                @endif
+            </div>
+            </div>
     </section>
     <div class="clear-both"></div>
     @include('layouts.parties.alert_adress')

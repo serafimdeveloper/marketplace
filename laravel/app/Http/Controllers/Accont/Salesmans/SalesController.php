@@ -15,7 +15,7 @@ use App\Model\Category;
 use App\Http\Requests\Accont\Salesman\ProductsStoreRequest;
 use Auth;
 
-class ProductsController extends AbstractController
+class SalesController extends AbstractController
 {
     protected $with = ['category','store'];
     public function repo(){

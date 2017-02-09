@@ -7,7 +7,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Store extends Model
 {
-    protected $fillable = ['salesman_id','name','type_salesman','cpf','cnpj','fantasy_name','social_name','slug','brach_activity'
+    protected $fillable = ['salesman_id','name','type_salesman','cnpj','fantasy_name','social_name','slug','brach_activity'
         ,'about','exchange_policy','freight_policy','logo_file','rate','active'];
 
     use Sluggable;
