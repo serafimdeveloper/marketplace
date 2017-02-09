@@ -13,9 +13,13 @@ class Request extends Model
 
     protected $casts = ['settlement_date' => 'date','cancellation_date'=>'datetime','send_date'=>'datetime',
         'number_installments'=>'integer','freight_price'=>'double','amount'=>'double'];
+
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -37,7 +41,7 @@ class Request extends Model
     }
 
     public function products(){
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot(['quantity', 'unit_price', 'amount']);
     }
 
     public function shopvaluation(){

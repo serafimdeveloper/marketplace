@@ -27,7 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function adresses(){
+    public function addresses(){
         return $this->hasMany(Adress::class);
     }
 

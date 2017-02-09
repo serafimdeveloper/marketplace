@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->string('name',100);
             $table->decimal('price',8,2);
-            $table->decimal('price_with_discount',8,2);
+            $table->decimal('price_out_discount',8,2);
             $table->string('slug')->nullable();
             $table->tinyInteger('deadline');
             $table->boolean('free_shipping');

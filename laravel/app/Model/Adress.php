@@ -15,12 +15,14 @@ class Adress extends Model
     	return $this->belongsTo(User::class);
     }
 
+    public function store(){
+        return $this->belongsTo(Store::class);
+    }
+
     public function requests(){
         return $this->hasMany(Request::class);
     }
 
-    public function store(){
-        return $this->hasOne(Store::class);
-    }
+
 
 }

@@ -22,7 +22,6 @@ class CreateCategoriesTable extends Migration
             $table->tinyInteger('order')->default(0);
             $table->boolean('menu')->default(0);
             $table->boolean('active')->default(1);
-            $table->string('slug', 100);
             $table->timestamps();
         });
     }

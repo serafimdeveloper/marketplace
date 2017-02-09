@@ -1,8 +1,8 @@
 <?php
-use App\Model\Galery;
+use App\Model\Payment;
 use Illuminate\Database\Seeder;
 
-class GaleryImagesProductTableSeeder extends Seeder
+class PaymentTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,8 @@ class GaleryImagesProductTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Galery::class, 5)->create();
+        if(!Payment::find(1)){
+            factory(Payment::class, 3)->create();
+        }
     }
 }

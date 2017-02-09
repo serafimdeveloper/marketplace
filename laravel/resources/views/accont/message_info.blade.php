@@ -24,7 +24,7 @@
 
         <div class="trigger notice">
             <a href="/juca/produto/nome-produto" class="c-white">
-                <img class="dp-inblock vertical-middle" src="{{ url('imagem/produto/camisa.jpg?w=50&h=50&filt=crop') }}"
+                <img class="dp-inblock vertical-middle" src="{{ url('img') }}"
                      alt="imagem" title="imagem">
                 Conversa relacionada ao produto <b>Camisa que ruje</b>
                 <span class="btn btn-smallextreme btn-popmartin vertical-middle">ver produto</span>

@@ -64,7 +64,7 @@
                         <div class="pop-ads owl-carousel">
                             @for($i = 0; $i < 5; $i++)
                             <div class="vertical-flex">
-                                <img src="{{ url('imagem/popmartin/img-exemple.jpg') }}" title="" alt="[]">
+                                <img src="{{ url('img') }}" title="" alt="[]">
                                 <p>nome da loja <br> <span>frase de impactação</span></p>
                                 <a href=""></a>
                             </div>

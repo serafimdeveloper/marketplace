@@ -26,7 +26,7 @@ class CreateRequestsTable extends Migration
             $table->integer('payment_id')->unsigned()->nullable();
             $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('SET NULL');
             $table->integer('request_status_id')->unsigned();
-            $table->foreign('request_status_id')->references('id')->on('request_status')->onUpdate('cascade');
+            $table->foreign('request_status_id')->references('id')->on('request_statuses')->onUpdate('cascade');
             $table->date('settlement_date')->nullable();
             $table->datetime('cancellation_date')->nullable();
             $table->datetime('send_date')->nullable();
