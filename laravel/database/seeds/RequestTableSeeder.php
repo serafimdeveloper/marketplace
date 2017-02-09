@@ -14,7 +14,9 @@ class RequestTableSeeder extends Seeder
     {
 //        factory(Request::class)->create()
         factory(Request::class)->create()->each(function($rp){
+
             $rp->products->save(new ProductRequestTableSeeder);
+
         });
     }
 }
