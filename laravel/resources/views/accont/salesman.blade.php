@@ -15,7 +15,7 @@
             <div class="colbox-2">
                 <label>
                     <span>CPF</span>
-                    {!! Form::text('cpf', null, ['class' => 'masked_cpf', 'placeholder' => 'CPF']) !!}
+                    {!! Form::text('cpf', Auth::user()->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF']) !!}
                     <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
 
                 </label>
@@ -27,13 +27,13 @@
                 </label>
                 <label>
                     <span>Telefone celular</span>
-                    {!! Form::text('cellphone', null, ['class' => 'masked_cellphone']) !!}
+                    {!! Form::text('cellphone', null, ['class' => 'celphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
                     <span class="alert{{ $errors->has('cellphone') ? '' : ' hidden' }}">{{ $errors->first('cellphone') }}</span>
 
                 </label>
                 <label>
                     <span>Whatsapp</span>
-                    {!! Form::text('whatsapp', null, ['class' => 'masked_cellphone']) !!}
+                    {!! Form::text('whatsapp', null, ['class' => 'celphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
                     <span class="alert{{ $errors->has('whatsapp') ? '' : ' hidden' }}">{{ $errors->first('whatsapp') }}</span>
 
                 </label>

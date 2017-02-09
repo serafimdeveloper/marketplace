@@ -22,9 +22,10 @@
 
 		public function store(AdressesStoreRequest $request){
             $user = Auth::user();
-			if($request->get('master')){
-				$this->change_master($user->adresses);
-			}
+            if(isset($request->master)){
+                $this->change_master($user->addresses);
+                $dados['master'] = 1;
+            }
 			$dados = $request->except('id','_token');
             $dados['user_id'] = $user->id;
 			if($adress = $this->repo->store($dados))
@@ -43,14 +44,13 @@
 		public function update(AdressesStoreRequest $request, $id){
             $user = Auth::user();
             $dados = $request->all();
-            if($request->master == "0"){
-				$this->change_master($user->adresses);
+            if(isset($request->master)){
+				$this->change_master($user->addresses);
                 $dados['master'] = 1;
 			}
-            $adress = $user->adresses()->find($id)->fill($dados);
+            $adress = $user->addresses()->find($id)->fill($dados);
             if($adress->save())
 			{
-                unset($adress->deleted_at);
 				return json_encode(['status'=>true,'adress'=>$adress]);
 			}
 			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
@@ -58,7 +58,7 @@
 
 		public function destroy($id){
             $user = Auth::user();
-            $adress = $user->adresses()->find($id);
+            $adress = $user->addresses()->find($id);
 			if($adress->delete())
 			{
 				return json_encode(['status'=>true]);

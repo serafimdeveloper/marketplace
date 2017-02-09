@@ -11,7 +11,7 @@
 
 		public function index(){
 			$user = Auth::User();
-			$collection = $user->adresses->sortByDesc(function($adress, $key){
+			$collection = $user->addresses->sortByDesc(function($adress, $key){
 				return $adress->master;
 			});
 			$adresses = $collection->values()->all();

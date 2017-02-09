@@ -93,6 +93,7 @@ $(function () {
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
             $.get('/accont/adresses/' + $(this).data('id'), function (data) {
+                console.log(data);
                 inputvalue(data);
             }, 'json');
         } else {
@@ -120,25 +121,25 @@ $(function () {
      * Procura de loja em tempo real no painel
      */
     $(".jq-input-search").keyup(function () {
-        if($(this).val().length > 2) {
-            var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
-            var implementTr = $('#pop-searchStore tbody');
-            $.ajax({
-                url: '/accont/searchstore',
-                data: data,
-                type: 'POST',
-                dataType: 'json',
-                beforeSend: function () {
-                    implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
-                },
-                success: function (e) {
-                    implementTr.html('');
-                    $.each(e, function (i, element) {
-                        implementTr.append('<tr><td><a href="/' + element.slug + '" class="fontem-12 c-green-avocadodark">' + element.name + '</a></td><td>' + element.salesman + '</td></tr>');
-                    });
-                }
-            });
-        }
+        var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
+        var implementTr = $('#jq-search-table-result tbody');
+        $.ajax({
+            url: '/accont/searchstore',
+            data: data,
+            type: 'POST',
+            dataType: 'json',
+            beforeSend: function () {
+                implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
+            },
+            success: function (e) {
+                implementTr.html('');
+                $.each(e, function (i, element) {
+                    console.log(element);
+                    implementTr.append('<tr><td><a href="/' + element.slug + '" class="fontem-12 c-green-avocadodark">' + element.name + '</a></td><td>' + element.salesman + '</td></tr>');
+                });
+            }
+        });
+
     });
 
     /**
@@ -167,14 +168,15 @@ $(function () {
      */
      $('.celphone').bind("keyup", function(e){
              var valor = $(this).val();
-         if(e.keyCode != 8) {
+         console.log(valor.length);
+         if((',8,37,39,').indexOf(','+e.keyCode+',')){
              valor = valor.replace(/[^0-9]+g/, "");
 
-             if (valor.length == 2) {
+             if (valor.length > 2 && valor.length <= 5) {
                  $(this).val('(' + valor.substring(0, 2) + ') ');
              }
              else if (valor.length == 9) {
-                 $(this).val(valor + "-");
+                 $(this).val(valor.substring(0,9) + "-");
              }
              else if (valor.length == 14) {
                  var hifen = valor.indexOf('-');
@@ -195,12 +197,16 @@ $(function () {
          }
     });
 
+    $('.celphone').on('focusout', function(e){
+       if (!(/\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}/.test($(this).val()))){
+           $(this).val('');
+           $(this).next('span').removeClass('hidden').text('Telefone inválido');
+       }
+    });
 
     $('.alertbox-close').click(function () {
         var form = $(this).siblings('div').find('form');
-        var _token = form.find('input[name=_token]').val();
-        form.find('input').val('');
-        form.find('input[name=_token]').val(_token);
+        clear_input(form);
         if(form.find(":checkbox").is(":checked")){
             form.find(":checkbox").click();
         }
@@ -268,7 +274,7 @@ $(function () {
                 }
             });
         }
-        form.find('input').val('');
+        clear_input(form);
         return false;
     });
 
@@ -464,7 +470,7 @@ $(document).on('submit', '#jq-new-category form', function(){
             }
         });
     }
-
+    clear_input(form);
     return false;
 });
 
@@ -579,25 +585,27 @@ function inputerror(is, param, msg) {
 function inputvalue(inputs, e) {
     if (inputs instanceof Object) {
         $.each(inputs, function (index, element) {
-            if (index === 'state') {
-                element = element.substr(0, 2);
-            }
-            if (!is_Number(element)) {
-                element = element.replace(/\s+/g, " ");
-            }
-            $('input[name=' + index + ']').val(element);
-
-            var master = $("#form-adress .checkbox").find("input[name=master]");
-
-            if (index === 'master' && element) {
-                $("#form-adress .checkbox").find('.fa').attr('class', 'fa fa-check-square-o');
-                if (!master.is(":checked")) {
-                    master.click();
+            if(element) {
+                if (index === 'state') {
+                    element = element.substr(0, 2);
                 }
+                if (!is_Number(element)) {
+                    element = element.replace(/\s+/g, " ");
+                }
+                $('input[name=' + index + ']').val(element);
 
-            } else {
-                if (master.is(":checked")) {
-                    master.click();
+                var master = $("#form-adress .checkbox").find("input[name=master]");
+
+                if (index === 'master' && element) {
+                    $("#form-adress .checkbox").find('.fa').attr('class', 'fa fa-check-square-o');
+                    if (!master.is(":checked")) {
+                        master.click();
+                    }
+
+                } else {
+                    if (master.is(":checked")) {
+                        master.click();
+                    }
                 }
             }
         });
@@ -616,4 +624,10 @@ function window_adress(obj) {
     janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '">editar|excluir</a>';
     janela += '</div>';
     return janela;
+}
+
+function clear_input(form){
+    var _token = form.find('input[name=_token]').val();
+    form.find('input').val('');
+    form.find('input[name=_token]').val(_token);
 }
