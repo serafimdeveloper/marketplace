@@ -61,7 +61,7 @@ class StoresController extends AbstractController
         $user = Auth::user();
         $dados['salesman_id'] = $user->salesman->id;
         if($store = $this->repo->store($dados)){
-            $dados['logo_file'] = $this->upload($request->logo_file,'imagem/loja','L'.$store->id.'V'.$dados['salesman_id'].'U'.$user->id);
+            $dados['logo_file'] = $this->upload($request->logo_file,'img/loja','L'.$store->id.'V'.$dados['salesman_id'].'U'.$user->id);
             $this->repo->update($dados,$store->id);
             flash('Loja criada com sucesso!', 'accept');
             return redirect()->route('accont.salesman.stores');
@@ -97,8 +97,8 @@ class StoresController extends AbstractController
         $dados = $request->except('logo_file');
         $dados['cpf'] = isset($request->cpf) ? $request->cpf : '';
         if($request->hasFile('logo_file')){
-            Storage::delete('imagem/loja/'.$store->logo_file);
-            $dados['logo_file'] = $this->upload($request->logo_file,'imagem/loja','L'.$store->id.'V'.$user->salesman->id.'U'.$user->id);
+            Storage::delete('img/loja/'.$store->logo_file);
+            $dados['logo_file'] = $this->upload($request->logo_file,'img/loja','L'.$store->id.'V'.$user->salesman->id.'U'.$user->id);
         }
         if($this->repo->update($dados,$store->id)){
             flash('Loja atualizada com sucesso!', 'accept');

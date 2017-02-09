@@ -15,11 +15,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoryTableSeeder::class);
         $this->call(RequestStatusTableSeeder::class);
         $this->call(PaymentTableSeeder::class);
-
         $this->call(SalesmanTableSeeder::class);
         $this->call(StoreTableSeeder::class);
         $this->call(ProductTableSeeder::class);
-        $this->call(RequestTableSeeder::class);
-
+       // $this->call(RequestTableSeeder::class);
+        $this->call(ProductRequestTableSeeder::class);
     }
 }

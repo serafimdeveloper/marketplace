@@ -14,7 +14,7 @@ class CreateProdutcRequest extends Migration
     public function up()
     {
         Schema::create('product_request', function (Blueprint $table) {
-            $table->primary('request_id', 'product_id');
+            $table->primary(['request_id', 'product_id']);
             $table->integer('request_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->foreign('request_id')->references('id')->on('requests')->onUpdate('cascade')->onDelete('cascade');

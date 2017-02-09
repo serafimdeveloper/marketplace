@@ -136,7 +136,7 @@ function isScrollVisibleElement(e) {
 }
 
 /**
- * Incrementa uma pré visualização de uma imagem arquivada em um input qualquer do tipo file
+ * Incrementa uma pré visualização de uma img arquivada em um input qualquer do tipo file
  * @param e
  */
 function previewImg(e) {

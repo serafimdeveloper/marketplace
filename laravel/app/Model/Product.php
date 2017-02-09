@@ -9,7 +9,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Product extends Model
 {
 
-    protected  $fillable = ['store_id','category_id','name','price','price_with_discount','deadline',
+    protected  $fillable = ['store_id','category_id','name','price','price_out_discount','deadline',
         'free_shipping','minimum_stock','details','length_cm','width_cm','height_cm','weight_gr','slug',
         'diameter_cm','active','featured'];
 
@@ -36,9 +36,14 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-//    public function subcategory(){
-//        return $this->belongsTo(SubCategory::class);
-//    }
+    /*public function subcategory(){
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    public function requests(){
+        return $this->belongsToMany(Request::class);
+    }*/
+
 
     public function requests(){
         return $this->belongsToMany(Request::class)->withPivot(['quantity', 'unit_price', 'amount']);

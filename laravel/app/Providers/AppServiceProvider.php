@@ -39,9 +39,9 @@ class AppServiceProvider extends ServiceProvider
                 'source' => $filesystem->getDriver(),
                 'cache' => $filesystem->getDriver(),
                 'watermarks' => $filesystem->getDriver(),
-                'source_path_prefix' => 'imagem',
-                //'cache_path_prefix' => 'imagem/.cache',
-                'watermarks_path_prefix' => 'imagem/watermarks',
+                'source_path_prefix' => 'img',
+                //'cache_path_prefix' => 'img/.cache',
+                'watermarks_path_prefix' => 'img/watermarks',
                 // 'base_url' => 'photos',
             ]);
         });

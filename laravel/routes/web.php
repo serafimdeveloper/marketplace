@@ -143,9 +143,11 @@ Route::get('/info/{page}', function ($title) {
     return view('pages.dinamic', $data);
 })->name('pages.dinamic');
 
-Route::get('imagem/{path}', function(League\Glide\Server $server, Illuminate\Http\Request $request, $path){
+/*Route::get('imagem/{path}', function(League\Glide\Server $server, Illuminate\Http\Request $request, $path){
     $server->outputImage($path, $request->input());
-})->where('path', '.+');
+})->where('path', '.+');*/
+
+Route::get('imagem/{path}','ImageController@show');
 
 Route::get('/categoria/{category}', function(){
     return view('pages.products');
