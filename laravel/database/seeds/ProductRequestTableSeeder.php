@@ -16,9 +16,9 @@ class ProductRequestTableSeeder extends Seeder
         //Cria uma instância da classe Faker/Factory
         $faker = Faker\Factory::create();
         //Factory Request
-        factory(Request::class,3)->create()->each(function($request) use($faker){
+        factory(Request::class,20)->create()->each(function($request) use($faker){
             Product::all()->random(3)->each(function($product) use($request, $faker){
-                $quantity = $faker->randomNumber(1);
+                $quantity = $faker->randomDigitNotNull;
                 $unit_price = $faker->randomFloat(2, 5, 100);
                 $amount = $unit_price * $quantity;
                 $request->products()->save($product,['quantity'=> $quantity, 'unit_price'=>$unit_price, 'amount'=>$amount]);

@@ -12,7 +12,7 @@ class RequestStatusTableSeeder extends Seeder
     public function run()
     {
         if(!RequestStatus::find(1)){
-            factory(RequestStatus::class, 7)->create();
+            factory(RequestStatus::class, 8)->create();
         }
     }
 }

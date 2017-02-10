@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMessageTypesTable extends Migration
+class CreateCountOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateMessageTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('message_types', function (Blueprint $table) {
+        Schema::create('count_orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description',40);
-            $table->boolean('active')->default(0);
-            $table->timestamps();
+            $table->integer('count')->unsigned()->default(0);
         });
     }
 
@@ -28,6 +26,6 @@ class CreateMessageTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('message_types');
+        Schema::dropIfExists('count_orders');
     }
 }

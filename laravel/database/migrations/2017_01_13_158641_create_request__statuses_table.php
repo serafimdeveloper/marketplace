@@ -15,6 +15,7 @@ class CreateRequestStatusesTable extends Migration
     {
         Schema::create('request_statuses', function (Blueprint $table) {
             $table->increments('id');
+            $table->enum('trigger',['accept', 'warning', 'notice', 'default', 'error'])->default('default');
             $table->string('description',100);
             $table->boolean('active')->default(1);
             $table->timestamps();

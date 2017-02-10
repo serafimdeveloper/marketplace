@@ -14,7 +14,11 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Model\Adress;
 use App\Model\Category;
+use App\Model\CountOrder;
+use App\Model\Freight;
 use App\Model\Galery;
+use App\Model\Message;
+use App\Model\MessageType;
 use App\Model\Payment;
 use App\Model\Product;
 use App\Model\ProductRequest;
@@ -23,6 +27,7 @@ use App\Model\RequestStatus;
 use App\Model\Salesman;
 use App\Model\Store;
 use App\Model\User;
+use Carbon\Carbon;
 use Faker\Generator;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\DB;
@@ -158,17 +163,78 @@ $factory->define(Payment::class, function(Generator $faker){
 
 });
 
+$factory->define(CountOrder::class, function(){
+    return [
+        'count' => 0
+    ];
+
+});
+
+$factory->define(Freight::class, function(Generator $faker){
+    return [
+        'name' => $faker->unique()->randomElement([
+            'PAC',
+            'SEDEX',
+            'Frete Grátis'
+        ]),
+        'code' => function(array $data){
+            switch($data['name']){
+                case 'PAC':
+                    return 41106;
+                    break;
+                case 'SEDEX':
+                    return 40010;
+                    break;
+                default:
+                    return null;
+                    break;
+            }
+        }
+    ];
+});
+
 $factory->define(RequestStatus::class, function(Generator $faker){
     return [
+
         'description' => $faker->unique()->randomElement([
-            'Compra incompleta',
             'Aguardando pagamento',
+            'Compra incompleta',
+            'Aguardando envio',
             'Aguardando chegada',
             'Aguardando avaliação',
             'Negociação concluída',
             'Pedido devolvido',
-            'Compra cancelada',
+            'Compra cancelada'
         ]),
+
+        'trigger' => function(array $data){
+            switch($data['description']){
+                case 'Aguardando pagamento':
+                    return 'warning';
+                    break;
+                case 'Compra incompleta':
+                    return 'error';
+                    break;
+                case 'Aguardando envio':
+                    return 'warning';
+                    break;
+                case 'Aguardando chegada':
+                    return 'notice';
+                    break;
+                case 'Aguardando avaliação':
+                    return 'notice';
+                    break;
+                case 'Negociação concluída':
+                    return 'accept';
+                    break;
+                case 'Pedido devolvido':
+                    return 'default';
+                    break;
+                case 'Compra cancelada':
+                    return 'error';
+                    break;
+            }
+        }
     ];
 
 });
@@ -178,27 +244,46 @@ $factory->define(Request::class, function(Generator $faker){
         'store_id' => function(){
             $element = Store::all()->random();
             return $element->id;
-//            return factory(Store::class)->create()->id;
         },
         'user_id' => function(){
             $element = User::all()->random();
             return $element->id;
-//            return factory(User::class)->create()->id;
         },
         'adress_id' => function(array $data){
             $addressUser = Adress::find($data['user_id']);
             return $addressUser->id;
         },
+        'freight_id' => function(){
+            $element = Freight::all()->random();
+            return $element->id;
+        },
         'payment_id' => function(){
             $element = Payment::all()->random();
             return $element->id;
-//            return factory(Payment::class)->create()->id;
         },
         'request_status_id' => function(){
             $status = RequestStatus::all()->random();
             return $status->id;
         },
-        'freight_price' => $faker->randomFloat(2, 1, 50),
+        'key' => function(){
+            $count = CountOrder::first();
+            $value = $count->count + 1;
+            $key = substr(date('M'), 0, 1) .  date('Y') . date('d') . $value;
+
+            $count->update(['count' => $value]);
+
+            return $key;
+        },
+        'freight_price' => function(array $data) use($faker){
+            $element = Freight::find($data['freight_id']);
+
+
+            if($element->code == ''){
+                return 0.00;
+            }else{
+                return $faker->randomFloat(2, 1, 50);
+            }
+        },
         'send_date' => $faker->date('Y-m-d'),
         'settlement_date' => $faker->date('Y-m-d', 'now'),
         'cancellation_date' => null,
@@ -209,17 +294,72 @@ $factory->define(Request::class, function(Generator $faker){
     ];
 });
 
-$factory->define(ProductRequest::class, function(Generator $faker){
-    return [
-//        'product_id' => function (){
-//            $element = Product::all()->random();
-//            return $element->id;
-//        },
-        'quantity' => $faker->numberBetween(10),
-        'amount' => $faker->randomFloat(2, 5, 100)
+$factory->define(MessageType::class, function(Generator $faker){
+    return[
+        'description' => $faker->unique()->randomElement([
+            'u/u',
+            'u/v',
+            'v/u',
+            'v/v',
+            'u/a',
+            'a/u',
+            'v/a',
+            'a/v'
+        ]),
     ];
 });
 
+$factory->define(Message::class, function(Generator $faker){
+    return[
+        'sender_id' => function(){
+            $element = User::all()->random();
+            return $element->id;
+        },
+        'recipient_id' => function(array $data){
+            $element = User::where('id', '!=', $data['sender_id'])->distinct()->inRandomOrder()->first();
+            return $element->id;
+        },
+        'message_type_id' => function(array $data){
+            $element = MessageType::all()->random();
+            return $element->id;
+        },
+        'request_id' => function(array $data){
+            $m = Message::all()->sortByDesc('id')->first();
+            $order = Request::all()->random();
+            if(!Message::all()->first()){
+                return $order->id;
+            }else{
+                if(!$m->request_id){
+                    return $order->id;
+                }else{
+                    return null;
+                }
+            }
 
-//$produto = Product::all()->random();
-//$produto->requests()->attach(Request::create());
+        },
+        'product_id' => function(array $data){
+            if(!$data['request_id']){
+                $element = Product::all()->random();
+                return $element->id;
+            }else{
+                return null;
+            }
+        },
+        'message_id' => function(array $data){
+            $m = Message::all()->sortByDesc('id')->first();
+            if(Message::all()->first()){
+                if(!$m->message_id){
+
+                    return Message::all()->random()->id;
+                }else{
+                    return null;
+                }
+            }else{
+                return null;
+            }
+        },
+        'title' => $faker->sentence(6),
+        'content' => $faker->text(500),
+        'status' => 'received'
+    ];
+});

@@ -28,12 +28,8 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
     Route::get('/searchstore', 'Accont\StoresController@searchstore')->name('accont.searchstore');
     Route::post('/searchstore', 'Accont\StoresController@search')->name('accont.search.store');
 
-    Route::get('/messages', function(){
-        return view('accont.messages');
-    })->name('accont.messages');
-    Route::get('/messages/{id}', function(){
-        return view('accont.message_info');
-    })->name('accont.message_info');
+    Route::get('/messages', 'Accont\MessagesController@index')->name('accont.messages');
+    Route::get('/messages/{id}', 'Accont\MessagesController@show')->name('accont.message_info');
 
     /** Vendedores */
     Route::get('/salesman/create','Accont\Salesmans\SalesmanController@create')->name('accont.salesman.create');

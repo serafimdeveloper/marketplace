@@ -6,6 +6,11 @@
         <header class="pop-title">
             <h1>Minhas mensagens</h1>
         </header>
+
+        @if(!$messages)
+            <p class="trigger notice fontem-14">Você não possui menssagens</p>
+    @else
+
         <!-- TABLE -->
         <table id="pop-messages" class="table table-action">
             <thead>
@@ -19,24 +24,21 @@
             </thead>
 
             <tbody>
-            @for ($i = 1; $i < 4; $i++)
+            @foreach($messages as $msg)
                 <tr class="t-unread">
-                    <td><label><input type="checkbox" class="select_msg" name="msg" value="{{$i}}"></label></td>
-                    <td>Luíz Fernando</td>
-                    <td><a href="/accont/messages/1">Alguma informação sobre esta mensagem...</a></td>
-                    <td>hoje ás 10:25:14</td>
+                    <td><label><input type="checkbox" class="select_msg" name="msg" value="{{ $msg->id }}"></label></td>
+                    <td>{{ $msg->sender->name }} {{ $msg->sender->last_name }}</td>
+                    <td><a href="/accont/messages/{{ $msg->id }}">{{ substr($msg->content, 0, 60) }}...</a></td>
+                    <td>{{ $msg->created_at->format("d/m/Y H:i:s") }}</td>
                     <td class="t-active"></td>
                 </tr>
-            @endfor
-            <tr>
-                <td><label><input type="checkbox" class="select_msg" name="msg" value="13"></label></td>
-                <td>Luíz Fernando</td>
-                <td><a href="/accont/messages/1">Alguma informação sobre esta mensagem...</a></td>
-                <td>hoje ás 10:25:14</td>
-                <td class="t-active">respondida</td>
-            </tr>
+            @endforeach
             </tbody>
         </table>
+            {!! $messages->render() !!}
+        @endif
+        <div class="clear-both"></div>
+        <br>
         <a href="javascript:void(0)" id="pop-remove-msg" class="btn btn-small btn-popmartin">remover mensagens selecionada</a>
     </section>
     <div class="clear-both"></div>
