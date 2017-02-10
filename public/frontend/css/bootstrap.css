@@ -442,6 +442,13 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .bs-dialog-footer .bsbtn.bsbtn-accept:active{background-color: #2E64FE;color: #FFF;border-color: #2E64FE;}
 .bs-dialog-footer .bsbtn.bsbtn-cancel:active{background-color: #F44336;color: #FFF;border-color: #F44336;}
 
+
+.pagination{display: block;}
+.pagination li{float: left;}
+.pagination a, .pagination .disabled, .pagination .active{padding: 5px 10px;background-color: #EEE;border: 1px solid #E3E3E3;display: block;color: #333333;font-weight: 500;}
+.pagination .active{background-color: #9d9d9d;color: #FFFFFF;}
+.pagination .disabled{color: #9E9E9E;display: none;}
+
 /**** PADRONIZAÇÃO DESIGN RESPONSIVO ******************************
     aAplicação de media query responsivas
 */
