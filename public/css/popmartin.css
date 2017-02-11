@@ -207,6 +207,8 @@ input{padding: 5px;width: 100%;}
 
 .product-galery{padding: 5px;}
 .product-galery:hover{background-color: #F5F5F5;}
+
+.current_rout{background-color: #BDBDBD;font-weight: bold;padding-left: 20px!important;}
 /*******************************************************************
 ********************** FIM PAINEL ADMINISTRATIVO *******************
  ******************************************************************/

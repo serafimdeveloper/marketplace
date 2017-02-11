@@ -3,21 +3,21 @@
      <div class="panel-nav-acsess">
          <h3>Área do cliente</h3>
          <ul>
-             <li><a href="{{route('accont.home')}}">meu cadastro</a></li>
-             <li><a href="{{route('accont.requests')}}">meus pedidos</a></li>
-             <li><a href="{{route('accont.searchstore')}}">procurar loja</a></li>
-             <li><a href="{{route('accont.messages')}}">mensagens <span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">2</span></a></li>
+             <li><a href="{{route('accont.home')}}"{!! url()->current() ==  route('accont.home') ? ' class="current_rout"' :  ''!!}>meu cadastro</a></li>
+             <li><a href="{{route('accont.requests')}}"{!! url()->current() ==  route('accont.requests') ? ' class="current_rout"' :  ''!!}>meus pedidos</a></li>
+             <li><a href="{{route('accont.searchstore')}}"{!! url()->current() ==  route('accont.searchstore') ? ' class="current_rout"' :  ''!!}>procurar loja</a></li>
+             <li><a href="{{route('accont.messages')}}"{!! url()->current() ==  route('accont.messages') ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;"></span>' : '') !!}</a></li>
          </ul>
      </div>
     @can('vendedor')
         <div class="panel-nav-acsess">
              <h3>Área do vendedor</h3>
              <ul>
-                 <li><a href="{{route('accont.salesman.info')}}">informações</a></li>
-                 <li><a href="{{route('accont.salesman.stores')}}">minha loja</a></li>
-                 <li><a href="{{route('accont.salesman.products.index')}}">meus produtos</a></li>
-                 <li><a href="{{route('accont.salesman.sales')}}">minhas vendas <span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">{{notification_sales(0)}}</span></a></li>
-                 <li><a href="{{route('accont.salesman.messages')}}">mensagens <span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">2</span></a></li>
+                 <li><a href="{{route('accont.salesman.info')}}"{!! url()->current() ==  route('accont.salesman.info') ? ' class="current_rout"' :  ''!!}>informações</a></li>
+                 <li><a href="{{route('accont.salesman.stores')}}"{!! url()->current() ==  route('accont.salesman.stores') ? ' class="current_rout"' :  ''!!}>minha loja</a></li>
+                 <li><a href="{{route('accont.salesman.products.index')}}"{!! url()->current() ==  route('accont.salesman.products.index') ? ' class="current_rout"' :  ''!!}>meus produtos</a></li>
+                 <li><a href="{{route('accont.salesman.sales')}}"{!! url()->current() ==  route('accont.salesman.sales') ? ' class="current_rout"' :  ''!!}>minhas vendas {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;"></span>' : '') !!}</a></li>
+                 <li><a href="{{route('accont.salesman.messages')}}"{!! url()->current() ==  route('accont.salesman.messages') ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;"></span>' : '') !!}</a></li>
              </ul>
          </div>
     @endcan
@@ -25,7 +25,7 @@
         <div class="panel-nav-acsess">
             <h3>Área do vendedor</h3>
             <ul>
-                <li><a href="{{route('accont.salesman.info')}}">Torna-se um Vendedor</a></li>
+                <li><a href="{{route('accont.salesman.info')}}"{!! url()->current() ==  route('accont.salesman.info') ? ' class="current_rout"' :  ''!!}>Torna-se um Vendedor</a></li>
             </ul>
         </div>
     @endcannot
@@ -33,14 +33,14 @@
          <div class="panel-nav-acsess">
              <h3>Área administrativa</h3>
              <ul>
-                 <li><a href="{{route('accont.report.users')}}">Usuários</a></li>
-                 <li><a href="{{route('accont.report.salesman')}}">vendedores <span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">2</span></a></li>
-                 <li><a href="{{route('accont.report.products')}}">produtos</a></li>
-                 <li><a href="{{route('accont.categories.index')}}">categorias</a></li>
-                 <li><a href="/accont/banners">banners</a></li>
-                 <li><a href="{{route('accont.report.sales')}}">vendas e comissões</a></li>
-                 <li><a href="{{route('accont.report.notifications')}}">notificações <span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">2</span></a></li>
-                 <li><a href="{{route('accont.pages')}}">páginas</a></li>
+                 <li><a href="{{route('accont.report.users')}}"{!! url()->current() ==  route('accont.report.users') ? ' class="current_rout"' :  ''!!}>Usuários</a></li>
+                 <li><a href="{{route('accont.report.salesman')}}"{!! url()->current() ==  route('accont.report.salesman') ? ' class="current_rout"' :  ''!!}>vendedores {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;"></span>' : '') !!}</a></li>
+                 <li><a href="{{route('accont.report.products')}}"{!! url()->current() ==  route('accont.report.products') ? ' class="current_rout"' :  ''!!}>produtos</a></li>
+                 <li><a href="{{route('accont.categories.index')}}"{!! url()->current() ==  route('accont.categories.index') ? ' class="current_rout"' :  ''!!}>categorias</a></li>
+                 <li><a href="/accont/banners"{!! url()->current() ==  route('accont.home') ? ' class="current_rout"' :  ''!!}>banners</a></li>
+                 <li><a href="{{route('accont.report.sales')}}"{!! url()->current() ==  route('accont.report.sales') ? ' class="current_rout"' :  ''!!}>vendas e comissões</a></li>
+                 <li><a href="{{route('accont.report.notifications')}}"{!! url()->current() ==  route('accont.report.notifications') ? ' class="current_rout"' :  ''!!}>notificações {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;"></span>' : '') !!}</a></li>
+                 <li><a href="{{route('accont.pages')}}"{!! url()->current() ==  route('accont.pages') ? ' class="current_rout"' :  ''!!}>páginas</a></li>
              </ul>
          </div>
     @endcan
