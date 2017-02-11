@@ -11,6 +11,9 @@ class SalesmanTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Salesman::class, 3)->create();
+        for($i = 0; $i < 16; $i++){
+            factory(Salesman::class)->create();
+        }
+
     }
 }

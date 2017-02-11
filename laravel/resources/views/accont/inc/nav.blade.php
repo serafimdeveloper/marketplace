@@ -34,7 +34,7 @@
              <h3>Área administrativa</h3>
              <ul>
                  <li><a href="{{route('accont.report.users')}}">Usuários</a></li>
-                 <li><a href="{{route('accont.report.salesman')}}">vendedores <span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">2</span></a></a></li>
+                 <li><a href="{{route('accont.report.salesman')}}">vendedores <span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">2</span></a></li>
                  <li><a href="{{route('accont.report.products')}}">produtos</a></li>
                  <li><a href="{{route('accont.categories.index')}}">categorias</a></li>
                  <li><a href="/accont/banners">banners</a></li>

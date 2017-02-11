@@ -2,6 +2,8 @@
  * Criado por asiw
  * @author: asiw - contato@asiw.com.br
  */
+
+var alertfyConfirmTitle = 'Pop Martin alerta!';
 $(function () {
 
     /**
@@ -56,6 +58,9 @@ $(function () {
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
 
+
+
+
     /**
      * Verifica os input segundo as regras atribuídas e para a escução caso haja um submit
      */
@@ -106,6 +111,29 @@ $(function () {
         $('.address').find('form').attr('data-action',action);
         $('.address').show();
     });
+
+    $(document).on('click', '.jq-remove-address', function () {
+        var element = $(this);
+        alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover este endereço?',
+            function(){
+                var id = element.data('id');
+                var index = {id: id}
+                $.post('/adresses/destroy', index, function (response) {
+                    if (response.status) {
+                            alertify.success('Endereço removido!');
+
+                    }else{
+                        alertify.error(response.msg);
+                    }
+                }, 'json');
+                $('.alertbox-close').click();
+            }, function(){
+                return true;
+            });
+
+        return false;
+    })
+
 
     /**
      * Menu mobile do painel de administração dos usuários
@@ -212,6 +240,8 @@ $(function () {
         if(form.find(":checkbox").is(":checked")){
             form.find(":checkbox").click();
         }
+
+        $('.jq-remove-address').hide();
         // console.log();
     })
     /**
@@ -312,9 +342,9 @@ $(function () {
     $(".select_msg").click(function () {
         var array = checkInputsMsg($(this).attr('class'));
         if (array.length !== 0) {
-            $("#pop-remove-msg").show();
+            $("#pop-remove-msg").removeClass('btn-gray cursor-nodrop').addClass('btn-popmartin');
         } else {
-            $("#pop-remove-msg").hide();
+            $("#pop-remove-msg").removeClass('btn-popmartin').addClass('btn-gray cursor-nodrop');
         }
     });
 
@@ -336,15 +366,24 @@ $(function () {
     /**
      * Apagar mensagens selecionadas em tempo real
      */
-    $("#pop-remove-msg").click(function () {
-        var indexes = arrayToObject(checkInputsMsg('select_msg'));
-        $.get('', indexes, function (response) {
-            if (response.status) {
-                indexes.each(function (e) {
-                    $('.select_msg').eq(e).hide();
-                });
-            }
-        }, 'json');
+
+    $(document).on('click', "#pop-remove-msg.btn-popmartin", function () {
+        alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover?',
+            function(){
+                var indexes = arrayToObject(checkInputsMsg('select_msg'));
+                $.post('/accont/messages/destroy', indexes, function (response) {
+                    if (response.status) {
+                        indexes.each(function (e) {
+                            $('.select_msg').eq(e).hide();
+                            alertify.success('Menssagens excluídas com sucesso!');
+                        });
+                    }else{
+                        alertify.error(response.msg);
+                    }
+                }, 'json');
+            }, function(){
+                return true;
+            });
         return false;
     });
 

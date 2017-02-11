@@ -53,7 +53,7 @@ $factory->define(Salesman::class, function(Generator $faker){
     $folder = DIRECTORY_SEPARATOR . 'app'. DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . 'vendedor';
     return [
         'user_id' => function(){
-            $element = User::where('type', '=', 'client')->get()->random();
+            $element = User::where('type', '=', 'client')->inRandomOrder()->first();
             $element->save(['type' => 'salesman']);
 
             return $element->id;
@@ -78,7 +78,21 @@ $factory->define(Store::class, function(Generator $faker){
     $folder = DIRECTORY_SEPARATOR . 'app'. DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . 'loja';
     return [
         'salesman_id' => function(){
-            return factory(Salesman::class, 1)->create()->id;
+            $element = Salesman::all();
+            $status = false;
+            foreach($element as $salesman){
+                if($salesman->store){
+                    $status = true;
+                }else{
+                    $user = User::where('id', $salesman->id)->get()->first();
+                    $user->update(['type' => 'salesman']);
+                    return $salesman->id;
+                }
+                break;
+            }
+            if($status){
+                return factory(Salesman::class)->create()->id;
+            }
         },
         'name' => $faker->unique()->word(),
 
@@ -317,8 +331,8 @@ $factory->define(Message::class, function(Generator $faker){
             return $element->id;
         },
         'recipient_id' => function(array $data){
-            $element = User::where('id', '!=', $data['sender_id'])->distinct()->inRandomOrder()->first();
-            return $element->id;
+            $element = Request::where('user_id', '!=', $data['sender_id'])->distinct()->inRandomOrder()->first();
+            return $element->user->id;
         },
         'message_type_id' => function(array $data){
             $element = MessageType::all()->random();
@@ -326,7 +340,8 @@ $factory->define(Message::class, function(Generator $faker){
         },
         'request_id' => function(array $data){
             $m = Message::all()->sortByDesc('id')->first();
-            $order = Request::all()->random();
+            $order = Request::where('user_id', $data['recipient_id'])->distinct()->inRandomOrder()->first();
+
             if(!Message::all()->first()){
                 return $order->id;
             }else{
@@ -340,8 +355,25 @@ $factory->define(Message::class, function(Generator $faker){
         },
         'product_id' => function(array $data){
             if(!$data['request_id']){
-                $element = Product::all()->random();
-                return $element->id;
+
+                $sender = Salesman::where('user_id', $data['sender_id'])->get();
+                $recipient = Salesman::where('user_id', $data['recipient_id'])->get();
+                $storeSender = ($sender->first() ? Store::where('salesman_id', $sender->first()->id)->get()->first() : null);
+                $storeRecipient = ($recipient->first() ? Store::where('salesman_id', $recipient->first()->id)->get()->first() : null);
+
+                if($storeSender || $storeRecipient){
+                    $storeSender = ($storeSender ? $storeSender->id : null);
+                    $storeRecipient = ($storeRecipient ? $storeRecipient->id : null);
+                    $element = Product::where('store_id', $storeSender)->orWhere('store_id', $storeRecipient)->inRandomOrder()->first();
+                    if($element){
+                        return $element->id;
+                    }else{
+                        return null;
+                    }
+
+                }else{
+                    return null;
+                }
             }else{
                 return null;
             }
@@ -350,7 +382,6 @@ $factory->define(Message::class, function(Generator $faker){
             $m = Message::all()->sortByDesc('id')->first();
             if(Message::all()->first()){
                 if(!$m->message_id){
-
                     return Message::all()->random()->id;
                 }else{
                     return null;

@@ -16,15 +16,11 @@ class MessagesController extends AbstractController
 
     public function index()
     {
-        //        $collection = $this->user->messages->sortByDesc(function($message, $key){
-//            return $message->create_at;
-//        });
-//
-//        $messages = $collection->values()->all();
         $user = Auth::user();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $messages = $this->repo->all($this->columns, $this->with, ['recipient_id' => $user->id], ['id' => 'DESC'], 5, $page);
         $messages = ($messages->first() ? $messages : false);
+
         return view('accont.messages', compact('messages'));
     }
 
@@ -32,6 +28,28 @@ class MessagesController extends AbstractController
     {
         $user = Auth::User();
         $message = $this->repo->all($this->columns, $this->with, ['id' => $id, 'recipient_id' => $user->id])->first();
+
+//        $answer = $this->repo->all($this->columns, $this->with, ['sender_id' => $message->sender_id, 'recipient_id' => $user->id, 'recipient_id' => $user->id]);
+
+
+        if($message->status === 'received'){
+            $message->update(['status' => 'readed']);
+        }
+
+
         return view('accont.message_info', compact('message'));
+    }
+
+    public function answer(MessagesRepository $messagesRepository){
+
+    }
+
+    public function destroy()
+    {
+        $user = Auth::user();
+
+        dd($user);
+
+        return json_encode(['status' => true]);
     }
 }

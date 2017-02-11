@@ -326,6 +326,7 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 /**** OUTRAS FORMATAÇÕES *****/
 .align-middle{vertical-align: middle;}
 .cursor-pointer{cursor: pointer;}
+.cursor-nodrop{cursor: no-drop;}
 .height-full{min-height: 100%;}
 .clear-both{clear: both;}
 .vertical-middle{vertical-align: middle;}

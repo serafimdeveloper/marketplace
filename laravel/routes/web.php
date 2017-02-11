@@ -27,12 +27,10 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('/searchstore', 'StoresController@searchstore')->name('searchstore');
     Route::post('/searchstore', 'StoresController@search')->name('search.store');
 
-    Route::get('/messages', function(){
-        return view('accont.messages');
-    })->name('messages');
-    Route::get('/messages/{id}', function(){
-        return view('accont.message_info');
-    })->name('message_info');
+    Route::get('/messages', 'MessagesController@index')->name('messages');
+    Route::get('/messages/{id}', 'MessagesController@show')->name('message_info');
+    Route::post('/messages/answer', 'MessagesController@answer')->name('message.answer');
+    Route::delete('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /** Vendedores */
     Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){
