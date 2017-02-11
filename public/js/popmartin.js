@@ -711,7 +711,6 @@ function removePrduct() {
         }, function () {
             return true;
         });
-
     return false;
 }
 
@@ -722,14 +721,13 @@ function removeImgGarely() {
             var id = element.data('id');
             var prev = element.data('preview');
             var index = {id: id}
-            element.parents('.product-galery').find('.prevImg img').attr('src', 'http://popmartin.dev/imagem/popmartin/img-exemple.jpg?h=110')
-            element.parents('.product-galery').find('.file input[type=text]').val('');
-            element.parents('.product-galery').find('.file input[type=file]').remove();
-            element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
             $.get('', index, function (response) {
                 if (response.status) {
-
-                    alertify.success('Produto removido');
+                    element.parents('.product-galery').find('.prevImg img').attr('src', 'http://popmartin.dev/imagem/popmartin/img-exemple.jpg?h=110')
+                    element.parents('.product-galery').find('.file input[type=text]').val('');
+                    element.parents('.product-galery').find('.file input[type=file]').remove();
+                    element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
+                    alertify.success('Produto removido!');
                 } else {
                     alertify.error(response.msg);
                 }
@@ -737,7 +735,6 @@ function removeImgGarely() {
         }, function () {
             return true;
         });
-
     return false;
 }
 
