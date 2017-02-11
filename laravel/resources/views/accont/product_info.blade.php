@@ -205,10 +205,10 @@
                                 <div class="file" style="padding: 10px;">
                                     {!! Form::file('image.'.$i, ['data-preview' => $i, 'onchange' => 'previewFile($(this))']) !!}
                                     @if(isset($galeries))
-                                        <input type="text" name="image_name.{{$i}}" value="{{isset($galeries[$i]) ? $galeries[$i]['image' ] : ''}}">
+                                        <input type="text"  value="{{isset($galeries[$i]) ? $galeries[$i]['image' ] : ''}}">
+                                        <input type="hidden" name="image_name.{{$i}}" value="{{isset($galeries[$i]) ? $galeries[$i]['image' ] : ''}}"/>
                                     @else
-                                        <input type="text">
-                                        <input type="hidden" name="image_name.{{$i}}">
+                                        <input type="text" />
                                     @endif
                                     <button type="button" class="btn btn-orange">Imagem</button>
                                     <div class="clear-both"></div>

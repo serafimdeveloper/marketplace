@@ -7,16 +7,15 @@
             <h1><i class="fa fa-comments-o"></i> Conversa
                 com {{ $message->sender->name }} {{ $message->sender->last_name }}</h1>
         </header>
-
-        @if($message->request_id && Request::segment(2) == 'messages')
+        @if(isset($message->request) && Request::segment(2) == 'messages')
             <div class="trigger notice">
-                <a href="/accont/requests/{{ $message->request_id }}" class="c-white">
+                <a href="/accont/requests/{{ $message->request->id }}" class="c-white">
                     <i class="fa fa-newspaper-o"></i>
                     Conversa relacionada ao <b>pedido</b>: {{ $message->request->key }}
                     <span class="btn btn-smallextreme btn-popmartin vertical-middle">ver pedido</span>
                 </a>
             </div>
-        @elseif($message->request_id)
+        @elseif(isset($message->request))
             <div class="trigger notice">
                 <a href="/accont/salesman/sale/{{ $message->request_id }}" class="c-white">
                     <i class="fa fa-newspaper-o"></i>
@@ -24,11 +23,11 @@
                     <span class="btn btn-smallextreme btn-popmartin vertical-middle"> ver venda</span>
                 </a>
             </div>
-        @elseif($message->product_id)
+        @elseif(isset($message->product))
             <div class="trigger notice">
                 <a href="/juca/produto/{{ $message->product->slug }}" class="c-white" target="_blank">
                     <img class="dp-inblock vertical-middle"
-                         src="{{ url('imagem/produto/' . $message->product->galery[0]->image . '?w=42&h=42&filt=crop') }}"
+                         src="{{ url('imagem/produto/' . $message->product->galeries[0]->image . '?w=42&h=42&filt=crop') }}"
                          alt="imagem" title="imagem">
                     Conversa relacionada ao produto <b>{{ $message->product->name }}</b>
                     <span class="btn btn-smallextreme btn-popmartin vertical-middle">ver produto</span>
@@ -46,21 +45,13 @@
             </thead>
 
             <tbody>
-            <tr>
-                <td>{{ $message->sender->name }}<br><span>{{ $message->created_at->format('d/m/Y H:i:s') }}</span></td>
-                <td>{{ $message->content }}</td>
-            </tr>
-
-            {{--{{ dd($message->message) }}--}}
-            @if($message->message)
-                @foreach($message->message as $awnser)
+             @foreach($messages as $awnser)
                     <tr>
                         <td>{{ $awnser->sender->name }}<br><span>{{ $awnser->created_at->format('d/m/Y H:i:s') }}</span>
                         </td>
                         <td>{{ $awnser->content }}</td>
                     </tr>
                 @endforeach
-            @endif
             </tbody>
         </table>
         <div>

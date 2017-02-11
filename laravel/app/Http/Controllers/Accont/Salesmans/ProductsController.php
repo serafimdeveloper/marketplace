@@ -94,14 +94,12 @@ class ProductsController extends AbstractController
             $value = 1;
             for ($i = 0; $i < 5; $i++) {
                 if(isset($request->{'image_'.$i})){
-                    dd($request->{'image_name_'.$i});
-                    dd($galery =  $this->galery->where('image', $request->{'image_name_'.$i})->first());
                     if($galery =  $this->galery->where('image', $request->{'image_name_'.$i})->first()){
                         if(Storage::disk('local')->exists('img/produto/'.$galery->image)){
                             Storage::delete('img/produto/'.$galery->image);
                         }
                         $image = $this->upload($request->{'image_'.$i},'img/produto','P'.$id.'I'.$value);
-                        $galery->save(['image'=>$image]);
+                        $galery->fill(['image'=>$image])->save();
                     }else {
                         $image = $this->upload($request->{'image_'.$i},'img/produto','P'.$id.'I'.$value);
                         $product->galeries()->create(['image'=>$image]);

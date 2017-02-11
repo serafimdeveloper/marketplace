@@ -2,12 +2,20 @@
 namespace App\Http\Controllers\Accont;
 
 use App\Http\Controllers\AbstractController;
+use App\Model\User;
 use App\Repositories\Accont\MessagesRepository;
+use Illuminate\Container\Container as App;
 use Auth;
 
 class MessagesController extends AbstractController
 {
-    protected $with = [];
+    protected $with = ['sender','recipient','message_type','request','product','message'];
+    protected $user;
+    public function __construct(App $app, User $user)
+    {
+        parent::__construct($app);
+        $this->user = $user;
+    }
 
     public function repo()
     {
@@ -26,18 +34,13 @@ class MessagesController extends AbstractController
 
     public function show($id)
     {
-        $user = Auth::User();
-        $message = $this->repo->all($this->columns, $this->with, ['id' => $id, 'recipient_id' => $user->id])->first();
-
-//        $answer = $this->repo->all($this->columns, $this->with, ['sender_id' => $message->sender_id, 'recipient_id' => $user->id, 'recipient_id' => $user->id]);
-
-
+        $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
+        $messages = $this->repo->getMessages($id,$this->with,['created_at' => 'DESC'],5,$page);
+        $message = $messages->first();
         if($message->status === 'received'){
             $message->update(['status' => 'readed']);
         }
-
-
-        return view('accont.message_info', compact('message'));
+        return view('accont.message_info', compact('messages','message'));
     }
 
     public function answer(MessagesRepository $messagesRepository){
