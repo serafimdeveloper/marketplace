@@ -4,7 +4,7 @@
     @include('accont.inc.nav')
     <section class="panel-content">
         <header class="pop-title">
-            <h1>Produtos cadastrados <a href="/accont/salesman/product" class="btn btn-smallextreme btn-popmartin"><i class="fa fa-plus vertical-middle"></i> adicionar novo produto</a></h1>
+            <h1>Produtos cadastrados <a href="{{route('accont.salesman.products.create')}}" class="btn btn-smallextreme btn-popmartin"><i class="fa fa-plus vertical-middle"></i> adicionar novo produto</a></h1>
         </header>
 
         <table id="pop-messages" class="table table-action">
@@ -22,13 +22,13 @@
             <tbody>
             @forelse ($products as $product)
             <tr>
-                <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->name.'?w=42&h=42') }}" alt="[]" title=""></td>
+                <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=42&h=42') }}" alt="[]" title=""></td>
                 <td>{{$product->name}}</td>
                 <td class="text-capitalize">R${{number_format($product->price,2,',','.')}}</td>
                 <td class="txt-center">{{$product->quantity}}</td>
                 <td class="t-draft txt-center">{{($product->active === 1) ? 'sim' : 'não'}}</td>
                 <td class="txt-center">
-                    <a href="/accont/salesman/product/{{$product->id}}" class="t-btn t-edit">detalhes</a>
+                    <a href="{{route('accont.salesman.products.edit',$product->id)}}" class="t-btn t-edit">detalhes</a>
                     <a href="javscript:void(0)" class="t-btn t-remove" data-id="{{$product->id}}">remover</a>
                 </td>
             </tr>

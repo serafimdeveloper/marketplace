@@ -10,24 +10,25 @@ namespace App\Http\Controllers\Accont\Salesmans;
 
 
 use App\Http\Controllers\AbstractController;
-use App\Repositories\Accont\ProductsRepository;
+use App\Repositories\Accont\RequestsRepository;
 use App\Model\Category;
 use App\Http\Requests\Accont\Salesman\ProductsStoreRequest;
 use Auth;
 
 class SalesController extends AbstractController
 {
-    protected $with = ['category','store'];
+    protected $with = ['user','store'];
+
     public function repo(){
-        return ProductsRepository::class;
+        return RequestsRepository::class;
     }
 
     public function index(){
         if($store = Auth::user()->salesman->store){
-            $products = $this->repo->all($this->columns,$this->with,['store_id' => $store->id],[],5);
-            return view('accont.products', compact('products'));
+            $requests = $this->repo->all($this->columns,$this->with,['store_id' => $store->id],[],15);
+            return view('accont.sales', compact('requests'));
         }
-        flash('Antes dde cadastrar um produto tem que criar uma loja!', 'warning');
+        flash('Você ainda não possui uma Loja!', 'warning');
         return redirect()->route('accont.salesman.stores');
 
     }

@@ -318,6 +318,21 @@ $(function () {
         }
     });
 
+    $('#type_operation_stock').on('change',function(e){
+        e.preventDefault();
+        var count = $(this).siblings('input').val();
+        var type = $(this).val() ? '/'+$(this).val() : '';
+        var product_id = $('#product_id').val();
+        var token = $('input[name=_token]').val();
+        if(count > 0){
+            $.post('/accont/movement_stock'+type,{'product_id':product_id, 'count':count, '_token':token}, function(data){
+                $('#quantity').val(data.product);
+            },'json').fail(function(data){
+                console.log(data);
+            });
+        }
+    });
+
     /**
      * Apagar mensagens selecionadas em tempo real
      */
@@ -413,7 +428,7 @@ $(document).on('click', '.jq-new-category', function(){
     modal.find('h2').text(title);
     modal.find('button').text(buttonText);
 
-    $.get('/accont/category'+category, function (response) {
+    $.get('/accont/categories'+category, function (response) {
         var select = form.find('select');
         select.html('<option value="">Escolher uma categória pai</option>');
         if(response.category){
@@ -445,7 +460,7 @@ $(document).on('submit', '#jq-new-category form', function(){
 
     if (!id) {
         $.ajax({
-            url: '/accont/category',
+            url: '/accont/categories',
             type: 'POST',
             dataType: 'json',
             data: dados,
@@ -461,7 +476,7 @@ $(document).on('submit', '#jq-new-category form', function(){
         });
     } else {
         $.ajax({
-            url: '/accont/category/'+id,
+            url: '/accont/categories/'+id,
             type: 'PUT',
             dataType: 'json',
             data: dados,

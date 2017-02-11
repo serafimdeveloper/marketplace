@@ -13,124 +13,113 @@ Route::get('/contato', function () {
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
-Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
+Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){
 
     /** Clientes */
-    Route::get('/', 'Accont\Clients\HomeController@index')->name('accont.home');
+    Route::get('/', 'Clients\HomeController@index')->name('home');
+    Route::post('/', 'Clients\HomeController@store')->name('home.store');
 
-    Route::post('/', 'Accont\Clients\HomeController@store')->name('account.home.store');
+    Route::post('auth/change_password', 'Clients\HomeController@change_password')->name('changepassword.store');
 
-    Route::post('auth/change_password', 'Accont\Clients\HomeController@change_password')->name('changepassword.store');
+    Route::get('/requests','Clients\RequestsController@index')->name('requests');
+    Route::get('/requests/{id}','Clients\RequestsController@show')->name('request_info');
 
-    Route::get('/requests','Accont\Clients\RequestsController@index')->name('accont.requests');
-    Route::get('/requests/{id}','Accont\Clients\RequestsController@show')->name('accont.request_info');
-
-    Route::get('/searchstore', 'Accont\StoresController@searchstore')->name('accont.searchstore');
-    Route::post('/searchstore', 'Accont\StoresController@search')->name('accont.search.store');
+    Route::get('/searchstore', 'StoresController@searchstore')->name('searchstore');
+    Route::post('/searchstore', 'StoresController@search')->name('search.store');
 
     Route::get('/messages', function(){
         return view('accont.messages');
-    })->name('accont.messages');
+    })->name('messages');
     Route::get('/messages/{id}', function(){
         return view('accont.message_info');
-    })->name('accont.message_info');
+    })->name('message_info');
 
     /** Vendedores */
-    Route::get('/salesman/create','Accont\Salesmans\SalesmanController@create')->name('accont.salesman.create');
-    Route::post('/salesman/update','Accont\Salesmans\SalesmanController@update')->name('accont.salesman.update');
-    Route::post('/salesman/store','Accont\Salesmans\SalesmanController@store')->name('accont.salesman.store');
-    Route::get('/salesman/info','Accont\Salesmans\SalesmanController@edit')->name('accont.salesman.info');
+    Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){
 
-    Route::get('/salesman/stores', 'Accont\StoresController@create')->name('accont.salesman.stores');
-    Route::post('/salesman/stores', 'Accont\StoresController@store')->name('accont.salesman.stores.store');
-    Route::post('/salesman/stores/update', 'Accont\StoresController@update')->name('accont.salesman.stores.update');
+        Route::get('create','Salesmans\SalesmanController@create')->name('create');
+        Route::post('update','Salesmans\SalesmanController@update')->name('update');
+        Route::post('store','Salesmans\SalesmanController@store')->name('store');
+        Route::get('info','Salesmans\SalesmanController@edit')->name('info');
 
-    Route::get('/salesman/products', 'Accont\Salesmans\ProductsController@index')->name('accont.salesman.products');
-    Route::get('/salesman/product', 'Accont\Salesmans\ProductsController@create')->name('accont.salesman.product.create');
-    Route::post('/salesman/product', 'Accont\Salesmans\ProductsController@store')->name('accont.salesman.product.store');
-    Route::get('/salesman/product/{id}', 'Accont\Salemans\ProductsController@edit')->name('accont.salesman.product.edit');
-    Route::post('/salesman/product/{id}', 'Accont\Salemans\ProductsController@update')->name('accont.salesman.product.update');
-    Route::delete('/salesman/product/{id}', 'Accont\Salemans\ProductsController@destroy')->name('accont.salesman.product.destroy');
+        Route::get('stores', 'StoresController@create')->name('stores');
+        Route::post('stores', 'StoresController@store')->name('stores.store');
+        Route::post('stores/update', 'StoresController@update')->name('stores.update');
 
-    Route::get('/salesman/sales', function(){
-        return view('accont.sales');
-    })->name('accont.salesman.sales');
+        Route::resource('products', 'Salesmans\ProductsController');
 
-    Route::get('/salesman/sale/{id}', function(){
-        return view('accont.sale_info');
-    })->name('accont.salesman.sale_info');
+        Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
 
-    Route::get('/salesman/messages', function(){
-        return view('accont.messages');
-    })->name('accont.salesman.messages');
+        Route::get('sale/{id}', function(){
+            return view('accont.sale_info');
+        })->name('sale_info');
 
-    Route::get('/salesman/message/{id}', function(){
-        return view('accont.message_info');
-    })->name('accont.salesman.messages_info');
+        Route::get('messages', function(){
+            return view('accont.messages');
+        })->name('messages');
 
-    Route::get('/etiqueta', function(){
-        return view('layouts.parties.etiqueta');
-    })->name('layouts.parties.etiqueta');
+        Route::get('message/{id}', function(){
+            return view('accont.message_info');
+        })->name('messages_info');
 
+        Route::get('/etiqueta', function(){
+            return view('layouts.parties.etiqueta');
+        })->name('etiqueta');
+
+    });
 
     /** Administrador */
     Route::get('/report/users', function(){
         return view('accont.report.users');
-    })->name('accont.report.users');
+    })->name('report.users');
 
     Route::get('/report/salesmans', function(){
         return view('accont.report.salesman');
-    })->name('accont.report.salesman');
+    })->name('report.salesman');
 
     Route::get('/report/products', function(){
         return view('accont.report.products');
-    })->name('accont.report.products');
+    })->name('report.products');
 
+    Route::resource('categories', 'CategoriesController');
 
-    Route::get('/categories', 'Accont\CategoriesController@index')->name('account.categories');
-    Route::get('/category', 'Accont\CategoriesController@create')->name('account.category.create');
-    Route::post('/category', 'Accont\CategoriesController@store')->name('account.category.store');
-    Route::get('/category/{id}', 'Accont\CategoriesController@edit')->name('account.category.edit');
-    Route::put('/category/{id}', 'Accont\CategoriesController@update')->name('account.category.update');
-    Route::delete('/category/{id}', 'Accont\CategoriesController@destroy')->name('account.category.destroy');
-
+    Route::resource('type_movements','TypeMovementsStocksController');
+    Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
 
     Route::get('/report/sales', function(){
         return view('accont.report.sales');
-    })->name('accont.report.sales');
+    })->name('report.sales');
 
     Route::get('/report/notifications', function(){
         return view('accont.report.notifications');
-    })->name('accont.report.notifications');
+    })->name('report.notifications');
 
     Route::get('/pages', function(){
         return view('accont.pages');
-    })->name('accont.pages');
+    })->name('pages');
 
     Route::get('/page', function(){
         return view('accont.page');
-    })->name('accont.page.create');
+    })->name('page.create');
 
     Route::get('/page/{id}', function(){
         return view('accont.page');
-    })->name('accont.page.update');
+    })->name('page.update');
 
     Route::get('/banners', function(){
         return view('accont.banners');
-    })->name('accont.banners');
-
-
+    })->name('banners');
 
     /**
      * PROCESSO DE REQUISIÇÕES VIA AJAX DO SISTEMA
      */
 
     /** Adress */
-    Route::get('/adresses/zip_code/{zip}','Accont\AdressesController@search_cep')->name('accont.adress.zip_code');
-    Route::post('/adresses/{action}','Accont\AdressesController@store')->name('accont.adress.store');
-    Route::get('/adresses/{action}/{adress}','Accont\AdressesController@edit')->name('accont.adress.edit');
-    Route::post('/adresses/{action}/{adress}','Accont\AdressesController@update')->name('accont.adress.update');
-    Route::delete('/adresses/{action}/{adress}','Accont\AdressesController@destroy')->name('accont.adress.destroy');
+    Route::get('/adresses/zip_code/{zip}','AdressesController@search_cep')->name('adress.zip_code');
+    Route::post('/adresses/{action}','AdressesController@store')->name('adress.store');
+    Route::get('/adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
+    Route::post('/adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
+    Route::delete('/adresses/{action}/{adress}','AdressesController@destroy')->name('adress.destroy');
 });
 Route::get('/info/{page}', function ($title) {
     $data['title'] = $title;
@@ -142,6 +131,7 @@ Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
 /*Route::get('imagem/{path}', function(League\Glide\Server $server, Illuminate\Http\Request $request, $path){
     $server->outputImage($path, $request->input());
 })->where('path', '.+');*/
+
 
 Route::get('/categoria/{category}', function(){
     return view('pages.products');

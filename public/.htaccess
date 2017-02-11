@@ -17,4 +17,13 @@
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+     <Limit GET POST PUT PATCH DELETE HEAD OPTIONS>
+            Order allow,deny
+            Allow from all
+    </Limit>
+    <LimitExcept GET POST PUT PATCH DELETE HEAD OPTIONS>
+        Order deny,allow
+        Allow from all
+    </LimitExcept>
 </IfModule>

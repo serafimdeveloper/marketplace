@@ -53,7 +53,7 @@ class Product extends Model
         return $this->hasMany(MovementStock::class);
     }
 
-    public function galery(){
+    public function galeries(){
         return $this->hasMany(Galery::class);
     }
 }
