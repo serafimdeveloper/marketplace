@@ -21,7 +21,7 @@ class StoresRepository extends BaseRepository
     }
 
     public function search($name){
-        return $this->model->search($name);
+        return $this->model->search($name)->paginate(3);
     }
 
     public function bySlug($slug){

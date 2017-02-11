@@ -19,26 +19,21 @@
             </thead>
 
             <tbody>
-            @for ($i = 0; $i < 5; $i++)
+            @forelse($requests as $request)
                 <tr>
-                    <td>#125875</td>
-                    <td>Ontem às 15:16:02</td>
-                    <td>R$ 25,00</td>
-                    <td>Maria da Silva</td>
-                    <td class="t-status t-active">concuído</td>
+                    <td>#{{$request->key}}</td>
+                    <td>{{$request->created_at->diffForHumans()}}</td>
+                    <td>R${{number_format($request->amount,'2',',','.')}}</td>
+                    <td>{{$request->user->name}}</td>
+                    <td class="t-status t-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</td>
                     <td class="txt-center"><a href="/accont/salesman/sale/1" class="t-popmartin">detalhes</a></td>
                 </tr>
-                <tr>
-                    <td>#125875</td>
-                    <td>Ontem às 15:16:02</td>
-                    <td>R$ 25,00</td>
-                    <td>Maria da Silva</td>
-                    <td class="t-status t-scheduled">esperando envio</td>
-                    <td class="txt-center"><a href="/accont/salesman/sale/1" class="t-popmartin">detalhes</a></td>
-                </tr>
-            @endfor
+            @empty
+            @endforelse
             </tbody>
         </table>
+        {!! $requests->links() !!}
+
     </section>
     <div class="clear-both"></div>
 @endsection

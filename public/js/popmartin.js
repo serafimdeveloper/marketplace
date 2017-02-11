@@ -88,9 +88,9 @@ $(function () {
      * Caso seja um cadastro, apnenas abre para preenchimento
      */
     $(document).on('click', '.jq-address', function () {
+        var action = $(this).data('action')
+        console.log(action);
         if (typeof ($(this).data('id')) !== "undefined") {
-            var action = $(this).data('action');
-            console.log(action);
             $('.alertbox-title').text('Editar endereço');
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');

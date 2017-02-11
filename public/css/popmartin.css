@@ -243,6 +243,19 @@ input{padding: 5px;width: 100%;}
 .trigger.notice{background-color: #1565C0;color: #FFF;border: none;}
 .trigger.error{background-color: #EF5350;color: #FFF;border: none;}
 .table input{min-width: 20px;}
+
+.table .t-accept{color: #1B5E20;}
+.table .t-notice{color: #0D47A1;}
+.table .t-warning{color: #E3D239;}
+.table .t-error{color: #FF0000;}
+.table .t-default{color: #000000;}
+
+.c-accept{color: #1B5E20;}
+.c-notice{color: #0D47A1;}
+.c-warning{color: #E3D239;}
+.c-error{color: #FF0000;}
+.c-default{color: #000000;}
+
 /** RESPONSIVIDADE */
 
 @media(max-width: 69em){ /*1024px */

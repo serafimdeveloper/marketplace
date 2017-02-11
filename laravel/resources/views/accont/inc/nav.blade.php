@@ -16,7 +16,7 @@
                  <li><a href="{{route('accont.salesman.info')}}">informações</a></li>
                  <li><a href="{{route('accont.salesman.stores')}}">minha loja</a></li>
                  <li><a href="{{route('accont.salesman.products.index')}}">meus produtos</a></li>
-                 <li><a href="{{route('accont.salesman.sales')}}">minhas vendas <span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">2</span></a></li>
+                 <li><a href="{{route('accont.salesman.sales')}}">minhas vendas <span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">{{notification_sales(0)}}</span></a></li>
                  <li><a href="{{route('accont.salesman.messages')}}">mensagens <span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">2</span></a></li>
              </ul>
          </div>

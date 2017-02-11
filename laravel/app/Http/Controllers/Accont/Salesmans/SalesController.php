@@ -14,6 +14,7 @@ use App\Repositories\Accont\RequestsRepository;
 use App\Model\Category;
 use App\Http\Requests\Accont\Salesman\ProductsStoreRequest;
 use Auth;
+use Illuminate\Support\Facades\Input;
 
 class SalesController extends AbstractController
 {
@@ -24,8 +25,9 @@ class SalesController extends AbstractController
     }
 
     public function index(){
+        $page = Input::get('page');
         if($store = Auth::user()->salesman->store){
-            $requests = $this->repo->all($this->columns,$this->with,['store_id' => $store->id],[],15);
+            $requests = $this->repo->all($this->columns,$this->with,['store_id' => $store->id],[],10,$page);
             return view('accont.sales', compact('requests'));
         }
         flash('Você ainda não possui uma Loja!', 'warning');

@@ -44,6 +44,11 @@ class Request extends Model
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'unit_price', 'amount']);
     }
 
+    public function store(){
+        return $this->belongsTo(Store::class);
+    }
+
+
     public function shopvaluation(){
         return $this->hasOne(ShopValuation::class);
     }

@@ -58,4 +58,8 @@ class User extends Authenticatable
     public function shopvaluations(){
         return $this->hasMany(ShopValuation::class);
     }
+
+    public function messages(){
+        return $this->hasMany(ShopValuation::class);
+    }
 }

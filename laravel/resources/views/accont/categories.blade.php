@@ -49,6 +49,7 @@
             @endforelse
             </tbody>
         </table>
+        {!! $categories->links() !!}
     </section>
     <div class="clear-both"></div>
     @include('layouts.parties.alert_newcategory')

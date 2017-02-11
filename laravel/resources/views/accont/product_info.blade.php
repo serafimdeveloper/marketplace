@@ -30,7 +30,8 @@
                     <label>
                         <div class="file" style="margin-top: 2.5%;">
                             {!! Form::file('image_0', ['data-preview' => 0, 'onchange' => 'previewFile($(this))']) !!}
-                            <input type="text" name="image_name_0" value="{{isset($galeries) ? $galeries[0]['image'] : ''}}" placeholder="informe aqui a imagem principal deste produto" readonly="readonly">
+                            <input type="text"  placeholder="informe aqui a imagem principal deste produto" readonly="readonly">
+                            <input type="hidden" name="image_name_0" value="{{isset($galeries) ? $galeries[0]['image'] : ''}}">
                             <button type="button" class="btn btn-orange">Imagem</button>
                             <div class="clear-both"></div>
                             <span class="alert{{ $errors->has('image_0') ? '' : ' hidden' }}">{{ $errors->first('image_0') }}</span>
@@ -206,7 +207,8 @@
                                     @if(isset($galeries))
                                         <input type="text" name="image_name.{{$i}}" value="{{isset($galeries[$i]) ? $galeries[$i]['image' ] : ''}}">
                                     @else
-                                        <input type="text" name="image_name.{{$i}}">
+                                        <input type="text">
+                                        <input type="hidden" name="image_name.{{$i}}">
                                     @endif
                                     <button type="button" class="btn btn-orange">Imagem</button>
                                     <div class="clear-both"></div>
