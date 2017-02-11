@@ -372,18 +372,17 @@ $(function () {
      * OPERAÇÃO DE CONTROLE DE ESTOQUE DE PRODUTOS
      */
     $('#type_operation_stock').on('change', function (e) {
-        resetChange($(this));
         e.preventDefault();
-
-        var count = $(this).siblings('input').val();
+        var count = $(this).siblings('input');
         var type = $(this).val() ? '/' + $(this).val() : '';
+        console.log(type);
         var product_id = $('#product_id').val();
         var token = $('input[name=_token]').val();
         var loader = $(this).data('loader');
-        if (count > 0) {
+        if (count.val() > 0) {
             var data = {
                 'product_id': product_id,
-                'count': count,
+                'count': count.val(),
                 '_token': token
             }
             $.ajax({
@@ -398,14 +397,13 @@ $(function () {
                     console.log(response);
                 },
                 success: function (response) {
-                    if (response.option) {
-                        $('#quantity').val(data.product);
-                        $('.' + loader).hide();
-                    }
+                    $('#quantity').val(response.product);
+                    count.val(0);
+                    $('.' + loader).hide();
                 }
             });
-
         }
+        resetChange($(this));
     });
 
     /**
