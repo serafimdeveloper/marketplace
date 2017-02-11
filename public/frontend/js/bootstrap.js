@@ -19,19 +19,10 @@ $(function () {
 
 
 
-    /* ESTILIZAÇÃO DE FILE INPUT*/
-    $("form input[type='file']").on('change', function () {
-        var numArquivos = $(this).get(0).files.length;
-        if (numArquivos > 1) {
-            $(this).siblings("input[type='text']").val(numArquivos + ' arquivos selecionados');
-        } else {
-            $(this).siblings("input[type='text']").val($(this).val());
-        }
-        previewImg(this);
-    });
 
 
 });
+
 
 /**
  * Transforma array em objeto javascript
@@ -108,21 +99,7 @@ function maskInt(t) {
     t.value = num;
 }
 
-/*
- * EFEITO ACCORDION INPLEMENTAÇÂO
- * */
-$(document).on("click", ".accordion-box .accordion-header", function () {
-    if ($(".accordion-box .accordion-content").not($(this).siblings(".accordion-content")).is(":visible")) {
-        $(".accordion-box .accordion-content").slideUp(600);
-    }
-    if ($(this).siblings('.accordion-content').is(":visible")) {
-        $(this).find('.fa').attr("class", "fa fa-chevron-right");
-    } else {
-        $(this).find('.fa').attr("class", "fa fa-chevron-down");
 
-    }
-    $(this).siblings('.accordion-content').slideToggle(600);
-});
 
 /**
  * Verifica se um determinado elemento está visivel ou não ao manuseal o scroll do navegador
@@ -291,6 +268,31 @@ function limiter() {
     limiter.html(r);
 }
 
+/*
+ * EFEITO ACCORDION INPLEMENTAÇÂO
+ * */
+$(document).on("click", ".accordion-box .accordion-header", function () {
+    if ($(".accordion-box .accordion-content").not($(this).siblings(".accordion-content")).is(":visible")) {
+        $(".accordion-box .accordion-content").slideUp(600);
+    }
+    if ($(this).siblings('.accordion-content').is(":visible")) {
+        $(this).find('.fa').attr("class", "fa fa-chevron-right");
+    } else {
+        $(this).find('.fa').attr("class", "fa fa-chevron-down");
+
+    }
+    $(this).siblings('.accordion-content').slideToggle(600);
+});
+/* ESTILIZAÇÃO DE FILE INPUT*/
+$(document).on('change', "form input[type='file']", function () {
+    var numArquivos = $(this).get(0).files.length;
+    if (numArquivos > 1) {
+        $(this).siblings("input[type='text']").val(numArquivos + ' arquivos selecionados');
+    } else {
+        $(this).siblings("input[type='text']").val($(this).val());
+    }
+    previewImg(this);
+});
 $(document).on('keyup', '.limiter-textarea', limiter);
 $(document).on("keypress", ".masksMoney", masks.money);
 $(document).on("click", ".form-modern .checkbox input[type=checkbox]", checkBox);

@@ -43,7 +43,7 @@
                 <div class="colbox-3">
                     <label>
                         <span>Categoria</span>
-                        {!! Form::select('category_id', $categories, null, ['class' => 'select_subcat', 'placeholder' => 'Selecione uma Categória']) !!}
+                        {!! Form::select('category_id', $categories, null, ['class' => 'select_subcat', 'placeholder' => 'Selecione uma Categória', 'data-loader' => 'loader-1']) !!}
                         <span class="alert{{ $errors->has('category_id') ? '' : ' hidden' }}">{{ $errors->first('category_id') }}</span>
                     </label>
                 </div>
@@ -52,6 +52,7 @@
                         <span>Subcategoria</span>
                         {!! Form::select('subcategory_id', [], 0, ['class' => 'subcat_info','placeholder'=>'Nenhuma subcategoria']) !!}
                         <span class="alert{{ $errors->has('subcategory_id') ? '' : ' hidden' }}">{{ $errors->first('subcategory_id') }}</span>
+                        <span class="fa fa-spinner fa-spin jq-loader dp-none loader-1"></span>
                     </label>
                 </div>
                 <div class="colbox-3">
@@ -126,7 +127,7 @@
                         <label>
                             <span>Movimentação de estoque <i class="fa fa-info-circle c-blue tooltip" title="Informações sobre este assunto"></i></span>
                             {!! Form::number('count', null, ['placeholder' => '0', 'id' => 'number']) !!}
-                            {!! Form::select('type_operation_stock', $typemovements, null, ['placeholder' => 'Selecione um tipo de movimentação', 'id' => 'type_operation_stock']) !!}
+                            {!! Form::select('type_operation_stock', $typemovements, null, ['placeholder' => 'Selecione um tipo de movimentação', 'id' => 'type_operation_stock', 'data-loader' => 'loader-2']) !!}
                         </label>
                         <input type="hidden" id="product_id" value="{{$product->id}}"/>
                     </div>
@@ -134,6 +135,7 @@
                         <label>
                             <span>Estoque Atual</span>
                             {!! Form::text('quantity', null, ['placeholder' => '0', 'id'=>'quantity', 'readonly' => 'true']) !!}
+                            <span class="fa fa-spinner fa-spin jq-loader dp-none loader-2"></span>
                         </label>
                     </div>
                 @endif
@@ -193,7 +195,7 @@
                 <div class="colbox">
                     @for ($i = 1; $i < 5; $i++)
                         <div class="colbox-4 product-galery">
-                            <p class="c-blue fontw-500">Imagem {{$i}} <a href="javascript:void(0)" class="c-pop fl-right jq-remove-img-galery" data-id="{{ (isset($galeries[$i]) ? $galeries[$i]['id'] : 0) }}" data-preview="{{ $i }}"><i class="fa fa-times-circle"></i> remover</a></p>
+                            <p class="c-blue fontw-500">Imagem {{$i}} <a href="javascript:void(0)" class="c-pop fl-right jq-remove-img-galery" data-id="{{ (isset($galeries[$i]) ? $galeries[$i]['id'] : 0) }}" data-preview="{{ $i }}" data-action="{{ (Request::segment('5') == 'edit' ? 'update' : 'create') }}"><i class="fa fa-times-circle"></i> remover</a></p>
                             <div class="txt-center">
                                 <div id="preview_img{{$i}}" class="prevImg">
                                     @if(isset($galeries))

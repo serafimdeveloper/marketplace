@@ -240,6 +240,7 @@ input{padding: 5px;width: 100%;}
 
 .form-modern .alert{position: absolute;bottom: 0;right: 10px;padding: 1px 6px;background-color: red;color: #FFF;}
 .hidden{display: none;}
+.form-modern .jq-loader{position: absolute;top: 42px; right: 30px;}
 .owl-nav i{font-size: 1.6em;font-weight: bold; color: #B40004;}
 .owl-nav .owl-prev{position: absolute; top: 40%; left: -25px;}
 .owl-nav .owl-next{position: absolute; top: 40%; right: -25px;}

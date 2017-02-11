@@ -225,6 +225,9 @@ $(function () {
         }
     });
 
+    /**
+     * Máscara de telefone e celular.
+     */
     $('.celphone').on('focusout', function (e) {
         if (!(/\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}/.test($(this).val()))) {
             $(this).val('');
@@ -232,6 +235,9 @@ $(function () {
         }
     });
 
+    /**
+     * LIMPEZA DE CAMPOS AO FECHAR UM ALERTBOX
+     */
     $('.alertbox-close').click(function () {
         var form = $(this).siblings('div').find('form');
         clear_input(form);
@@ -242,10 +248,10 @@ $(function () {
         $('.jq-remove-address').hide();
         // console.log();
     })
+
     /**
      * grava ou atualiza o novo endereço
      */
-
     $('#form-adress').on('submit', function (event) {
         var form = $(this);
         var action = $(this).data('action');
@@ -329,9 +335,25 @@ $(function () {
     /** Trazer subcategoria de acordo com a categoria selecionada */
     $('.select_subcat').change(function () {
         var id = $(this).val();
-        $.post('', {category_id: id}, function (data) {
-            $('.subcat_info').html(data.option);
-        }, "json");
+        var data = {category_id: id};
+        var loader = $(this).data('loader');
+        $.ajax({
+            url: '',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            beforeSend: function () {
+                $('.' + loader).show();
+            },
+            success: function (response) {
+                if (response.option) {
+                    $('.' + loader).hide();
+                    $('.subcat_info').html(response.option);
+                } else {
+                    $('.subcat_info').html('<option selected disabled>Vazio</option>');
+                }
+            }
+        });
     });
 
     /**
@@ -346,24 +368,54 @@ $(function () {
         }
     });
 
+    /**
+     * OPERAÇÃO DE CONTROLE DE ESTOQUE DE PRODUTOS
+     */
     $('#type_operation_stock').on('change', function (e) {
+        resetChange($(this));
         e.preventDefault();
+
         var count = $(this).siblings('input').val();
         var type = $(this).val() ? '/' + $(this).val() : '';
         var product_id = $('#product_id').val();
         var token = $('input[name=_token]').val();
+        var loader = $(this).data('loader');
         if (count > 0) {
-            $.post('/accont/movement_stock' + type, {
+            var data = {
                 'product_id': product_id,
                 'count': count,
                 '_token': token
-            }, function (data) {
-                $('#quantity').val(data.product);
-            }, 'json').fail(function (data) {
-                console.log(data);
+            }
+            $.ajax({
+                url: '/accont/movement_stock' + type,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                beforeSend: function () {
+                    $('.' + loader).show();
+                },
+                error: function(response){
+                    console.log(response);
+                },
+                success: function (response) {
+                    if (response.option) {
+                        $('#quantity').val(data.product);
+                        $('.' + loader).hide();
+                    }
+                }
             });
+
         }
     });
+
+    /**
+     * resetar select
+     * @param e
+     */
+    function resetChange(e){
+       e.children().removeAttr('selected');
+    }
+
 
     /**
      * Apagar mensagens selecionadas em tempo real
@@ -457,7 +509,7 @@ $(document).on('click', '.jq-new-banner', function () {
 });
 
 /**
- * Abrir modal de categoria
+ * ABRIR MODAL DE CATEGORIA
  */
 $(document).on('click', '.jq-new-category', function () {
     var e = $(this);
@@ -489,7 +541,7 @@ $(document).on('click', '.jq-new-category', function () {
 });
 
 /**
- * Atualizar e cadastrar categorias no sistema
+ * ATUALIZAR E CADASTRAR CATEGORIAS NO SISTEMA
  */
 $(document).on('submit', '#jq-new-category form', function () {
     var form = $(this);
@@ -532,27 +584,6 @@ $(document).on('submit', '#jq-new-category form', function () {
     clear_input(form);
     return false;
 });
-
-// $(document).on('click', '.pop-remove-product-cart', function(){
-//     var pr = $(this).parents("tr");
-//     var countProducts = $("#jq-count-product");
-//     var prId = pr.attr('id');
-//     var prThis = pr.parents('tbody').find('tr').length;
-//
-//
-//     console.log(prThis);
-
-// $.get('', {product_id: prId}, function (response) {
-//     if(response.status === true){
-//         countProducts.text((parseInt(countProducts.text() - 1) >= 0 ? parseInt(countProducts.text() - 1) : 0));
-//         if (prThis > 1) {
-//             pr.slideUp().remove('');
-//         } else {
-//             pr.parents('.pop-cart').slideUp().html('');
-//         }
-//     }
-// }, "json");
-// });
 
 
 /**
@@ -671,6 +702,12 @@ function inputvalue(inputs, e) {
     }
 }
 
+/**
+ * ATUALIZAR E APRESENTAR BOX DE ENDEREÇO NO PAINEL
+ * @param obj
+ * @param action
+ * @returns {string}
+ */
 function window_adress(obj, action) {
     obj.master = (obj.master ? 'principal' : '');
     var janela = '<div class="panel-end" id="end_' + obj.id + '">';
@@ -688,18 +725,54 @@ function window_adress(obj, action) {
     return janela;
 }
 
+/**
+ * LIMPAR CAMPOS DE IMPUT EXETO TOKEN
+ * @param form
+ */
 function clear_input(form) {
     var _token = form.find('input[name=_token]').val();
     form.find('input').val('');
     form.find('input[name=_token]').val(_token);
 }
 
+/**
+ * BLOQUEAR E DESBLOQUEAR LOJA
+ */
+function blockStore() {
+    var element = $(this);
+    var id = element.data('id');
+    var index = {id: id}
+    var txt = element.text().trim();
+    var msg = (txt == 'bloquear loja' ? 'Tem certesa de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem?')
+    alertify.confirm(alertfyConfirmTitle, msg,
+        function () {
+            $.get('', index, function (response) {
+                if (response.status) {
+                    if (response.lock) {
+                        element.html('<i class="fa fa-lock vertical-middle"></i> bloquear loja');
+                    } else {
+                        element.html('<i class="fa fa-unlock vertical-middle"></i> desbloquear loja');
+                    }
+                    alertify.success('Produto removido');
+                } else {
+                    alertify.error(response.msg);
+                }
+            }, 'json');
+        }, function () {
+            return true;
+        });
+}
+/**
+ * REMOÇÃO DE PRODUTO EM TEMPO REAL
+ * @returns {boolean}
+ */
 function removePrduct() {
     var element = $(this);
+    var id = element.data('id');
+    var index = {id: id}
+
     alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover este produto?',
         function () {
-            var id = element.data('id');
-            var index = {id: id}
             $.get('', index, function (response) {
                 if (response.status) {
                     element.parents('tr').slideUp(500);
@@ -714,8 +787,17 @@ function removePrduct() {
     return false;
 }
 
+/**
+ * REMOÇÃO DE IMAGEM DE PRODUTO EM TEMPO REAL
+ * REMOÇÃO DE IMAGEM DE PRODUTO TEMPORÁRIA
+ * @returns {boolean}
+ */
 function removeImgGarely() {
     var element = $(this);
+    var action = element.data('action');
+    if (action == 'create') {
+        clearImgGalery(element);
+    }
     alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover esta imagem?',
         function () {
             var id = element.data('id');
@@ -723,10 +805,7 @@ function removeImgGarely() {
             var index = {id: id}
             $.get('', index, function (response) {
                 if (response.status) {
-                    element.parents('.product-galery').find('.prevImg img').attr('src', 'http://popmartin.dev/imagem/popmartin/img-exemple.jpg?h=110')
-                    element.parents('.product-galery').find('.file input[type=text]').val('');
-                    element.parents('.product-galery').find('.file input[type=file]').remove();
-                    element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
+                    clearImgGalery(element);
                     alertify.success('Produto removido!');
                 } else {
                     alertify.error(response.msg);
@@ -737,10 +816,22 @@ function removeImgGarely() {
         });
     return false;
 }
+/**
+ * LIMPAR IMAGEM PROVISÓRIA E INPUT FILE AO REMOVER PRODUTO
+ * @param element
+ */
+function clearImgGalery(element) {
+    element.parents('.product-galery').find('.prevImg img').attr('src', 'http://popmartin.dev/imagem/popmartin/img-exemple.jpg?h=110')
+    element.parents('.product-galery').find('.file input[type=text]').val('');
+    element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
+    element.parents('.product-galery').find('.file input[type=file]').remove();
 
-/** */
+}
+
+
 $(document).on('submit', '.form-modern', function () {
     $(this).find("button[type=submit]").text('processando..').css({background: '#E57373'});
 });
 $(document).on('click', '.jq-remove-product', removePrduct);
 $(document).on('click', '.jq-remove-img-galery', removeImgGarely);
+$(document).on('click', '.jq-block-store', blockStore);
