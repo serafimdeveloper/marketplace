@@ -54,11 +54,8 @@ $(function () {
     });
 
 
-
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
-
-
 
 
     /**
@@ -93,13 +90,14 @@ $(function () {
      * Caso seja um cadastro, apnenas abre para preenchimento
      */
     $(document).on('click', '.jq-address', function () {
+        $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
         var action = $(this).data('action')
         console.log(action);
         if (typeof ($(this).data('id')) !== "undefined") {
             $('.alertbox-title').text('Editar endereço');
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
-            $.get('/accont/adresses/'+action+'/'+ $(this).data('id'), function (data) {
+            $.get('/accont/adresses/' + action + '/' + $(this).data('id'), function (data) {
                 console.log(data);
                 inputvalue(data);
             }, 'json');
@@ -108,26 +106,26 @@ $(function () {
             $('.alertbox-title').text('Cadastrar endereço');
             $('.address').find('button').text('cadastrar');
         }
-        $('.address').find('form').attr('data-action',action);
+        $('.address').find('form').attr('data-action', action);
         $('.address').show();
     });
 
     $(document).on('click', '.jq-remove-address', function () {
         var element = $(this);
         alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover este endereço?',
-            function(){
+            function () {
                 var id = element.data('id');
                 var index = {id: id}
                 $.post('/adresses/destroy', index, function (response) {
                     if (response.status) {
-                            alertify.success('Endereço removido!');
+                        alertify.success('Endereço removido!');
 
-                    }else{
+                    } else {
                         alertify.error(response.msg);
                     }
                 }, 'json');
                 $('.alertbox-close').click();
-            }, function(){
+            }, function () {
                 return true;
             });
 
@@ -196,58 +194,64 @@ $(function () {
     /**
      * Máscara do Telefone e Celular
      */
-     $('.celphone').bind("keyup", function(e){
-             var valor = $(this).val();
-         console.log(valor.length);
-         if((',8,37,39,').indexOf(','+e.keyCode+',')){
-             valor = valor.replace(/[^0-9]+g/, "");
+    $('.celphone').bind("keyup", function (e) {
+        var valor = $(this).val();
+        console.log(valor.length);
+        if ((',8,37,39,').indexOf(',' + e.keyCode + ',')) {
+            valor = valor.replace(/[^0-9]+g/, "");
 
-             if (valor.length > 2 && valor.length <= 5) {
-                 $(this).val('(' + valor.substring(0, 2) + ') ');
-             }
-             else if (valor.length == 9) {
-                 $(this).val(valor.substring(0,9) + "-");
-             }
-             else if (valor.length == 14) {
-                 var hifen = valor.indexOf('-');
-                 if (hifen != 9) {
-                     var elem = valor.charAt(hifen - 1);
-                     valor = valor.replace(elem + '-', '-' + elem);
-                 }
-                 $(this).val(valor.substring(0, 14));
-             }
-             else if (valor.length == 15) {
-                 var hifen = valor.indexOf('-');
-                 if (hifen == 9) {
-                     var elem = valor.charAt(hifen + 1);
-                     valor = valor.replace('-' + elem, elem + '-');
-                 }
-                 $(this).val(valor.substring(0, 15));
-             }
-         }
+            if (valor.length > 2 && valor.length <= 5) {
+                $(this).val('(' + valor.substring(0, 2) + ') ');
+            }
+            else if (valor.length == 9) {
+                $(this).val(valor.substring(0, 9) + "-");
+            }
+            else if (valor.length == 14) {
+                var hifen = valor.indexOf('-');
+                if (hifen != 9) {
+                    var elem = valor.charAt(hifen - 1);
+                    valor = valor.replace(elem + '-', '-' + elem);
+                }
+                $(this).val(valor.substring(0, 14));
+            }
+            else if (valor.length == 15) {
+                var hifen = valor.indexOf('-');
+                if (hifen == 9) {
+                    var elem = valor.charAt(hifen + 1);
+                    valor = valor.replace('-' + elem, elem + '-');
+                }
+                $(this).val(valor.substring(0, 15));
+            }
+        }
     });
 
-    $('.celphone').on('focusout', function(e){
-       if (!(/\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}/.test($(this).val()))){
-           $(this).val('');
-           $(this).next('span').removeClass('hidden').text('Telefone inválido');
-       }
+    /**
+     * Máscara de telefone e celular.
+     */
+    $('.celphone').on('focusout', function (e) {
+        if (!(/\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}/.test($(this).val()))) {
+            $(this).val('');
+            $(this).next('span').removeClass('hidden').text('Telefone inválido');
+        }
     });
 
+    /**
+     * LIMPEZA DE CAMPOS AO FECHAR UM ALERTBOX
+     */
     $('.alertbox-close').click(function () {
         var form = $(this).siblings('div').find('form');
         clear_input(form);
-        if(form.find(":checkbox").is(":checked")){
+        if (form.find(":checkbox").is(":checked")) {
             form.find(":checkbox").click();
         }
 
         $('.jq-remove-address').hide();
         // console.log();
     })
+
     /**
      * grava ou atualiza o novo endereço
      */
-
     $('#form-adress').on('submit', function (event) {
         var form = $(this);
         var action = $(this).data('action');
@@ -255,7 +259,7 @@ $(function () {
         var id = form.find('input[name=id]').val();
         if (id.length == 0) {
             $.ajax({
-                url: '/accont/adresses/'+ action,
+                url: '/accont/adresses/' + action,
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
@@ -289,7 +293,7 @@ $(function () {
             });
         } else {
             $.ajax({
-                url: '/accont/adresses/'+ action +'/'+ id,
+                url: '/accont/adresses/' + action + '/' + id,
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
@@ -299,7 +303,7 @@ $(function () {
                 success: function (data) {
                     form.find('button').html('atualizado com sucesso!');
                     form.parents('.address').slideUp(function () {
-                        if(data.adress.master == 1){
+                        if (data.adress.master == 1) {
                             $('.panel-end h4 .address-master').text(" ");
                         }
                         $('#end_' + data.adress.id).replaceWith(window_adress(data.adress, data.action));
@@ -322,7 +326,7 @@ $(function () {
         } else {
             $('.select_cnpj').slideDown();
             $(".select_cnpj").find('input').val('');
-            $(".selects_people").find('input[name=cpf]').attr('disabled','disabled');
+            $(".selects_people").find('input[name=cpf]').attr('disabled', 'disabled');
         }
         call(radiobox);
         return false;
@@ -331,9 +335,25 @@ $(function () {
     /** Trazer subcategoria de acordo com a categoria selecionada */
     $('.select_subcat').change(function () {
         var id = $(this).val();
-        $.post('', {category_id: id}, function (data) {
-            $('.subcat_info').html(data.option);
-        }, "json");
+        var data = {category_id: id};
+        var loader = $(this).data('loader');
+        $.ajax({
+            url: '',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            beforeSend: function () {
+                $('.' + loader).show();
+            },
+            success: function (response) {
+                if (response.option) {
+                    $('.' + loader).hide();
+                    $('.subcat_info').html(response.option);
+                } else {
+                    $('.subcat_info').html('<option selected disabled>Vazio</option>');
+                }
+            }
+        });
     });
 
     /**
@@ -348,20 +368,54 @@ $(function () {
         }
     });
 
-    $('#type_operation_stock').on('change',function(e){
+    /**
+     * OPERAÇÃO DE CONTROLE DE ESTOQUE DE PRODUTOS
+     */
+    $('#type_operation_stock').on('change', function (e) {
+        resetChange($(this));
         e.preventDefault();
+
         var count = $(this).siblings('input').val();
-        var type = $(this).val() ? '/'+$(this).val() : '';
+        var type = $(this).val() ? '/' + $(this).val() : '';
         var product_id = $('#product_id').val();
         var token = $('input[name=_token]').val();
-        if(count > 0){
-            $.post('/accont/movement_stock'+type,{'product_id':product_id, 'count':count, '_token':token}, function(data){
-                $('#quantity').val(data.product);
-            },'json').fail(function(data){
-                console.log(data);
+        var loader = $(this).data('loader');
+        if (count > 0) {
+            var data = {
+                'product_id': product_id,
+                'count': count,
+                '_token': token
+            }
+            $.ajax({
+                url: '/accont/movement_stock' + type,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                beforeSend: function () {
+                    $('.' + loader).show();
+                },
+                error: function(response){
+                    console.log(response);
+                },
+                success: function (response) {
+                    if (response.option) {
+                        $('#quantity').val(data.product);
+                        $('.' + loader).hide();
+                    }
+                }
             });
+
         }
     });
+
+    /**
+     * resetar select
+     * @param e
+     */
+    function resetChange(e){
+       e.children().removeAttr('selected');
+    }
+
 
     /**
      * Apagar mensagens selecionadas em tempo real
@@ -369,7 +423,7 @@ $(function () {
 
     $(document).on('click', "#pop-remove-msg.btn-popmartin", function () {
         alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover?',
-            function(){
+            function () {
                 var indexes = arrayToObject(checkInputsMsg('select_msg'));
                 $.post('/accont/messages/destroy', indexes, function (response) {
                     if (response.status) {
@@ -377,11 +431,11 @@ $(function () {
                             $('.select_msg').eq(e).hide();
                             alertify.success('Menssagens excluídas com sucesso!');
                         });
-                    }else{
+                    } else {
                         alertify.error(response.msg);
                     }
                 }, 'json');
-            }, function(){
+            }, function () {
                 return true;
             });
         return false;
@@ -413,27 +467,27 @@ $(function () {
     $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
 });
 /** Modal de informações de usuarios */
-$(document).on('click', '.jq-info-user', function(){
+$(document).on('click', '.jq-info-user', function () {
     $("#jq-info-user").slideDown();
 });
 /** Modal de informações de produtos */
-$(document).on('click', '.jq-info-sales', function(){
+$(document).on('click', '.jq-info-sales', function () {
     $("#jq-info-sales").slideDown();
 });
 
 /** Modal de informações das notificações */
-$(document).on('click', '.jq-notification', function(){
+$(document).on('click', '.jq-notification', function () {
     $("#jq-notification").slideDown();
 });
 
 /** Modal de informações de produtos */
-$(document).on('click', '.jq-info-product', function(){
+$(document).on('click', '.jq-info-product', function () {
     $("#jq-info-product").slideDown();
 });
 
 
 /** Modal de atualização e cadastro de banners */
-$(document).on('click', '.jq-new-banner', function(){
+$(document).on('click', '.jq-new-banner', function () {
     var e = $(this);
     var modal = $("#jq-new-banner");
     var form = modal.find('form');
@@ -445,7 +499,7 @@ $(document).on('click', '.jq-new-banner', function(){
     $.get('', e.data('banner'), function (response) {
         inputvalue(response);
         form.find('select').find('option').each(function () {
-            if($(this).val() == response.id){
+            if ($(this).val() == response.id) {
                 $(this).attr('selected', 'true');
                 return false;
             }
@@ -455,31 +509,31 @@ $(document).on('click', '.jq-new-banner', function(){
 });
 
 /**
- * Abrir modal de categoria
+ * ABRIR MODAL DE CATEGORIA
  */
-$(document).on('click', '.jq-new-category', function(){
+$(document).on('click', '.jq-new-category', function () {
     var e = $(this);
     var modal = $("#jq-new-category");
     var form = modal.find('form');
     var title = (e.data('category') ? 'Atualizar categoria - nome da categoria' : 'Cadastrar categoria');
     var buttonText = (e.data('category') ? 'atualizar' : 'cadastrar');
-    var category = (e.data('category') ? '/'+e.data('category') : '');
+    var category = (e.data('category') ? '/' + e.data('category') : '');
     modal.find('h2').text(title);
     modal.find('button').text(buttonText);
 
-    $.get('/accont/categories'+category, function (response) {
+    $.get('/accont/categories' + category, function (response) {
         var select = form.find('select');
         select.html('<option value="">Escolher uma categória pai</option>');
-        if(response.category){
-            var dados = {'id':response.category.id,'name':response.category.name};
+        if (response.category) {
+            var dados = {'id': response.category.id, 'name': response.category.name};
             inputvalue(dados);
         }
-        $.each(response.categories, function (i,obj) {
+        $.each(response.categories, function (i, obj) {
             var selected = '';
-            if(response.category){
+            if (response.category) {
                 selected = (response.category.category_id === i) ? ' selected="selected"' : '';
             }
-            select.append('<option value="'+i+'"'+selected+'>'+obj+'</option>');
+            select.append('<option value="' + i + '"' + selected + '>' + obj + '</option>');
         });
     });
 
@@ -487,9 +541,9 @@ $(document).on('click', '.jq-new-category', function(){
 });
 
 /**
- * Atualizar e cadastrar categorias no sistema
+ * ATUALIZAR E CADASTRAR CATEGORIAS NO SISTEMA
  */
-$(document).on('submit', '#jq-new-category form', function(){
+$(document).on('submit', '#jq-new-category form', function () {
     var form = $(this);
     var dados = form.serialize();
     console.log(dados);
@@ -515,7 +569,7 @@ $(document).on('submit', '#jq-new-category form', function(){
         });
     } else {
         $.ajax({
-            url: '/accont/categories/'+id,
+            url: '/accont/categories/' + id,
             type: 'PUT',
             dataType: 'json',
             data: dados,
@@ -530,27 +584,6 @@ $(document).on('submit', '#jq-new-category form', function(){
     clear_input(form);
     return false;
 });
-
-// $(document).on('click', '.pop-remove-product-cart', function(){
-//     var pr = $(this).parents("tr");
-//     var countProducts = $("#jq-count-product");
-//     var prId = pr.attr('id');
-//     var prThis = pr.parents('tbody').find('tr').length;
-//
-//
-//     console.log(prThis);
-
-    // $.get('', {product_id: prId}, function (response) {
-    //     if(response.status === true){
-    //         countProducts.text((parseInt(countProducts.text() - 1) >= 0 ? parseInt(countProducts.text() - 1) : 0));
-    //         if (prThis > 1) {
-    //             pr.slideUp().remove('');
-    //         } else {
-    //             pr.parents('.pop-cart').slideUp().html('');
-    //         }
-    //     }
-    // }, "json");
-// });
 
 
 /**
@@ -642,7 +675,7 @@ function inputerror(is, param, msg) {
 function inputvalue(inputs, e) {
     if (inputs instanceof Object) {
         $.each(inputs, function (index, element) {
-            if(element) {
+            if (element) {
                 if (index === 'state') {
                     element = element.substr(0, 2);
                 }
@@ -669,12 +702,18 @@ function inputvalue(inputs, e) {
     }
 }
 
+/**
+ * ATUALIZAR E APRESENTAR BOX DE ENDEREÇO NO PAINEL
+ * @param obj
+ * @param action
+ * @returns {string}
+ */
 function window_adress(obj, action) {
     obj.master = (obj.master ? 'principal' : '');
     var janela = '<div class="panel-end" id="end_' + obj.id + '">';
-    if(action === 'user'){
+    if (action === 'user') {
         janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
-    }else{
+    } else {
         janela += '<h4><span>Endereço da Loja</span></h4>';
     }
     janela += '<div class="panel-end-content">';
@@ -686,8 +725,113 @@ function window_adress(obj, action) {
     return janela;
 }
 
-function clear_input(form){
+/**
+ * LIMPAR CAMPOS DE IMPUT EXETO TOKEN
+ * @param form
+ */
+function clear_input(form) {
     var _token = form.find('input[name=_token]').val();
     form.find('input').val('');
     form.find('input[name=_token]').val(_token);
 }
+
+/**
+ * BLOQUEAR E DESBLOQUEAR LOJA
+ */
+function blockStore() {
+    var element = $(this);
+    var id = element.data('id');
+    var index = {id: id}
+    var txt = element.text().trim();
+    var msg = (txt == 'bloquear loja' ? 'Tem certesa de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem?')
+    alertify.confirm(alertfyConfirmTitle, msg,
+        function () {
+            $.get('', index, function (response) {
+                if (response.status) {
+                    if (response.lock) {
+                        element.html('<i class="fa fa-lock vertical-middle"></i> bloquear loja');
+                    } else {
+                        element.html('<i class="fa fa-unlock vertical-middle"></i> desbloquear loja');
+                    }
+                    alertify.success('Produto removido');
+                } else {
+                    alertify.error(response.msg);
+                }
+            }, 'json');
+        }, function () {
+            return true;
+        });
+}
+/**
+ * REMOÇÃO DE PRODUTO EM TEMPO REAL
+ * @returns {boolean}
+ */
+function removePrduct() {
+    var element = $(this);
+    var id = element.data('id');
+    var index = {id: id}
+
+    alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover este produto?',
+        function () {
+            $.get('', index, function (response) {
+                if (response.status) {
+                    element.parents('tr').slideUp(500);
+                    alertify.success('Produto removido');
+                } else {
+                    alertify.error(response.msg);
+                }
+            }, 'json');
+        }, function () {
+            return true;
+        });
+    return false;
+}
+
+/**
+ * REMOÇÃO DE IMAGEM DE PRODUTO EM TEMPO REAL
+ * REMOÇÃO DE IMAGEM DE PRODUTO TEMPORÁRIA
+ * @returns {boolean}
+ */
+function removeImgGarely() {
+    var element = $(this);
+    var action = element.data('action');
+    if (action == 'create') {
+        clearImgGalery(element);
+    }
+    alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover esta imagem?',
+        function () {
+            var id = element.data('id');
+            var prev = element.data('preview');
+            var index = {id: id}
+            $.get('', index, function (response) {
+                if (response.status) {
+                    clearImgGalery(element);
+                    alertify.success('Produto removido!');
+                } else {
+                    alertify.error(response.msg);
+                }
+            }, 'json');
+        }, function () {
+            return true;
+        });
+    return false;
+}
+/**
+ * LIMPAR IMAGEM PROVISÓRIA E INPUT FILE AO REMOVER PRODUTO
+ * @param element
+ */
+function clearImgGalery(element) {
+    element.parents('.product-galery').find('.prevImg img').attr('src', 'http://popmartin.dev/imagem/popmartin/img-exemple.jpg?h=110')
+    element.parents('.product-galery').find('.file input[type=text]').val('');
+    element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
+    element.parents('.product-galery').find('.file input[type=file]').remove();
+
+}
+
+
+$(document).on('submit', '.form-modern', function () {
+    $(this).find("button[type=submit]").text('processando..').css({background: '#E57373'});
+});
+$(document).on('click', '.jq-remove-product', removePrduct);
+$(document).on('click', '.jq-remove-img-galery', removeImgGarely);
+$(document).on('click', '.jq-block-store', blockStore);

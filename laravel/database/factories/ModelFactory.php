@@ -21,16 +21,13 @@ use App\Model\Message;
 use App\Model\MessageType;
 use App\Model\Payment;
 use App\Model\Product;
-use App\Model\ProductRequest;
 use App\Model\Request;
 use App\Model\RequestStatus;
 use App\Model\Salesman;
 use App\Model\Store;
+use App\Model\TypeMovementStock;
 use App\Model\User;
-use Carbon\Carbon;
 use Faker\Generator;
-use FontLib\Table\Type\name;
-use Illuminate\Support\Facades\DB;
 
 $factory->define(User::class, function (Generator $faker) {
     static $password;
@@ -100,7 +97,6 @@ $factory->define(Store::class, function(Generator $faker){
         'cnpj' => $faker->numerify('##.###.###/####-##'),
         'fantasy_name' => $faker->unique()->sentence(2),
         'social_name' => $faker->unique()->name . ' ltda',
-        'slug' => $faker->unique()->slug,
         'about' => $faker->text(500),
         'exchange_policy' => $faker->text(500),
         'freight_policy' => $faker->text(500),
@@ -126,7 +122,6 @@ $factory->define(Adress::class, function(Generator $faker){
 $factory->define(Category::class, function(Generator $faker){
     return [
         'name' => $faker->unique()->word,
-        'slug' => $faker->slug(2),
         'menu' => 0,
         'active' => 1
     ];
@@ -155,7 +150,6 @@ $factory->define(Product::class, function(Generator $faker){
         'height_cm' => $faker->randomFloat(2, 1, 500),
         'weight_gr' => $faker->randomFloat(2, 1, 500),
         'diameter_cm' => $faker->randomFloat(2, 1, 500),
-        'slug' => $faker->unique()->slug,
         'active' => 1
     ];
 });
@@ -163,7 +157,7 @@ $factory->define(Product::class, function(Generator $faker){
 $factory->define(Galery::class, function(Generator $faker){
     $folder = DIRECTORY_SEPARATOR . 'app'. DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . 'produto';
     return [
-        'image' => $faker->image(storage_path(). $folder, 640, 480, 'cats', false),
+        'image' => $faker->image(storage_path(). $folder, 640, 480, 'cats', false)
     ];
 });
 
@@ -173,7 +167,7 @@ $factory->define(Payment::class, function(Generator $faker){
             'Cartão',
             'Boleto',
             'Moip'
-        ]),
+        ])
     ];
 
 });
@@ -321,6 +315,58 @@ $factory->define(MessageType::class, function(Generator $faker){
             'v/a',
             'a/v'
         ]),
+    ];
+});
+
+$factory->define(TypeMovementStock::class, function(Generator $faker){
+    return[
+        'name' => $faker->unique()->randomElement([
+            'Inclusão',
+            'Saída',
+            'Estorno',
+            'Retirada'
+        ]),
+        'description' => function (array $data){
+            switch($data['name']){
+                case 'Inclusão':
+                    return 'Inclusão no estoque pelo vendedor';
+                    break;
+                case 'Saída':
+                    return 'Venda concluída';
+                    break;
+                case 'Estorno':
+                    return 'Venda cancelada';
+                    break;
+                case 'Retirada':
+                    return 'Redução de estoque pelo vendedor';
+                    break;
+            }
+        },
+        'type' => function(array $data){
+
+            switch($data['name']){
+                case 'Inclusão':
+                    return 'in';
+                    break;
+                case 'Saída':
+                    return 'out';
+                    break;
+                case 'Estorno':
+                    return 'in';
+                    break;
+                case 'Retirada':
+                    return 'out';
+                    break;
+
+            }
+        },
+        'active' => function(array $data){
+            if($data == 'Saída'){
+                return 0;
+            }else{
+                return 1;
+            }
+        }
     ];
 });
 

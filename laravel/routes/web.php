@@ -53,7 +53,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         })->name('sale_info');
 
         Route::get('messages', function(){
-            return view('accont.messages');
+            return view('accont.salesman.messages');
         })->name('messages');
 
         Route::get('message/{id}', function(){

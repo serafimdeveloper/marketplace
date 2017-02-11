@@ -29,7 +29,7 @@
                 <td class="t-draft txt-center">{{($product->active === 1) ? 'sim' : 'não'}}</td>
                 <td class="txt-center">
                     <a href="{{route('accont.salesman.products.edit',$product->id)}}" class="t-btn t-edit">detalhes</a>
-                    <a href="javscript:void(0)" class="t-btn t-remove" data-id="{{$product->id}}">remover</a>
+                    <a href="javscript:void(0)" class="t-btn t-remove jq-remove-product" data-id="{{$product->id}}">remover</a>
                 </td>
             </tr>
             @empty

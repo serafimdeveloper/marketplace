@@ -28,7 +28,7 @@
                 <tbody>
                 @foreach($request->products as $product)
                     <tr>
-                        <td><img src="{{ url('imagem/produto/' . $product->galery[0]->image) }}"></td>
+                        <td><img src="{{ url('imagem/produto/' . $product->galeries[0]->image) }}"></td>
                         <td><a href="/loja/nome/categoria/produto" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                         <td>{{ $product->pivot->quantity }}</td>
                         <td><span class="fontem-12">R${{ number_format($product->pivot->unit_price, 2, ',', '')}}</span></td>
