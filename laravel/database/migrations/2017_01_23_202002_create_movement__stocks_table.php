@@ -21,10 +21,9 @@ class CreateMovementStocksTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('count');
-            $table->string('reason',50);
-            $table->integer('request_id')->unsigned();
+            $table->string('reason',50)->nullable();
+            $table->integer('request_id')->unsigned()->nullable();
             $table->foreign('request_id')->references('id')->on('requests')->onUpdate('cascade')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

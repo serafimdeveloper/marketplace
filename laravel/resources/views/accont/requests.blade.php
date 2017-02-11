@@ -41,7 +41,8 @@
                 </tbody>
             </table>
             <!-- END TABLE -->
-            {!! $requests->render() !!}
+
+            <div class="fl-right">{!! $requests->render() !!}</div>
         @endif
     </section>
     <div class="clear-both"></div>

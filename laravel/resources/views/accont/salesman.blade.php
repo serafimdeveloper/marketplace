@@ -79,7 +79,7 @@
                             </div>
                         @else
                             <p>
-                                <img src="{{url('img'.$salesman->proof_adress.'?w=180&h=120')}}"><br>
+                                <img src="{{url('imagem/vendedor/'.$salesman->proof_adress.'?w=180&h=120')}}"><br>
                                 Comprovante de endereço enviado
                             </p>
                         @endif

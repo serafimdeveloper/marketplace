@@ -94,10 +94,12 @@ $(function () {
      */
     $(document).on('click', '.jq-address', function () {
         if (typeof ($(this).data('id')) !== "undefined") {
+            var action = $(this).data('action');
+            console.log(action);
             $('.alertbox-title').text('Editar endereço');
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
-            $.get('/accont/adresses/' + $(this).data('id'), function (data) {
+            $.get('/accont/adresses/'+action+'/'+ $(this).data('id'), function (data) {
                 console.log(data);
                 inputvalue(data);
             }, 'json');
@@ -106,7 +108,7 @@ $(function () {
             $('.alertbox-title').text('Cadastrar endereço');
             $('.address').find('button').text('cadastrar');
         }
-
+        $('.address').find('form').attr('data-action',action);
         $('.address').show();
     });
 
@@ -248,11 +250,12 @@ $(function () {
 
     $('#form-adress').on('submit', function (event) {
         var form = $(this);
+        var action = $(this).data('action');
         var dados = form.serialize();
         var id = form.find('input[name=id]').val();
         if (id.length == 0) {
             $.ajax({
-                url: '/accont/adresses',
+                url: '/accont/adresses/'+ action,
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
@@ -276,9 +279,9 @@ $(function () {
                         form.parents('.address').slideUp(function () {
                             if (data.adress.master) {
                                 $('#group-pnl-end').find('.address-master').text('');
-                                $('#group-pnl-end').prepend(window_adress(data.adress));
+                                $('#group-pnl-end').prepend(window_adress(data.adress, data.action));
                             } else {
-                                $('#group-pnl-end').append(window_adress(data.adress));
+                                $('#group-pnl-end').append(window_adress(data.adress, data.action));
                             }
                         });
                     }
@@ -286,7 +289,7 @@ $(function () {
             });
         } else {
             $.ajax({
-                url: '/accont/adresses/' + id,
+                url: '/accont/adresses/'+ action +'/'+ id,
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
@@ -299,7 +302,7 @@ $(function () {
                         if(data.adress.master == 1){
                             $('.panel-end h4 .address-master').text(" ");
                         }
-                        $('#end_' + data.adress.id).replaceWith(window_adress(data.adress));
+                        $('#end_' + data.adress.id).replaceWith(window_adress(data.adress, data.action));
                     });
                 }
             });
@@ -345,6 +348,20 @@ $(function () {
         }
     });
 
+    $('#type_operation_stock').on('change',function(e){
+        e.preventDefault();
+        var count = $(this).siblings('input').val();
+        var type = $(this).val() ? '/'+$(this).val() : '';
+        var product_id = $('#product_id').val();
+        var token = $('input[name=_token]').val();
+        if(count > 0){
+            $.post('/accont/movement_stock'+type,{'product_id':product_id, 'count':count, '_token':token}, function(data){
+                $('#quantity').val(data.product);
+            },'json').fail(function(data){
+                console.log(data);
+            });
+        }
+    });
 
     /**
      * Apagar mensagens selecionadas em tempo real
@@ -450,7 +467,7 @@ $(document).on('click', '.jq-new-category', function(){
     modal.find('h2').text(title);
     modal.find('button').text(buttonText);
 
-    $.get('/accont/category'+category, function (response) {
+    $.get('/accont/categories'+category, function (response) {
         var select = form.find('select');
         select.html('<option value="">Escolher uma categória pai</option>');
         if(response.category){
@@ -482,7 +499,7 @@ $(document).on('submit', '#jq-new-category form', function(){
 
     if (!id) {
         $.ajax({
-            url: '/accont/category',
+            url: '/accont/categories',
             type: 'POST',
             dataType: 'json',
             data: dados,
@@ -498,7 +515,7 @@ $(document).on('submit', '#jq-new-category form', function(){
         });
     } else {
         $.ajax({
-            url: '/accont/category/'+id,
+            url: '/accont/categories/'+id,
             type: 'PUT',
             dataType: 'json',
             data: dados,
@@ -641,7 +658,6 @@ function inputvalue(inputs, e) {
                     if (!master.is(":checked")) {
                         master.click();
                     }
-
                 } else {
                     if (master.is(":checked")) {
                         master.click();
@@ -653,15 +669,19 @@ function inputvalue(inputs, e) {
     }
 }
 
-function window_adress(obj) {
+function window_adress(obj, action) {
     obj.master = (obj.master ? 'principal' : '');
     var janela = '<div class="panel-end" id="end_' + obj.id + '">';
-    janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
+    if(action === 'user'){
+        janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
+    }else{
+        janela += '<h4><span>Endereço da Loja</span></h4>';
+    }
     janela += '<div class="panel-end-content">';
     janela += '<p>CEP: ' + obj.zip_code + '</p>';
     janela += '<p> ' + obj.public_place + ', ' + obj.number + ' - ' + obj.city + '</p>';
     janela += '</div>';
-    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '">editar|excluir</a>';
+    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '" data-action="' + action + '">editar|excluir</a>';
     janela += '</div>';
     return janela;
 }

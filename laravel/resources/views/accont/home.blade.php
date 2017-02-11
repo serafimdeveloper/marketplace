@@ -8,7 +8,7 @@
                 <header class="pop-title">
                     <h1>Dados do Usuários</h1>
                 </header>
-                  {!!Form::model($user,['route'=>['account.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
+                  {!!Form::model($user,['route'=>['accont.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                     <label>
                         <span>Nome</span>
                         {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
@@ -56,7 +56,7 @@
             <div class="colbox-2">
                 <header class="pop-title">
                     <h1>Endereços</h1>
-                    <span class="btn btn-smallextreme btn-popmartin jq-address"><i class="fa fa-plus vertical-middle"></i> novo</span>
+                    <span class="btn btn-smallextreme btn-popmartin jq-address" data-action="user"><i class="fa fa-plus vertical-middle"></i> novo</span>
                 </header>
                 <div id="group-pnl-end">
                 @forelse($adresses as $adress)
@@ -66,12 +66,12 @@
                             <p>CEP: {{$adress->zip_code}}</p>
                             <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>
                         </div>
-                        <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}">editar|excluir</a>
+                        <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}" data-action="user">editar|excluir</a>
                     </div>
                 @empty
                     <div id="isAddress">
                         <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereços cadastrado</p>
-                        <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address">cadastrar um endereço</a></p>
+                        <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address" data-action="user">cadastrar um endereço</a></p>
                     </div>
                 @endforelse
                 </div>
@@ -82,7 +82,7 @@
         <div class="content">
             <h2 style="text-align: center;">Dados do conta</h2>
 
-            {!! Form::open(['route' => ['changepassword.store'], 'method' => 'POST','class'=>'content form-modern']) !!}
+            {!! Form::open(['route' => ['accont.changepassword.store'], 'method' => 'POST','class'=>'content form-modern']) !!}
                 <label>
                     <span class="title title-gray">email</span>
                     <input type="text" name="email" value="{{$user->email}}" disabled="true" style="color: #FFFFFF;background-color: #888888;">
