@@ -36,11 +36,10 @@
                 </tbody>
             </table>
             <div class="fl-right">{!! $messages->render() !!}</div>
+            <div class="clear-both"></div>
+            <br>
+            <a href="javascript:void(0)" id="pop-remove-msg" class="btn btn-small btn-gray cursor-nodrop">remover</a>
         @endif
-        <div class="clear-both"></div>
-        <br>
-        <a href="javascript:void(0)" id="pop-remove-msg" class="btn btn-small btn-gray cursor-nodrop">remover mensagens
-            selecionada</a>
     </section>
     <div class="clear-both"></div>
 @endsection

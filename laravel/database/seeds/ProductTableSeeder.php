@@ -14,7 +14,7 @@ class ProductTableSeeder extends Seeder
     {
         factory(Product::class, 10)->create()->each(function($g){
             for($i = 0; $i < 5; $i++){
-                $g->galery()->save(factory(Galery::class)->make());
+                $g->galeries()->save(factory(Galery::class)->make());
             }
         });
     }

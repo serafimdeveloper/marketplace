@@ -146,6 +146,7 @@ $factory->define(Product::class, function(Generator $faker){
         'price' => $faker->randomFloat(2, 50, 200),
         'price_out_discount' => $faker->randomFloat(2, 1, 50),
         'deadline' => $faker->numberBetween(1, 15),
+        'quantity' => $faker->numberBetween(1, 20),
         'free_shipping' => $faker->randomElement(array('0','1')),
         'minimum_stock' => $faker->numberBetween(1, 50),
         'details' => $faker->text(500),

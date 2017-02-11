@@ -14,7 +14,10 @@ $(function () {
     });
 
     /** altura da modal lightbox */
-    $('.alertbox').height($(document).height());
+    $('.alertbox').height($(document).height() + 60);
+
+
+
 
     /* ESTILIZAÇÃO DE FILE INPUT*/
     $("form input[type='file']").on('change', function () {
@@ -26,6 +29,7 @@ $(function () {
         }
         previewImg(this);
     });
+
 
 });
 

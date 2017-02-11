@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->string('name',100);
-            $table->integer('quantity')->unsigned();
+            $table->integer('quantity')->unsigned()->default(1);
             $table->decimal('price',8,2);
             $table->decimal('price_out_discount',8,2)->nullable();
             $table->string('slug')->nullable();

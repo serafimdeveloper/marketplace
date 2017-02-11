@@ -56,22 +56,22 @@
                 </label>
                 <label>
                     <span>E-mail</span>
-                    <input type="email" name="email" placeholder="Ex: exemplo@exemplo.com" value="{{ old('email') }}" required>
-                    <span class="alert{{ $errors->has('email') ? '' : ' hidden' }}">{{ $errors->first('email') }}</span>
+                    <input type="email" name="email_register" placeholder="Ex: exemplo@exemplo.com" value="{{ old('email_register') }}" required>
+                    <span class="alert{{ $errors->has('email_register') ? '' : ' hidden' }}">{{ $errors->first('email_register') }}</span>
                 </label>
                 <label>
                     <span>Confirmar E-mail</span>
-                    <input type="email" name="email_confirmation" placeholder="Ex: exemplo@exemplo.com" required>
+                    <input type="email" name="email_register_confirmation" placeholder="Ex: exemplo@exemplo.com" required>
                     <span class="alert hidden"></span>
                 </label>
                 <label>
                     <span>Criar Senha</span>
-                    <input type="password" name="password" min="6" max="20" required>
+                    <input type="password" name="password_register" min="6" max="20" required>
                     <span class="alert{{ $errors->has('password') ? '' : ' hidden' }}">{{ $errors->first('password') }}</span>
                 </label>
                 <label>
                     <span>Repetir Senha</span>
-                    <input type="password" name="password_confirmation" min="6" max="20" required>
+                    <input type="password" name="password_register_confirmation" min="6" max="20" required>
                     <span class="alert hidden"></span>
                 </label>
                 <div style="border: 1px solid #B0BEC5; padding: 10px;">

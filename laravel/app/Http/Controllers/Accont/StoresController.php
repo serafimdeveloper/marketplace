@@ -14,6 +14,7 @@ use App\Http\Requests\Accont\AdressesStoreRequest;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 
 class StoresController extends AbstractController
@@ -110,26 +111,13 @@ class StoresController extends AbstractController
     }
 
     public function searchstore(){
-        $stores = $this->repo->all($this->columns, $this->with);
-        $stores = $stores->map(function($item){
-            return [
-                'name' => $item->name,
-                'slug' => $item->slug,
-                'salesman' => $item->salesman->user->name.''.$item->salesman->user->last_name
-            ];
-        });
+        $page = Input::get('page');
+        $stores = $this->repo->all($this->columns, $this->with,[],['name'=>'ASC'],15,$page);
         return view('accont.searchstore', compact('stores'));
     }
 
     public function search(Request $request){
         $stores =  $this->repo->search($request->name);
-        $stores = $stores->map(function($item){
-            return [
-                'name' => $item->name,
-                'slug' => $item->slug,
-                'salesman' => $item->salesman->user->name.''.$item->salesman->user->last_name
-            ];
-        });
         return json_encode($stores);
     }
 

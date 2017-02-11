@@ -30,7 +30,8 @@
                     <label>
                         <div class="file" style="margin-top: 2.5%;">
                             {!! Form::file('image_0', ['data-preview' => 0, 'onchange' => 'previewFile($(this))']) !!}
-                            <input type="text" name="image_name_0" value="{{isset($galeries) ? $galeries[0]['image'] : ''}}" placeholder="informe aqui a imagem principal deste produto" readonly="readonly">
+                            <input type="text"  placeholder="informe aqui a imagem principal deste produto" readonly="readonly">
+                            <input type="hidden" name="image_name_0" value="{{isset($galeries) ? $galeries[0]['image'] : ''}}">
                             <button type="button" class="btn btn-orange">Imagem</button>
                             <div class="clear-both"></div>
                             <span class="alert{{ $errors->has('image_0') ? '' : ' hidden' }}">{{ $errors->first('image_0') }}</span>
@@ -192,11 +193,11 @@
                 <div class="colbox">
                     @for ($i = 1; $i < 5; $i++)
                         <div class="colbox-4 product-galery">
-                            <p class="c-blue fontw-500">Imagem {{$i}} <a href="javascript:void(0)" class="c-pop fl-right"><i class="fa fa-times-circle"></i> remover</a></p>
+                            <p class="c-blue fontw-500">Imagem {{$i}} <a href="javascript:void(0)" class="c-pop fl-right jq-remove-img-galery" data-id="{{ (isset($galeries[$i]) ? $galeries[$i]['id'] : 0) }}" data-preview="{{ $i }}"><i class="fa fa-times-circle"></i> remover</a></p>
                             <div class="txt-center">
                                 <div id="preview_img{{$i}}" class="prevImg">
                                     @if(isset($galeries))
-                                    <img src="{{ isset($galeries[$i]) ? url('imagem/produto/'.$galeries[$i]['image'].'?h=90') :  url('image/img-exemple.jpg')}}">
+                                    <img src="{{ isset($galeries[$i]) ? url('imagem/produto/'.$galeries[$i]['image'].'?h=110') :  url('image/img-exemple.jpg')}}">
                                     @else
                                     <img src="{{ url('image/img-exemple.jpg') }}">
                                     @endif
@@ -206,7 +207,8 @@
                                     @if(isset($galeries))
                                         <input type="text" name="image_name.{{$i}}" value="{{isset($galeries[$i]) ? $galeries[$i]['image' ] : ''}}">
                                     @else
-                                        <input type="text" name="image_name.{{$i}}">
+                                        <input type="text">
+                                        <input type="hidden" name="image_name.{{$i}}">
                                     @endif
                                     <button type="button" class="btn btn-orange">Imagem</button>
                                     <div class="clear-both"></div>

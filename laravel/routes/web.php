@@ -32,7 +32,6 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/messages/answer', 'MessagesController@answer')->name('message.answer');
     Route::delete('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
-
     /** Vendedores */
     Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){
 
