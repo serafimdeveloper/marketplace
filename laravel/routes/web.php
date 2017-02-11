@@ -30,6 +30,8 @@ Route::group(['prefix' => 'accont','middleware'=>'auth'], function(){
 
     Route::get('/messages', 'Accont\MessagesController@index')->name('accont.messages');
     Route::get('/messages/{id}', 'Accont\MessagesController@show')->name('accont.message_info');
+    Route::post('/messages/answer', 'Accont\MessagesController@answer')->name('accont.message.answer');
+    Route::delete('/messages/destroy', 'Accont\MessagesController@destroy')->name('accont.message.destroy');
 
     /** Vendedores */
     Route::get('/salesman/create','Accont\Salesmans\SalesmanController@create')->name('accont.salesman.create');

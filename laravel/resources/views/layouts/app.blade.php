@@ -10,6 +10,8 @@
         <link href="/frontend/lib/owlcarousel/owl.carousel.min.css" rel="stylesheet">
         <link href="/frontend/lib/owlcarousel/theme/owl.theme.default.min.css" rel="stylesheet">
         <link href="/frontend/lib/tooltipster/css/tooltipster.bundle.min.css" rel="stylesheet">
+        <link href="/frontend/lib/alertfy/css/alertify.rtl.min.css" rel="stylesheet">
+        <link href="/frontend/lib/alertfy/css/themes/default.rtl.min.css" rel="stylesheet">
         @yield('css')
         <link href="/css/popmartin.css" rel="stylesheet">
 
@@ -32,6 +34,7 @@
         <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
         <script src="/frontend/lib/tooltipster/js/tooltipster.bundle.min.js"></script>
         <script src="/frontend/lib/bsdialog/jquery.bsdialog.js"></script>
+        <script src="/frontend/lib/alertfy/alertify.min.js"></script>
         @yield('script')
         <script src="/frontend/js/bootstrap.js"></script>
         <script src="{{ url('/js/popmartin.js') }}"></script>

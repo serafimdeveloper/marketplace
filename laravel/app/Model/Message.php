@@ -30,6 +30,6 @@ class Message extends Model
     }
 
     public function message(){
-        return $this->hasOne(Message::class);
+        return $this->hasMany($this);
     }
 }
