@@ -59,7 +59,11 @@ class User extends Authenticatable
         return $this->hasMany(ShopValuation::class);
     }
 
-    public function messages(){
-        return $this->hasMany(ShopValuation::class);
+    public function owner_sender(){
+        return $this->morphOne(Message::class,'sender' );
+    }
+
+    public function owner_recipient(){
+        return $this->morphOne(Message::class,'recipient' );
     }
 }

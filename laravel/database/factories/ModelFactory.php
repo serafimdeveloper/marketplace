@@ -371,15 +371,21 @@ $factory->define(TypeMovementStock::class, function(Generator $faker){
 });
 
 $factory->define(Message::class, function(Generator $faker){
+    $type_recept = $faker->randomElement(['App\\Model\\User', 'App\\Model\\Store']);
+    $type_send  = $faker->randomElement(['App\\Model\\User', 'App\\Model\\Store' ]);
+    $recept = app($type_recept);
+    $send  = app($type_send);
     return[
-        'sender_id' => function(){
-            $element = User::all()->random();
+        'sender_id' => function() use($send){
+            $element = $send->all()->random();
             return $element->id;
         },
-        'recipient_id' => function(array $data){
-            $element = Request::where('user_id', '!=', $data['sender_id'])->distinct()->inRandomOrder()->first();
-            return $element->user->id;
+        'sender_type' => $type_send,
+        'recipient_id' => function(array $data) use($recept){
+            $element = $recept->all()->random();
+            return $element->id;
         },
+        'recipient_type' => $type_recept,
         'message_type_id' => function(array $data){
             $element = MessageType::all()->random();
             return $element->id;

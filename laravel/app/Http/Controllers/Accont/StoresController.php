@@ -112,7 +112,7 @@ class StoresController extends AbstractController
 
     public function searchstore(){
         $page = Input::get('page');
-        $stores = $this->repo->all($this->columns, $this->with,[],['name'=>'ASC'],15,$page);
+        $stores = $this->repo->all($this->columns, $this->with,[],['name'=>'ASC'],10,$page);
         return view('accont.searchstore', compact('stores'));
     }
 
