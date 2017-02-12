@@ -45,6 +45,8 @@
                 $(".masked_cellphone").mask("(99) 99999-9999");
                 $(".masked_cpf").mask("999.999.999-99");
                 $(".masked_cnpj").mask("99.999.999/9999-99");
+
+
             });
         </script>
     </body>
