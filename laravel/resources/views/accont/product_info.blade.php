@@ -40,21 +40,39 @@
                 </div>
             </div>
             <div class="colbox">
-                <div class="colbox-3">
-                    <label>
-                        <span>Categoria</span>
-                        {!! Form::select('category_id', $categories, null, ['class' => 'select_subcat', 'placeholder' => 'Selecione uma Categória', 'data-loader' => 'loader-1']) !!}
-                        <span class="alert{{ $errors->has('category_id') ? '' : ' hidden' }}">{{ $errors->first('category_id') }}</span>
-                    </label>
-                </div>
-                <div class="colbox-3">
-                    <label>
-                        <span>Subcategoria</span>
-                        {!! Form::select('subcategory_id', [], 0, ['class' => 'subcat_info','placeholder'=>'Nenhuma subcategoria']) !!}
-                        <span class="alert{{ $errors->has('subcategory_id') ? '' : ' hidden' }}">{{ $errors->first('subcategory_id') }}</span>
-                        <span class="fa fa-spinner fa-spin jq-loader dp-none loader-1"></span>
-                    </label>
-                </div>
+                @if(isset($product))
+                    <div class="colbox-3">
+                        <label>
+                            <span>Categoria</span>
+                            {!! Form::select('category_id', $categories, isset($product->category->category_id) ? $product->category->category_id : $product->category_id , ['class' => 'select_subcat', 'placeholder' => 'Selecione uma Categória', 'data-loader' => 'loader-1']) !!}
+                            <span class="alert{{ $errors->has('category_id') ? '' : ' hidden' }}">{{ $errors->first('category_id') }}</span>
+                        </label>
+                    </div>
+                    <div class="colbox-3">
+                        <label>
+                            <span>Subcategoria</span>
+                            {!! Form::select('subcategory_id',$subcategories,isset($product->category->category_id) ? $product->category_id : null , ['class' => 'subcat_info','placeholder'=>'Nenhuma subcategoria']) !!}
+                            <span class="alert{{ $errors->has('subcategory_id') ? '' : ' hidden' }}">{{ $errors->first('subcategory_id') }}</span>
+                            <span class="fa fa-spinner fa-spin jq-loader dp-none loader-1"></span>
+                        </label>
+                    </div>
+                @else
+                    <div class="colbox-3">
+                        <label>
+                            <span>Categoria</span>
+                            {!! Form::select('category_id', $categories, null, ['class' => 'select_subcat', 'placeholder' => 'Selecione uma Categória', 'data-loader' => 'loader-1']) !!}
+                            <span class="alert{{ $errors->has('category_id') ? '' : ' hidden' }}">{{ $errors->first('category_id') }}</span>
+                        </label>
+                    </div>
+                    <div class="colbox-3">
+                        <label>
+                            <span>Subcategoria</span>
+                            {!! Form::select('subcategory_id', [], 0, ['class' => 'subcat_info','placeholder'=>'Nenhuma subcategoria']) !!}
+                            <span class="alert{{ $errors->has('subcategory_id') ? '' : ' hidden' }}">{{ $errors->first('subcategory_id') }}</span>
+                            <span class="fa fa-spinner fa-spin jq-loader dp-none loader-1"></span>
+                        </label>
+                    </div>
+                @endif
                 <div class="colbox-3">
                     <label>
                         <span>Produto visível? <i class="fa fa-info-circle c-blue tooltip" title="Informações sobre este assunto"></i></span>

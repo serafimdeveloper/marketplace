@@ -774,7 +774,7 @@ function removePrduct() {
     var id = element.data('id');
     var index = {id: id}
 
-    alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover este produto?',
+    alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este produto?',
         function () {
             $.get('', index, function (response) {
                 if (response.status) {
@@ -801,12 +801,11 @@ function removeImgGarely() {
     if (action == 'create') {
         clearImgGalery(element);
     }
-    alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover esta imagem?',
+    alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esta imagem?',
         function () {
             var id = element.data('id');
             var prev = element.data('preview');
-            var index = {id: id}
-            $.get('', index, function (response) {
+            $.get('/accont/salesman/products/remove/image/'+id, function (response) {
                 if (response.status) {
                     clearImgGalery(element);
                     alertify.success('Produto removido!');
@@ -824,7 +823,7 @@ function removeImgGarely() {
  * @param element
  */
 function clearImgGalery(element) {
-    element.parents('.product-galery').find('.prevImg img').attr('src', 'http://popmartin.dev/imagem/popmartin/img-exemple.jpg?h=110')
+    element.parents('.product-galery').find('.prevImg img').attr('src', '/image/popmartin/img-exemple.jpg?h=110')
     element.parents('.product-galery').find('.file input[type=text]').val('');
     element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
     element.parents('.product-galery').find('.file input[type=file]').remove();

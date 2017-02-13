@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Accont;
 
 use App\Http\Controllers\AbstractController;
 use Illuminate\Http\Request;
-use App\Repositories\Accont\TypeMovementsStocks as Repository;
+use App\Repositories\Accont\TypeMovementsStocksRepository as Repository;
 class TypeMovementsStocksController extends AbstractController
 {
 

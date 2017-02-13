@@ -45,6 +45,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         Route::post('stores/update', 'StoresController@update')->name('stores.update');
 
         Route::resource('products', 'Salesmans\ProductsController');
+        Route::get('products/remove/image/{image}','Salesmans\ProductsController@removeImage')->name('products.image.remove');
 
         Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
 

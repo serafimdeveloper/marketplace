@@ -61,6 +61,7 @@ class ProductsController extends AbstractController
         $dados = $request->all();
         $dados['price_out_discount'] = isset($request->price_out_discount) ? $request->price_out_discount : 'null';
         $dados['store_id'] = $store->id;
+        $dados['category_id'] = isset($request->subcategory_id) ? $request->subcategory_id : $request->category_id;
         if ($product = $this->repo->store($dados)) {
             $value = 1;
             for ($i = 0; $i < 5; $i++) {
@@ -79,11 +80,15 @@ class ProductsController extends AbstractController
 
     public function edit( TypeMovementStock $typeMovementStock, $id)
     {
-        $categories = $this->category->pluck('name', 'id');
+        $categories = $this->category->whereNull('category_id')->pluck('name', 'id');
         $product = $this->repo->get($id, $this->columns, $this->with);
+        $subcategories = [];
+        if(isset($product->category->category_id)){
+            $subcategories = $this->category->where('category_id',$product->category->category_id)->pluck('name','id');
+        }
         $galeries = $product->galeries->toArray();
         $typemovements = $typeMovementStock->pluck('name','slug');
-        return view('accont.product_info', compact('categories', 'product', 'galeries','typemovements'));
+        return view('accont.product_info', compact('categories', 'product', 'galeries','typemovements','subcategories'));
     }
 
     public function update(ProductsUpdateRequest $request, $id)
@@ -113,4 +118,16 @@ class ProductsController extends AbstractController
         flash('Erro ao criar o produto!', 'error');
         return redirect()->route('accont.salesman.product.edit')->withInput();
     }
+
+    public function removeImage($image){
+        if( $galery = $this->galery->find($image)){
+            if(Storage::disk('local')->exists('img/produto/'.$galery->image)){
+                Storage::delete('img/produto/'.$galery->image);
+            }
+            $galery->delete($image);
+            return response()->json(['status'=>true],200);
+        }
+        return response()->json(['msg'=>'Erro ao deletar a imagem'],500);
+    }
 }
+
