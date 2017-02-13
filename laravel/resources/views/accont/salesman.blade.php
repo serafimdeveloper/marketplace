@@ -27,13 +27,13 @@
                 </label>
                 <label>
                     <span>Telefone celular</span>
-                    {!! Form::text('cellphone', null, ['class' => 'masked_cellphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
+                    {!! Form::text('cellphone', null, ['class' => 'masked_fullphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
                     <span class="alert{{ $errors->has('cellphone') ? '' : ' hidden' }}">{{ $errors->first('cellphone') }}</span>
 
                 </label>
                 <label>
                     <span>Whatsapp</span>
-                    {!! Form::text('whatsapp', null, ['class' => 'masked_cellphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
+                    {!! Form::text('whatsapp', null, ['class' => 'masked_fullphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
                     <span class="alert{{ $errors->has('whatsapp') ? '' : ' hidden' }}">{{ $errors->first('whatsapp') }}</span>
 
                 </label>

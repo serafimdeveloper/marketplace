@@ -393,7 +393,7 @@ $(function () {
                 beforeSend: function () {
                     $('.' + loader).show();
                 },
-                error: function(response){
+                error: function (response) {
                     console.log(response);
                 },
                 success: function (response) {
@@ -410,8 +410,8 @@ $(function () {
      * resetar select
      * @param e
      */
-    function resetChange(e){
-       e.children().removeAttr('selected');
+    function resetChange(e) {
+        e.children().removeAttr('selected');
     }
 
 
@@ -833,3 +833,26 @@ $(document).on('submit', '.form-modern', function () {
 $(document).on('click', '.jq-remove-product', removePrduct);
 $(document).on('click', '.jq-remove-img-galery', removeImgGarely);
 $(document).on('click', '.jq-block-store', blockStore);
+
+
+/**
+ * CONFIGURAÇÃO DE MÁSKARA PARA CAMPOS INPUT DE FORMULÁRIOS
+ */
+$(function () {
+    $(".masked_date").mask("00/00/0000", {placeholder: "mm/dd/yyyy"});
+    $(".masked_phone").mask("(00) 0000-0000");
+    $(".masked_cellphone").mask("(00) 00000-0000");
+    $(".masked_cpf").mask("000.000.000-00");
+    $(".masked_cnpj").mask("00.000.000/0000-00");
+})
+
+var fullPhone = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+    },
+    phoneOptions = {
+        onKeyPress: function (val, e, field, options) {
+            field.mask(fullPhone.apply({}, arguments), options);
+        }
+    };
+
+$('.masked_fullphone').mask(fullPhone, phoneOptions);
