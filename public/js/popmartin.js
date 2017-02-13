@@ -613,12 +613,75 @@ function checkInputsMsg(class_element) {
  */
 function switchForm(t) {
     var r = false;
-    switch (t.attr('name')) {
+    switch (t.data('required')) {
+        case 'notnull':
+            r = inputerror(!compareLenght(t.val(), '<', 1), t, 'Campo não pode ser vazio');
+            break;
+        case 'name':
+            var response = function () {
+                if(is_numberString(t.val()) || compareLenght(t.val(), '<', 2)){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'Nome inválido!');
+            break;
+        case 'last_name':
+            var response = function () {
+                if(is_numberString(t.val()) || compareLenght(t.val(), '<', 2)){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'Sobrenome inválido!');
+            break;
         case 'email':
             r = inputerror(is_mail(t.val()), t, 'e-mail inválido!');
             break;
+        case 'email_confirm':
+            var response = function(){
+                if(!is_mail(t.val()) || (t.val() != t.parents('form').find('input[name=email_register]').val())){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'e-mail não confere');
+            break;
+        case 'cpf':
+            var response = function(){
+                if(compareLenght(t.val(), '<', 14) || !is_cpf(t.val())){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'cpf inválido!');
+            break;
+
+        case 'fullphone':
+            r = inputerror(!compareLenght(t.val(), '<', 14), t, 'Telefone inválido');
+            break;
+        case 'cellphone':
+            r = inputerror(!compareLenght(t.val(), '<', 15), t, 'Telefone inválido');
+            break;
+        case 'whatsapp':
+            r = inputerror(!compareLenght(t.val(), '<', 14), t, 'Whatsapp inválido');
+            break;
         case 'password':
-            r = inputerror(is_count(6, t.val()), t, 'senha deve ter no mínimo 6 caracteres!');
+            r = inputerror(!compareLenght(t.val(), '<', 6), t, 'senha deve ter no mínimo 6 caracteres!');
+            break;
+        case 'password_confirm':
+            var response = function(){
+                if(compareLenght(t.val(), '<', 6) || (t.val() != t.parents('form').find('input[name=password_register]').val())){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'senha não confere!');
             break;
         default:
             r = true;
