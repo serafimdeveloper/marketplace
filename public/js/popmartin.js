@@ -179,17 +179,27 @@ $(function () {
      */
 
     $('#zip_code').focusout(function () {
-        var cep = $(this).val();
+        var element = $(this);
+        var cep = element.val();
         if ((/^\d{5}-?\d{3}$/).test(cep)) {
-            $.get('/accont/adresses/zip_code/' + cep, function (data) {
-                var dados = {
-                    'state': data.uf,
-                    'city': data.cidade,
-                    'neighborhood': data.bairro,
-                    'public_place': data.logradouro
-                };
-                inputvalue(dados);
-            }, "json");
+            $.ajax({
+                url : '/accont/adresses/zip_code/' + cep,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function(){
+                    element.parents('form').find('.loader-address').show();
+                },
+                success: function (data) {
+                    var dados = {
+                        'state': data.uf,
+                        'city': data.cidade,
+                        'neighborhood': data.bairro,
+                        'public_place': data.logradouro
+                    };
+                    element.parents('form').find('.loader-address').hide();
+                    inputvalue(dados);
+                }
+            })
         } else {
             inputerror(false, $(this), 'Cep inválido');
         }
