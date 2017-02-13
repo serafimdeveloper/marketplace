@@ -37,7 +37,10 @@
             @endforelse
             </tbody>
         </table>
-        {!! $products->render() !!}
+        <div class="fl-right">{!! $products->render() !!}</div>
+        <div class="clear-both"></div>
+        <br>
+        <br>
     </section>
     <div class="txt-right">
         <a href="/accont/salesman/product" class="btn btn-small btn-popmartin"><i class="fa fa-plus vertical-middle"></i> adicionar novo produto</a>
