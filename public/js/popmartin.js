@@ -93,6 +93,11 @@ $(function () {
         $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
         var action = $(this).data('action')
         console.log(action);
+        if(action == 'store'){
+            console.log(action);
+            $('#form-adress').find("label span").first().text('Loja');
+            $('#form-adress').find("label input").first().val('Endereço').attr('readonly', true);
+        }
         if (typeof ($(this).data('id')) !== "undefined") {
             $('.alertbox-title').text('Editar endereço');
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
