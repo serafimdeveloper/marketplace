@@ -866,25 +866,28 @@ function removePrduct() {
 function removeImgGarely() {
     var element = $(this);
     var action = element.data('action');
+    var textImg = $(this).parents('.product-galery').find('input[type=text]').val();
     if (action == 'create') {
         clearImgGalery(element);
     }
-    alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover esta imagem?',
-        function () {
-            var id = element.data('id');
-            var prev = element.data('preview');
-            var index = {id: id}
-            $.get('', index, function (response) {
-                if (response.status) {
-                    clearImgGalery(element);
-                    alertify.success('Produto removido!');
-                } else {
-                    alertify.error(response.msg);
-                }
-            }, 'json');
-        }, function () {
-            return true;
-        });
+    if(textImg.length > 0){
+        alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover esta imagem?',
+            function () {
+                var id = element.data('id');
+                var prev = element.data('preview');
+                var index = {id: id}
+                $.get('', index, function (response) {
+                    if (response.status) {
+                        clearImgGalery(element);
+                        alertify.success('Produto removido!');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                }, 'json');
+            }, function () {
+                return true;
+            });
+    }
     return false;
 }
 /**
