@@ -6,7 +6,7 @@
              <li><a href="{{route('accont.home')}}"{!! url()->current() ==  route('accont.home') ? ' class="current_rout"' :  ''!!}>meu cadastro</a></li>
              <li><a href="{{route('accont.requests')}}"{!! url()->current() ==  route('accont.requests') ? ' class="current_rout"' :  ''!!}>meus pedidos</a></li>
              <li><a href="{{route('accont.searchstore')}}"{!! url()->current() ==  route('accont.searchstore') ? ' class="current_rout"' :  ''!!}>procurar loja</a></li>
-             <li><a href="{{route('accont.messages')}}"{!! url()->current() ==  route('accont.messages') ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_sales(0).'</span>' : '') !!}</a></li>
+             <li><a href="{{route('accont.messages')}}"{!! url()->current() ==  route('accont.messages') ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_message_client() >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_message_client().'</span>' : '') !!}</a></li>
          </ul>
      </div>
     @can('vendedor')
@@ -17,7 +17,7 @@
                  <li><a href="{{route('accont.salesman.stores')}}"{!! url()->current() ==  route('accont.salesman.stores') ? ' class="current_rout"' :  ''!!}>minha loja</a></li>
                  <li><a href="{{route('accont.salesman.products.index')}}"{!! url()->current() ==  route('accont.salesman.products.index') ? ' class="current_rout"' :  ''!!}>meus produtos</a></li>
                  <li><a href="{{route('accont.salesman.sales')}}"{!! url()->current() ==  route('accont.salesman.sales') ? ' class="current_rout"' :  ''!!}>minhas vendas {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">'.notification_sales(0).'</span>' : '') !!}</a></li>
-                 <li><a href="{{route('accont.salesman.messages')}}"{!! url()->current() ==  route('accont.salesman.messages') ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_sales(0).'</span>' : '') !!}</a></li>
+                 <li><a href="{{route('accont.salesman.messages')}}"{!! url()->current() ==  route('accont.salesman.messages') ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_message_salesman() >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_message_salesman().'</span>' : '') !!}</a></li>
              </ul>
          </div>
     @endcan
