@@ -24,7 +24,6 @@
 
                 <tbody>
                 @foreach($messages as $msg)
-                    {{--{{ dd($messages) }}--}}
                     <tr {!! $msg->status == "received" ? 'class="t-unread"' : '' !!}>
                         <td><label><input type="checkbox" class="select_msg" name="msg" value="{{ $msg->id }}"></label>
                         </td>

@@ -36,7 +36,6 @@ class MessagesRepository extends BaseRepository
             $messages = $messages->where('recipient_id', $admin->id)
                 ->where('recipient_type', get_class($admin));
         }
-
         foreach ($orders as $column => $order) {
             $messages = $messages->orderBy($column, $order);
         }
@@ -45,8 +44,7 @@ class MessagesRepository extends BaseRepository
         return $messages;
     }
 
-    public function getMessages($id, array $with = [],$orders = [], $limit=5, $page = 1){
-       $message = $this->get($id);
+    public function getMessages($message, array $with = [],$orders = [], $limit=5, $page = 1){
        $messages = $this->model->with($with)
        ->where(function($query) use($message){
            $query->orwhere(function($or) use($message){

@@ -117,7 +117,14 @@ class StoresController extends AbstractController
     }
 
     public function search(Request $request){
-        $stores =  $this->repo->search($request->name);
+        $stores = $this->repo->search($request->name);
+        $stores = $stores->map(function($store){
+            return [
+                'name' => $store->name,
+                'slug' => $store->slug,
+                'salesman' => $store->salesman->user->name
+            ];
+        });
         return json_encode($stores);
     }
 

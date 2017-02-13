@@ -80,7 +80,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     })->name('report.products');
 
     Route::resource('categories', 'CategoriesController');
-
+    Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
     Route::resource('type_movements','TypeMovementsStocksController');
     Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
 

@@ -162,7 +162,6 @@ $(function () {
             success: function (e) {
                 implementTr.html('');
                 $.each(e, function (i, element) {
-                    console.log(element);
                     implementTr.append('<tr><td><a href="/' + element.slug + '" class="fontem-12 c-green-avocadodark">' + element.name + '</a></td><td>' + element.salesman + '</td></tr>');
                 });
             }
@@ -334,26 +333,32 @@ $(function () {
 
     /** Trazer subcategoria de acordo com a categoria selecionada */
     $('.select_subcat').change(function () {
-        var id = $(this).val();
-        var data = {category_id: id};
+        var category = $(this).val();
         var loader = $(this).data('loader');
-        $.ajax({
-            url: '',
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            beforeSend: function () {
-                $('.' + loader).show();
-            },
-            success: function (response) {
-                if (response.option) {
+        if(category !== "") {
+            $.ajax({
+                url: '/accont/categories/subcategories/' + category,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('.' + loader).show();
+                },
+                success: function (response) {
+                    if(Object.keys(response.subcategories).length > 0){
+                        $('.subcat_info').html('<option selected >Selecione uma Subcategoria</option>');
+                        $.each(response.subcategories, function (i, e){
+                            $('.subcat_info').append('<option value="'+i+'">'+e+'</option>');
+                        });
+                    }else{
+                        $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
+                    }
                     $('.' + loader).hide();
-                    $('.subcat_info').html(response.option);
-                } else {
-                    $('.subcat_info').html('<option selected disabled>Vazio</option>');
+
                 }
-            }
-        });
+            });
+        }else{
+            $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
+        }
     });
 
     /**

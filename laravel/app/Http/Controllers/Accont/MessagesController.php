@@ -36,8 +36,8 @@ class MessagesController extends AbstractController
     {
         $user = Auth::user();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-        $messages = $this->repo->getMessages($id,$this->with,['created_at' => 'DESC'],5,$page);
-        $message = $messages->where('recipient_id', $user->id)->first();
+        $message = $this->repo->get($id);
+        $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC'],5,$page);
         if($message->status === 'received'){
             $message->update(['status' => 'readed']);
         }

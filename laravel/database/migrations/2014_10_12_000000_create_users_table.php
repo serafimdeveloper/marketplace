@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->enum('type',['client','salesman', 'admin'])->default('client');
             $table->timestamp('last_access')->nullable();
             $table->string('phone',15)->nullable();
+            $table->enum('type_user',['client','salesman','admin'])->default('client');
             $table->boolean('active')->default(0);
             $table->rememberToken();
             $table->softDeletes();
