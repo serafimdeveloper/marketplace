@@ -14,26 +14,26 @@
         <div class="colbox">
             <div class="colbox-2">
                 <label>
-                    <span>CPF</span>
-                    {!! Form::text('cpf', Auth::user()->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF']) !!}
+                    <span>CPF <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    {!! Form::text('cpf', Auth::user()->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF', 'data-required' => 'cpf']) !!}
                     <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
 
                 </label>
                 <label>
-                    <span>Telefone fixo</span>
-                    {!! Form::text('phone', null, ['class' => 'masked_phone']) !!}
+                    <span>Telefone fixo <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    {!! Form::text('phone', null, ['class' => 'masked_phone', 'data-required' => 'fullphone']) !!}
                     <span class="alert{{ $errors->has('phone') ? '' : ' hidden' }}">{{ $errors->first('phone') }}</span>
 
                 </label>
                 <label>
-                    <span>Telefone celular</span>
-                    {!! Form::text('cellphone', null, ['class' => 'masked_cellphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
+                    <span>Telefone celular <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    {!! Form::text('cellphone', null, ['class' => 'masked_fullphone', 'data-required' => 'fullphone']) !!}
                     <span class="alert{{ $errors->has('cellphone') ? '' : ' hidden' }}">{{ $errors->first('cellphone') }}</span>
 
                 </label>
                 <label>
                     <span>Whatsapp</span>
-                    {!! Form::text('whatsapp', null, ['class' => 'masked_cellphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
+                    {!! Form::text('whatsapp', null, ['class' => 'masked_fullphone', 'data-required' => 'whatsapp']) !!}
                     <span class="alert{{ $errors->has('whatsapp') ? '' : ' hidden' }}">{{ $errors->first('whatsapp') }}</span>
 
                 </label>
@@ -41,7 +41,7 @@
 
                 <div class="form-modern">
                     <br>
-                    <p class="c-pop fontw-800">Envio de documentos</p>
+                    <p class="c-pop fontw-800">Envio de documentos <sup class="c-red fontem-06 fl-right">obrigatório</sup></p>
                     @if(!isset($salesman->photo_document) || !isset($salesman->proof_adress))
                         <p>
                             Para que seja autorizado o uso do Pop Martin como vendedor, você precisa
@@ -102,7 +102,7 @@
                     Após concluir o seu cadastro, preencha o campo abaixo com o login fornecido pelo MOIP
                 </p>
                 <label>
-                    <span>login MOIP</span>
+                    <span>login MOIP <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
                     {!! Form::text('moip', null, ['placeholder' => 'meulogin']) !!}
                     <span class="alert{{ $errors->has('moip') ? '' : ' hidden' }}">{{ $errors->first('moip') }}</span>
 

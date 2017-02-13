@@ -11,17 +11,17 @@
                   {!!Form::model($user,['route'=>['accont.home.store'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                     <label>
                         <span>Nome</span>
-                        {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
+                        {!! Form::text('name',null, ['placeholder' => 'Seu nome', 'data-required' => 'name']) !!}
                         <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
                     <label>
                         <span>Sobrenome</span>
-                        {!! Form::text('last_name',null, ['placeholder' => 'Sobrenome']) !!}
+                        {!! Form::text('last_name',null, ['placeholder' => 'Sobrenome', 'data-required' => 'last_name']) !!}
                         <span class="alert{{ $errors->has('last_name') ? '' : ' hidden' }}">{{ $errors->first('last_name') }}</span>
                     </label>
                     <label>
                         <span>Cpf</span>
-                        {!! Form::text('cpf',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF']) !!}
+                        {!! Form::text('cpf',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF', 'data-required' => 'cpf']) !!}
                        <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
                     </label>
                     <label>
@@ -45,7 +45,7 @@
                     </div>
                 <label>
                     <span>Telefone</span>
-                    {!! Form::text('phone',null, ['placeholder' => 'Informar telefone', 'class' => 'celphone','pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}', 'maxlength'=>15]) !!}
+                    {!! Form::text('phone',null, ['placeholder' => 'Informar telefone', 'class' => 'masked_fullphone', 'data-required' => 'fullphone']) !!}
                     <span class="alert{{ $errors->has('phone') ? '' : ' hidden' }}">{{ $errors->first('phone') }}</span>
                 </label>
                     <div class="txt-center" style="border-top: 1px solid #B0BEC5;padding-top: 10px;">

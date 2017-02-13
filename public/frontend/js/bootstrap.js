@@ -53,6 +53,28 @@ function is_mail(mail) {
 }
 
 /**
+ * Verificação de campo CPF
+ * @param cpf
+ * @returns {boolean}
+ */
+function is_cpf(cpf) {
+    var exp = /[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/;
+    if (exp.exec(cpf)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function is_date(date, hour) {
+    var exp = (hour ? /[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/ : /[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+    if (exp.exec(date)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+/**
  * Verifica se um determinado valor passado como parâmetro é vazio
  * @param data
  * @returns {boolean}
@@ -64,6 +86,23 @@ function is_null(data) {
         return false;
     }
 }
+
+/**
+ * Verifica se existe um número qualquer em uma determinada string
+ * @param e
+ * @returns {boolean}
+ */
+function is_numberString(e){
+    var exp = new RegExp(/\d/);
+    var response = exp.exec(e);
+    console.log(response);
+    if(response){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 /**
  * Verifica se um determinado valor passado como parâmetro é u, múmero
  * @param val
@@ -79,11 +118,20 @@ function is_Number(val) {
  * @param v
  * @returns {boolean}
  */
-function is_count(n, v) {
-    if (v.length < n) {
-        return false;
-    } else {
-        return true;
+function compareLenght(v, c, n) {
+    // console.log(c);
+    if(c == "<"){
+       return (v.length < n ? true : false);
+    }else if(c == ">"){
+        return (v.length > n ? true : false);
+    }else if(c == "=="){
+        return (v.length == n ? true : false);
+    }else if(c == "!="){
+        return (v.length != n ? true : false);
+    }else if(c == "==="){
+        return (v.length === n ? true : false);
+    }else if(c == "!=="){
+        return (v.length !== n ? true : false);
     }
 }
 /**
@@ -143,6 +191,14 @@ function previewImg(e) {
  * @type {{money: masks.money}}
  */
 var masks = {
+    int: function(){
+        var num = this.value;
+
+        if (isNaN(num)) {
+            num = num.substr(0, (num.length - 1));
+        }
+        this.value = num;
+    },
     money: function () {
         var el = this
             , exec = function (v) {
@@ -294,6 +350,7 @@ $(document).on('change', "form input[type='file']", function () {
     previewImg(this);
 });
 $(document).on('keyup', '.limiter-textarea', limiter);
+$(document).on("keyup", ".masksInt", masks.int);
 $(document).on("keypress", ".masksMoney", masks.money);
 $(document).on("click", ".form-modern .checkbox input[type=checkbox]", checkBox);
 $(document).on("click", ".form-modern .radio input[type=radio]", radiobox);

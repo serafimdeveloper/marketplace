@@ -32,8 +32,8 @@
             @endforelse
             </tbody>
         </table>
-        {!! $requests->links() !!}
-
+        <div class="fl-right">{!! $requests->links() !!}</div>
+        <div class="clear-both"></div>
     </section>
     <div class="clear-both"></div>
 @endsection

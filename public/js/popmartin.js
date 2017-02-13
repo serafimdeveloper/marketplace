@@ -93,6 +93,11 @@ $(function () {
         $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
         var action = $(this).data('action')
         console.log(action);
+        if(action == 'store'){
+            console.log(action);
+            $('#form-adress').find("label span").first().text('Loja');
+            $('#form-adress').find("label input").first().val('Endereço').attr('readonly', true);
+        }
         if (typeof ($(this).data('id')) !== "undefined") {
             $('.alertbox-title').text('Editar endereço');
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
@@ -398,7 +403,7 @@ $(function () {
                 beforeSend: function () {
                     $('.' + loader).show();
                 },
-                error: function(response){
+                error: function (response) {
                     console.log(response);
                 },
                 success: function (response) {
@@ -415,8 +420,8 @@ $(function () {
      * resetar select
      * @param e
      */
-    function resetChange(e){
-       e.children().removeAttr('selected');
+    function resetChange(e) {
+        e.children().removeAttr('selected');
     }
 
 
@@ -613,12 +618,75 @@ function checkInputsMsg(class_element) {
  */
 function switchForm(t) {
     var r = false;
-    switch (t.attr('name')) {
+    switch (t.data('required')) {
+        case 'notnull':
+            r = inputerror(!compareLenght(t.val(), '<', 1), t, 'Campo não pode ser vazio');
+            break;
+        case 'name':
+            var response = function () {
+                if(is_numberString(t.val()) || compareLenght(t.val(), '<', 2)){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'Nome inválido!');
+            break;
+        case 'last_name':
+            var response = function () {
+                if(is_numberString(t.val()) || compareLenght(t.val(), '<', 2)){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'Sobrenome inválido!');
+            break;
         case 'email':
             r = inputerror(is_mail(t.val()), t, 'e-mail inválido!');
             break;
+        case 'email_confirm':
+            var response = function(){
+                if(!is_mail(t.val()) || (t.val() != t.parents('form').find('input[name=email_register]').val())){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'e-mail não confere');
+            break;
+        case 'cpf':
+            var response = function(){
+                if(compareLenght(t.val(), '<', 14) || !is_cpf(t.val())){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'cpf inválido!');
+            break;
+
+        case 'fullphone':
+            r = inputerror(!compareLenght(t.val(), '<', 14), t, 'Telefone inválido');
+            break;
+        case 'cellphone':
+            r = inputerror(!compareLenght(t.val(), '<', 15), t, 'Telefone inválido');
+            break;
+        case 'whatsapp':
+            r = inputerror(!compareLenght(t.val(), '<', 14), t, 'Whatsapp inválido');
+            break;
         case 'password':
-            r = inputerror(is_count(6, t.val()), t, 'senha deve ter no mínimo 6 caracteres!');
+            r = inputerror(!compareLenght(t.val(), '<', 6), t, 'senha deve ter no mínimo 6 caracteres!');
+            break;
+        case 'password_confirm':
+            var response = function(){
+                if(compareLenght(t.val(), '<', 6) || (t.val() != t.parents('form').find('input[name=password_register]').val())){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'senha não confere!');
             break;
         default:
             r = true;
@@ -837,3 +905,26 @@ $(document).on('submit', '.form-modern', function () {
 $(document).on('click', '.jq-remove-product', removePrduct);
 $(document).on('click', '.jq-remove-img-galery', removeImgGarely);
 $(document).on('click', '.jq-block-store', blockStore);
+
+
+/**
+ * CONFIGURAÇÃO DE MÁSKARA PARA CAMPOS INPUT DE FORMULÁRIOS
+ */
+$(function () {
+    $(".masked_date").mask("00/00/0000", {placeholder: "mm/dd/yyyy"});
+    $(".masked_phone").mask("(00) 0000-0000");
+    $(".masked_cellphone").mask("(00) 00000-0000");
+    $(".masked_cpf").mask("000.000.000-00");
+    $(".masked_cnpj").mask("00.000.000/0000-00");
+})
+
+var fullPhone = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+    },
+    phoneOptions = {
+        onKeyPress: function (val, e, field, options) {
+            field.mask(fullPhone.apply({}, arguments), options);
+        }
+    };
+
+$('.masked_fullphone').mask(fullPhone, phoneOptions);

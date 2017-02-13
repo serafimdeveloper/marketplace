@@ -170,7 +170,7 @@
                 <div class="colbox-5">
                     <label>
                         <span>Comprimento (cm)</span>
-                        {!! Form::text('length_cm', null, ['placeholder' => '0', 'class' => 'masksMoney']) !!}
+                        {!! Form::text('length_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
                         <span class="alert{{ $errors->has('length_cm') ? '' : ' hidden' }}">{{ $errors->first('length_cm') }}</span>
 
                     </label>
@@ -178,21 +178,21 @@
                 <div class="colbox-5">
                     <label>
                         <span>Largura (cm)</span>
-                        {!! Form::text('width_cm', null, ['placeholder' => '0', 'class' => 'masksMoney']) !!}
+                        {!! Form::text('width_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
                         <span class="alert{{ $errors->has('width_cm') ? '' : ' hidden' }}">{{ $errors->first('width_cm') }}</span>
                     </label>
                 </div>
                 <div class="colbox-5">
                     <label>
                         <span>Diametro (cm)</span>
-                        {!! Form::text('diameter_cm', null, ['placeholder' => '0', 'class' => 'masksMoney']) !!}
+                        {!! Form::text('diameter_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
                         <span class="alert{{ $errors->has('diameter_cm') ? '' : ' hidden' }}">{{ $errors->first('diameter_cm') }}</span>
                     </label>
                 </div>
                 <div class="colbox-5">
                     <label>
                         <span>Altura (cm)</span>
-                        {!! Form::text('height_cm', null, ['placeholder' => '0', 'class' => 'masksMoney']) !!}
+                        {!! Form::text('height_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
                         <span class="alert{{ $errors->has('height_cm') ? '' : ' hidden' }}">{{ $errors->first('height_cm') }}</span>
 
                     </label>
@@ -200,7 +200,7 @@
                 <div class="colbox-5">
                     <label>
                         <span>Peso (gramas)</span>
-                        {!! Form::text('weight_gr', null, ['placeholder' => '0', 'class' => 'masksMoney']) !!}
+                        {!! Form::text('weight_gr', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 6]) !!}
                         <span class="alert{{ $errors->has('weight_gr') ? '' : ' hidden' }}">{{ $errors->first('weight_gr') }}</span>
                     </label>
                 </div>

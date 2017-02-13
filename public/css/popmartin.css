@@ -184,7 +184,7 @@ input{padding: 5px;width: 100%;}
 .table-action a{display: block;font-size: 1.1em;color: #000;}
 
 .pop-tracking{margin-top: -10px;}
-.pop-tracking button{position: absolute; right: 30px; bottom: 26px;}
+.pop-tracking button{position: absolute; right: 30px; bottom: 22px;}
 
 .selects_people{display: none;}
 
@@ -251,7 +251,7 @@ input{padding: 5px;width: 100%;}
 .trigger.warning{background-color: #FBC02D;color: #FFF;border: none;}
 .trigger.notice{background-color: #1565C0;color: #FFF;border: none;}
 .trigger.error{background-color: #EF5350;color: #FFF;border: none;}
-.table input{min-width: 20px;}
+/*.table input{min-width: 20px;}*/
 
 .table .t-accept{color: #1B5E20;}
 .table .t-notice{color: #0D47A1;}

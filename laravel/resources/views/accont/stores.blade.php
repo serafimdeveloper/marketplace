@@ -24,8 +24,8 @@
             <div class="colbox">
                 <div class="colbox-2">
                     <label>
-                        <span>Nome da loja</span>
-                        {!! Form::text('name', null, ['placeholder' => 'Nome da Loja']) !!}
+                        <span>Nome da loja <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                        {!! Form::text('name', null, ['placeholder' => 'Nome da Loja', 'data-required' => 'notnull']) !!}
                         <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                     </label>
                     <div class="checkbox-container padding10">
@@ -59,7 +59,7 @@
                     @endif
                         <label>
                             <span>CPF</span>
-                            {!! Form::text('cpf',$salesman->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF','readonly'=>'readonly']) !!}
+                            {!! Form::text('cpf',$salesman->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF', 'data-required' => 'notnull', 'readonly'=>'readonly']) !!}
                             <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>                        </label>
                     </div>
                     @if(isset($store))
