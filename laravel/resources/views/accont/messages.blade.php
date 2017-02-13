@@ -26,7 +26,17 @@
                 @foreach($messages as $msg)
                     {{--{{ dd($messages) }}--}}
                     <tr {!! $msg->status == "received" ? 'class="t-unread"' : '' !!}>
-                        <td><label><input type="checkbox" class="select_msg" name="msg" value="{{ $msg->id }}"></label>
+                        <td>
+                            <div class="form-modern">
+                                <div class="checkbox-container">
+                                    <div class="checkboxies">
+                                        <label class="checkbox" style="border: none;padding: 0;">
+                                            <span><span class="fa fa-square-o"></span></span>
+                                            {!! Form::checkbox('msg', $msg->id, null, ['class' => 'select_msg']) !!}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                         <td>{{ $msg->sender->name }} {{ $msg->sender->last_name }}</td>
                         <td><a href="/accont/messages/{{ $msg->id }}">{{ substr($msg->content, 0, 60) }}...</a></td>

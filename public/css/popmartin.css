@@ -251,7 +251,7 @@ input{padding: 5px;width: 100%;}
 .trigger.warning{background-color: #FBC02D;color: #FFF;border: none;}
 .trigger.notice{background-color: #1565C0;color: #FFF;border: none;}
 .trigger.error{background-color: #EF5350;color: #FFF;border: none;}
-.table input{min-width: 20px;}
+/*.table input{min-width: 20px;}*/
 
 .table .t-accept{color: #1B5E20;}
 .table .t-notice{color: #0D47A1;}
