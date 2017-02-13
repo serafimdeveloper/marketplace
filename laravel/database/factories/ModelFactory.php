@@ -376,11 +376,12 @@ $factory->define(Message::class, function(Generator $faker){
     $recept = app($type_recept);
     $send  = app($type_send);
     return[
-        'sender_id' => function() use($send){
+        'sender_type' => $type_send,
+
+        'sender_id' => function(array $data) use($send){
             $element = $send->all()->random();
             return $element->id;
         },
-        'sender_type' => $type_send,
         'recipient_id' => function(array $data) use($recept){
             $element = $recept->all()->random();
             return $element->id;
@@ -397,7 +398,7 @@ $factory->define(Message::class, function(Generator $faker){
             if(!Message::all()->first()){
                 return $order->id;
             }else{
-                if(!$m->request_id){
+                if(!$m->request_id && $order){
                     return $order->id;
                 }else{
                     return null;
