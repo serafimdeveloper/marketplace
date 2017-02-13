@@ -23,6 +23,7 @@ if(!function_exists('notification_message_client')){
         return 0;
     }
 }
+
 if(!function_exists('notification_message_salesman')){
     function notification_message_salesman($visualized = 'received')
     {
