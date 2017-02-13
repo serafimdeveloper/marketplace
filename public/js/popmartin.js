@@ -5,7 +5,6 @@
 
 var alertfyConfirmTitle = 'Pop Martin alerta!';
 $(function () {
-
     /**
      * Carousel para container de publicidade no topo do site
      * @type {{loop: boolean, margin: number, responsive: {0: {items: number}, 400: {items: number}, 600: {items: number}, 700: {items: number}, 900: {items: number}}, autoplay: boolean, autoplayTimeout: number, autoplayHoverPause: boolean}}
@@ -493,7 +492,6 @@ $(document).on('click', '.jq-info-product', function () {
     $("#jq-info-product").slideDown();
 });
 
-
 /** Modal de atualização e cadastro de banners */
 $(document).on('click', '.jq-new-banner', function () {
     var e = $(this);
@@ -866,24 +864,25 @@ function removePrduct() {
 function removeImgGarely() {
     var element = $(this);
     var action = element.data('action');
+    var id = element.data('id');
     if (action == 'create') {
         clearImgGalery(element);
     }
-    alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esta imagem?',
-        function () {
-            var id = element.data('id');
-            var prev = element.data('preview');
-            $.get('/accont/salesman/products/remove/image/'+id, function (response) {
-                if (response.status) {
-                    clearImgGalery(element);
-                    alertify.success('Produto removido!');
-                } else {
-                    alertify.error(response.msg);
-                }
-            }, 'json');
-        }, function () {
-            return true;
-        });
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esta imagem?',
+            function () {
+                var prev = element.data('preview');
+                $.get('/accont/salesman/products/remove/image/'+id, function (response) {
+                    if (response.status) {
+                        clearImgGalery(element);
+                        alertify.success('Produto removido!');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                }, 'json');
+            }, function () {
+                return true;
+            });
+
     return false;
 }
 /**
@@ -891,7 +890,7 @@ function removeImgGarely() {
  * @param element
  */
 function clearImgGalery(element) {
-    element.parents('.product-galery').find('.prevImg img').attr('src', '/image/popmartin/img-exemple.jpg?h=110')
+    element.parents('.product-galery').find('.prevImg img').attr('src', '/image/img-exemple.jpg?h=110')
     element.parents('.product-galery').find('.file input[type=text]').val('');
     element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
     element.parents('.product-galery').find('.file input[type=file]').remove();

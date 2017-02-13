@@ -73,3 +73,19 @@
     </section>
     <div class="clear-both"></div>
 @endsection
+
+@section('script')
+    <script>
+        $(document).ready(function(){
+            var url_atual = window.location.href;
+            var url = url_atual.split('/');
+            var hash = parseInt(url[5]);
+            console.log(typeof hash);
+            if(typeof hash === 'number'){
+                console.log('chegou');
+                var position = $('#'+hash).offset();
+                $("html, body").animate({scrollTop:position.top}, 1200);
+            }
+        });
+    </script>
+@endsection

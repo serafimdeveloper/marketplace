@@ -2,11 +2,13 @@
 namespace App\Http\Controllers\Accont;
 
 use App\Http\Controllers\AbstractController;
+use App\Model\Store;
 use App\Model\User;
 use App\Repositories\Accont\MessagesRepository;
 use Illuminate\Container\Container as App;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MessagesController extends AbstractController
 {
@@ -23,25 +25,37 @@ class MessagesController extends AbstractController
         return MessagesRepository::class;
     }
 
-    public function index()
+    public function index($type)
     {
-        $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-        $messages = $this->repo->getAllMessages('user',$this->columns, $this->with, ['id' => 'DESC'], 5, $page);
-        $messages = ($messages->first() ? $messages : false);
-
-        return view('accont.messages', compact('messages'));
+        if($type == 'user'){
+            $messages = $this->getAllMessages($type);
+            return view('accont.messages', compact('messages'));
+        }else if($type == 'store'){
+            if ($store = Auth::user()->salesman->store) {
+                $messages = $this->getAllMessages($type);
+                return view('accont.messages', compact('messages'));
+            }
+        }
+        flash('Precisa possuir uma loja para ver as mensagens', 'warning');
+        return redirect()->route('accont.salesman.stores');
     }
 
     public function show($id)
     {
-        $user = Auth::user();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-        $message = $this->repo->get($id);
-        $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC'],5,$page);
-        if($message->status === 'received'){
-            $message->update(['status' => 'readed']);
+        if($message = $this->repo->get($id)){
+            if(Gate::allows('read_message', $message)){
+                $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC'],5,$page);
+                if($message->status === 'received'){
+                    $message->update(['status' => 'readed']);
+                }
+                return view('accont.message_info', compact('messages','message'));
+            }
+        }else{
+            flash('Mensagem não encontrada', 'error');
+            return redirect()->back();
         }
-        return view('accont.message_info', compact('messages','message'));
+
     }
 
     public function answer(Request $request,$id){
@@ -57,10 +71,10 @@ class MessagesController extends AbstractController
                  'title' => $model->title, 'content' => $request->message];
         if($message = $this->repo->store($dados)) {
             flash('Mensagem enviada com sucesso!', 'accept');
-            return redirect()->route('accont.messages');
+            return redirect()->back();
         }
         flash('Não foi possivel enviar a mensagem', 'error');
-        return redirect()->route('accont.message_info');
+        return redirect()->back();
     }
 
     public function destroy()
@@ -70,5 +84,12 @@ class MessagesController extends AbstractController
         dd($user);
 
         return json_encode(['status' => true]);
+    }
+
+    private function getAllMessages($type){
+        $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
+        $messages = $this->repo->getAllMessages($type,$this->columns, $this->with, ['id' => 'DESC'], 5, $page);
+        $messages = ($messages->first() ? $messages : false);
+        return $messages;
     }
 }

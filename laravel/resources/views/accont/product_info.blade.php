@@ -125,8 +125,13 @@
                 <div class="colbox-4">
                     <div class="checkboxies" style="margin: 0;padding: 0 15px 0 6px;">
                         <label class="checkbox" style="margin-top: 27px;">
-                            <span><span class="fa fa-square-o"></span> frete grátis</span>
-                            {!! Form::checkbox('active',1) !!}
+                            @if(isset($product))
+                                <span><span class="{{($product->free_shipping) ?'fa fa-check-square-o' : 'fa fa-square-o' }}"></span> frete grátis</span>
+                            @else
+                                <span><span class="fa fa-square-o"></span> frete grátis</span>
+                            @endif
+                                {!! Form::checkbox('free_shipping',1) !!}
+
                         </label>
                     </div>
                 </div>

@@ -71,8 +71,7 @@ trait GetsTrait
         if ($item) {
             return $item;
         }
-
-        throw new RepositoryException('Item not found');
+        return false;
     }
 
     /**
@@ -103,8 +102,7 @@ trait GetsTrait
         if ($items) {
             return $items;
         }
-
-        throw new RepositoryException('Items not found');
+        return false;
     }
 
     public function pluck($columns){

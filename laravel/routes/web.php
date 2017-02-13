@@ -27,11 +27,6 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('/searchstore', 'StoresController@searchstore')->name('searchstore');
     Route::post('/searchstore', 'StoresController@search')->name('search.store');
 
-    Route::get('/messages', 'MessagesController@index')->name('messages');
-    Route::get('/messages/{id}', 'MessagesController@show')->name('message_info');
-    Route::post('/messages/answer/{id}', 'MessagesController@answer')->name('message.answer');
-    Route::delete('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
-
     /** Vendedores */
     Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){
 
@@ -53,19 +48,16 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
             return view('accont.sale_info');
         })->name('sale_info');
 
-        Route::get('messages', function(){
-            return view('accont.salesman.messages');
-        })->name('messages');
-
-        Route::get('message/{id}', function(){
-            return view('accont.message_info');
-        })->name('messages_info');
-
         Route::get('/etiqueta', function(){
             return view('layouts.parties.etiqueta');
         })->name('etiqueta');
 
     });
+
+    Route::get('/messages/{type}/all', 'MessagesController@index')->name('messages.all');
+    Route::get('/messages/{id}', 'MessagesController@show')->name('message.info');
+    Route::post('/messages/answer/{id}', 'MessagesController@answer')->name('message.answer');
+    Route::delete('/messages/destroy/{id}', 'MessagesController@destroy')->name('message.destroy');
 
     /** Administrador */
     Route::get('/report/users', function(){

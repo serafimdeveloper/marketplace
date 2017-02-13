@@ -60,7 +60,7 @@ class CategoriesController extends AbstractController
 
     public function destroy($id){
         if($this->repo->delete($id)){
-            return response()->json(['status'=>true,'msg'=>'Excluido com sucesso'],200);
+            return response()->json(['status'=>true,'msg'=>'Excluído com sucesso'],200);
         }
         return response()->json(['status'=>false,'msg'=>'Ocorreu um erro ao excluir a categória !'], 500);
     }
