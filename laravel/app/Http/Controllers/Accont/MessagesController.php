@@ -6,6 +6,7 @@ use App\Model\User;
 use App\Repositories\Accont\MessagesRepository;
 use Illuminate\Container\Container as App;
 use Auth;
+use Illuminate\Http\Request;
 
 class MessagesController extends AbstractController
 {
@@ -24,9 +25,8 @@ class MessagesController extends AbstractController
 
     public function index()
     {
-        $user = Auth::user();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-        $messages = $this->repo->all($this->columns, $this->with, ['recipient_id' => $user->id], ['id' => 'DESC'], 5, $page);
+        $messages = $this->repo->getAllMessages('user',$this->columns, $this->with, ['id' => 'DESC'], 5, $page);
         $messages = ($messages->first() ? $messages : false);
 
         return view('accont.messages', compact('messages'));
@@ -34,17 +34,33 @@ class MessagesController extends AbstractController
 
     public function show($id)
     {
+        $user = Auth::user();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-        $messages = $this->repo->getMessages($id,$this->with,['created_at' => 'DESC'],5,$page);
-        $message = $messages->first();
+        $message = $this->repo->get($id);
+        $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC'],5,$page);
         if($message->status === 'received'){
             $message->update(['status' => 'readed']);
         }
         return view('accont.message_info', compact('messages','message'));
     }
 
-    public function answer(MessagesRepository $messagesRepository){
+    public function answer(Request $request,$id){
+        $this->validate($request, [
+            'message'=>'required|min:5:max:500'
+        ]);
+        $model = $this->repo->get($id,$this->columns,$this->with);
 
+        $dados = ['sender_id' => $model->recipient_id, 'sender_type' => get_class($model->recipient),
+                 'recipient_id' => $model->sender_id, 'recipient_type' => get_class($model->sender),
+                 'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id,
+                 'product_id' => $model->product_id, 'message_id' => $model->message_id,
+                 'title' => $model->title, 'content' => $request->message];
+        if($message = $this->repo->store($dados)) {
+            flash('Mensagem enviada com sucesso!', 'accept');
+            return redirect()->route('accont.messages');
+        }
+        flash('Não foi possivel enviar a mensagem', 'error');
+        return redirect()->route('accont.message_info');
     }
 
     public function destroy()

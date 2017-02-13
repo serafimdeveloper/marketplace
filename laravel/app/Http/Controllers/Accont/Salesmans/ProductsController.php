@@ -51,7 +51,7 @@ class ProductsController extends AbstractController
 
     public function create()
     {
-        $categories = $this->category->pluck('name', 'id');
+        $categories = $this->category->whereNull('category_id')->pluck('name', 'id');
         return view('accont.product_info', compact('categories'));
     }
 

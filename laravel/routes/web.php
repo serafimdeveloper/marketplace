@@ -29,7 +29,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     Route::get('/messages', 'MessagesController@index')->name('messages');
     Route::get('/messages/{id}', 'MessagesController@show')->name('message_info');
-    Route::post('/messages/answer', 'MessagesController@answer')->name('message.answer');
+    Route::post('/messages/answer/{id}', 'MessagesController@answer')->name('message.answer');
     Route::delete('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /** Vendedores */
@@ -80,7 +80,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     })->name('report.products');
 
     Route::resource('categories', 'CategoriesController');
-
+    Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
     Route::resource('type_movements','TypeMovementsStocksController');
     Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
 

@@ -46,20 +46,23 @@
 
             <tbody>
              @foreach($messages as $awnser)
-                    <tr>
+                    <tr id="{{$awnser->id}}">
                         <td>{{ $awnser->sender->name }}<br><span>{{ $awnser->created_at->format('d/m/Y H:i:s') }}</span>
                         </td>
                         <td>{{ $awnser->content }}</td>
                     </tr>
-                @endforeach
+             @endforeach
+             {!! $messages->links() !!}
             </tbody>
         </table>
         <div>
-            {!!Form::model('nome',['route'=>['accont.message.answer'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
+            {!!Form::open(['route'=>['accont.message.answer', $message->id], 'method'=>'POST','class'=>'form-modern pop-form'])!!}
                 <p class="c-pop fontw-600 box-marginzero">Responder</p>
                 <label>
                     {!! Form::textarea('message', null, ['id' => 'comments-limit', 'class' => 'limiter-textarea', 'rows' => '4', 'maxlength' => 500]) !!}
                     <span class="limiter-result" for="comments-limit">limite de 500 caracteres</span>
+                    <span class="alert{{ $errors->has('message') ? '' : ' hidden' }}">{{ $errors->first('message') }}</span>
+
                 </label>
                 <div class="txt-left">
                     <button type="submit" class="btn btn-popmartin">enviar</button>

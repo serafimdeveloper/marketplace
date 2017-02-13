@@ -24,7 +24,6 @@
 
                 <tbody>
                 @foreach($messages as $msg)
-                    {{--{{ dd($messages) }}--}}
                     <tr {!! $msg->status == "received" ? 'class="t-unread"' : '' !!}>
                         <td>
                             <div class="form-modern">

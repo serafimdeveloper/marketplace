@@ -43,6 +43,11 @@ class CategoriesController extends AbstractController
         return response()->json(compact('categories','category'));
     }
 
+    public function subcategories($category){
+        $subcategories = $this->repo->subcategories($category)->pluck('name','id');
+        return response()->json(compact('subcategories'));
+    }
+
     public function update(Request $request, $id){
         $this->validate($request, ['name'=>'required|unique:categories,name,'.$id]);
         $dados = $request->all();

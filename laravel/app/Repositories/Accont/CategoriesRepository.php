@@ -19,4 +19,9 @@ class CategoriesRepository extends BaseRepository
         return Category::class;
     }
 
+
+    public function subcategories($category){
+        $subcategories = $this->model->where('category_id', $category)->get();
+        return $subcategories;
+    }
 }

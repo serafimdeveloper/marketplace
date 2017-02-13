@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    protected $fillable = ['sender_id','recipient_id','message_type_id','request_id','product_id','message_id','title',
+    protected $fillable = ['sender_id','sender_type','recipient_id','recipient_type','message_type_id','request_id','product_id','message_id','title',
         'content','status'];
 
     public function sender(){
-        return $this->belongsTo(User::class,'sender_id');
+        return $this->morphTo();
     }
 
     public function recipient(){
-        return $this->belongsTo(User::class,'recipient_id');
+        return $this->morphTo();
     }
 
     public function message_type(){
