@@ -50,7 +50,7 @@
                         <div class="colbox-3">
                             <label>
                                 <span>Bairro:</span>
-                                <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro" readonly="readonly">
+                                <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -58,7 +58,7 @@
                     <div class="clear-both"></div>
                     <label>
                         <span>Endereço:</span>
-                        <input type="text" name="public_place" value="" placeholder="Digite seu Endereço" readonly="readonly">
+                        <input type="text" name="public_place" value="" placeholder="Digite seu Endereço">
                         <span class="alert hidden"></span>
                     </label>
                     <div class="colbox">
