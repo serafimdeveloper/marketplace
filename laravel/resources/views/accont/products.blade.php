@@ -43,7 +43,7 @@
         <br>
     </section>
     <div class="txt-right">
-        <a href="/accont/salesman/product" class="btn btn-small btn-popmartin"><i class="fa fa-plus vertical-middle"></i> adicionar novo produto</a>
+        <a href="{{route('accont.salesman.products.create')}}" class="btn btn-small btn-popmartin"><i class="fa fa-plus vertical-middle"></i> adicionar novo produto</a>
     </div>
     <br>
     <div class="clear-both"></div>
