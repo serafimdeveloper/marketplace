@@ -13,7 +13,7 @@
                         <span class="fontw-500">Status:</span> <span class="c-green fontw-600">{{ $request->requeststatus->description }}</span><span class="c-blue fontw-600"> {{isset($rastreamento[0]) ? $rastreamento[0]->status :'aguardando envio'}}</span><br>
                         <span class="fontw-500">Pedido N°:</span> {{$request->key}}<br>
                         <span class="fontw-500">Data:</span> {{$request->created_at->diffForHumans()}}<br>
-                        <span class="fontw-500">Cliente:</span> {{$request->user->name}}
+                        <span class="fontw-500">Cliente:</span> {{$request->user->name.' '.$request->user->last_name}}
                     </p>
                 </div>
                 <div class="colbox-2">
@@ -53,7 +53,7 @@
                 @endforelse
                 <tr>
                     <td>Total</td>
-                    <td class="t-active bold" colspan="4"><span class="fontem-18 fontw-800">R${{amount_products($request->products)}}</span></td>
+                    <td class="t-active bold" colspan="4"><span class="fontem-18 fontw-800">R${{number_format(amount_products($request->products),2,',','.')}}</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -69,17 +69,17 @@
 
                 <tbody>
                 <tr>
-                    <td>PAC</td>
+                    <td>{{$request->freight->name}}</td>
                     <td>
-                        <span>Maria da Silva Pereira</span><br>
-                        <span>46560-000 (BA)</span><br>
+                        <span>{{$request->user->name.' '.$request->user->last_name}}</span><br>
+                        <span>{{$request->adress->zip_code}} ({{$request->adress->state}})</span><br>
                     </td>
-                    <td class="t-active bold"><span class="fontem-12">R$14,90</span></td>
+                    <td class="t-active bold"><span class="fontem-12">R${{number_format($request->freight_price,2,',','.')}}</span></td>
                 </tr>
                 </tbody>
             </table>
             <hr>
-            <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-green fontw-900">R$74,80</span></p>
+            <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-green fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span></p>
             <div class="clear-both"></div>
         </div>
         <div class="txt-center">

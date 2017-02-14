@@ -41,7 +41,15 @@ if(!function_exists('amount_products')){
         foreach($products as $product){
             $amount+= $product->pivot->amount;
         }
-        return number_format($amount,2,',','.');
+        return $amount;
+    }
+}
+
+if(!function_exists('amount_products_final')){
+    function amount_products_final($products,$freight){
+        $amount = amount_products($products);
+        $amount_final = (double) $amount + $freight;
+        return $amount_final;
     }
 }
 
