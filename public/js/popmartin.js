@@ -57,6 +57,16 @@ $(function () {
     $('.tooltip').tooltipster();
 
 
+    $(window).scroll(function(){
+        var scroll = $(this).scrollTop();
+        if(scroll > 100){
+            $('.jq-scrollposition').addClass('pop-notice-msg-fixed');
+        }else{
+            $('.jq-scrollposition').removeClass('pop-notice-msg-fixed');
+        }
+    });
+
+
     /**
      * Verifica os input segundo as regras atribuídas e para a escução caso haja um submit
      */
@@ -333,6 +343,43 @@ $(function () {
             });
         }
         return false;
+    });
+
+    /** CHAMAR MODAL BUSCA DE CEP*/
+    $(document).on('click', '.jq-whichcep', function(){
+        $('.whichcep').show();
+    });
+
+    /**
+     * FORMULÁRIO DE RASTREIO DE CEP
+     */
+    $(document).on('keyup', '.whichcep .form-modern input', function(){
+        var element = $(this);
+        var data = element.val();
+        var implementTr = $('.pop-select-cep');
+        $.ajax({
+            url : '/accont/adresses/zip_code/' + data,
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function(){
+                implementTr.html('<tr><td colspan="2"><i class="fa fa-spin fa-spinner"></i></td></tr>');
+            },
+            success: function (response) {
+                implementTr.html('');
+                $.each(response, function (i, element) {
+                    implementTr.append('<tr data-cep="' + element.cep + '"><td>' + element.cep + '</td><td>' + element.logradouro + ' | <b>' + element.bairro + ' - ' + element.cidade + '</b> - ' + element.estado + '</td></tr>');
+                });
+            }
+        })
+    });
+
+    /**
+     * CAPTAR CEP E IMPLEMENTAR NA MODAL DE ENDEREÇO
+     */
+    $(document).on('click', '.pop-select-cep tr', function(){
+        var cep = $(this).data('cep');
+        $('#zip_code').val(cep).focusout();
+        $(this).parents('.alertbox').find('.alertbox-close').click();
     });
 
     /**

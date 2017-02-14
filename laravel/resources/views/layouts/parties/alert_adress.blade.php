@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="colbox-2">
                                     <div class="form-btn-cep">
-                                        <a href="javascript:void(0)" class="btn btn-small btn-popmartin" style="color: #FFF;">Não sei meu cep</a>
+                                        <a href="javascript:void(0)" class="btn btn-small btn-popmartin jq-whichcep" style="color: #FFF;">Não sei meu cep</a>
                                     </div>
 
                                 </div>
@@ -101,3 +101,29 @@
             </div>
         </div>
     </div>
+<div class="alertbox whichcep">
+    <div class="alertbox-container">
+        <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
+        <div class="alertbox-content">
+            <div class="form-modern">
+                <label>
+                    <input type="text" placeholder="Informe seu endereço. Exemplo: Rua Joaquim Pacheco">
+                </label>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="t-small">CEP</th>
+                        <th>Endereço</th>
+                    </tr>
+                </thead>
+                <tbody class="pop-select-cep">
+                {{--<tr data-cep="27286210">--}}
+                    {{--<td>27286210</td>--}}
+                    {{--<td>Rua Dom Antônio cabral | <b>São Luís - Volta Redonda</b> - RJ</td>--}}
+                {{--</tr>--}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
