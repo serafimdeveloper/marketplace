@@ -420,7 +420,8 @@ $(function () {
                     $('.' + loader).show();
                 },
                 error: function (response) {
-                    console.log(response);
+                    $('.' + loader).hide();
+                    $('#quantity').parent().find('span.alert').val(response.responseJSON.msg).removeClass('hidden');
                 },
                 success: function (response) {
                     $('#quantity').val(response.product);

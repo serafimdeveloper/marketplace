@@ -95,6 +95,7 @@ class ProductsController extends AbstractController
     {
         $dados = $request->except('type_operation_stock');
         $dados['price_out_discount'] = isset($request->price_out_discount) ? $request->price_out_discount : 'null';
+        $dados['category_id'] = isset($request->subcategory_id) ? $request->subcategory_id : $request->category_id;
         if($product = $this->repo->update($dados,$id)){
             $value = 1;
             for ($i = 0; $i < 5; $i++) {

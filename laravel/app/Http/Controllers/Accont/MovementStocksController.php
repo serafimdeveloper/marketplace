@@ -52,7 +52,7 @@ class MovementStocksController extends AbstractController
                 if($dados['count'] < $product->quantity){
                     $product->decrement('quantity',$dados['count']);
                 }else{
-                    return response()->json(['erro'=>'A quantidade de produtos insuficientes'],402);
+                    return response()->json(['msg'=>'A quantidade de produtos insuficientes'],402);
                 }
             }else{
                 $product->increment('quantity',$dados['count']);
@@ -62,7 +62,7 @@ class MovementStocksController extends AbstractController
                return response()->json(['product'=>$product->quantity],201);
             }
         }
-        return response()->json(['erro'=>'erro ao fazer a movimentação'],500);
+        return response()->json(['msg'=>'erro ao fazer a movimentação'],500);
     }
 
     public function show($id){
