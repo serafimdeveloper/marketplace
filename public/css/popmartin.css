@@ -267,6 +267,14 @@ input{padding: 5px;width: 100%;}
 .c-error{color: #FF0000;}
 .c-default{color: #000000;}
 
+
+/** CUSTOM ALERTIFY */
+.ajs-message{border: 1px solid #EF5350;border-left: 8px solid #EF5350;font-weight: 400;}
+.ajs-message.ajs-error{border-color: #EF5350 !important;border-left-width: 9px;background: rgba(239,83,80,0.7) !important;}
+.ajs-message.ajs-success{border-color: #1B5E20 !important;border-left-width: 8px;background: rgba(27,94,32,0.7) !important;}
+.ajs-message.ajs-warning{border-color: #FFEA00 !important;border-left-width: 8px;background: rgba(255,234,0,0.7) !important;}
+
+
 /** RESPONSIVIDADE */
 
 @media(max-width: 69em){ /*1024px */
