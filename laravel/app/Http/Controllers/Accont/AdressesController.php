@@ -38,17 +38,17 @@
             $dados = $this->save($request, $action);
             if($adress = $this->repo->update($dados, $id))
 			{
-				return response()->json(['status'=>true,'adress'=>$adress,'action'=>$action]);
+				return response()->json(['adress'=>$adress,'action'=>$action]);
 			}
-			return response()->json(['status'=>false,'msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
+			return response()->json(['msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
 		}
 
 		public function destroy($id){
 			if($this->repo->delete($id))
 			{
-				return response()->json(['status'=>true]);
+				return response()->json(['status'=>true],200);
 			}
-			return response()->json(['status'=>false,'msg'=>'Ocorreu um erro ao excluir o endereço !'], 500);
+			return response()->json(['msg'=>'Ocorreu um erro ao excluir o endereço !'], 500);
 		}
 
 		public function search_cep($cep){

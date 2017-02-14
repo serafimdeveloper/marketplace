@@ -78,12 +78,13 @@ class MessagesController extends AbstractController
 
     public function destroy(Request $request)
     {
-        $user = Auth::user();
-        $messages = $this->repo->getByIds($request->ids);
-        $messages->each(function($message){
-            $message->fill(['desactive'=>1])->save();
-        });
-        return json_encode(['status' => true]);
+        if($messages = $this->repo->getByIds($request->ids)) {
+            $messages->each(function ($message) {
+                $message->fill(['desactive' => 1])->save();
+            });
+            return json_encode(['status' => true]);
+        }
+        return json_encode(['msg'=>'erro ao apagar as mensagens'],500);
     }
 
     private function getAllMessages($type){

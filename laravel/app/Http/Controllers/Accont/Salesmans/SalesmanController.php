@@ -83,9 +83,9 @@ class SalesmanController extends AbstractController
             }else{
                 $user->salesman->save(['active' => 1]);
             }
-            return response()->json(['status'=>true]);
+            return response()->json(['status'=>true],200);
         }
-        return response()->json(['status'=>false]);
+        return response()->json(['status'=>false],500);
     }
 
 
@@ -99,7 +99,7 @@ class SalesmanController extends AbstractController
                 return redirect()->route('accont.home');
             }
         }
-        return response()->json(['status'=>false]);
+        return response()->json(['status'=>false],500);
     }
 
     private function check_pending($salesman){

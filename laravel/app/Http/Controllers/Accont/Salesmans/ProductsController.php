@@ -46,7 +46,6 @@ class ProductsController extends AbstractController
         }
         flash('Antes de cadastrar um produto tem que criar uma loja!', 'warning');
         return redirect()->route('accont.salesman.stores');
-
     }
 
     public function create()
@@ -126,9 +125,14 @@ class ProductsController extends AbstractController
                 Storage::delete('img/produto/'.$galery->image);
             }
             $galery->delete($image);
-            return response()->json(['status'=>true],200);
+            return response()->json(['imagem removida com sucesso'],200);
         }
-        return response()->json(['msg'=>'Erro ao deletar a imagem'],500);
+        return response()->json(['erro'=>'Erro ao deletar a imagem'],500);
+    }
+
+    public function delete($id){
+
+
     }
 }
 

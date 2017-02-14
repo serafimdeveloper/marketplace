@@ -468,7 +468,8 @@ $(function () {
                 },
                 error: function (response) {
                     $('.' + loader).hide();
-                    $('#quantity').parent().find('span.alert').val(response.responseJSON.msg).removeClass('hidden');
+                    alertify.error(response.responseJSON.msg);
+                //    $('#quantity').parent().find('span.alert').val(response.responseJSON.msg).removeClass('hidden');
                 },
                 success: function (response) {
                     $('#quantity').val(response.product);
