@@ -37,6 +37,7 @@
                             <label>
                                 <span>UF:</span>
                                 <input type="text" name="state" value="" placeholder="Digite sua UF" readonly="readonly">
+                                <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -44,6 +45,7 @@
                             <label>
                                 <span>Município:</span>
                                 <input type="text" name="city" value="" placeholder="Digite seu Município" readonly="readonly">
+                                <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -51,6 +53,7 @@
                             <label>
                                 <span>Bairro:</span>
                                 <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
+                                <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -59,6 +62,7 @@
                     <label>
                         <span>Endereço:</span>
                         <input type="text" name="public_place" value="" placeholder="Digite seu Endereço">
+                        <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                         <span class="alert hidden"></span>
                     </label>
                     <div class="colbox">

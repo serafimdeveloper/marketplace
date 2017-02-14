@@ -29,6 +29,7 @@ class CreateMessagesTable extends Migration
             $table->foreign('message_id')->references('id')->on('messages')->onUpdate('cascade')->onDelete('SET NULL');
             $table->string('title',200);
             $table->text('content');
+            $table->boolean('desactive')->default(0);
             $table->enum('status',['readed','received', 'answered'])->default('received');
             $table->timestamps();
         });

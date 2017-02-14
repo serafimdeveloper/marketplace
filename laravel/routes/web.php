@@ -57,7 +57,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('/messages/{type}/all', 'MessagesController@index')->name('messages.all');
     Route::get('/messages/{id}', 'MessagesController@show')->name('message.info');
     Route::post('/messages/answer/{id}', 'MessagesController@answer')->name('message.answer');
-    Route::delete('/messages/destroy/{id}', 'MessagesController@destroy')->name('message.destroy');
+    Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /** Administrador */
     Route::get('/report/users', function(){

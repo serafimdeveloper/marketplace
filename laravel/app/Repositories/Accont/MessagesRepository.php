@@ -36,6 +36,7 @@ class MessagesRepository extends BaseRepository
             $messages = $messages->where('recipient_id', $admin->id)
                 ->where('recipient_type', get_class($admin));
         }
+        $messages = $messages->where('desactive',0);
         foreach ($orders as $column => $order) {
             $messages = $messages->orderBy($column, $order);
         }

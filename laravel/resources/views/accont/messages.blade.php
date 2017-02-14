@@ -47,7 +47,7 @@
             <div class="fl-right">{!! $messages->render() !!}</div>
             <div class="clear-both"></div>
             <br>
-            <a href="javascript:void(0)" id="pop-remove-msg" class="btn btn-small btn-gray cursor-nodrop">remover</a>
+            <a href="javascript:void(0)" id="pop-remove-msg" data-token="{{csrf_token()}}" class="btn btn-small btn-gray cursor-nodrop">remover</a>
         @endif
     </section>
     <div class="clear-both"></div>

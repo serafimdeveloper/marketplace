@@ -77,12 +77,13 @@ class MessagesController extends AbstractController
         return redirect()->back();
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
         $user = Auth::user();
-
-        dd($user);
-
+        $messages = $this->repo->getByIds($request->ids);
+        $messages->each(function($message){
+            $message->fill(['desactive'=>1])->save();
+        });
         return json_encode(['status' => true]);
     }
 
