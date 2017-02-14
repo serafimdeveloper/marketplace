@@ -50,8 +50,8 @@ $factory->define(Salesman::class, function(Generator $faker){
     $folder = DIRECTORY_SEPARATOR . 'app'. DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . 'vendedor';
     return [
         'user_id' => function(){
-            $element = User::where('type', '=', 'client')->inRandomOrder()->first();
-            $element->save(['type' => 'salesman']);
+            $element = User::where('type_user', '=', 'client')->inRandomOrder()->first();
+            $element->save(['type_user' => 'salesman']);
 
             return $element->id;
         },
@@ -82,7 +82,7 @@ $factory->define(Store::class, function(Generator $faker){
                     $status = true;
                 }else{
                     $user = User::where('id', $salesman->id)->get()->first();
-                    $user->update(['type' => 'salesman']);
+                    $user->update(['type_user' => 'salesman']);
                     return $salesman->id;
                 }
                 break;

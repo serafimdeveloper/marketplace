@@ -313,6 +313,13 @@ $(function () {
                 beforeSend: function () {
                     form.find('button').html('<i class="fa fa-spin fa-spinner"></i> atualizando...');
                 },
+                error: function (data, status) {
+                    form.find('button').html('atualizar');
+                    var trigger = JSON.parse(data.responseText);
+                    $.each(trigger, function (index, element) {
+                        inputerror(false, form.find('input[name=' + index + ']'), element[0]);
+                    });
+                },
                 success: function (data) {
                     form.find('button').html('atualizado com sucesso!');
                     form.parents('.address').slideUp(function () {
@@ -321,10 +328,10 @@ $(function () {
                         }
                         $('#end_' + data.adress.id).replaceWith(window_adress(data.adress, data.action));
                     });
+                    clear_input(form);
                 }
             });
         }
-        clear_input(form);
         return false;
     });
 
@@ -444,10 +451,10 @@ $(function () {
                 var dados = {'ids':indexes, '_token':token};
                 $.post('/accont/messages/destroy', dados, function (response) {
                     if (response.status) {
-                        indexes.each(function (e) {
-                            $('.select_msg').eq(e).hide();
+                        $.each(indexes, function (key, value) {
+                            $('.select_msg').eq(key).parents('tr').hide(800);
                         });
-                        alertify.success('Mensagens excluídas com sucesso!');
+                        // $('body').append('<p class="ajax-trigger accept">Menssagens excluída com sucesso</p>');
                     } else {
                         alertify.error(response.msg);
                     }

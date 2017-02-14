@@ -17,7 +17,7 @@ if(!function_exists('notification_message_client')){
     function notification_message_client($visualized = 'received')
     {
         if($user = Auth::user()){
-            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $user->id)->where('recipient_type', '=', get_class($user))->get();
+            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $user->id)->where('recipient_type', '=', get_class($user))->where('desactive', '=', 0)->get();
             return count($messages);
         }
         return 0;
@@ -28,7 +28,7 @@ if(!function_exists('notification_message_salesman')){
     function notification_message_salesman($visualized = 'received')
     {
         if($store = Auth::user()->salesman->store){
-            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->get();
+            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->where('desactive', '=', 0)->get();
             return count($messages);
         }
         return 0;
