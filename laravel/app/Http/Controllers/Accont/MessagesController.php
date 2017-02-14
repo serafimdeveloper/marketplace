@@ -51,7 +51,6 @@ class MessagesController extends AbstractController
                 }
                 return view('accont.message_info', compact('messages','message'));
             }
-        }else{
             flash('Mensagem não encontrada', 'error');
             return redirect()->back();
         }
