@@ -137,7 +137,9 @@ $(function () {
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json');
+                }, 'json').fail(function(response) {
+                    alertify.error(response.responseJSON.msg);
+                });
                 $('.alertbox-close').click();
             }, function () {
                 return true;
@@ -173,7 +175,11 @@ $(function () {
             beforeSend: function () {
                 implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
             },
+            error: function(response){
+                alertify.error(response.responseJSON.msg);
+            },
             success: function (e) {
+                console.log(e);
                 implementTr.html('');
                 $.each(e, function (i, element) {
                     implementTr.append('<tr><td><a href="/' + element.slug + '" class="fontem-12 c-green-avocadodark">' + element.name + '</a></td><td>' + element.salesman + '</td></tr>');
@@ -197,6 +203,9 @@ $(function () {
                 dataType: 'json',
                 beforeSend: function(){
                     element.parents('form').find('.loader-address').show();
+                },
+                error: function(response){
+                    alertify.error(response.responseJSON.msg);
                 },
                 success: function (data) {
                     var dados = {
@@ -364,6 +373,9 @@ $(function () {
             beforeSend: function(){
                 implementTr.html('<tr><td colspan="2"><i class="fa fa-spin fa-spinner"></i></td></tr>');
             },
+            error: function(response){
+                alertify.error(response.responseJSON.msg);
+            },
             success: function (response) {
                 implementTr.html('');
                 $.each(response, function (i, element) {
@@ -410,6 +422,9 @@ $(function () {
                 dataType: 'json',
                 beforeSend: function () {
                     $('.' + loader).show();
+                },
+                error: function(response){
+                    alertify.error(response.responseJSON.msg);
                 },
                 success: function (response) {
                     if(Object.keys(response.subcategories).length > 0){
@@ -466,8 +481,8 @@ $(function () {
                 beforeSend: function () {
                     $('.' + loader).show();
                 },
-                error: function (response) {
-                    console.log(response);
+                error: function(response){
+                    alertify.error(response.responseJSON.msg);
                 },
                 success: function (response) {
                     $('#quantity').val(response.product);
@@ -505,7 +520,9 @@ $(function () {
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json');
+                }, 'json').fail(function(response){
+                    alertify.error(response.responseJSON.msg);
+                });
             }, function () {
                 return true;
             });
@@ -574,7 +591,9 @@ $(document).on('click', '.jq-new-banner', function () {
                 return false;
             }
         });
-    })
+    }).fail(function(response){
+        alertify.error(response.responseJSON.msg);
+    });
     $("#jq-new-banner").slideDown();
 });
 
@@ -605,6 +624,8 @@ $(document).on('click', '.jq-new-category', function () {
             }
             select.append('<option value="' + i + '"' + selected + '>' + obj + '</option>');
         });
+    }).fail(function(response){
+        alertify.error(response.responseJSON.msg);
     });
 
     $("#jq-new-category").slideDown();
@@ -632,6 +653,7 @@ $(document).on('submit', '#jq-new-category form', function () {
             },
             error: function (data, status) {
                 form.find('button').html(buttonText);
+                alertify.error(data.responseJSON.msg);
             },
             success: function (data) {
                 form.find('button').html(buttonText);
@@ -645,6 +667,9 @@ $(document).on('submit', '#jq-new-category form', function () {
             data: dados,
             beforeSend: function () {
                 form.find('button').html(buttonTextloading);
+            },
+            error: function(){
+                alertify.error(response.responseJSON.msg);
             },
             success: function (data) {
                 form.find('button').html(buttonText);
@@ -755,6 +780,7 @@ function switchForm(t) {
     }
     return r;
 }
+
 
 /**
  * verifica os input de acordo com as regras estipuladas e chama uma função que determina um erro
@@ -890,7 +916,9 @@ function blockStore() {
                 } else {
                     alertify.error(response.msg);
                 }
-            }, 'json');
+            }, 'json').fail(function(response){
+                alertify.error(response.responseJSON.msg);
+            });
         }, function () {
             return true;
         });
@@ -913,7 +941,9 @@ function removePrduct() {
                 } else {
                     alertify.error(response.msg);
                 }
-            }, 'json');
+            }, 'json').fail(function(response){
+                alertify.error(response.responseJSON.msg);
+            });
         }, function () {
             return true;
         });
@@ -944,7 +974,9 @@ function removeImgGarely() {
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json');
+                }, 'json').fail(function(response){
+                    alertify.error(response.responseJSON.msg);
+                });
             }, function () {
                 return true;
             });
