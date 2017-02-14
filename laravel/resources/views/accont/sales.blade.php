@@ -26,7 +26,7 @@
                     <td>R${{number_format($request->amount,'2',',','.')}}</td>
                     <td>{{$request->user->name}}</td>
                     <td class="t-status t-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</td>
-                    <td class="txt-center"><a href="/accont/salesman/sale/1" class="t-popmartin">detalhes</a></td>
+                    <td class="txt-center"><a href="{{route('accont.salesman.sale_info',$request->id)}}" class="t-popmartin">detalhes</a></td>
                 </tr>
             @empty
             @endforelse

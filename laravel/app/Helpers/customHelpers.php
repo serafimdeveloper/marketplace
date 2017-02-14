@@ -34,3 +34,15 @@ if(!function_exists('notification_message_salesman')){
         return 0;
     }
 }
+
+if(!function_exists('amount_products')){
+    function amount_products($products){
+        $amount = 0;
+        foreach($products as $product){
+            $amount+= $product->pivot->amount;
+        }
+        return number_format($amount,2,',','.');
+    }
+}
+
+

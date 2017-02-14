@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Request extends Model
 {
     protected $fillable =['user_id','adress_id','freight_id','settlement_date','cancellation_date','send_date','payment_id',
-        'number_installments','freight_price','payment_reference','note','request_status_id','amount'];
+        'number_installments','tracking_code','freight_price','payment_reference','note','request_status_id','amount'];
 
     protected  $dates = ['create_at','update_at','cancellation_date','send_date','settlement_date'];
 

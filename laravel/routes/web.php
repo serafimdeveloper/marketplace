@@ -44,9 +44,8 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
         Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
 
-        Route::get('sale/{id}', function(){
-            return view('accont.sale_info');
-        })->name('sale_info');
+        Route::get('sale/{id}', 'Salesmans\SalesController@edit')->name('sale_info');
+        Route::post('/sale/tracking_code/{id}','Salesmans\SalesController@tracking_code')->name('request.tracking_code');
 
         Route::get('/etiqueta', function(){
             return view('layouts.parties.etiqueta');

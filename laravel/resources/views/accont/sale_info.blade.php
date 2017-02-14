@@ -10,20 +10,22 @@
             <div class="colbox">
                 <div class="colbox-2">
                     <p>
-                        <span class="fontw-500">Status:</span> <span class="c-green fontw-600">PAGO</span> <span class="c-blue fontw-600">aguardando envio</span><br>
-                        <span class="fontw-500">Pedido N°:</span> 125668<br>
-                        <span class="fontw-500">Data:</span> hoje às 13:25:86<br>
-                        <span class="fontw-500">Cliente:</span> Maria da Silva
+                        <span class="fontw-500">Status:</span> <span class="c-green fontw-600">{{ $request->requeststatus->description }}</span><span class="c-blue fontw-600"> {{isset($rastreamento[0]) ? $rastreamento[0]->status :'aguardando envio'}}</span><br>
+                        <span class="fontw-500">Pedido N°:</span> {{$request->key}}<br>
+                        <span class="fontw-500">Data:</span> {{$request->created_at->diffForHumans()}}<br>
+                        <span class="fontw-500">Cliente:</span> {{$request->user->name}}
                     </p>
                 </div>
                 <div class="colbox-2">
-                    <form class="form-modern pop-form pst-relative pop-tracking" action="" method="POST">
+                    {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
                         <label>
                             <span>Código de rastreio dos correios</span>
-                            {!! Form::text('tracking', null, ['placeholder' => 'código']) !!}
+                            {!! Form::text('tracking_code', null, ['placeholder' => 'código']) !!}
+                            <span class="alert hidden"></span>
+                            <span class="fa fa-spinner fa-spin jq-loader dp-none loader-2"></span>
                         </label>
                         <button type="submit" class="btn btn-small btn-popmartin">enviar</button>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div>
             <div class="clear-both"></div>
@@ -39,18 +41,19 @@
                 </thead>
 
                 <tbody>
-                @for ($i = 0; $i < 3; $i++)
+                @forelse($request->products as $product)
                     <tr>
-                        <td><img src="{{ url('image/img-exemple.jpg') }}"></td>
-                        <td><a href="/loja/nome/categoria/produto" class="fontem-12" target="_blank">produto X</a></td>
-                        <td>1</td>
-                        <td><span class="fontem-12">R$14,90</span></td>
-                        <td class="t-active bold"><span class="fontem-12">R$14,90</span></td>
+                        <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->image) }}"></td>
+                        <td><a href="/loja/nome/categoria/produto" class="fontem-12" target="_blank">{{$product->name}}</a></td>
+                        <td>{{$product->pivot->quantity}}</td>
+                        <td><span class="fontem-12">R${{number_format($product->pivot->unit_price,2,',','.')}}</span></td>
+                        <td class="t-active bold"><span class="fontem-12">R${{ number_format($product->pivot->amount,2,',',',') }}</span></td>
                     </tr>
-                @endfor
+                @empty
+                @endforelse
                 <tr>
                     <td>Total</td>
-                    <td class="t-active bold" colspan="4"><span class="fontem-18 fontw-800">R$42,80</span></td>
+                    <td class="t-active bold" colspan="4"><span class="fontem-18 fontw-800">R${{amount_products($request->products)}}</span></td>
                 </tr>
                 </tbody>
             </table>

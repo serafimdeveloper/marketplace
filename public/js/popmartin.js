@@ -432,8 +432,6 @@ $(function () {
     function resetChange(e) {
         e.children().removeAttr('selected');
     }
-
-
     /**
      * Apagar mensagens selecionadas em tempo real
      */

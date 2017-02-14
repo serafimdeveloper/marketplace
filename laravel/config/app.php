@@ -235,7 +235,7 @@ return [
         */
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Correios'    => Cagartner\CorreiosConsulta\Facade::class,
+        'Correios' => Cagartner\CorreiosConsulta\Facade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
