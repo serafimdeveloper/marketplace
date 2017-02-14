@@ -8,7 +8,7 @@
                 com {{ $message->sender->name }} {{ $message->sender->last_name }}</h1>
         </header>
         @if(isset($message->request) && Request::segment(2) == 'messages')
-            <div class="trigger notice">
+            <div class="trigger notice jq-scrollposition">
                 <a href="/accont/requests/{{ $message->request->id }}" class="c-white">
                     <i class="fa fa-newspaper-o"></i>
                     Conversa relacionada ao <b>pedido</b>: {{ $message->request->key }}
@@ -16,7 +16,7 @@
                 </a>
             </div>
         @elseif(isset($message->request))
-            <div class="trigger notice">
+            <div class="trigger notice jq-scrollposition">
                 <a href="/accont/salesman/sale/{{ $message->request_id }}" class="c-white">
                     <i class="fa fa-newspaper-o"></i>
                     Conversa relacionada a <b>venda</b>: {{ $message->request->key }}
@@ -24,7 +24,7 @@
                 </a>
             </div>
         @elseif(isset($message->product))
-            <div class="trigger notice">
+            <div class="trigger notice jq-scrollposition">
                 <a href="/juca/produto/{{ $message->product->slug }}" class="c-white" target="_blank">
                     <img class="dp-inblock vertical-middle"
                          src="{{ url('imagem/produto/' . $message->product->galeries[0]->image . '?w=42&h=42&filt=crop') }}"
@@ -84,7 +84,7 @@
             if(typeof hash === 'number'){
                 console.log('chegou');
                 var position = $('#'+hash).offset();
-                $("html, body").animate({scrollTop:position.top}, 1200);
+                $("html, body").animate({scrollTop:position.top - 125}, 1200);
             }
         });
     </script>

@@ -57,6 +57,16 @@ $(function () {
     $('.tooltip').tooltipster();
 
 
+    $(window).scroll(function(){
+        var scroll = $(this).scrollTop();
+        if(scroll > 100){
+            $('.jq-scrollposition').addClass('pop-notice-msg-fixed');
+        }else{
+            $('.jq-scrollposition').removeClass('pop-notice-msg-fixed');
+        }
+    });
+
+
     /**
      * Verifica os input segundo as regras atribuídas e para a escução caso haja um submit
      */

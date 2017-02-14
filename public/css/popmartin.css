@@ -210,6 +210,7 @@ input{padding: 5px;width: 100%;}
 
 .current_rout{background-color: #BDBDBD;font-weight: bold;padding-left: 20px!important;}
 .pop-select-cep tr{cursor: pointer;}
+.pop-notice-msg-fixed{position: fixed;z-index: 9;top: 0;right: 5px;width: 75%;}
 /*******************************************************************
 ********************** FIM PAINEL ADMINISTRATIVO *******************
  ******************************************************************/
@@ -276,6 +277,7 @@ input{padding: 5px;width: 100%;}
     .panel-top-header{height: 60px;padding: 8px 0;}
     .panel-top-header .pop-logo{left: 5px;top: -5px;width: 80px;}
     .panel-icon-mobile{display: block;}
+    .pop-notice-msg-fixed{width: 95%;}
 }
 @media(max-width: 62.5em){ /*1000px */
     .pop-ads img{vertical-align: middle;}
