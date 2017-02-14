@@ -1,8 +1,6 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,700,900';
 @import url("colors.css");
 @import url("font-awesome.min.css");
-@import url("../lib/alertfy/alertify.core.css");
-@import url("../lib/alertfy/alertify.default.css");
 *{font-family: Roboto, arial, verdana, sans-serif;font-weight: 300;margin: 0;padding: 0;outline: 0;font-size: 1em;line-height: 1.2em;letter-spacing: 0;box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;}
 :before, :after{margin: 0;padding: 0;outline: 0;}
 body, html{height: 100%;}
