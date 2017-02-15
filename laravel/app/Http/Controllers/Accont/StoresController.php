@@ -34,7 +34,7 @@ class StoresController extends AbstractController
             return  redirect()->route('accont.home');
         }
         $salesman = Auth::user()->salesman;
-        $adress = $salesman->store->address;
+        $adress = isset($salesman->store->address) ? $salesman->store->address : '';
         if($store = $salesman->store){
             return view('accont.stores', compact('store','salesman', 'adress'));
         }
@@ -115,6 +115,20 @@ class StoresController extends AbstractController
         $page = Input::get('page');
         $stores = $this->repo->all($this->columns, $this->with,[],['name'=>'ASC'],10,$page);
         return view('accont.searchstore', compact('stores'));
+    }
+
+    public function blocked(){
+        $user = Auth::user();
+        if($store = $user->salesman->store){
+            if($store->active === 1){
+                $store->fill(['active' => 0])->save();
+                return response()->json(['status'=>true,'lock'=>true],200);
+            }else{
+                $store->fill(['active' => 1])->save();
+                return response()->json(['status'=>true,'lock'=>false],200);
+            }
+        }
+        return response()->json(['msg'=>'Erro ao bloquear a loja'],500);
     }
 
     public function search(Request $request){

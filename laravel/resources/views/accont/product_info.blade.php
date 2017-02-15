@@ -158,6 +158,7 @@
                         <label>
                             <span>Estoque Atual</span>
                             {!! Form::text('quantity', null, ['placeholder' => '0', 'id'=>'quantity', 'readonly' => 'true']) !!}
+                            <span class="alert hidden"></span>
                             <span class="fa fa-spinner fa-spin jq-loader dp-none loader-2"></span>
                         </label>
                     </div>

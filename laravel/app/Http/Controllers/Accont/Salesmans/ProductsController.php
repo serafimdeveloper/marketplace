@@ -46,7 +46,6 @@ class ProductsController extends AbstractController
         }
         flash('Antes de cadastrar um produto tem que criar uma loja!', 'warning');
         return redirect()->route('accont.salesman.stores');
-
     }
 
     public function create()
@@ -95,6 +94,7 @@ class ProductsController extends AbstractController
     {
         $dados = $request->except('type_operation_stock');
         $dados['price_out_discount'] = isset($request->price_out_discount) ? $request->price_out_discount : 'null';
+        $dados['category_id'] = isset($request->subcategory_id) ? $request->subcategory_id : $request->category_id;
         if($product = $this->repo->update($dados,$id)){
             $value = 1;
             for ($i = 0; $i < 5; $i++) {
@@ -125,9 +125,33 @@ class ProductsController extends AbstractController
                 Storage::delete('img/produto/'.$galery->image);
             }
             $galery->delete($image);
-            return response()->json(['status'=>true],200);
+            return response()->json(['imagem removida com sucesso'],200);
         }
         return response()->json(['msg'=>'Erro ao deletar a imagem'],500);
+    }
+
+    public function desactive($id){
+        if($product = $this->repo->get($id)){
+            if($product->active){
+                $product->fill(['active'=>0])->save();
+                return response()->json(['status'=>true],200);
+            }
+            return response()->json(['msg'=>'Erro ao desativar, o produto já está desativado'],500);
+        }
+        return response()->json(['msg'=>'Erro ao desativar'],500);
+    }
+
+    public function destroy($id)
+    {
+        if ($products = $this->repo->get($id, ['*'], ['requests'])) {
+            if ($requests =$products->requests->where(['finalized' => 0])) {
+                return response()->json(compact('requests'),406);
+            } else {
+                $products->delete();
+                return response()->json(['Produto excluído']);
+            }
+        }
+        return response()->json(['msg'=>'Produto não encontrado'],404);
     }
 }
 
