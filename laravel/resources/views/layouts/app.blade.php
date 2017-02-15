@@ -10,8 +10,8 @@
         <link href="/frontend/lib/owlcarousel/owl.carousel.min.css" rel="stylesheet">
         <link href="/frontend/lib/owlcarousel/theme/owl.theme.default.min.css" rel="stylesheet">
         <link href="/frontend/lib/tooltipster/css/tooltipster.bundle.min.css" rel="stylesheet">
-        <link href="/frontend/lib/alertfy/css/alertify.rtl.min.css" rel="stylesheet">
-        <link href="/frontend/lib/alertfy/css/themes/default.rtl.min.css" rel="stylesheet">
+        <link href="/frontend/lib/alertfy/css/alertify.min.css" rel="stylesheet">
+        <link href="/frontend/lib/alertfy/css/themes/semantic.rtl.min.css" rel="stylesheet">
         @yield('css')
         <link href="/css/popmartin.css" rel="stylesheet">
 

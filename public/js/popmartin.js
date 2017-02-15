@@ -5,6 +5,8 @@
 
 var alertfyConfirmTitle = 'Pop Martin alerta!';
 $(function () {
+
+    alertify.warning("Avido de corte agora!");
     /**
      * Carousel para container de publicidade no topo do site
      * @type {{loop: boolean, margin: number, responsive: {0: {items: number}, 400: {items: number}, 600: {items: number}, 700: {items: number}, 900: {items: number}}, autoplay: boolean, autoplayTimeout: number, autoplayHoverPause: boolean}}
