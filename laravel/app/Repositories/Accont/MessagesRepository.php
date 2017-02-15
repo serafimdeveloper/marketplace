@@ -69,7 +69,8 @@ class MessagesRepository extends BaseRepository
            $messages = $messages->orderBy($column, $order);
        }
 
-       $messages = $messages->paginate($limit,['*'], 'page', $page);
+//       $messages = $messages->paginate($limit,['*'], 'page', $page);
+       $messages = $messages->get();
        return $messages;
 
     }

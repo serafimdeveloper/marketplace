@@ -52,7 +52,7 @@
                         <td>{{ $awnser->content }}</td>
                     </tr>
              @endforeach
-             {!! $messages->links() !!}
+             {{--{!! $messages->links() !!}--}}
             </tbody>
         </table>
         <div>
