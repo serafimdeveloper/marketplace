@@ -7,12 +7,21 @@
             <h1>Detalhe do pedido</h1>
         </header>
         <div class="padding10-20">
-            <p>
-                <span class="fontw-500">Status:</span> <span class="fontw-500 c-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</span><br>
-                <span class="fontw-500">Pedido:</span> {{ $request->key }}<br>
-                <span class="fontw-500">Data:</span> {{ $request->created_at->format('d/m/Y H:i:s') }}<br>
-                <span class="fontw-500">Loja:</span> {{ $request->store->name }}
-            </p>
+            <div class="coltable pop-header-request">
+                <div class="coltable-8">
+                    <p>
+                        <span class="fontw-500">Status:</span> <span class="fontw-500 c-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</span><br>
+                        <span class="fontw-500">Pedido:</span> {{ $request->key }}<br>
+                        <span class="fontw-500">Data:</span> {{ $request->created_at->format('d/m/Y H:i:s') }}<br>
+                        <span class="fontw-500">Loja:</span> {{ $request->store->name }}
+                    </p>
+                </div>
+                <div class="coltable-4 txt-right">
+                    <a class="btn btn-small btn-popmartin-trans txt-center"><i class="fa fa-star"></i> avaliar</a>
+                    <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar o vendedor</a>
+                </div>
+            </div>
+
 
             <table class="table table-action">
                 <thead>
@@ -28,7 +37,7 @@
                 <tbody>
                 @foreach($request->products as $product)
                     <tr>
-                        <td><img src="{{ url('imagem/produto/' . $product->galeries[0]->image) }}"></td>
+                        <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image) }}"></td>
                         <td><a href="/loja/nome/categoria/produto" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                         <td>{{ $product->pivot->quantity }}</td>
                         <td><span class="fontem-12">R${{ number_format($product->pivot->unit_price, 2, ',', '')}}</span></td>
@@ -66,6 +75,7 @@
             <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-pop fontw-900">R$74,80</span></p>
         </div>
     </section>
+    @include('layouts.parties.alert_message')
     <div class="clear-both"></div>
     <br>
     <br>

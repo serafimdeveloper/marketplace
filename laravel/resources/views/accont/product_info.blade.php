@@ -256,5 +256,4 @@
             informações estejam corretas.</p>
     </section>
     <div class="clear-both"></div>
-    <div class="padding20"></div>
 @endsection

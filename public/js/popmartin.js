@@ -53,6 +53,10 @@ $(function () {
     });
 
 
+    $(".jq-new-message").click(function(){
+        $("#jq-new-message").show();
+    });
+
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
 
@@ -565,6 +569,11 @@ $(function () {
     $('.pop-cart-obs form a').click(function () {
         $(this).parents('form').hide().siblings('.show-formobs').show();
     });
+
+    $('.jq-close-alertbox').on('click', function () {
+        $('.alertbox-close').click();
+    })
+
 });
 /** Modal de informações de usuarios */
 $(document).on('click', '.jq-info-user', function () {
@@ -820,13 +829,18 @@ function verificaform(f) {
  */
 function verifySubmit(f) {
     var r = false;
-    f.find('input').each(function () {
-        var t = $(this);
-        r = switchForm(t);
-        if (!r) {
-            return false;
-        }
-    });
+    if(f.find('input').length){
+        f.find('input').each(function () {
+            var t = $(this);
+            r = switchForm(t);
+            if (!r) {
+                return false;
+            }
+        });
+    }else{
+        return true;
+    }
+
     return r;
 }
 /**
