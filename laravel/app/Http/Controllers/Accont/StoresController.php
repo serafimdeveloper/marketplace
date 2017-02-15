@@ -117,17 +117,18 @@ class StoresController extends AbstractController
         return view('accont.searchstore', compact('stores'));
     }
 
-    public function change_store(){
+    public function blocked(){
         $user = Auth::user();
         if($store = $user->salesman->store){
-            if($store->active){
-                $store->save(['active' => 0]);
+            if($store->active === 1){
+                $store->fill(['active' => 0])->save();
+                return response()->json(['status'=>true,'lock'=>true],200);
             }else{
-                $store->save(['active' => 1]);
+                $store->fill(['active' => 1])->save();
+                return response()->json(['status'=>true,'lock'=>false],200);
             }
-            return response()->json(['status'=>true],200);
         }
-        return response()->json(['status'=>false],500);
+        return response()->json(['msg'=>'Erro ao bloquear a loja'],500);
     }
 
     public function search(Request $request){

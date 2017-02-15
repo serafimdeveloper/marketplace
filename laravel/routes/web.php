@@ -38,6 +38,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         Route::get('stores', 'StoresController@create')->name('stores');
         Route::post('stores', 'StoresController@store')->name('stores.store');
         Route::post('stores/update', 'StoresController@update')->name('stores.update');
+        Route::get('stores/block', 'StoresController@blocked')->name('stores.blocked');
 
         Route::resource('products', 'Salesmans\ProductsController');
         Route::get('products/change/{product}','Salesman\ProductsController@desactive')->name('producta.desactive');

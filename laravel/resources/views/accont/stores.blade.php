@@ -6,9 +6,12 @@
         <header class="pop-title">
             <h1>Minha loja</h1>
             @if(isset($store))
-                <span class="btn btn-smallextreme btn-popmartin jq-block-store" data-id="{{ $store->id }}" style="margin-right: 70px;">
-                    <i class="fa fa-unlock vertical-middle"></i>
-                    bloquear loja
+                <span class="btn btn-smallextreme btn-popmartin jq-block-store" style="margin-right: 70px;">
+                    @if($store->active === 0)
+                        <i class="fa fa-unlock vertical-middle"></i> bloquear loja
+                    @else
+                        <i class="fa fa-lock vertical-middle"></i> desbloquear loja
+                    @endif
                 </span>
                 <a href="{{ url('/'. $store->slug) }}" class="btn btn-smallextreme btn-popmartin" target="_blank">
                     <i class="fa fa-external-link vertical-middle"></i>
