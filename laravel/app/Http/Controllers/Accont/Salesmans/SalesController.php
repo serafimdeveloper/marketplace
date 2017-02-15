@@ -10,10 +10,12 @@ namespace App\Http\Controllers\Accont\Salesmans;
 
 
 use App\Http\Controllers\AbstractController;
+use App\Model\Store;
 use App\Repositories\Accont\RequestsRepository;
 use App\Model\Category;
 use App\Http\Requests\Accont\Salesman\ProductsStoreRequest;
 use Auth;
+use PDF;
 use Correios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -79,8 +81,12 @@ class SalesController extends AbstractController
 
     }
 
-
-    private function salve_imgs(){
+    public function tag($id){
+        if($request = $this->repo->get($id,$this->columns,$this->with)){
+            $store = Store::with(['adress'])->find($request->store->id);
+            $pdf = PDF::loadView('layouts.parties.etiqueta',['request' => $request,'store'=> $store]);
+            return $pdf->download($request->key.'.pdf');
+        }
 
     }
 }

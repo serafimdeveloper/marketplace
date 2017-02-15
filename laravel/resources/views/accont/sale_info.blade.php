@@ -83,7 +83,7 @@
             <div class="clear-both"></div>
         </div>
         <div class="txt-center">
-            <a href="" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
+            <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
         </div>
 
     </section>

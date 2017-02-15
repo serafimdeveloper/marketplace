@@ -117,6 +117,19 @@ class StoresController extends AbstractController
         return view('accont.searchstore', compact('stores'));
     }
 
+    public function change_store(){
+        $user = Auth::user();
+        if($store = $user->salesman->store){
+            if($store->active){
+                $store->save(['active' => 0]);
+            }else{
+                $store->save(['active' => 1]);
+            }
+            return response()->json(['status'=>true],200);
+        }
+        return response()->json(['status'=>false],500);
+    }
+
     public function search(Request $request){
         $stores = $this->repo->search($request->name);
         $stores = $stores->map(function($store){

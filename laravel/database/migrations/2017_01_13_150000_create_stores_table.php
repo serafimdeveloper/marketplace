@@ -34,6 +34,7 @@ class CreateStoresTable extends Migration
             $table->string('slug')->nullable();
             $table->decimal('rate',3,2)->nullable();
             $table->boolean('active')->default(0);
+            $table->boolean('blocked')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

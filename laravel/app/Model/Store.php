@@ -37,7 +37,7 @@ class Store extends Model
         return $this->belongsTo(Salesman::class);
     }
 
-    public function address(){
+    public function adress(){
         return $this->hasOne(Adress::class);
     }
 

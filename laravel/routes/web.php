@@ -40,16 +40,15 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         Route::post('stores/update', 'StoresController@update')->name('stores.update');
 
         Route::resource('products', 'Salesmans\ProductsController');
+        Route::get('products/change/{product}','Salesman\ProductsController@desactive')->name('producta.desactive');
         Route::get('products/remove/image/{image}','Salesmans\ProductsController@removeImage')->name('products.image.remove');
 
         Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
 
         Route::get('sale/{id}', 'Salesmans\SalesController@edit')->name('sale_info');
-        Route::post('/sale/tracking_code/{id}','Salesmans\SalesController@tracking_code')->name('request.tracking_code');
+        Route::post('sale/tracking_code/{id}','Salesmans\SalesController@tracking_code')->name('request.tracking_code');
 
-        Route::get('/etiqueta', function(){
-            return view('layouts.parties.etiqueta');
-        })->name('etiqueta');
+        Route::get('etiqueta/{id}', 'Salesmans\SalesController@tag')->name('etiqueta');
 
     });
 
@@ -109,7 +108,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/adresses/{action}','AdressesController@store')->name('adress.store');
     Route::get('/adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
     Route::post('/adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
-    Route::delete('/adresses/{action}/{adress}','AdressesController@destroy')->name('adress.destroy');
+    Route::delete('/adresses/destroy/{adress}','AdressesController@destroy')->name('adress.destroy');
 });
 Route::get('/info/{page}', function ($title) {
     $data['title'] = $title;

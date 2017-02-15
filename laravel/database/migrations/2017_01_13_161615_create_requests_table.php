@@ -38,6 +38,7 @@ class CreateRequestsTable extends Migration
             $table->string('payment_reference',50)->nullable();
             $table->text('note')->nullable();
             $table->boolean('visualized')->default(0);
+            $table->boolean('finalized')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

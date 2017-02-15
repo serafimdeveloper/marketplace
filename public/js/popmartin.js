@@ -101,9 +101,7 @@ $(function () {
     $(document).on('click', '.jq-address', function () {
         $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
         var action = $(this).data('action')
-        console.log(action);
         if(action == 'store'){
-            console.log(action);
             $('#form-adress').find("label span").first().text('Loja');
             $('#form-adress').find("label input").first().val('Endereço').attr('readonly', true);
         }
@@ -112,7 +110,6 @@ $(function () {
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
             $.get('/accont/adresses/' + action + '/' + $(this).data('id'), function (data) {
-                console.log(data);
                 inputvalue(data);
             }, 'json');
         } else {
@@ -126,18 +123,19 @@ $(function () {
 
     $(document).on('click', '.jq-remove-address', function () {
         var element = $(this);
-        alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover este endereço?',
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este endereço?',
             function () {
                 var id = element.data('id');
-                var index = {id: id}
-                $.post('/adresses/destroy', index, function (response) {
+                $.get('/adresses/destroy/'+id, function (response) {
                     if (response.status) {
                         alertify.success('Endereço removido!');
 
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json');
+                }, 'json').fail(function(response) {
+                    alertify.error(response.responseJSON.msg);
+                });
                 $('.alertbox-close').click();
             }, function () {
                 return true;
@@ -173,7 +171,11 @@ $(function () {
             beforeSend: function () {
                 implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
             },
+            error: function(response){
+                alertify.error(response.responseJSON.msg);
+            },
             success: function (e) {
+                console.log(e);
                 implementTr.html('');
                 $.each(e, function (i, element) {
                     implementTr.append('<tr><td><a href="/' + element.slug + '" class="fontem-12 c-green-avocadodark">' + element.name + '</a></td><td>' + element.salesman + '</td></tr>');
@@ -198,6 +200,9 @@ $(function () {
                 beforeSend: function(){
                     element.parents('form').find('.loader-address').show();
                 },
+                error: function(response){
+                    alertify.error(response.responseJSON.msg);
+                },
                 success: function (data) {
                     var dados = {
                         'state': data.uf,
@@ -214,39 +219,6 @@ $(function () {
         }
     });
 
-    /**
-     * Máscara do Telefone e Celular
-     */
-    $('.celphone').bind("keyup", function (e) {
-        var valor = $(this).val();
-        console.log(valor.length);
-        if ((',8,37,39,').indexOf(',' + e.keyCode + ',')) {
-            valor = valor.replace(/[^0-9]+g/, "");
-
-            if (valor.length > 2 && valor.length <= 5) {
-                $(this).val('(' + valor.substring(0, 2) + ') ');
-            }
-            else if (valor.length == 9) {
-                $(this).val(valor.substring(0, 9) + "-");
-            }
-            else if (valor.length == 14) {
-                var hifen = valor.indexOf('-');
-                if (hifen != 9) {
-                    var elem = valor.charAt(hifen - 1);
-                    valor = valor.replace(elem + '-', '-' + elem);
-                }
-                $(this).val(valor.substring(0, 14));
-            }
-            else if (valor.length == 15) {
-                var hifen = valor.indexOf('-');
-                if (hifen == 9) {
-                    var elem = valor.charAt(hifen + 1);
-                    valor = valor.replace('-' + elem, elem + '-');
-                }
-                $(this).val(valor.substring(0, 15));
-            }
-        }
-    });
 
     /**
      * Máscara de telefone e celular.
@@ -364,10 +336,15 @@ $(function () {
             beforeSend: function(){
                 implementTr.html('<tr><td colspan="2"><i class="fa fa-spin fa-spinner"></i></td></tr>');
             },
+            error: function(response){
+                alertify.error(response.responseJSON.msg);
+            },
             success: function (response) {
                 implementTr.html('');
                 $.each(response, function (i, element) {
-                    implementTr.append('<tr data-cep="' + element.cep + '"><td>' + element.cep + '</td><td>' + element.logradouro + ' | <b>' + element.bairro + ' - ' + element.cidade + '</b> - ' + element.estado + '</td></tr>');
+                    console.log(element, 'value');
+                    console.log(i, 'properties');
+                    implementTr.append('<tr data-cep="' + element + '"><td>' + element + '</td><td>' + element.logradouro + ' | <b>' + element.bairro + ' - ' + element.cidade + '</b> - ' + element.estado + '</td></tr>');
                 });
             }
         })
@@ -410,6 +387,9 @@ $(function () {
                 dataType: 'json',
                 beforeSend: function () {
                     $('.' + loader).show();
+                },
+                error: function(response){
+                    alertify.error(response.responseJSON.msg);
                 },
                 success: function (response) {
                     if(Object.keys(response.subcategories).length > 0){
@@ -507,7 +487,9 @@ $(function () {
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json');
+                }, 'json').fail(function(response){
+                    alertify.error(response.responseJSON.msg);
+                });
             }, function () {
                 return true;
             });
@@ -576,7 +558,9 @@ $(document).on('click', '.jq-new-banner', function () {
                 return false;
             }
         });
-    })
+    }).fail(function(response){
+        alertify.error(response.responseJSON.msg);
+    });
     $("#jq-new-banner").slideDown();
 });
 
@@ -607,6 +591,8 @@ $(document).on('click', '.jq-new-category', function () {
             }
             select.append('<option value="' + i + '"' + selected + '>' + obj + '</option>');
         });
+    }).fail(function(response){
+        alertify.error(response.responseJSON.msg);
     });
 
     $("#jq-new-category").slideDown();
@@ -634,6 +620,7 @@ $(document).on('submit', '#jq-new-category form', function () {
             },
             error: function (data, status) {
                 form.find('button').html(buttonText);
+                alertify.error(data.responseJSON.msg);
             },
             success: function (data) {
                 form.find('button').html(buttonText);
@@ -647,6 +634,9 @@ $(document).on('submit', '#jq-new-category form', function () {
             data: dados,
             beforeSend: function () {
                 form.find('button').html(buttonTextloading);
+            },
+            error: function(){
+                alertify.error(response.responseJSON.msg);
             },
             success: function (data) {
                 form.find('button').html(buttonText);
@@ -757,6 +747,7 @@ function switchForm(t) {
     }
     return r;
 }
+
 
 /**
  * verifica os input de acordo com as regras estipuladas e chama uma função que determina um erro
@@ -878,7 +869,7 @@ function blockStore() {
     var id = element.data('id');
     var index = {id: id}
     var txt = element.text().trim();
-    var msg = (txt == 'bloquear loja' ? 'Tem certesa de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem?')
+    var msg = (txt == 'bloquear loja' ? 'Tem certeza de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem?')
     alertify.confirm(alertfyConfirmTitle, msg,
         function () {
             $.get('', index, function (response) {
@@ -892,7 +883,9 @@ function blockStore() {
                 } else {
                     alertify.error(response.msg);
                 }
-            }, 'json');
+            }, 'json').fail(function(response){
+                alertify.error(response.responseJSON.msg);
+            });
         }, function () {
             return true;
         });
@@ -904,18 +897,41 @@ function blockStore() {
 function removePrduct() {
     var element = $(this);
     var id = element.data('id');
-    var index = {id: id}
 
     alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este produto?',
         function () {
-            $.get('', index, function (response) {
-                if (response.status) {
-                    element.parents('tr').slideUp(500);
-                    alertify.success('Produto removido');
-                } else {
-                    alertify.error(response.msg);
+            $.ajax({
+                url: '/accont/salesman/products/' + id,
+                method: 'DELETE',
+                type: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        element.parents('tr').slideUp(500);
+                        alertify.success('Produto removido');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                },
+                error: function (response) {
+                    if (response.status === 406) {
+                        alertify.confirm(alertfyConfirmTitle, 'Voce tem pendências, você não pode remover este produto, no máximo pode desativar deseja fazer isso agora?  ',
+                            function () {
+                                $.get('accont/salesman/products/change/'+id, function(response){
+                                    if (response.status) {
+                                        element.parents('tr').slideUp(500);
+                                        alertify.success('Produto removido');
+                                    }
+                                },'json').fail(function(response){
+                                    alertify.error(response.responseJSON.msg);
+                                });
+                            }, function () {
+                                return true;
+                            });
+                    }else{
+                        alertify.error(response.responseJSON.msg);
+                    }
                 }
-            }, 'json');
+            });
         }, function () {
             return true;
         });
@@ -935,7 +951,7 @@ function removeImgGarely() {
         clearImgGalery(element);
     }
     if(textImg.length > 0){
-        alertify.confirm(alertfyConfirmTitle, 'Tem certesa de que deseja remover esta imagem?',
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esta imagem?',
             function () {
                 var id = element.data('id');
                 var prev = element.data('preview');
@@ -946,7 +962,9 @@ function removeImgGarely() {
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json');
+                }, 'json').fail(function(response){
+                    alertify.error(response.responseJSON.msg);
+                });
             }, function () {
                 return true;
             });
