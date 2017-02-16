@@ -17,7 +17,7 @@
                     </p>
                 </div>
                 <div class="coltable-4 txt-right">
-                    <a class="btn btn-small btn-popmartin-trans txt-center"><i class="fa fa-star"></i> avaliar</a>
+                    <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i class="fa fa-star"></i> valiado / avaliar</a>
                     <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar o vendedor</a>
                 </div>
             </div>
@@ -73,10 +73,11 @@
             </table>
             <hr>
             <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-pop fontw-900">R$74,80</span></p>
+            <div class="padding30"></div>
         </div>
     </section>
-    @include('layouts.parties.alert_message')
     <div class="clear-both"></div>
-    <br>
-    <br>
 @endsection
+@include('layouts.parties.alert_message')
+@include('layouts.parties.alert_rating')
+<div class="clear-both"></div>
