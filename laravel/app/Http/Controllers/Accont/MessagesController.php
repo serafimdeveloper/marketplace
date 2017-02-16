@@ -25,32 +25,36 @@ class MessagesController extends AbstractController
         return MessagesRepository::class;
     }
 
-    public function index($type)
+    public function index($type, $box = 'received')
     {
+        if($box !== 'received' && $box !== 'send'){
+            return redirect()->route('accont.home');
+        }
+        $data = ['type' => $type, 'box' => $box];
         if($type == 'user'){
-            $messages = $this->getAllMessages($type);
-            return view('accont.messages', compact('messages'));
+            $messages = $this->getAllMessages($data);
+            return view('accont.messages', compact('messages', 'type', 'box'));
         }else if($type == 'store'){
             if ($store = Auth::user()->salesman->store) {
-                $messages = $this->getAllMessages($type);
-                return view('accont.messages', compact('messages'));
+                $messages = $this->getAllMessages($data);
+                return view('accont.messages', compact('messages', 'type', 'box'));
             }
         }
         flash('Precisa possuir uma loja para ver as mensagens', 'warning');
         return redirect()->route('accont.salesman.stores');
     }
 
-    public function show($id)
+    public function show($box, $id)
     {
-//        $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-//        ,5,$page
         if($message = $this->repo->get($id)){
-            if(Gate::allows('read_message', $message)){
+            if(Gate::allows('read_message', [$message, $box])){
                 $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC']);
                 if($message->status === 'received'){
                     $message->update(['status' => 'readed']);
                 }
-                return view('accont.message_info', compact('messages','message'));
+                $user = Auth::user();
+                $eu = $user->name;
+                return view('accont.message_info', compact('messages','message', 'box', 'eu'));
             }
             flash('Mensagem não encontrada', 'error');
             return redirect()->back();
@@ -58,23 +62,21 @@ class MessagesController extends AbstractController
 
     }
 
-    public function answer(Request $request,$id){
+    public function answer(Request $request, $id = null){
         $this->validate($request, [
             'message'=>'required|min:5:max:500'
         ]);
-        $model = $this->repo->get($id,$this->columns,$this->with);
+        if(isset($id)){
+            $model = $this->repo->get($id,$this->columns,$this->with);
+            $dados = [];
+        }
 
         $dados = ['sender_id' => $model->recipient_id, 'sender_type' => get_class($model->recipient),
                  'recipient_id' => $model->sender_id, 'recipient_type' => get_class($model->sender),
                  'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id,
                  'product_id' => $model->product_id, 'message_id' => $model->message_id,
                  'title' => $model->title, 'content' => $request->message];
-        if($message = $this->repo->store($dados)) {
-            flash('Mensagem enviada com sucesso!', 'accept');
-            return redirect()->back();
-        }
-        flash('Não foi possivel enviar a mensagem', 'error');
-        return redirect()->back();
+
     }
 
     public function destroy(Request $request)
@@ -88,10 +90,25 @@ class MessagesController extends AbstractController
         return json_encode(['msg'=>'erro ao apagar as mensagens'],500);
     }
 
-    private function getAllMessages($type){
+    private function getAllMessages($data){
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-        $messages = $this->repo->getAllMessages($type,$this->columns, $this->with, ['id' => 'DESC'], 5, $page);
+        $messages = $this->repo->getAllMessages($data,$this->columns, $this->with, ['id' => 'DESC'], 5, $page);
         $messages = ($messages->first() ? $messages : false);
         return $messages;
+    }
+
+    private function saveMessages(array $data){
+        $dados = ['sender_id' => $data['recipient_id'], 'sender_type' => get_class($data['recipient']),
+            'recipient_id' => $data['sender_id'], 'recipient_type' => get_class($data['sender']),
+            'message_type_id' => $data['message_type_id'], 'request_id' => $data['request_id'],
+            'product_id' => $data['product_id'], 'message_id' => $data['message_id'],
+            'title' => $data['title'], 'content' => $data['message']];
+        if($message = $this->repo->store($dados)) {
+            flash('Mensagem enviada com sucesso!', 'accept');
+            return redirect()->back();
+        }
+        flash('Não foi possivel enviar a mensagem', 'error');
+        return redirect()->back();
+
     }
 }

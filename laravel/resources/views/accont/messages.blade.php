@@ -8,8 +8,14 @@
         </header>
         <br>
         <div>
-            <a href="" class="btn btn-small btn-popmartin-trans">Caixa de entrada</a>
-            <a href="" class="btn btn-small btn-popmartin">Caixa de saída</a>
+            <a href="{{route('accont.messages.box',['type'=> $type, 'box' => 'received'])}}" class="btn btn-small {{ $box === 'received' ? 'btn-popmartin-trans' : 'btn-popmartin'}}">
+                {!! ($box === 'received' ? '<i class="fa fa-angle-down"></i>' : '') !!}
+                 Caixa de entrada
+
+            </a>
+            <a href="{{route('accont.messages.box',['type'=> $type, 'box' => 'send'])}}" class="btn btn-small {{ $box === 'send' ? 'btn-popmartin-trans' : 'btn-popmartin'}}">
+                {!! ($box === 'send' ? '<i class="fa fa-angle-down"></i>' : '') !!}
+                Caixa de saída</a>
         </div>
 
         @if(!$messages)
@@ -22,7 +28,7 @@
                 <thead>
                 <tr>
                     <th class="t-small"></th>
-                    <th class="t-medium">De</th>
+                    <th class="t-medium">{{ ($box === 'received' ? 'De' : 'Para') }}</th>
                     <th>Mensagem</th>
                     <th class="t-medium">Data</th>
                 </tr>
@@ -30,7 +36,7 @@
 
                 <tbody>
                 @foreach($messages as $msg)
-                    <tr {!! $msg->status == "received" ? 'class="t-unread"' : '' !!}>
+                    <tr {!! $msg->status == "received" && $box === 'received' ? 'class="t-unread"' : '' !!}>
                         <td>
                             <div class="form-modern">
                                 <div class="checkbox-container">
@@ -43,8 +49,8 @@
                                 </div>
                             </div>
                         </td>
-                        <td>{{ $msg->sender->name }} {{ $msg->sender->last_name }}</td>
-                        <td><a href="/accont/messages/{{ $msg->id }}">{{ substr($msg->content, 0, 60) }}...</a></td>
+                        <td>{{ $box === 'received' ?  $msg->sender->name : $msg->recipient->name}}</td>
+                        <td><a href="{{ route('accont.message.info', ['type' => $box, 'id' => $msg->id]) }}">{{ substr($msg->content, 0, 60) }}...</a></td>
                         <td>{{ $msg->created_at->format("d/m/Y H:i:s") }}</td>
                     </tr>
                 @endforeach

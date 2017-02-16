@@ -14,7 +14,7 @@
                     <a href="{{route('accont.searchstore')}}"{!! url()->current() ==  route('accont.searchstore') ? ' class="current_rout"' :  ''!!}>procurar
                         loja</a></li>
                 <li>
-                    <a href="{{route('accont.messages.all',['type'=>'user'])}}"{!! url()->current() ==  route('accont.messages.all',['type'=>'user']) ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_message_client() >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_message_client().'</span>' : '') !!}</a>
+                    <a href="{{route('accont.messages.box',['type'=>'user', 'box' => 'received'])}}"{!! url()->current() ==  route('accont.messages.box',['type'=>'user', 'box' => 'received']) ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_message_client() >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_message_client().'</span>' : '') !!}</a>
                 </li>
             </ul>
         </div>
@@ -36,7 +36,7 @@
                             vendas {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">'.notification_sales(0).'</span>' : '') !!}</a>
                     </li>
                     <li>
-                        <a href="{{route('accont.messages.all',['type'=>'store'])}}"{!! url()->current() ==  route('accont.messages.all',['type'=>'store']) ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_message_salesman() >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_message_salesman().'</span>' : '') !!}</a>
+                        <a href="{{route('accont.messages.box',['type'=>'store', 'box' => 'received'])}}" {!! url()->current() ==  route('accont.messages.box',['type'=>'store', 'box' => 'received']) ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_message_salesman() >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_message_salesman().'</span>' : '') !!}</a>
                     </li>
                 </ul>
             </div>

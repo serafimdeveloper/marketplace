@@ -52,7 +52,6 @@ class RequestsController extends AbstractController
                'title' => 'Comentário de '.$user->name.' sobre o pedido '.$request->key,
                'content' => $req->message,
            ];
-           if()
        }
 
     }
