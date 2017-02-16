@@ -34,7 +34,7 @@ class StoresController extends AbstractController
             return  redirect()->route('accont.home');
         }
         $salesman = Auth::user()->salesman;
-        $adress = isset($salesman->store->address) ? $salesman->store->address : '';
+        $adress = isset($salesman->store->adress) ? $salesman->store->adress : '';
         if($store = $salesman->store){
             return view('accont.stores', compact('store','salesman', 'adress'));
         }

@@ -6,10 +6,16 @@
         <header class="pop-title">
             <h1>Minhas mensagens</h1>
         </header>
+        <br>
+        <div>
+            <a href="" class="btn btn-small btn-popmartin-trans">Caixa de entrada</a>
+            <a href="" class="btn btn-small btn-popmartin">Caixa de saída</a>
+        </div>
 
         @if(!$messages)
             <p class="trigger notice fontem-14">Você não possui nenhuma mensagem</p>
         @else
+
 
         <!-- TABLE -->
             <table id="pop-messages" class="table table-action">

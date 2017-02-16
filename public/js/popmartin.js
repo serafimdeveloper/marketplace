@@ -5,8 +5,6 @@
 
 var alertfyConfirmTitle = 'Pop Martin alerta!';
 $(function () {
-
-    alertify.warning("Avido de corte agora!");
     /**
      * Carousel para container de publicidade no topo do site
      * @type {{loop: boolean, margin: number, responsive: {0: {items: number}, 400: {items: number}, 600: {items: number}, 700: {items: number}, 900: {items: number}}, autoplay: boolean, autoplayTimeout: number, autoplayHoverPause: boolean}}
@@ -55,15 +53,19 @@ $(function () {
     });
 
 
+    $(".jq-new-message").click(function(){
+        $("#jq-new-message").show();
+    });
+
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
 
 
-    $(window).scroll(function(){
+    $(window).scroll(function () {
         var scroll = $(this).scrollTop();
-        if(scroll > 100){
+        if (scroll > 85) {
             $('.jq-scrollposition').addClass('pop-notice-msg-fixed');
-        }else{
+        } else {
             $('.jq-scrollposition').removeClass('pop-notice-msg-fixed');
         }
     });
@@ -103,7 +105,7 @@ $(function () {
     $(document).on('click', '.jq-address', function () {
         $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
         var action = $(this).data('action')
-        if(action == 'store'){
+        if (action == 'store') {
             $('#form-adress').find("label span").first().text('Loja');
             $('#form-adress').find("label input").first().val('Endereço').attr('readonly', true);
         }
@@ -128,14 +130,14 @@ $(function () {
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este endereço?',
             function () {
                 var id = element.data('id');
-                $.get('/adresses/destroy/'+id, function (response) {
+                $.get('/adresses/destroy/' + id, function (response) {
                     if (response.status) {
                         alertify.success('Endereço removido!');
 
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json').fail(function(response) {
+                }, 'json').fail(function (response) {
                     alertify.error(response.responseJSON.msg);
                 });
                 $('.alertbox-close').click();
@@ -148,8 +150,9 @@ $(function () {
 
 
     /**
-     * Menu mobile do painel de administração dos usuários
+     * Menu mobile do painel de controle
      */
+    $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
     $('.panel-icon-mobile').click(function () {
         if ($('.panel-nav').is(':visible')) {
             $(this).find('i').attr('class', 'fa fa-chevron-down');
@@ -158,6 +161,50 @@ $(function () {
         }
         $('.panel-nav').slideToggle();
     });
+
+    /*
+     -------------------------------------------------------------
+     Menu do painel de controle flutuante de acordo com o scroll
+     */
+
+    var objScrollMenu = {
+        ePNM: $('.panel-nav > div'),
+        SPxSPNMTop: $('.panel-nav > div').offset().top,
+        SPxSPNMBottom: $('.panel-nav > div').offset().top + $('.panel-nav > div').outerHeight(),
+        SPxSPNBottom: $('.panel-nav').offset().top + $('.panel-nav').outerHeight()
+    }
+
+    /**
+     * Scroll Window Indentificador
+     */
+    $(this).bind('scroll', window, function () {
+        var SPxWindow = $(window).height() + $(this).scrollTop();
+        var maxCurrentVal = objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom;
+        var currentScroll = SPxWindow - objScrollMenu.SPxSPNMBottom;
+        var reverseCurrentScroll = (objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom) - currentScroll;
+        var pxToNavMenu = $(this).scrollTop() - 90;
+
+        if ($(this).scrollTop() > objScrollMenu.SPxSPNMTop) {
+            if (SPxWindow > objScrollMenu.SPxSPNMBottom) {
+                if (objScrollMenu.ePNM.height() > $(window).height()) {
+                    if ((reverseCurrentScroll > 0 && reverseCurrentScroll < maxCurrentVal)) {
+                        objScrollMenu.ePNM.addClass('floatmenu').css({bottom: reverseCurrentScroll + 15 + 'px'});
+                    }
+                } else {
+                    if (SPxWindow <= objScrollMenu.SPxSPNBottom + 170) {
+                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': pxToNavMenu, bottom: 'inherit'});
+                    } else {
+                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': 'inherit', bottom: 10});
+                    }
+                }
+            } else {
+                objScrollMenu.ePNM.removeClass('floatmenu');
+            }
+        }else{
+            objScrollMenu.ePNM.css({top: 'inherit', 'margin-top': 'inherit'}).removeClass('floatmenu');
+        }
+    });
+
 
     /**
      * Procura de loja em tempo real no painel
@@ -173,7 +220,7 @@ $(function () {
             beforeSend: function () {
                 implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
             },
-            error: function(response){
+            error: function (response) {
                 alertify.error(response.responseJSON.msg);
             },
             success: function (e) {
@@ -196,13 +243,13 @@ $(function () {
         var cep = element.val();
         if ((/^\d{5}-?\d{3}$/).test(cep)) {
             $.ajax({
-                url : '/accont/adresses/zip_code/' + cep,
+                url: '/accont/adresses/zip_code/' + cep,
                 type: 'GET',
                 dataType: 'json',
-                beforeSend: function(){
+                beforeSend: function () {
                     element.parents('form').find('.loader-address').show();
                 },
-                error: function(response){
+                error: function (response) {
                     alertify.error(response.responseJSON.msg);
                 },
                 success: function (data) {
@@ -320,25 +367,25 @@ $(function () {
     });
 
     /** CHAMAR MODAL BUSCA DE CEP*/
-    $(document).on('click', '.jq-whichcep', function(){
+    $(document).on('click', '.jq-whichcep', function () {
         $('.whichcep').show();
     });
 
     /**
      * FORMULÁRIO DE RASTREIO DE CEP
      */
-    $(document).on('keyup', '.whichcep .form-modern input', function(){
+    $(document).on('keyup', '.whichcep .form-modern input', function () {
         var element = $(this);
         var data = element.val();
         var implementTr = $('.pop-select-cep');
         $.ajax({
-            url : '/accont/adresses/zip_code/' + data,
+            url: '/accont/adresses/zip_code/' + data,
             type: 'GET',
             dataType: 'json',
-            beforeSend: function(){
+            beforeSend: function () {
                 implementTr.html('<tr><td colspan="2"><i class="fa fa-spin fa-spinner"></i></td></tr>');
             },
-            error: function(response){
+            error: function (response) {
                 alertify.error(response.responseJSON.msg);
             },
             success: function (response) {
@@ -355,7 +402,7 @@ $(function () {
     /**
      * CAPTAR CEP E IMPLEMENTAR NA MODAL DE ENDEREÇO
      */
-    $(document).on('click', '.pop-select-cep tr', function(){
+    $(document).on('click', '.pop-select-cep tr', function () {
         var cep = $(this).data('cep');
         $('#zip_code').val(cep).focusout();
         $(this).parents('.alertbox').find('.alertbox-close').click();
@@ -382,7 +429,7 @@ $(function () {
     $('.select_subcat').change(function () {
         var category = $(this).val();
         var loader = $(this).data('loader');
-        if(category !== "") {
+        if (category !== "") {
             $.ajax({
                 url: '/accont/categories/subcategories/' + category,
                 type: 'GET',
@@ -390,23 +437,23 @@ $(function () {
                 beforeSend: function () {
                     $('.' + loader).show();
                 },
-                error: function(response){
+                error: function (response) {
                     alertify.error(response.responseJSON.msg);
                 },
                 success: function (response) {
-                    if(Object.keys(response.subcategories).length > 0){
+                    if (Object.keys(response.subcategories).length > 0) {
                         $('.subcat_info').html('<option selected >Selecione uma Subcategoria</option>');
-                        $.each(response.subcategories, function (i, e){
-                            $('.subcat_info').append('<option value="'+i+'">'+e+'</option>');
+                        $.each(response.subcategories, function (i, e) {
+                            $('.subcat_info').append('<option value="' + i + '">' + e + '</option>');
                         });
-                    }else{
+                    } else {
                         $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
                     }
                     $('.' + loader).hide();
 
                 }
             });
-        }else{
+        } else {
             $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
         }
     });
@@ -451,7 +498,7 @@ $(function () {
                 error: function (response) {
                     $('.' + loader).hide();
                     alertify.error(response.responseJSON.msg);
-                //    $('#quantity').parent().find('span.alert').val(response.responseJSON.msg).removeClass('hidden');
+                    //    $('#quantity').parent().find('span.alert').val(response.responseJSON.msg).removeClass('hidden');
                 },
                 success: function (response) {
                     $('#quantity').val(response.product);
@@ -470,6 +517,7 @@ $(function () {
     function resetChange(e) {
         e.children().removeAttr('selected');
     }
+
     /**
      * Apagar mensagens selecionadas em tempo real
      */
@@ -479,7 +527,7 @@ $(function () {
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover?',
             function () {
                 var indexes = arrayToObject(checkInputsMsg('select_msg'));
-                var dados = {'ids':indexes, '_token':token};
+                var dados = {'ids': indexes, '_token': token};
                 $.post('/accont/messages/destroy', dados, function (response) {
                     if (response.status) {
                         $.each(indexes, function (key, value) {
@@ -489,7 +537,7 @@ $(function () {
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json').fail(function(response){
+                }, 'json').fail(function (response) {
                     alertify.error(response.responseJSON.msg);
                 });
             }, function () {
@@ -521,7 +569,11 @@ $(function () {
     $('.pop-cart-obs form a').click(function () {
         $(this).parents('form').hide().siblings('.show-formobs').show();
     });
-    $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
+
+    $('.jq-close-alertbox').on('click', function () {
+        $('.alertbox-close').click();
+    })
+
 });
 /** Modal de informações de usuarios */
 $(document).on('click', '.jq-info-user', function () {
@@ -560,7 +612,7 @@ $(document).on('click', '.jq-new-banner', function () {
                 return false;
             }
         });
-    }).fail(function(response){
+    }).fail(function (response) {
         alertify.error(response.responseJSON.msg);
     });
     $("#jq-new-banner").slideDown();
@@ -593,7 +645,7 @@ $(document).on('click', '.jq-new-category', function () {
             }
             select.append('<option value="' + i + '"' + selected + '>' + obj + '</option>');
         });
-    }).fail(function(response){
+    }).fail(function (response) {
         alertify.error(response.responseJSON.msg);
     });
 
@@ -637,7 +689,7 @@ $(document).on('submit', '#jq-new-category form', function () {
             beforeSend: function () {
                 form.find('button').html(buttonTextloading);
             },
-            error: function(){
+            error: function () {
                 alertify.error(response.responseJSON.msg);
             },
             success: function (data) {
@@ -649,6 +701,13 @@ $(document).on('submit', '#jq-new-category form', function () {
     return false;
 });
 
+function scrollWindow() {
+    var r = 0;
+    $(window).scroll(function () {
+        r = $(this).scrollTop();
+    });
+    return r;
+}
 
 /**
  * verivica se um determinado grupo de mensagens de array estão checados(marcados) ou não
@@ -680,9 +739,9 @@ function switchForm(t) {
             break;
         case 'name':
             var response = function () {
-                if(is_numberString(t.val()) || compareLenght(t.val(), '<', 2)){
+                if (is_numberString(t.val()) || compareLenght(t.val(), '<', 2)) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -690,9 +749,9 @@ function switchForm(t) {
             break;
         case 'last_name':
             var response = function () {
-                if(is_numberString(t.val()) || compareLenght(t.val(), '<', 2)){
+                if (is_numberString(t.val()) || compareLenght(t.val(), '<', 2)) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -702,20 +761,20 @@ function switchForm(t) {
             r = inputerror(is_mail(t.val()), t, 'e-mail inválido!');
             break;
         case 'email_confirm':
-            var response = function(){
-                if(!is_mail(t.val()) || (t.val() != t.parents('form').find('input[name=email_register]').val())){
+            var response = function () {
+                if (!is_mail(t.val()) || (t.val() != t.parents('form').find('input[name=email_register]').val())) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
             r = inputerror(response(), t, 'e-mail não confere');
             break;
         case 'cpf':
-            var response = function(){
-                if(compareLenght(t.val(), '<', 14) || !is_cpf(t.val())){
+            var response = function () {
+                if (compareLenght(t.val(), '<', 14) || !is_cpf(t.val())) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -735,10 +794,10 @@ function switchForm(t) {
             r = inputerror(!compareLenght(t.val(), '<', 6), t, 'senha deve ter no mínimo 6 caracteres!');
             break;
         case 'password_confirm':
-            var response = function(){
-                if(compareLenght(t.val(), '<', 6) || (t.val() != t.parents('form').find('input[name=password_register]').val())){
+            var response = function () {
+                if (compareLenght(t.val(), '<', 6) || (t.val() != t.parents('form').find('input[name=password_register]').val())) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -770,13 +829,18 @@ function verificaform(f) {
  */
 function verifySubmit(f) {
     var r = false;
-    f.find('input').each(function () {
-        var t = $(this);
-        r = switchForm(t);
-        if (!r) {
-            return false;
-        }
-    });
+    if(f.find('input').length){
+        f.find('input').each(function () {
+            var t = $(this);
+            r = switchForm(t);
+            if (!r) {
+                return false;
+            }
+        });
+    }else{
+        return true;
+    }
+
     return r;
 }
 /**
@@ -883,7 +947,7 @@ function blockStore() {
                 } else {
                     alertify.error(response.msg);
                 }
-            }, 'json').fail(function(response){
+            }, 'json').fail(function (response) {
                 alertify.error(response.responseJSON.msg);
             });
         }, function () {
@@ -916,18 +980,18 @@ function removePrduct() {
                     if (response.status === 406) {
                         alertify.confirm(alertfyConfirmTitle, 'Voce tem pendências, você não pode remover este produto, no máximo pode desativar deseja fazer isso agora?  ',
                             function () {
-                                $.get('accont/salesman/products/change/'+id, function(response){
+                                $.get('accont/salesman/products/change/' + id, function (response) {
                                     if (response.status) {
                                         element.parents('tr').slideUp(500);
                                         alertify.success('Produto removido');
                                     }
-                                },'json').fail(function(response){
+                                }, 'json').fail(function (response) {
                                     alertify.error(response.responseJSON.msg);
                                 });
                             }, function () {
                                 return true;
                             });
-                    }else{
+                    } else {
                         alertify.error(response.responseJSON.msg);
                     }
                 }
@@ -950,19 +1014,19 @@ function removeImgGarely() {
     if (action == 'create') {
         clearImgGalery(element);
     }
-    if(textImg.length > 0){
+    if (textImg.length > 0) {
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esta imagem?',
             function () {
                 var id = element.data('id');
                 var prev = element.data('preview');
-                $.get('/accont/salesman/products/remove/image/'+id, function (response) {
+                $.get('/accont/salesman/products/remove/image/' + id, function (response) {
                     if (response.status) {
                         clearImgGalery(element);
                         alertify.success('Produto removido!');
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json').fail(function(response){
+                }, 'json').fail(function (response) {
                     alertify.error(response.responseJSON.msg);
                 });
             }, function () {
@@ -971,6 +1035,7 @@ function removeImgGarely() {
     }
     return false;
 }
+
 
 /**
  * LIMPAR IMAGEM PROVISÓRIA E INPUT FILE AO REMOVER PRODUTO

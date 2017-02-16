@@ -42,10 +42,11 @@ class MessagesController extends AbstractController
 
     public function show($id)
     {
-        $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
+//        $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
+//        ,5,$page
         if($message = $this->repo->get($id)){
             if(Gate::allows('read_message', $message)){
-                $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC'],5,$page);
+                $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC']);
                 if($message->status === 'received'){
                     $message->update(['status' => 'readed']);
                 }
