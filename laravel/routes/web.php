@@ -53,10 +53,11 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     });
 
-    Route::get('/messages/{type}/all', 'MessagesController@index')->name('messages.all');
-    Route::get('/messages/{id}', 'MessagesController@show')->name('message.info');
+//    Route::get('/messages/{type}/all', 'MessagesController@index')->name('messages.all');
+    Route::get('/message/{type}/{id}', 'MessagesController@show')->name('message.info');
     Route::post('/messages/answer/{id}', 'MessagesController@answer')->name('message.answer');
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
+    Route::get('/messages/{type}/{box}', 'MessagesController@index')->name('messages.box');
 
     /** Administrador */
     Route::get('/report/users', function(){

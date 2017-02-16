@@ -5,7 +5,7 @@
     <section class="panel-content">
         <header class="pop-title">
             <h1><i class="fa fa-comments-o"></i> Conversa
-                com {{ $message->sender->name }} {{ $message->sender->last_name }}</h1>
+                com {{ ($box === 'received' ? $message->sender->name . ' ' . $message->sender->last_name : $message->recipient->name . ' ' . $message->recipient->last_name) }}</h1>
         </header>
         @if(isset($message->request) && Request::segment(2) == 'messages')
             <div class="trigger notice jq-scrollposition">
@@ -47,7 +47,7 @@
             <tbody>
              @foreach($messages as $awnser)
                     <tr id="{{$awnser->id}}">
-                        <td>{{ $awnser->sender->name }}<br><span>{{ $awnser->created_at->format('d/m/Y H:i:s') }}</span>
+                        <td>{{ ($awnser->sender->name == $eu ? 'Eu' : $awnser->sender->name) }}<br><span>{{ $awnser->created_at->format('d/m/Y H:i:s') }}</span>
                         </td>
                         <td>{{ $awnser->content }}</td>
                     </tr>
@@ -79,10 +79,8 @@
         $(document).ready(function(){
             var url_atual = window.location.href;
             var url = url_atual.split('/');
-            var hash = parseInt(url[5]);
-            console.log(typeof hash);
+            var hash = parseInt(url[6]);
             if(typeof hash === 'number'){
-                console.log('chegou');
                 var position = $('#'+hash).offset();
                 $("html, body").animate({scrollTop:position.top - 125}, 1200);
             }

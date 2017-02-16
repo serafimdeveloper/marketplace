@@ -25,32 +25,36 @@ class MessagesController extends AbstractController
         return MessagesRepository::class;
     }
 
-    public function index($type)
+    public function index($type, $box = 'received')
     {
+        if($box !== 'received' && $box !== 'send'){
+            return redirect()->route('accont.home');
+        }
+        $data = ['type' => $type, 'box' => $box];
         if($type == 'user'){
-            $messages = $this->getAllMessages($type);
-            return view('accont.messages', compact('messages'));
+            $messages = $this->getAllMessages($data);
+            return view('accont.messages', compact('messages', 'type', 'box'));
         }else if($type == 'store'){
             if ($store = Auth::user()->salesman->store) {
-                $messages = $this->getAllMessages($type);
-                return view('accont.messages', compact('messages'));
+                $messages = $this->getAllMessages($data);
+                return view('accont.messages', compact('messages', 'type', 'box'));
             }
         }
         flash('Precisa possuir uma loja para ver as mensagens', 'warning');
         return redirect()->route('accont.salesman.stores');
     }
 
-    public function show($id)
+    public function show($box, $id)
     {
-//        $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-//        ,5,$page
         if($message = $this->repo->get($id)){
-            if(Gate::allows('read_message', $message)){
+            if(Gate::allows('read_message', [$message, $box])){
                 $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC']);
                 if($message->status === 'received'){
                     $message->update(['status' => 'readed']);
                 }
-                return view('accont.message_info', compact('messages','message'));
+                $user = Auth::user();
+                $eu = $user->name;
+                return view('accont.message_info', compact('messages','message', 'box', 'eu'));
             }
             flash('Mensagem não encontrada', 'error');
             return redirect()->back();
@@ -88,9 +92,9 @@ class MessagesController extends AbstractController
         return json_encode(['msg'=>'erro ao apagar as mensagens'],500);
     }
 
-    private function getAllMessages($type){
+    private function getAllMessages($data){
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-        $messages = $this->repo->getAllMessages($type,$this->columns, $this->with, ['id' => 'DESC'], 5, $page);
+        $messages = $this->repo->getAllMessages($data,$this->columns, $this->with, ['id' => 'DESC'], 5, $page);
         $messages = ($messages->first() ? $messages : false);
         return $messages;
     }

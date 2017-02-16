@@ -21,20 +21,18 @@ class MessagesRepository extends BaseRepository
         return Message::class;
     }
 
-    public function getAllMessages($type,$columns = ['*'], array $with = [], $orders = [], $limit = 5, $page = 1 ){
-        $user = Auth::user();
+    public function getAllMessages(array $data,$columns = ['*'], array $with = [], $orders = [], $limit = 5, $page = 1 ){
         $messages = $this->model->with($with);
-        if($type === 'user'){
-            $messages = $messages->where('recipient_id', $user->id)
-                ->where('recipient_type', get_class($user));
-        }else if($type === 'store'){
-            $store = $user->salesman->store;
-            $messages = $messages->where('recipient_id', $store->id)
-                ->where('recipient_type', get_class($store));
+        $user = Auth::user();
+        $store = $user->salesman->store;
+        $admin = $user->admin;
+        $class = ($data['type'] === 'user' ? $user : ($data['type'] === 'store' ? $store : $admin));
+        $id = ($class == $user ? $user : ($class == $store ? $store : $admin));
+
+        if($data['box'] === 'received'){
+            $messages = $messages->where('recipient_id', $id->id)->where('recipient_type', get_class($class));
         }else{
-            $admin = $user->admin;
-            $messages = $messages->where('recipient_id', $admin->id)
-                ->where('recipient_type', get_class($admin));
+            $messages = $messages->where('sender_id', $id->id)->where('sender_type', get_class($class));
         }
         $messages = $messages->where('desactive',0);
         foreach ($orders as $column => $order) {
