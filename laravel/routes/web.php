@@ -23,6 +23,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     Route::get('/requests','Clients\RequestsController@index')->name('requests');
     Route::get('/requests/{id}','Clients\RequestsController@show')->name('request_info');
+    Route::post('/request/comments/{id}','Clients/RequestsController@comments')->name('request.comments');
 
     Route::get('/searchstore', 'StoresController@searchstore')->name('searchstore');
     Route::post('/searchstore', 'StoresController@search')->name('search.store');
@@ -55,7 +56,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     Route::get('/messages/{type}/all', 'MessagesController@index')->name('messages.all');
     Route::get('/messages/{id}', 'MessagesController@show')->name('message.info');
-    Route::post('/messages/answer/{id}', 'MessagesController@answer')->name('message.answer');
+    Route::post('/messages/{type}/answer/{id}', 'MessagesController@answer')->name('message.answer');
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /** Administrador */

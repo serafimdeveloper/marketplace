@@ -51,9 +51,6 @@ class SalesController extends AbstractController
         if($product = $this->repo->store($dados)){
 
         }
-
-
-
     }
 
     public function edit($id){
