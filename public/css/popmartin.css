@@ -212,6 +212,9 @@ input{padding: 5px;width: 100%;}
 .current_rout{background-color: #BDBDBD;font-weight: bold;padding-left: 20px!important;}
 .pop-select-cep tr{cursor: pointer;}
 .pop-notice-msg-fixed{position: fixed;z-index: 9;top: 0;right: 5px;width: 75%;}
+.pop-rating{padding: 20px; background-color: #FFF;text-align: center;margin: 5px 0;}
+.pop-rating h3{color: #333333;font-size: 1.3em;}
+.pop-rating .rating{display: inline-block;font-size: 2.2em;color: #FFD600;text-align: center;cursor: pointer !important;}
 /*******************************************************************
 ********************** FIM PAINEL ADMINISTRATIVO *******************
  ******************************************************************/

@@ -324,6 +324,20 @@ function limiter() {
     limiter.html(r);
 }
 
+/**
+ * Contar elementos de um objeto
+ * @param obj
+ * @returns {number}
+ */
+function objectLength(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+}
+
+
 /*
  * EFEITO ACCORDION INPLEMENTAÇÂO
  * */

@@ -35,7 +35,7 @@ class RequestsController extends AbstractController
         if(!$request){
             return redirect()->route('accont.home');
         }else{
-            return view('accont.request_info', compact('request'));
+            return view('accont.request_info', compact('request', 'user'));
         }
     }
 

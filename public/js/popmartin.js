@@ -57,6 +57,11 @@ $(function () {
         $("#jq-new-message").show();
     });
 
+    $(".jq-new-rating").click(function(){
+        $("#jq-new-rating").show();
+    });
+
+
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
 
