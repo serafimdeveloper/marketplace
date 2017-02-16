@@ -17,7 +17,7 @@
                     </p>
                 </div>
                 <div class="coltable-4 txt-right">
-                    <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i class="fa fa-star"></i> valiado / avaliar</a>
+                    <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i class="fa fa-star"></i> avaliado / avaliar</a>
                     <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar o vendedor</a>
                 </div>
             </div>

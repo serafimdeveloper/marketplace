@@ -59,7 +59,7 @@
             $('.sendRating').on('submit', function () {
                 var e = $(this);
                 var comment = e.find('textarea').val();
-                var data = {user: {{ $user->id }}, store: {{ $request->store->id }}, items: rating, comment: comment};
+                var data = {user: '{{ $user->id }}', store: '{{ $request->store->id }}', items: rating, comment: comment};
                 console.log(data);
 
                 if(comment.length < 3){

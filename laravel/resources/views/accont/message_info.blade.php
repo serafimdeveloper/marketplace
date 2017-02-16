@@ -7,7 +7,7 @@
             <h1><i class="fa fa-comments-o"></i> Conversa
                 com {{ ($box === 'received' ? $message->sender->name . ' ' . $message->sender->last_name : $message->recipient->name . ' ' . $message->recipient->last_name) }}</h1>
         </header>
-        @if(isset($message->request) && Request::segment(2) == 'messages')
+        @if(isset($message->request) && Request::segment(2) == 'message')
             <div class="trigger notice jq-scrollposition">
                 <a href="/accont/requests/{{ $message->request->id }}" class="c-white">
                     <i class="fa fa-newspaper-o"></i>
