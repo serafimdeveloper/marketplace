@@ -107,7 +107,7 @@
 
                                 <div class="colbox-2">
                                     <label>
-                                        <span>Sobre a Loja (máximo de 500 caracteres)</span>
+                                        <span>Sobre a Loja (máximo de 500 caracteres) <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
                                         {!! Form::textarea('about', null,['id' => 'sobre1', 'class' => 'limiter-textarea', 'maxlength' => '500', 'placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
                                         <span class="alert{{ $errors->has('about') ? '' : ' hidden' }}">{{ $errors->first('about') }}</span>
                                         <span class="limiter-result" for="sobre1" data-limit="500">500</span>

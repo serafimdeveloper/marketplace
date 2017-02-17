@@ -938,15 +938,15 @@ function clear_input(form) {
 function blockStore() {
     var element = $(this);
     var txt = element.text().trim();
-    var msg = (txt == 'bloquear loja' ? 'Tem certeza de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem?')
+    var msg = (txt == 'bloquear loja' ? 'Tem certeza de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem!')
     alertify.confirm(alertfyConfirmTitle, msg,
         function () {
             $.get('/accont/salesman/stores/block', function (response) {
                 if (response.status) {
                     if (response.lock) {
-                        element.html('<i class="fa fa-lock vertical-middle"></i> bloquear loja');
+                        element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear loja');
                     } else {
-                        element.html('<i class="fa fa-unlock vertical-middle"></i> desbloquear loja');
+                        element.html('<i class="fa fa-lock vertical-middle"></i> desbloquear loja');
                     }
                     alertify.success('Loja Bloqueada');
                 } else {

@@ -29,7 +29,7 @@
                         {!! Form::date('birth',null, ['placeholder' => 'data de nascimento']) !!}
                         <span class="alert{{ $errors->has('birth') ? '' : ' hidden' }}">{{ $errors->first('birth') }}</span>
                     </label>
-                    <div class="checkbox-container padding10">
+                    <div class="checkbox-container padding10" style="position:relative;">
                         <span>Gênero</span>
                         <div class="checkboxies">
                             <label class="radio" style="border: none;">
