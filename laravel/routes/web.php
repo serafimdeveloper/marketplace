@@ -24,6 +24,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('/requests','Clients\RequestsController@index')->name('requests');
     Route::get('/requests/{id}','Clients\RequestsController@show')->name('request_info');
     Route::post('/request/comments/{id}','Clients/RequestsController@comments')->name('request.comments');
+    Route::post('/request/shop_valuations/{id}','ShopValuationsController@store')->name('request.shop_valuations');
 
     Route::get('/searchstore', 'StoresController@searchstore')->name('searchstore');
     Route::post('/searchstore', 'StoresController@search')->name('search.store');
