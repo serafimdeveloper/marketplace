@@ -23,6 +23,8 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     Route::get('/requests','Clients\RequestsController@index')->name('requests');
     Route::get('/requests/{id}','Clients\RequestsController@show')->name('request_info');
+    Route::post('/request/comments/{id}','Clients/RequestsController@comments')->name('request.comments');
+    Route::post('/request/shop_valuations/{id}','ShopValuationsController@store')->name('request.shop_valuations');
 
     Route::get('/searchstore', 'StoresController@searchstore')->name('searchstore');
     Route::post('/searchstore', 'StoresController@search')->name('search.store');
@@ -53,11 +55,11 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     });
 
-//    Route::get('/messages/{type}/all', 'MessagesController@index')->name('messages.all');
+    Route::get('/messages/{type}/{box}', 'MessagesController@index')->name('messages.box');
     Route::get('/message/{type}/{id}', 'MessagesController@show')->name('message.info');
     Route::post('/messages/answer/{id}', 'MessagesController@answer')->name('message.answer');
+    Route::post('/message/comments/{type}/{id}', 'MessagesController@comments')->name('message.comments');
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
-    Route::get('/messages/{type}/{box}', 'MessagesController@index')->name('messages.box');
 
     /** Administrador */
     Route::get('/report/users', function(){
@@ -106,11 +108,11 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
      */
 
     /** Adress */
-    Route::get('/adresses/zip_code/{zip}','AdressesController@search_cep')->name('adress.zip_code');
-    Route::post('/adresses/{action}','AdressesController@store')->name('adress.store');
-    Route::get('/adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
-    Route::post('/adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
-    Route::delete('/adresses/destroy/{adress}','AdressesController@destroy')->name('adress.destroy');
+    Route::get('adresses/destroy/{adress}','AdressesController@destroy')->name('adress.destroy');
+    Route::get('adresses/zip_code/{zip}','AdressesController@search_cep')->name('adress.zip_code');
+    Route::post('adresses/{action}','AdressesController@store')->name('adress.store');
+    Route::get('adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
+    Route::post('adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
 });
 Route::get('/info/{page}', function ($title) {
     $data['title'] = $title;

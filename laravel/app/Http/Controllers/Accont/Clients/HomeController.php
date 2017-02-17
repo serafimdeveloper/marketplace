@@ -32,11 +32,11 @@
 			if(Auth::attempt(['email'=>$user->email, 'password'=>$request->get('password')])){
 				$user->fill(['password'=> bcrypt($request->get('newpassword'))]);
 				$user->save();
-				flash('Senha alterada com sucesso!', 'accept');			
-				return view('accont.home', compact('user'));
+				flash('Senha alterada com sucesso!', 'accept');
+                return redirect()->route('accont.home');
 			}
-			flash('Ocorreu um erro ao alterar a senha!', 'error');	
-			return view('accont.home', compact('user'));
+			flash('Ocorreu um erro ao alterar a senha!', 'error');
+            return redirect()->route('accont.home');
 
 		}
 	}

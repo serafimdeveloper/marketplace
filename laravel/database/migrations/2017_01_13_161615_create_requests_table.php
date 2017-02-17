@@ -16,11 +16,11 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('NO ACTION');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('adress_id')->unsigned();
-            $table->foreign('adress_id')->references('id')->on('adresses')->onUpdate('cascade');
+            $table->foreign('adress_id')->references('id')->on('adresses')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('NO ACTION');
+            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('freight_id')->unsigned()->nullable();
             $table->foreign('freight_id')->references('id')->on('freights')->onUpdate('cascade')->onDelete('SET NULL');
             $table->integer('payment_id')->unsigned()->nullable();

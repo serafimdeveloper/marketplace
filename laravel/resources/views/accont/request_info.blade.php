@@ -46,7 +46,7 @@
                 @endforeach
                 <tr>
                     <td>Total</td>
-                    <td class="bold" colspan="4" style="text-align: right;"><span class="fontem-18 fontw-800">R${{ number_format($request->amount, 2, ',', '') }}</span></td>
+                    <td class="bold" colspan="4" style="text-align: right;"><span class="fontem-18 fontw-800">R${{number_format(amount_products($request->products),2,',','.')}}</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -61,6 +61,7 @@
                 </thead>
 
                 <tbody>
+                @if($request->adress)
                 <tr>
                     <td>{{ $request->freight->name }}</td>
                     <td>
@@ -69,10 +70,11 @@
                     </td>
                     <td class="bold"><span class="fontem-12">R${{ number_format($request->freight_price, 2, ',', '') }}</span></td>
                 </tr>
+                @endif
                 </tbody>
             </table>
             <hr>
-            <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-pop fontw-900">R$74,80</span></p>
+            <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-pop fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span></p>
             <div class="padding30"></div>
         </div>
     </section>

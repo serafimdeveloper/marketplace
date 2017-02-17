@@ -30,6 +30,7 @@ class CreateAdressesTable extends Migration
             $table->integer('number');
             $table->string('complements')->nullable();
             $table->boolean('master')->default(0);
+            $table->timestamps();
             $table->softDeletes();
         });
     }

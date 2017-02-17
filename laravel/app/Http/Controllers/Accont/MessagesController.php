@@ -2,7 +2,9 @@
 namespace App\Http\Controllers\Accont;
 
 use App\Http\Controllers\AbstractController;
+use App\Model\Product;
 use App\Model\Store;
+use App\Model\Request as Req;
 use App\Model\User;
 use App\Repositories\Accont\MessagesRepository;
 use Illuminate\Container\Container as App;
@@ -12,12 +14,14 @@ use Illuminate\Support\Facades\Gate;
 
 class MessagesController extends AbstractController
 {
-    protected $with = ['sender','recipient','message_type','request','product','message'];
-    protected $user;
-    public function __construct(App $app, User $user)
+    protected $with = ['sender','recipient','request','product','message'];
+    protected $user, $product, $req;
+    public function __construct(App $app, User $user, Product $product,Req $req)
     {
         parent::__construct($app);
         $this->user = $user;
+        $this->product = $user;
+        $this->req = $req;
     }
 
     public function repo()
@@ -62,23 +66,54 @@ class MessagesController extends AbstractController
 
     }
 
-    public function answer(Request $request,$id){
+    public function comments(Request $request, $type, $id){
         $this->validate($request, [
             'message'=>'required|min:5:max:500'
         ]);
-        $model = $this->repo->get($id,$this->columns,$this->with);
-
-        $dados = ['sender_id' => $model->recipient_id, 'sender_type' => get_class($model->recipient),
-                 'recipient_id' => $model->sender_id, 'recipient_type' => get_class($model->sender),
-                 'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id,
-                 'product_id' => $model->product_id, 'message_id' => $model->message_id,
-                 'title' => $model->title, 'content' => $request->message];
-        if($message = $this->repo->store($dados)) {
+        $user = Auth::user();
+        $dados = ['sender_id' => $user->id, 'sender_type' => get_class($user), 'content'=>$request->message];
+        if($type === "request"){
+            if($req = $this->req->find($id)) {
+                $dados['request_id'] = $id;
+                $dados['title'] = 'Comentário de ' . $user->name . ' sobre o pedido ' . $req->key;
+                $dados['recipient_id'] = $req->store_id;
+                $dados['recipient_type'] = get_class($req->store);
+            }
+        }else{
+            if($product = $this->product->find($id)){
+                $dados['product_id'] = $id;
+                $dados['title'] = 'Comentário de ' . $user->name . ' sobre o produto ' . $product->name;
+                $dados['recipient_id'] = $product->store_id;
+                $dados['recipient_type'] = get_class($product->store);
+            }
+        }
+        if($message = $this->repo->store($dados)){
+            $this->repo->update(['message_id'=>$message->id],$message->id);
             flash('Mensagem enviada com sucesso!', 'accept');
             return redirect()->back();
         }
         flash('Não foi possivel enviar a mensagem', 'error');
         return redirect()->back();
+    }
+
+    public function answer(Request $request, $id){
+        $this->validate($request, [
+            'message'=>'required|min:5:max:500'
+        ]);
+        if($model = $this->repo->get($id,$this->columns,$this->with)){
+            $dados = ['sender_id' => $model->recipient_id, 'sender_type' => get_class($model->recipient),
+                'recipient_id' => $model->sender_id, 'recipient_type' => get_class($model->sender),
+                'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id,
+                'product_id' => $model->product_id, 'message_id' => $model->message_id,
+                'title' => $model->title, 'content' => $request->message];
+            if($message = $this->repo->store($dados)) {
+                flash('Mensagem enviada com sucesso!', 'accept');
+                return redirect()->back();
+            }
+        }
+        flash('Não foi possivel enviar a mensagem', 'error');
+        return redirect()->back();
+
     }
 
     public function destroy(Request $request)

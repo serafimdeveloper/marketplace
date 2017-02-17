@@ -4,13 +4,17 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
+    use SoftDeletes;
+    use Sluggable;
+
     protected $fillable = ['salesman_id','name','type_salesman','cnpj','fantasy_name','social_name','slug','brach_activity'
         ,'about','exchange_policy','freight_policy','logo_file','rate','active','blocked'];
+    protected $dates = ['deleted_at'];
 
-    use Sluggable;
 
     /**
      * Return the sluggable configuration array for this model.

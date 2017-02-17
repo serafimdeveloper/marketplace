@@ -3,12 +3,14 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Adress extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['user_id','store_id', 'name','zip_code','state','city','public_place','neighborhood','number','complements','master'];
-    
-    public $timestamps = false;
+    protected $dates = ['deleted_at'];
 
     public function user()
     {

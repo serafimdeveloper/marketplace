@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Accont\Clients;
 
 use App\Http\Controllers\AbstractController;
+use App\Http\Requests\Request;
 use App\Repositories\Accont\RequestsRepository;
 use Auth;
 
@@ -27,18 +28,13 @@ class RequestsController extends AbstractController
     public function show($id){
         $user = Auth::User();
         $request = $this->repo->all($this->columns,$this->with,['id' => $id, 'user_id'=>$user->id])->first();
-//        dd($request);
-
+        $type = ['type' => 'request', 'id' => $request->id];
         $request = ($request ? $request : false);
 
         if(!$request){
             return redirect()->route('accont.home');
         }else{
-            return view('accont.request_info', compact('request', 'user'));
+            return view('accont.request_info', compact('request', 'user', 'type'));
         }
-
-
     }
-
-
 }

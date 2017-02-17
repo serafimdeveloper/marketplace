@@ -387,10 +387,10 @@ $factory->define(Message::class, function(Generator $faker){
             return $element->id;
         },
         'recipient_type' => $type_recept,
-        'message_type_id' => function(array $data){
+        /*'message_type_id' => function(array $data){
             $element = MessageType::all()->random();
             return $element->id;
-        },
+        },*/
         'request_id' => function(array $data){
             $m = Message::all()->sortByDesc('id')->first();
             $order = Request::where('user_id', $data['recipient_id'])->distinct()->inRandomOrder()->first();
