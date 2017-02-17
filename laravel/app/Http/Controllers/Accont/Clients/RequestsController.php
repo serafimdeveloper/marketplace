@@ -28,33 +28,13 @@ class RequestsController extends AbstractController
     public function show($id){
         $user = Auth::User();
         $request = $this->repo->all($this->columns,$this->with,['id' => $id, 'user_id'=>$user->id])->first();
-//        dd($request);
-
+        $type = ['type' => 'request', 'id' => $request->id];
         $request = ($request ? $request : false);
 
         if(!$request){
             return redirect()->route('accont.home');
         }else{
-            return view('accont.request_info', compact('request', 'user'));
+            return view('accont.request_info', compact('request', 'user', 'type'));
         }
     }
-
-    public function comments(Request $req, $id){
-        $this->validate($req,['message'=>'required|min:10|max:500']);
-        $user = Auth::user();
-       if($request = $this->repo->get($id)){
-           $dados = [
-               'sender_id' => $user->id,
-               'sender_type' => get_class($user),
-               'recipient_type' => $request->store_id,
-               'recipient_type' => get_class($request->store),
-               'request_id' => $request->id,
-               'title' => 'Comentário de '.$user->name.' sobre o pedido '.$request->key,
-               'content' => $req->message,
-           ];
-       }
-
-    }
-
-
 }

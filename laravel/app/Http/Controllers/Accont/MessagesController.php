@@ -72,15 +72,15 @@ class MessagesController extends AbstractController
         ]);
         $user = Auth::user();
         $dados = ['sender_id' => $user->id, 'sender_type' => get_class($user), 'content'=>$request->message];
-        if($type === 'request'){
-            if($req = $this->repo->get($id)) {
+        if($type === "request"){
+            if($req = $this->req->find($id)) {
                 $dados['request_id'] = $id;
                 $dados['title'] = 'Comentário de ' . $user->name . ' sobre o pedido ' . $req->key;
                 $dados['recipient_id'] = $req->store_id;
                 $dados['recipient_type'] = get_class($req->store);
             }
         }else{
-            if($product = $this->repo->get($id)){
+            if($product = $this->product->find($id)){
                 $dados['product_id'] = $id;
                 $dados['title'] = 'Comentário de ' . $user->name . ' sobre o produto ' . $product->name;
                 $dados['recipient_id'] = $product->store_id;

@@ -61,6 +61,7 @@
                 </thead>
 
                 <tbody>
+                @if($request->adress)
                 <tr>
                     <td>{{ $request->freight->name }}</td>
                     <td>
@@ -69,6 +70,7 @@
                     </td>
                     <td class="bold"><span class="fontem-12">R${{ number_format($request->freight_price, 2, ',', '') }}</span></td>
                 </tr>
+                @endif
                 </tbody>
             </table>
             <hr>

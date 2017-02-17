@@ -57,7 +57,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('/messages/{type}/{box}', 'MessagesController@index')->name('messages.box');
     Route::get('/message/{type}/{id}', 'MessagesController@show')->name('message.info');
     Route::post('/messages/answer/{id}', 'MessagesController@answer')->name('message.answer');
-    Route::post('/message/comments/{type}/{id?}', 'MessagesController@comments')->name('message.comments');
+    Route::post('/message/comments/{type}/{id}', 'MessagesController@comments')->name('message.comments');
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /** Administrador */

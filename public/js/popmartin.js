@@ -116,7 +116,7 @@ $(function () {
         }
         if (typeof ($(this).data('id')) !== "undefined") {
             $('.alertbox-title').text('Editar endereço');
-            $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
+            $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id="' + $(this).data('id') + '"><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
             $.get('/accont/adresses/' + action + '/' + $(this).data('id'), function (data) {
                 inputvalue(data);
@@ -135,16 +135,14 @@ $(function () {
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este endereço?',
             function () {
                 var id = element.data('id');
-                $.get('/adresses/destroy/' + id, function (response) {
+                $.get('/accont/adresses/destroy/'+id, function (response) {
                     if (response.status) {
                         alertify.success('Endereço removido!');
 
                     } else {
                         alertify.error(response.msg);
                     }
-                }, 'json').fail(function (response) {
-                    alertify.error(response.responseJSON.msg);
-                });
+                }, 'json');
                 $('.alertbox-close').click();
             }, function () {
                 return true;
