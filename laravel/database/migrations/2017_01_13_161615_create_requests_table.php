@@ -17,8 +17,8 @@ class CreateRequestsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('NO ACTION');
-            $table->integer('adress_id')->unsigned();
-            $table->foreign('adress_id')->references('id')->on('adresses')->onUpdate('cascade');
+            $table->integer('adress_id')->unsigned()->nullable();
+            $table->foreign('adress_id')->references('id')->on('adresses')->onUpdate('cascade')->onDelete('SET NULL');
             $table->integer('store_id')->unsigned();
             $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->integer('freight_id')->unsigned()->nullable();

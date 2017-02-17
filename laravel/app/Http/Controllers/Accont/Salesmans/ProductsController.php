@@ -125,7 +125,7 @@ class ProductsController extends AbstractController
                 Storage::delete('img/produto/'.$galery->image);
             }
             $galery->delete($image);
-            return response()->json(['imagem removida com sucesso'],200);
+            return response()->json(['status'=>true],200);
         }
         return response()->json(['msg'=>'Erro ao deletar a imagem'],500);
     }
@@ -148,7 +148,7 @@ class ProductsController extends AbstractController
                 return response()->json(compact('requests'),406);
             } else {
                 $products->delete();
-                return response()->json(['Produto excluído']);
+                return response()->json(['status'=>true]);
             }
         }
         return response()->json(['msg'=>'Produto não encontrado'],404);
