@@ -140,7 +140,7 @@
             <div class="colbox">
                 <div class="colbox-3">
                     <label>
-                        <span>Estoque mínimo <i class="fa fa-info-circle c-blue tooltip" title="Informações sobre este assunto"></i></span>
+                        <span>Estoque mínimo <i class="fa fa-info-circle c-blue tooltip" title="Estoque mínimo para ser notificado quando o quantidade de produtos atingir este limite"></i></span>
                         {!! Form::text('minimum_stock', null, ['placeholder' => '0', 'onkeyup' => 'maskInt(this)']) !!}
                         <span class="alert{{ $errors->has('minimum_stock') ? '' : ' hidden' }}">{{ $errors->first('minimum_stock') }}</span>
                     </label>

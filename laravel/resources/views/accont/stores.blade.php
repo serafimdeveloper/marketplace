@@ -6,17 +6,20 @@
         <header class="pop-title">
             <h1>Minha loja</h1>
             @if(isset($store))
-                <span class="btn btn-smallextreme btn-popmartin jq-block-store" style="margin-right: 70px;">
+                <div class="pop-tile-menu">
+                    <span class="btn btn-smallextreme btn-popmartin jq-block-store">
                     @if($store->active === 0)
-                        <i class="fa fa-unlock vertical-middle"></i> bloquear loja
-                    @else
-                        <i class="fa fa-lock vertical-middle"></i> desbloquear loja
-                    @endif
+                            <i class="fa fa-unlock vertical-middle"></i> bloquear loja
+                        @else
+                            <i class="fa fa-lock vertical-middle"></i> desbloquear loja
+                        @endif
                 </span>
-                <a href="{{ url('/'. $store->slug) }}" class="btn btn-smallextreme btn-popmartin" target="_blank">
-                    <i class="fa fa-external-link vertical-middle"></i>
-                    ver loja
-                </a>
+                    <a href="{{ url('/'. $store->slug) }}" class="btn btn-smallextreme btn-popmartin" target="_blank">
+                        <i class="fa fa-external-link vertical-middle"></i>
+                        ver loja
+                    </a>
+                </div>
+
             @endif
         </header>
         @if(isset($store))
@@ -107,7 +110,7 @@
 
                                 <div class="colbox-2">
                                     <label>
-                                        <span>Sobre a Loja (máximo de 500 caracteres)</span>
+                                        <span>Sobre a Loja (máximo de 500 caracteres) <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
                                         {!! Form::textarea('about', null,['id' => 'sobre1', 'class' => 'limiter-textarea', 'maxlength' => '500', 'placeholder'=>'Digite aqui uma informação sobre a sua loja', 'rows'=>'7']) !!}
                                         <span class="alert{{ $errors->has('about') ? '' : ' hidden' }}">{{ $errors->first('about') }}</span>
                                         <span class="limiter-result" for="sobre1" data-limit="500">500</span>

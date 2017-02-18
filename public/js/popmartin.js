@@ -549,11 +549,6 @@ $(function () {
         return false;
     });
 
-    /**  */
-    $(".wt-header span").click(function () {
-        windowToggle($(this), 'wt-selected');
-    });
-
     /** Eventos para a troca de imagens da galeria */
     $(".pop-product-galery img").click(function () {
         $(this).parent().siblings().css({opacity: 0.5})
@@ -578,6 +573,12 @@ $(function () {
     })
 
 });
+
+/**  */
+$(document).on('click', '.wt-header span', function () {
+    windowToggle($(this), 'wt-selected');
+});
+
 /** Modal de informações de usuarios */
 $(document).on('click', '.jq-info-user', function () {
     $("#jq-info-user").slideDown();
@@ -936,15 +937,15 @@ function clear_input(form) {
 function blockStore() {
     var element = $(this);
     var txt = element.text().trim();
-    var msg = (txt == 'bloquear loja' ? 'Tem certeza de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem?')
+    var msg = (txt == 'bloquear loja' ? 'Tem certeza de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem!')
     alertify.confirm(alertfyConfirmTitle, msg,
         function () {
             $.get('/accont/salesman/stores/block', function (response) {
                 if (response.status) {
                     if (response.lock) {
-                        element.html('<i class="fa fa-lock vertical-middle"></i> bloquear loja');
+                        element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear loja');
                     } else {
-                        element.html('<i class="fa fa-unlock vertical-middle"></i> desbloquear loja');
+                        element.html('<i class="fa fa-lock vertical-middle"></i> desbloquear loja');
                     }
                     alertify.success('Loja Bloqueada');
                 } else {

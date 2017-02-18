@@ -29,7 +29,7 @@
                         {!! Form::date('birth',null, ['placeholder' => 'data de nascimento']) !!}
                         <span class="alert{{ $errors->has('birth') ? '' : ' hidden' }}">{{ $errors->first('birth') }}</span>
                     </label>
-                    <div class="checkbox-container padding10">
+                    <div class="checkbox-container padding10" style="position:relative;">
                         <span>Gênero</span>
                         <div class="checkboxies">
                             <label class="radio" style="border: none;">
@@ -56,7 +56,9 @@
             <div class="colbox-2">
                 <header class="pop-title">
                     <h1>Endereços</h1>
-                    <span class="btn btn-smallextreme btn-popmartin jq-address" data-action="user"><i class="fa fa-plus vertical-middle"></i> novo</span>
+                    <div class="pop-tile-menu">
+                        <span class="btn btn-smallextreme btn-popmartin jq-address" data-action="user"><i class="fa fa-plus vertical-middle"></i> novo</span>
+                    </div>
                 </header>
                 <div id="group-pnl-end">
                 @forelse($adresses as $adress)

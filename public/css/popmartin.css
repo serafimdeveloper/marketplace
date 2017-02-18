@@ -69,9 +69,10 @@ input{padding: 5px;width: 100%;}
 .pop-forms .colbox-2{margin-top: 10px;padding: 0 30px;}
 .pop-forms .colbox-2:last-child{border-left: 1px solid #aaaaaa;}
 
-.pop-title{position: relative;}
-.pop-title h1{border-bottom: 1px solid #a4aaae;padding: 4px 0;font-size: 1.2em; font-weight: 900;color: #B40004;}
-.pop-title .btn{position: absolute; right: 5px; top: -1px;}
+.pop-title{position: relative;border-bottom: 1px solid #a4aaae;}
+.pop-title h1{display: inline-block;padding: 4px 0;font-size: 1.2em; font-weight: 900;color: #B40004;}
+.pop-title .pop-tile-menu{display: inline-block; float: right;}
+.pop-tile-menu .btn-small{margin-top: -5px;}
 .modal-product{position: relative;padding: 0;margin: 10px 0;}
 .modal-product ul{display: none;background-color: rgba(255,255,255,0.8);position: absolute;width: 100%;top: 0; left: 0;z-index: 1;padding: 5px;}
 .modal-product:hover ul{display: block !important;}
@@ -255,7 +256,7 @@ input{padding: 5px;width: 100%;}
 .trigger{padding: 10px 20px;text-align: center;}
 .trigger.accept{background-color: #1E820E;color: #FFF;border: none;}
 .trigger.warning{background-color: #FBC02D;color: #FFF;border: none;}
-.trigger.notice{background-color: #1565C0;color: #FFF;border: none;}
+.trigger.notice{background-color: #7986CB;color: #FFF;border: none;}
 .trigger.error{background-color: #EF5350;color: #FFF;border: none;}
 /*.table input{min-width: 20px;}*/
 
@@ -354,6 +355,9 @@ input{padding: 5px;width: 100%;}
 
     .form-notfy .colbox-2{text-align: center;}
     .pop-header-request > div{width: 100%; text-align: center;margin: 10px 0;}
+    .pop-tile-menu .btn{margin-top: -5px;}
+    .btn.btn-small{padding: 10px 20px;}
+    .btn.btn-smallextreme{padding: 6px 12px;}
 }
 @media(max-width: 36.25em){ /*580px */
     .pop-store .pop-store-info{padding-bottom: 10px;}
@@ -375,6 +379,7 @@ input{padding: 5px;width: 100%;}
     .pop-cart-cep-ou{display: block !important;margin: 10px 0;}
     .pop-cart-cep input{text-align: center;}
     .pop-cart-cep .btn{margin-top: 10px;width: 80%;}
+    .pop-title .pop-tile-menu{position: static;text-align: center;}
 }
 @media(max-width: 25em) { /*400px */
     .nav-footer-cat .colbox-5{width: 48% !important;margin-right: 0 !important;}

@@ -19,7 +19,7 @@
         </div>
 
         @if(!$messages)
-            <p class="trigger notice fontem-14">Você não possui nenhuma mensagem</p>
+            <p class="trigger notice fontem-14">Nenhuma mensagem {{ ($box === 'received' ? 'recebida' : 'enviada') }}</p>
         @else
 
 
