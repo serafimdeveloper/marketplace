@@ -212,13 +212,13 @@ $(function () {
     /**
      * Procura de loja em tempo real no painel
      */
-    $(".jq-input-search").keyup(function () {
+    /*$(".jq-input-search").keyup(function () {
         var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
         var implementTr = $('#jq-search-table-result tbody');
         $.ajax({
             url: '/accont/searchstore',
             data: data,
-            type: 'POST',
+            type: 'get',
             dataType: 'json',
             beforeSend: function () {
                 implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
@@ -235,7 +235,7 @@ $(function () {
             }
         });
 
-    });
+    });*/
 
     /**
      * Busca o cep na API do correio
