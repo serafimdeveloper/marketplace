@@ -105,11 +105,14 @@
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
-            <div class="form-modern">
+            <div class="padding20"></div>
+            <form class="form-modern" action="javascript:void(0)" method="POST">
                 <label>
-                    <input type="text" placeholder="Informe seu endereço. Exemplo: Rua Joaquim Pacheco">
+                    {!! Form::text('', null, ['placeholder' => 'Informe seu endereço. Exemplo: Rua Joaquim Pacheco', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
+                    <span class="alert hidden"></span>
+                    <button type="submit" class="btn btn-small btn-popmartin" style="float: right;margin: -35px 10px 0 0;">buscar</button>
                 </label>
-            </div>
+            </form>
             <table class="table">
                 <thead>
                     <tr>

@@ -256,6 +256,7 @@ $(function () {
                     alertify.error(response.responseJSON.msg);
                 },
                 success: function (data) {
+                    data = data[0];
                     var dados = {
                         'state': data.uf,
                         'city': data.cidade,
@@ -377,9 +378,9 @@ $(function () {
     /**
      * FORMULÁRIO DE RASTREIO DE CEP
      */
-    $(document).on('keyup', '.whichcep .form-modern input', function () {
+    $(document).on('submit', '.whichcep form', function () {
         var element = $(this);
-        var data = element.val();
+        var data = element.find('input').val();
         var implementTr = $('.pop-select-cep');
         $.ajax({
             url: '/accont/adresses/zip_code/' + data,
@@ -392,14 +393,17 @@ $(function () {
                 alertify.error(response.responseJSON.msg);
             },
             success: function (response) {
+                console.log(response);
                 implementTr.html('');
                 $.each(response, function (i, element) {
                     console.log(element, 'value');
                     console.log(i, 'properties');
-                    implementTr.append('<tr data-cep="' + element + '"><td>' + element + '</td><td>' + element.logradouro + ' | <b>' + element.bairro + ' - ' + element.cidade + '</b> - ' + element.estado + '</td></tr>');
+                    implementTr.append('<tr data-cep="' + element.cep + '"><td>' + element.cep + '</td><td>' + element.logradouro + ' | <b>' + element.bairro + ' - ' + element.cidade + '</b> - ' + element.uf + '</td></tr>');
                 });
             }
-        })
+        });
+
+        return false;
     });
 
     /**
