@@ -110,10 +110,16 @@ class StoresController extends AbstractController
         $store = $this->repo->bySlug($slug);
     }
 
-    public function searchstore(){
-        $page = Input::get('page');
-        $stores = $this->repo->all($this->columns, $this->with,[],['name'=>'ASC'],10,$page);
-        return view('accont.searchstore', compact('stores'));
+    public function searchstore($page = 1){
+        $stores = $this->repo->search();
+        $stores = $stores->map(function ($store) {
+            return [
+                'name' => $store->name,
+                'slug' => $store->slug,
+                'salesman' => $store->salesman->user->name
+            ];
+        });
+        return view('accont.searchstore', compact('result'));
     }
 
     public function blocked(){
@@ -130,16 +136,14 @@ class StoresController extends AbstractController
         return response()->json(['msg'=>'Erro ao bloquear a loja'],500);
     }
 
-    public function search(Request $request){
-        $stores = $this->repo->search($request->name);
-        $stores = $stores->map(function($store){
-            return [
-                'name' => $store->name,
-                'slug' => $store->slug,
-                'salesman' => $store->salesman->user->name
-            ];
-        });
-        return json_encode($stores);
+    public function search(Request $request)
+    {
+        $page = Input::get('page') ? Input::get('page') : 1 ;
+        $result = $this->repo->search($request->name, $this->columns, $this->with, ['name'=>'ASC'], $limit = 10, $page);
+        if($request->ajax()){
+            return view('accont.presearchstore', compact('result'));
+        }
+        return view('accont.searchstore', compact('result'));
     }
 
 }

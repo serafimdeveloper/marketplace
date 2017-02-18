@@ -26,8 +26,8 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/request/comments/{id}','Clients/RequestsController@comments')->name('request.comments');
     Route::post('/request/shop_valuations/{id}','ShopValuationsController@store')->name('request.shop_valuations');
 
-    Route::get('/searchstore', 'StoresController@searchstore')->name('searchstore');
-    Route::post('/searchstore', 'StoresController@search')->name('search.store');
+    Route::get('/searchstore', 'StoresController@search')->name('searchstore');
+   // Route::post('/searchstore', 'StoresController@search')->name('search.store');
 
     /** Vendedores */
     Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){

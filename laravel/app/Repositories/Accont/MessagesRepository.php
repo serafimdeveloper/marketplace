@@ -24,8 +24,11 @@ class MessagesRepository extends BaseRepository
     public function getAllMessages(array $data,$columns = ['*'], array $with = [], $orders = [], $limit = 5, $page = 1 ){
         $messages = $this->model->with($with);
         $user = Auth::user();
-        $store = $user->salesman->store;
-        $admin = $user->admin;
+        $store = [];
+        if($salesman = $user->salesman){
+            $store = isset($salesman->store) ? $salesman->store : '';
+        }
+        $admin = isset($user->admin) ? $user->admin : '';
         $class = ($data['type'] === 'user' ? $user : ($data['type'] === 'store' ? $store : $admin));
         $id = ($class == $user ? $user : ($class == $store ? $store : $admin));
 

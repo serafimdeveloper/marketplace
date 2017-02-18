@@ -80,11 +80,11 @@
                             @if(isset($product))
                                 <label class="radio" style="border: none;">
                                     <span><span class="fa {{ ($product->active === 0) ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> não</span>
-                                    {!! Form::radio('active', 1) !!}
+                                    {!! Form::radio('active', 0, ($product->active === 0 ) ? true : ' ') !!}
                                 </label>
                                 <label class="radio" style="border: none;">
                                     <span><span class="fa {{ ($product->active === 1) ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> sim</span>
-                                    {!! Form::radio('active', 0) !!}
+                                    {!! Form::radio('active', 1, ($product->active === 1 ) ? true : ' ') !!}
                                 </label>
                             @else
                                 <label class="radio" style="border: none;">
