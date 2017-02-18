@@ -84,7 +84,12 @@ ul{list-style: none;}a{text-decoration: none;}a img{border: 0;}img{max-width: 10
 .video-element{position: absolute;top: 0;left: 0;height: 100%; width: 100%;border: none;}
 
 /**** SCROLL *****/
-.scroll{position: relative;overflow: scroll;}
+.scroll{position: relative;overflow: scroll;
+    background: -moz-linear-gradient(top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 51%, rgba(255,255,255,0.7) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0) 51%,rgba(255,255,255,0.7) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0) 51%,rgba(255,255,255,0.7) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3ffffff', endColorstr='#b3ffffff',GradientType=0 ); /* IE6-9 */}
+
 .scroll::-webkit-scrollbar{width:5px; border-radius:15px; -webkit-border-radius:15px;background:#E3E3E3;}
 .scroll::-webkit-scrollbar:horizontal{height: 0;}
 .scroll::-webkit-scrollbar-track{border-radius:15px; -webkit-border-radius:15px;background:#E3E3E3;}

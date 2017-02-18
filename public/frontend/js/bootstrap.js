@@ -324,6 +324,37 @@ function limiter() {
     limiter.html(r);
 }
 
+function cleanAccents(e){
+    return strtr(
+        'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ´`"\'~^',
+        'AAAAAAACEEEEIIIIDNOOOOOOUUUUYbsaaaaaaaceeeeiiiidnoooooouuuyybyRr',
+        e
+    );
+}
+function strtr(from, to, _in){
+    var i,
+        _this = _in.toString();
+    from = (from + '').split('');
+    to = (to + '').split('');
+    i = from.length;
+
+    while (i--)
+    {
+        if (_this.match(from[i])) {
+            // Troca por to, Se to[i] não existir a nova char será vazia
+            _this = _this.replace(new RegExp('\\' + from[i], 'ig'), (to[i] || ''));
+        }
+    }
+
+    return _this;
+}
+
+/**
+ * Verifica se a informação passada possui no mínimo 2 nomes separados por espaço
+ * Característica de nomes completo
+ * @param e
+ * @returns {boolean}
+ */
 function fullname(e){
     var val = e.trim();
     if(val.indexOf(" ") < 1){

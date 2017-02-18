@@ -113,20 +113,23 @@
                     <button type="submit" class="btn btn-small btn-popmartin" style="float: right;margin: -35px 10px 0 0;">buscar</button>
                 </label>
             </form>
-            <table class="table">
-                <thead>
+            <div class="scroll" style="max-height: 300px;">
+                <table class="table">
+                    <thead>
                     <tr>
                         <th class="t-small">CEP</th>
                         <th>Endereço</th>
                     </tr>
-                </thead>
-                <tbody class="pop-select-cep">
-                {{--<tr data-cep="27286210">--}}
+                    </thead>
+                    <tbody class="pop-select-cep">
+                    {{--<tr data-cep="27286210">--}}
                     {{--<td>27286210</td>--}}
                     {{--<td>Rua Dom Antônio cabral | <b>São Luís - Volta Redonda</b> - RJ</td>--}}
-                {{--</tr>--}}
-                </tbody>
-            </table>
+                    {{--</tr>--}}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>

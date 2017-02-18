@@ -382,8 +382,9 @@ $(function () {
         var element = $(this);
         var data = element.find('input').val();
         var implementTr = $('.pop-select-cep');
+
         $.ajax({
-            url: '/accont/adresses/zip_code/' + data,
+            url: '/accont/adresses/zip_code/' + cleanAccents(data),
             type: 'GET',
             dataType: 'json',
             beforeSend: function () {
@@ -393,11 +394,9 @@ $(function () {
                 alertify.error(response.responseJSON.msg);
             },
             success: function (response) {
-                console.log(response);
+                element.find('button').text('buscar').css({background: '#B71C1C'});
                 implementTr.html('');
                 $.each(response, function (i, element) {
-                    console.log(element, 'value');
-                    console.log(i, 'properties');
                     implementTr.append('<tr data-cep="' + element.cep + '"><td>' + element.cep + '</td><td>' + element.logradouro + ' | <b>' + element.bairro + ' - ' + element.cidade + '</b> - ' + element.uf + '</td></tr>');
                 });
             }
