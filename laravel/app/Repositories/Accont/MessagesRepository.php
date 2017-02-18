@@ -75,4 +75,19 @@ class MessagesRepository extends BaseRepository
        return $messages;
 
     }
+
+    public function filter_messages($message){
+        $rules = ['/([0-9]{2})[0-9]{4,5}-[0-9]{4}/', '/[0-9]{4,5}-[0-9]{4}/', '/[0-9]{8,12}/'
+            , '/([a-zA-Z0-9.-_])*([@])([a-z0-9]).([a-z]{2,})/'];
+        $urls = '/((http|https|ftp|ftps)?:\/\/)?([a-z0-9\-]+\.)?[a-z0-9\-]+\.[a-z0-9]{2,4}(\.[a-z0-9]{2,4})?(\/.*)?/';
+        foreach ($rules as $rule){
+            if(preg_match($rule, $message)){
+                //TODO se tiver conteúdo fazer uma ação
+            }
+        }
+
+        if(preg_match($urls, $message)){
+            //TODO se tiver conteúdo, verificar se ele é de link externo
+        }
+    }
 }

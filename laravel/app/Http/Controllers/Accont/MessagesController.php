@@ -100,12 +100,14 @@ class MessagesController extends AbstractController
         $this->validate($request, [
             'message'=>'required|min:5:max:500'
         ]);
+
         if($model = $this->repo->get($id,$this->columns,$this->with)){
             $dados = ['sender_id' => $model->recipient_id, 'sender_type' => get_class($model->recipient),
                 'recipient_id' => $model->sender_id, 'recipient_type' => get_class($model->sender),
                 'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id,
                 'product_id' => $model->product_id, 'message_id' => $model->message_id,
                 'title' => $model->title, 'content' => $request->message];
+            $this->repo->filter_messages($request->message);
             if($message = $this->repo->store($dados)) {
                 flash('Mensagem enviada com sucesso!', 'accept');
                 return redirect()->back();
