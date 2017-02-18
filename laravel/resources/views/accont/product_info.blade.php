@@ -12,8 +12,8 @@
                 {!! Form::open(['route' => ['accont.salesman.products.store'], 'method' => 'POST', 'class' => 'form-modern pop-form', 'enctype'=>'multipart/form-data']) !!}
             @endif
             <label>
-                <span>Nome do produto</span>
-                {!! Form::text('name',null, ['placeholder' => 'Nome do produto']) !!}
+                <span>Nome do produto <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                {!! Form::text('name',null, ['placeholder' => 'Nome do produto', 'data-required' => 'name']) !!}
                 <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
             </label>
             <div class="coltable">
@@ -43,7 +43,7 @@
                 @if(isset($product))
                     <div class="colbox-3">
                         <label>
-                            <span>Categoria</span>
+                            <span>Categoria <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
                             {!! Form::select('category_id', $categories, isset($product->category->category_id) ? $product->category->category_id : $product->category_id , ['class' => 'select_subcat', 'placeholder' => 'Selecione uma Categória', 'data-loader' => 'loader-1']) !!}
                             <span class="alert{{ $errors->has('category_id') ? '' : ' hidden' }}">{{ $errors->first('category_id') }}</span>
                         </label>
@@ -75,7 +75,7 @@
                 @endif
                 <div class="colbox-3">
                     <label>
-                        <span>Produto visível? <i class="fa fa-info-circle c-blue tooltip" title="Informações sobre este assunto"></i></span>
+                        <span>Produto visível? <i class="fa fa-info-circle c-blue tooltip" title="Esta opção, marca se o seu produto estará visível ou não para os visitantes em sua loja"></i></span>
                         <div class="checkboxies">
                             @if(isset($product))
                                 <label class="radio" style="border: none;">
@@ -103,22 +103,22 @@
             <div class="colbox">
                 <div class="colbox-4">
                     <label>
-                        <span>Preço R$</span>
-                        {!! Form::text('price', null, ['placeholder' => '0.00', 'class' => 'masksMoney']) !!}
+                        <span>Preço R$ <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                        {!! Form::text('price', null, ['placeholder' => '0.00', 'class' => 'masksMoney', 'data-required' => 'notnull']) !!}
                         <span class="alert{{ $errors->has('price') ? '' : ' hidden' }}">{{ $errors->first('price') }}</span>
                     </label>
                 </div>
                 <div class="colbox-4">
                     <label>
-                        <span>Preço com desconto R$ <i class="fa fa-info-circle c-blue tooltip" title="Informações sobre este assunto"></i></span>
+                        <span>Preço com desconto R$ <i class="fa fa-info-circle c-blue tooltip" title="Valor já com desconto do seu produto"></i></span>
                         {!! Form::text('price_out_discount', null, ['placeholder' => '0.00', 'class' => 'masksMoney']) !!}
                         <span class="alert{{ $errors->has('price_out_discount') ? '' : ' hidden' }}">{{ $errors->first('price_out_discount') }}</span>
                     </label>
                 </div>
                 <div class="colbox-4">
                     <label>
-                        <span>Prazo de envio (dias) <i class="fa fa-info-circle c-blue tooltip" title="Informações sobre este assunto"></i></span>
-                        {!! Form::text('deadline', null, ['placeholder' => '0', 'onkeyup' => 'maskInt(this)']) !!}
+                        <span>Prazo de envio (dias) <i class="fa fa-info-circle c-blue tooltip" title="Após feito a venda, qual o seu prazo para enviar este produto ao correio!"></i> <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                        {!! Form::number('deadline', null, ['placeholder' => '0', 'onkeyup' => 'maskInt(this)', 'data-required' => 'notnull']) !!}
                         <span class="alert{{ $errors->has('deadline') ? '' : ' hidden' }}">{{ $errors->first('deadline') }}</span>
                     </label>
                 </div>
@@ -140,8 +140,8 @@
             <div class="colbox">
                 <div class="colbox-3">
                     <label>
-                        <span>Estoque mínimo <i class="fa fa-info-circle c-blue tooltip" title="Estoque mínimo para ser notificado quando o quantidade de produtos atingir este limite"></i></span>
-                        {!! Form::text('minimum_stock', null, ['placeholder' => '0', 'onkeyup' => 'maskInt(this)']) !!}
+                        <span>Estoque mínimo <i class="fa fa-info-circle c-blue tooltip" title="Estoque mínimo para ser notificado quando o quantidade de produtos atingir este limite"></i> <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                        {!! Form::number('minimum_stock', null, ['placeholder' => '0', 'onkeyup' => 'maskInt(this)', 'data-required' => 'notnull']) !!}
                         <span class="alert{{ $errors->has('minimum_stock') ? '' : ' hidden' }}">{{ $errors->first('minimum_stock') }}</span>
                     </label>
                 </div>
@@ -166,17 +166,17 @@
             </div>
             <div class="clear-both"></div>
             <label>
-                <span>Detalhes do produto</span>
-                {!! Form::textarea('details', null, ['placeholder' => 'Informações sobre este produto', 'rows' => 14]) !!}
+                <span>Detalhes do produto <i class="fa fa-info-circle c-blue tooltip" title="Informe aqui detalhes como cores disponíveis, tamanhos e etc. Um produto bem detalhado, pode gerar menor volume de perguntas sobre o produto!"></i> <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                {!! Form::textarea('details', null, ['class' => 'required-field', 'placeholder' => 'Informações sobre este produto', 'rows' => 14, 'data-required' => 'minlength', 'data-minlength' => '20']) !!}
                 <span class="alert{{ $errors->has('details') ? '' : ' hidden' }}">{{ $errors->first('details') }}</span>
-
             </label>
-            <p class="c-pop fontw-500">Dados do correio</p>
+        <br>
+            <p class="c-pop fontw-500">Dados do correio <sup class="c-red fontem-06">obrigatório</sup></p>
             <div class="colbox">
                 <div class="colbox-5">
                     <label>
                         <span>Comprimento (cm)</span>
-                        {!! Form::text('length_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
+                        {!! Form::number('length_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5, 'data-required' => 'notzero']) !!}
                         <span class="alert{{ $errors->has('length_cm') ? '' : ' hidden' }}">{{ $errors->first('length_cm') }}</span>
 
                     </label>
@@ -184,21 +184,21 @@
                 <div class="colbox-5">
                     <label>
                         <span>Largura (cm)</span>
-                        {!! Form::text('width_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
+                        {!! Form::text('width_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5, 'data-required' => 'notzero']) !!}
                         <span class="alert{{ $errors->has('width_cm') ? '' : ' hidden' }}">{{ $errors->first('width_cm') }}</span>
                     </label>
                 </div>
                 <div class="colbox-5">
                     <label>
                         <span>Diametro (cm)</span>
-                        {!! Form::text('diameter_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
+                        {!! Form::text('diameter_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5, 'data-required' => 'notzero']) !!}
                         <span class="alert{{ $errors->has('diameter_cm') ? '' : ' hidden' }}">{{ $errors->first('diameter_cm') }}</span>
                     </label>
                 </div>
                 <div class="colbox-5">
                     <label>
                         <span>Altura (cm)</span>
-                        {!! Form::text('height_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
+                        {!! Form::text('height_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5, 'data-required' => 'notzero']) !!}
                         <span class="alert{{ $errors->has('height_cm') ? '' : ' hidden' }}">{{ $errors->first('height_cm') }}</span>
 
                     </label>
@@ -206,7 +206,7 @@
                 <div class="colbox-5">
                     <label>
                         <span>Peso (gramas)</span>
-                        {!! Form::text('weight_gr', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 6]) !!}
+                        {!! Form::text('weight_gr', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 6, 'data-required' => 'notzero']) !!}
                         <span class="alert{{ $errors->has('weight_gr') ? '' : ' hidden' }}">{{ $errors->first('weight_gr') }}</span>
                     </label>
                 </div>
@@ -214,7 +214,7 @@
             <div class="clear-both"></div>
             <br>
                 <p class="c-pop fontw-500">Galeria de imagens deste produto
-                    <i class="fa fa-info-circle c-blue tooltip" title="Informações sobre este assunto"></i>
+                    <i class="fa fa-info-circle c-blue tooltip" title="Você pode cadastrar além da imagem principal do produto, mais 4 imagens para demonstrar seu produto. Escolha imagens limpas e com preferência de fundo de cor clara. Isto pode ajudar na venda de seu produto. Lembre-se que uma imagem bem elaborada do seu produto, pode trazer uma maior conversão de venda e se destacar entre os demais"></i>
                 </p>
                 <div class="colbox">
                     @for ($i = 1; $i < 5; $i++)

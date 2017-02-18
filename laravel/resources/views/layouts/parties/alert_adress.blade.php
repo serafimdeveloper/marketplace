@@ -10,7 +10,7 @@
                         <div class="colbox-2">
                             <label>
                                 <span>Destinatário: </span>
-                                <input type="text" name="name" value="" placeholder="Informe um nome">
+                                {!! Form::text('name', null, ['placeholder' => 'Informe um nome', 'data-required' => 'fullname']) !!}
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -52,7 +52,7 @@
                         <div class="colbox-3">
                             <label>
                                 <span>Bairro:</span>
-                                <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
+                                {!! Form::text('neighborhood', null, ['placeholder' => 'Digite seu Bairro', 'data-required' => 'notnull']) !!}
                                 <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                                 <span class="alert hidden"></span>
                             </label>
@@ -61,7 +61,7 @@
                     <div class="clear-both"></div>
                     <label>
                         <span>Endereço:</span>
-                        <input type="text" name="public_place" value="" placeholder="Digite seu Endereço">
+                        {!! Form::text('public_place', null, ['placeholder' => 'Digite seu Endereço', 'data-required' => 'minlength', 'data-minlength' => 5]) !!}
                         <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                         <span class="alert hidden"></span>
                     </label>
@@ -69,7 +69,7 @@
                         <div class="colbox-2">
                             <label>
                                 <span>Número:</span>
-                                <input type="text" name="number" value="" placeholder="Digite seu número">
+                                {!! Form::text('number', null, ['placeholder' => 'Digite seu número', 'data-required' => 'notnull']) !!}
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -105,11 +105,14 @@
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
-            <div class="form-modern">
+            <div class="padding20"></div>
+            <form class="form-modern" action="javascript:void(0)" method="POST">
                 <label>
-                    <input type="text" placeholder="Informe seu endereço. Exemplo: Rua Joaquim Pacheco">
+                    {!! Form::text('', null, ['placeholder' => 'Informe seu endereço. Exemplo: Rua Joaquim Pacheco', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
+                    <span class="alert hidden"></span>
+                    <button type="submit" class="btn btn-small btn-popmartin" style="float: right;margin: -35px 10px 0 0;">buscar</button>
                 </label>
-            </div>
+            </form>
             <table class="table">
                 <thead>
                     <tr>

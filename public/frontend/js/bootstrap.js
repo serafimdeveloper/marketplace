@@ -324,6 +324,14 @@ function limiter() {
     limiter.html(r);
 }
 
+function fullname(e){
+    var val = e.trim();
+    if(val.indexOf(" ") < 1){
+        return false;
+    }else{
+        return true;
+    }
+}
 /**
  * Contar elementos de um objeto
  * @param obj
