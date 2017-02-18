@@ -751,6 +751,9 @@ function switchForm(t) {
         case 'notzero':
             r = inputerror(!(t.val() < 1), t, 'Campo não pode ser zero');
             break;
+        case 'fullname':
+            r = inputerror(fullname(t.val()), t, 'Nome completo inválido');
+            break;
         case 'name':
             var response = function () {
                 if (is_numberString(t.val()) || compareLenght(t.val(), '<', 2)) {

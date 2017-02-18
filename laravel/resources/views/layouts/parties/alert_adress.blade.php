@@ -10,7 +10,7 @@
                         <div class="colbox-2">
                             <label>
                                 <span>Destinatário: </span>
-                                <input type="text" name="name" value="" placeholder="Informe um nome">
+                                {!! Form::text('name', null, ['placeholder' => 'Informe um nome', 'data-required' => 'fullname']) !!}
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -52,7 +52,7 @@
                         <div class="colbox-3">
                             <label>
                                 <span>Bairro:</span>
-                                <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
+                                {!! Form::text('neighborhood', null, ['placeholder' => 'Digite seu Bairro', 'data-required' => 'notnull']) !!}
                                 <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                                 <span class="alert hidden"></span>
                             </label>
@@ -61,7 +61,7 @@
                     <div class="clear-both"></div>
                     <label>
                         <span>Endereço:</span>
-                        <input type="text" name="public_place" value="" placeholder="Digite seu Endereço">
+                        {!! Form::text('public_place', null, ['placeholder' => 'Digite seu Endereço', 'data-required' => 'minlength', 'data-minlength' => 5]) !!}
                         <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                         <span class="alert hidden"></span>
                     </label>
@@ -69,7 +69,7 @@
                         <div class="colbox-2">
                             <label>
                                 <span>Número:</span>
-                                <input type="text" name="number" value="" placeholder="Digite seu número">
+                                {!! Form::text('number', null, ['placeholder' => 'Digite seu número', 'data-required' => 'notnull']) !!}
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
