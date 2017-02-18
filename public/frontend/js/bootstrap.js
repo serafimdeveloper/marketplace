@@ -66,6 +66,14 @@ function is_cpf(cpf) {
     }
 }
 
+/**
+ * Vericar se o parâmetro informado, possui realmente um valor do formato data
+ * Com ou sem hora
+ * 1987-01-01 00:00:00
+ * @param date - string
+ * @param hour - boolean
+ * @returns {boolean}
+ */
 function is_date(date, hour) {
     var exp = (hour ? /[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/ : /[0-9]{4}-[0-9]{2}-[0-9]{2}/);
     if (exp.exec(date)) {
@@ -324,6 +332,11 @@ function limiter() {
     limiter.html(r);
 }
 
+/**
+ * limpar Acentos e alguns caracteres de uma string qualquer
+ * @param e
+ * @returns {*}
+ */
 function cleanAccents(e){
     return strtr(
         'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ´`"\'~^',
@@ -331,6 +344,14 @@ function cleanAccents(e){
         e
     );
 }
+
+/**
+ * Modificar string original de acordo comparâmetros de alterações passada
+ * @param from
+ * @param to
+ * @param _in
+ * @returns {string|*}
+ */
 function strtr(from, to, _in){
     var i,
         _this = _in.toString();
