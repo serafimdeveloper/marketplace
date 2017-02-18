@@ -738,8 +738,14 @@ function checkInputsMsg(class_element) {
 function switchForm(t) {
     var r = false;
     switch (t.data('required')) {
+        case 'minlength':
+            r = inputerror(!compareLenght(t.val(), '<', t.data('minlength')), t, 'Campo deve ter no mínimo ' + t.data('minlength') + ' caracteres');
+            break;
         case 'notnull':
             r = inputerror(!compareLenght(t.val(), '<', 1), t, 'Campo não pode ser vazio');
+            break;
+        case 'notzero':
+            r = inputerror(!(t.val() < 1), t, 'Campo não pode ser zero');
             break;
         case 'name':
             var response = function () {
@@ -820,6 +826,12 @@ function switchForm(t) {
  */
 function verificaform(f) {
     f.find("input").focusout(function () {
+        var t = $(this);
+        switchForm(t);
+    }).focusin(function () {
+        $(this).removeClass('input-error').siblings('.alert').addClass('hidden');
+    });
+    f.find("textarea").focusout(function () {
         var t = $(this);
         switchForm(t);
     }).focusin(function () {

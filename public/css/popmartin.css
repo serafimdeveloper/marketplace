@@ -247,7 +247,18 @@ input{padding: 5px;width: 100%;}
 /*.ajs-reset, */
 .ajs-commands{width: 94% !important;text-align: right !important;}
 
-.form-modern .alert{position: absolute;bottom: 0;right: 10px;padding: 1px 6px;background-color: red;color: #FFF;}
+.form-modern .alert{position: absolute;z-index: 9899;bottom: -16px;right: 10px;padding: 1px 6px;background-color: #FF5252;color: #FFF;}
+.form-modern .alert:after{
+    content: " ";
+    float: right;
+    margin: -6px 0 0 0;
+    width: 0;
+    height: 0;
+
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #FF5252;
+}
 .hidden{display: none;}
 .form-modern .jq-loader{position: absolute;top: 42px; right: 30px;}
 .owl-nav i{font-size: 1.6em;font-weight: bold; color: #B40004;}
