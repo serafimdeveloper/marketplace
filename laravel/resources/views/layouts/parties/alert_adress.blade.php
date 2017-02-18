@@ -5,12 +5,12 @@
                 <h2 class="alertbox-title">Cadastrar novo endereço</h2>
                 <form action="javascript:void(0)" class="form-modern" id="form-adress">
                     {{ csrf_field() }}
-                    <label><input type="hidden" name="id" value=""/></label>
+                    <input type="hidden" name="id" value=""/>
                     <div class="colbox">
                         <div class="colbox-2">
                             <label>
                                 <span>Destinatário: </span>
-                                <input type="text" name="name" value="" placeholder="Informe um nome">
+                                {!! Form::text('name', null, ['placeholder' => 'Informe um nome', 'data-required' => 'fullname']) !!}
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="colbox-2">
                                     <div class="form-btn-cep">
-                                        <a href="javascript:void(0)" class="btn btn-small btn-popmartin" style="color: #FFF;">Não sei meu cep</a>
+                                        <a href="javascript:void(0)" class="btn btn-small btn-popmartin jq-whichcep" style="color: #FFF;">Não sei meu cep</a>
                                     </div>
 
                                 </div>
@@ -36,21 +36,24 @@
                         <div class="colbox-3">
                             <label>
                                 <span>UF:</span>
-                                <input type="text" name="state" value="" placeholder="Digite sua UF">
+                                <input type="text" name="state" value="" placeholder="Digite sua UF" readonly="readonly">
+                                <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-3">
                             <label>
                                 <span>Município:</span>
-                                <input type="text" name="city" value="" placeholder="Digite seu Município">
+                                <input type="text" name="city" value="" placeholder="Digite seu Município" readonly="readonly">
+                                <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
                         <div class="colbox-3">
                             <label>
                                 <span>Bairro:</span>
-                                <input type="text" name="neighborhood" value="" placeholder="Digite seu Bairro">
+                                {!! Form::text('neighborhood', null, ['placeholder' => 'Digite seu Bairro', 'data-required' => 'notnull']) !!}
+                                <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -58,14 +61,15 @@
                     <div class="clear-both"></div>
                     <label>
                         <span>Endereço:</span>
-                        <input type="text" name="public_place" value="" placeholder="Digite seu Endereço">
+                        {!! Form::text('public_place', null, ['placeholder' => 'Digite seu Endereço', 'data-required' => 'minlength', 'data-minlength' => 5]) !!}
+                        <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                         <span class="alert hidden"></span>
                     </label>
                     <div class="colbox">
                         <div class="colbox-2">
                             <label>
                                 <span>Número:</span>
-                                <input type="text" name="number" value="" placeholder="Digite seu número">
+                                {!! Form::text('number', null, ['placeholder' => 'Digite seu número', 'data-required' => 'notnull']) !!}
                                 <span class="alert hidden"></span>
                             </label>
                         </div>
@@ -78,7 +82,7 @@
                         </div>
                     </div>
                     <div class="clear-both"></div>
-                    <div class="checkbox-container padding10">
+                    <div class="checkbox-container padding10" id="chk-master">
                         <div class="checkboxies">
                             <label class="checkbox" style="border-color: #888888;border: none;">
                                 <span><span class="fa fa-square-o"></span> marcar como endereço principal</span>
@@ -97,3 +101,35 @@
             </div>
         </div>
     </div>
+<div class="alertbox whichcep">
+    <div class="alertbox-container">
+        <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
+        <div class="alertbox-content">
+            <div class="padding20"></div>
+            <form class="form-modern" action="javascript:void(0)" method="POST">
+                <label>
+                    {!! Form::text('', null, ['placeholder' => 'Informe seu endereço. Exemplo: Rua Joaquim Pacheco', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
+                    <span class="alert hidden"></span>
+                    <button type="submit" class="btn btn-small btn-popmartin" style="float: right;margin: -35px 10px 0 0;">buscar</button>
+                </label>
+            </form>
+            <div class="scroll" style="max-height: 300px;">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="t-small">CEP</th>
+                        <th>Endereço</th>
+                    </tr>
+                    </thead>
+                    <tbody class="pop-select-cep">
+                    {{--<tr data-cep="27286210">--}}
+                    {{--<td>27286210</td>--}}
+                    {{--<td>Rua Dom Antônio cabral | <b>São Luís - Volta Redonda</b> - RJ</td>--}}
+                    {{--</tr>--}}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

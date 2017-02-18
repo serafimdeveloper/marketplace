@@ -26,7 +26,6 @@ class SalesmanStoreRequest extends Request
             'cpf'=>'required|cpf_mascara',
             'phone'=>'required',
             'cellphone'=>'required',
-            'whatsapp'=> 'required',
             'photo_document'=>'required|image|mimes:png,jpg,jpeg|max:10000',
             'proof_adress'=>'required|file|mimes:png,jpg,jpeg,pdf|max:10000',
             'moip'=>'required'

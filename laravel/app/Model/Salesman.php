@@ -3,12 +3,14 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Salesman extends Model
 {
-    protected $fillable = ['moip','user_id','cpf','facebook','phone','whatsapp','cellphone','photo_document',
-        'active'];
+    use SoftDeletes;
+    protected $fillable = ['moip','user_id','cpf','facebook','phone','whatsapp','cellphone','photo_document', 'proof_adress', 'active'];
     protected $table = 'salesmans';
+    protected $dates = ['deleted_at'];
 
     public function user(){
         return $this->belongsTo(User::class);

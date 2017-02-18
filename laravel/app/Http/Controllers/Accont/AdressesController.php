@@ -20,64 +20,63 @@
             return $adresses;
 		}
 
-		public function store(AdressesStoreRequest $request){
-            $user = Auth::user();
-			if($request->get('master')){
-				$this->change_master($user->adresses);
-			}
-			$adress = $request->except('id','_token');
-            $adress['user_id'] = $user->id;
-			if($dados = $this->repo->store($adress))
+		public function store(AdressesStoreRequest $request, $action){
+            $dados = $this->save($request, $action);
+			if($adress = $this->repo->store($dados))
 			{
-				return json_encode(['status'=>true, 'adress'=>$dados]);
+				return response()->json(['status'=>true, 'adress'=>$adress,'action'=>$action]);
 			}
-			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao criar o endereço !'], 500);
+			return response()->json(['status'=>false,'msg'=>'Ocorreu um erro ao criar o endereço !'], 500);
 		}
 
-		public function edit($id){
+		public function edit($action, $id){
 			$adress = $this->repo->get($id);
-            unset($adress->deleted_at);
-            return json_encode($adress);
+            return response()->json($adress);
 		}
 
-		public function update(AdressesStoreRequest $request, $id){
-            $user = Auth::user();
-            $dados = $request->all();
-            if($request->master == "0"){
-				$this->change_master($user->adresses);
-                $dados['master'] = 1;
-			}
-            $adress = $user->adresses()->find($id)->fill($dados);
-            if($adress->save())
+		public function update(AdressesStoreRequest $request, $action, $id){
+            $dados = $this->save($request, $action);
+            if($adress = $this->repo->update($dados, $id))
 			{
-                unset($adress->deleted_at);
-				return json_encode(['status'=>true,'adress'=>$adress]);
+				return response()->json(['adress'=>$adress,'action'=>$action]);
 			}
-			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
+			return response()->json(['msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
 		}
 
 		public function destroy($id){
-            $user = Auth::user();
-            $adress = $user->adresses()->find($id);
-			if($adress->delete())
+			if($this->repo->delete($id))
 			{
-				return json_encode(['status'=>true]);
+				return response()->json(['status'=>true],200);
 			}
-			return json_encode(['status'=>false,'msg'=>'Ocorreu um erro ao excluir o endereço !'], 500);
+			return response()->json(['msg'=>'Ocorreu um erro ao excluir o endereço !'], 500);
 		}
 
 		public function search_cep($cep){
-			return Correios::cep($cep);
+			return  response()->json(Correios::cep($cep));
 		}
 
 		private function change_master($collection){
-			$filtered = $collection->each(function($item){
+			 $collection->each(function($item){
 				if($item->master === 1){
 					$item->update(['master'=>0]);
 				}
-			});
+			 });
 		}
 
+		private function save($request, $action){
+            $user = Auth::user();
+            $dados = $request->except('master');
+            if($action === 'user'){
+                if(isset($request->master)){
+                    $this->change_master($user->addresses);
+                    $dados['master'] = 1;
+                }
+                $dados['user_id'] = $user->id;
+            }else{
+                $dados['store_id'] = $user->salesman->store->id;
+            }
+            return $dados;
+        }
 
     }
 

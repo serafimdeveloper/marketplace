@@ -13,7 +13,7 @@
                 <div class="coltable">
                     <div class="coltable-2">
                         <ul class="pop-product-galery">
-                            <li><img src="{{ url('imagem/produto/camisa.jpg?w=100&h=100&fit=crop') }}"></li>
+                            <li><img src="{{ url('img') }}"></li>
                             <li><img src="{{ url('/imagem/produto/camisa2.jpg?w=100&h=100&fit=crop') }}"></li>
                             <li><img src="{{ url('/imagem/produto/camisa3.jpg?w=100&h=100&fit=crop') }}"></li>
                             <li><img src="{{ url('/imagem/produto/camisa4.jpg?w=100&h=100&fit=crop') }}"></li>

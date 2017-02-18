@@ -71,8 +71,7 @@ trait GetsTrait
         if ($item) {
             return $item;
         }
-
-        throw new RepositoryException('Item not found');
+        return false;
     }
 
     /**
@@ -103,7 +102,10 @@ trait GetsTrait
         if ($items) {
             return $items;
         }
+        return false;
+    }
 
-        throw new RepositoryException('Items not found');
+    public function pluck($columns){
+        return $this->model->pluck($columns);
     }
 }

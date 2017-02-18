@@ -26,7 +26,6 @@ class SalesmanUpdateRequest extends Request
             'cpf'=>'required|cpf_mascara',
             'phone'=>'required',
             'cellphone'=>'required',
-            'whatsapp'=> 'required',
             'moip'=>'required'
         ];
     }

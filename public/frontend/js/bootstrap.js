@@ -14,20 +14,15 @@ $(function () {
     });
 
     /** altura da modal lightbox */
-    $('.alertbox').height($(document).height());
+    $('.alertbox').height($(document).height() + 60);
 
-    /* ESTILIZAÇÃO DE FILE INPUT*/
-    $("form input[type='file']").on('change', function () {
-        var numArquivos = $(this).get(0).files.length;
-        if (numArquivos > 1) {
-            $(this).siblings("input[type='text']").val(numArquivos + ' arquivos selecionados');
-        } else {
-            $(this).siblings("input[type='text']").val($(this).val());
-        }
-        previewImg(this);
-    });
+
+
+
+
 
 });
+
 
 /**
  * Transforma array em objeto javascript
@@ -58,6 +53,36 @@ function is_mail(mail) {
 }
 
 /**
+ * Verificação de campo CPF
+ * @param cpf
+ * @returns {boolean}
+ */
+function is_cpf(cpf) {
+    var exp = /[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}/;
+    if (exp.exec(cpf)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Vericar se o parâmetro informado, possui realmente um valor do formato data
+ * Com ou sem hora
+ * 1987-01-01 00:00:00
+ * @param date - string
+ * @param hour - boolean
+ * @returns {boolean}
+ */
+function is_date(date, hour) {
+    var exp = (hour ? /[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/ : /[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+    if (exp.exec(date)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+/**
  * Verifica se um determinado valor passado como parâmetro é vazio
  * @param data
  * @returns {boolean}
@@ -69,6 +94,23 @@ function is_null(data) {
         return false;
     }
 }
+
+/**
+ * Verifica se existe um número qualquer em uma determinada string
+ * @param e
+ * @returns {boolean}
+ */
+function is_numberString(e){
+    var exp = new RegExp(/\d/);
+    var response = exp.exec(e);
+    console.log(response);
+    if(response){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 /**
  * Verifica se um determinado valor passado como parâmetro é u, múmero
  * @param val
@@ -84,11 +126,20 @@ function is_Number(val) {
  * @param v
  * @returns {boolean}
  */
-function is_count(n, v) {
-    if (v.length < n) {
-        return false;
-    } else {
-        return true;
+function compareLenght(v, c, n) {
+    // console.log(c);
+    if(c == "<"){
+       return (v.length < n ? true : false);
+    }else if(c == ">"){
+        return (v.length > n ? true : false);
+    }else if(c == "=="){
+        return (v.length == n ? true : false);
+    }else if(c == "!="){
+        return (v.length != n ? true : false);
+    }else if(c == "==="){
+        return (v.length === n ? true : false);
+    }else if(c == "!=="){
+        return (v.length !== n ? true : false);
     }
 }
 /**
@@ -104,21 +155,7 @@ function maskInt(t) {
     t.value = num;
 }
 
-/*
- * EFEITO ACCORDION INPLEMENTAÇÂO
- * */
-$(document).on("click", ".accordion-box .accordion-header", function () {
-    if ($(".accordion-box .accordion-content").not($(this).siblings(".accordion-content")).is(":visible")) {
-        $(".accordion-box .accordion-content").slideUp(600);
-    }
-    if ($(this).siblings('.accordion-content').is(":visible")) {
-        $(this).find('.fa').attr("class", "fa fa-chevron-right");
-    } else {
-        $(this).find('.fa').attr("class", "fa fa-chevron-down");
 
-    }
-    $(this).siblings('.accordion-content').slideToggle(600);
-});
 
 /**
  * Verifica se um determinado elemento está visivel ou não ao manuseal o scroll do navegador
@@ -136,7 +173,7 @@ function isScrollVisibleElement(e) {
 }
 
 /**
- * Incrementa uma pré visualização de uma imagem arquivada em um input qualquer do tipo file
+ * Incrementa uma pré visualização de uma img arquivada em um input qualquer do tipo file
  * @param e
  */
 function previewImg(e) {
@@ -162,6 +199,14 @@ function previewImg(e) {
  * @type {{money: masks.money}}
  */
 var masks = {
+    int: function(){
+        var num = this.value;
+
+        if (isNaN(num)) {
+            num = num.substr(0, (num.length - 1));
+        }
+        this.value = num;
+    },
     money: function () {
         var el = this
             , exec = function (v) {
@@ -287,7 +332,99 @@ function limiter() {
     limiter.html(r);
 }
 
+/**
+ * limpar Acentos e alguns caracteres de uma string qualquer
+ * @param e
+ * @returns {*}
+ */
+function cleanAccents(e){
+    return strtr(
+        'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ´`"\'~^',
+        'AAAAAAACEEEEIIIIDNOOOOOOUUUUYbsaaaaaaaceeeeiiiidnoooooouuuyybyRr',
+        e
+    );
+}
+
+/**
+ * Modificar string original de acordo comparâmetros de alterações passada
+ * @param from
+ * @param to
+ * @param _in
+ * @returns {string|*}
+ */
+function strtr(from, to, _in){
+    var i,
+        _this = _in.toString();
+    from = (from + '').split('');
+    to = (to + '').split('');
+    i = from.length;
+
+    while (i--)
+    {
+        if (_this.match(from[i])) {
+            // Troca por to, Se to[i] não existir a nova char será vazia
+            _this = _this.replace(new RegExp('\\' + from[i], 'ig'), (to[i] || ''));
+        }
+    }
+
+    return _this;
+}
+
+/**
+ * Verifica se a informação passada possui no mínimo 2 nomes separados por espaço
+ * Característica de nomes completo
+ * @param e
+ * @returns {boolean}
+ */
+function fullname(e){
+    var val = e.trim();
+    if(val.indexOf(" ") < 1){
+        return false;
+    }else{
+        return true;
+    }
+}
+/**
+ * Contar elementos de um objeto
+ * @param obj
+ * @returns {number}
+ */
+function objectLength(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+}
+
+
+/*
+ * EFEITO ACCORDION INPLEMENTAÇÂO
+ * */
+$(document).on("click", ".accordion-box .accordion-header", function () {
+    if ($(".accordion-box .accordion-content").not($(this).siblings(".accordion-content")).is(":visible")) {
+        $(".accordion-box .accordion-content").slideUp(600);
+    }
+    if ($(this).siblings('.accordion-content').is(":visible")) {
+        $(this).find('.fa').attr("class", "fa fa-chevron-right");
+    } else {
+        $(this).find('.fa').attr("class", "fa fa-chevron-down");
+
+    }
+    $(this).siblings('.accordion-content').slideToggle(600);
+});
+/* ESTILIZAÇÃO DE FILE INPUT*/
+$(document).on('change', "form input[type='file']", function () {
+    var numArquivos = $(this).get(0).files.length;
+    if (numArquivos > 1) {
+        $(this).siblings("input[type='text']").val(numArquivos + ' arquivos selecionados');
+    } else {
+        $(this).siblings("input[type='text']").val($(this).val());
+    }
+    previewImg(this);
+});
 $(document).on('keyup', '.limiter-textarea', limiter);
+$(document).on("keyup", ".masksInt", masks.int);
 $(document).on("keypress", ".masksMoney", masks.money);
 $(document).on("click", ".form-modern .checkbox input[type=checkbox]", checkBox);
 $(document).on("click", ".form-modern .radio input[type=radio]", radiobox);

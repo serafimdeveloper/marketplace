@@ -17,7 +17,10 @@ class CreateTypeMovementStocksTable extends Migration
             $table->increments('id');
             $table->string('name',30);
             $table->string('description',100);
-            $table->boolean('active');
+            $table->enum('type',['out','in'])->default('out');
+            $table->string('slug')->nullable();
+            $table->boolean('default')->default(0);
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }

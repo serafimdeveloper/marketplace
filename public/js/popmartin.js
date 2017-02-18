@@ -1,8 +1,10 @@
 /**
- * Created by asiw.com.br on 16/01/2017.
+ * Criado por asiw
+ * @author: asiw - contato@asiw.com.br
  */
-$(function () {
 
+var alertfyConfirmTitle = 'Pop Martin alerta!';
+$(function () {
     /**
      * Carousel para container de publicidade no topo do site
      * @type {{loop: boolean, margin: number, responsive: {0: {items: number}, 400: {items: number}, 600: {items: number}, 700: {items: number}, 900: {items: number}}, autoplay: boolean, autoplayTimeout: number, autoplayHoverPause: boolean}}
@@ -51,9 +53,28 @@ $(function () {
     });
 
 
+    $(".jq-new-message").click(function(){
+        $("#jq-new-message").show();
+    });
+
+    $(".jq-new-rating").click(function(){
+        $("#jq-new-rating").show();
+    });
+
 
     /** Inicia plugin tooltipster */
     $('.tooltip').tooltipster();
+
+
+    $(window).scroll(function () {
+        var scroll = $(this).scrollTop();
+        if (scroll > 85) {
+            $('.jq-scrollposition').addClass('pop-notice-msg-fixed');
+        } else {
+            $('.jq-scrollposition').removeClass('pop-notice-msg-fixed');
+        }
+    });
+
 
     /**
      * Verifica os input segundo as regras atribuídas e para a escução caso haja um submit
@@ -87,11 +108,17 @@ $(function () {
      * Caso seja um cadastro, apnenas abre para preenchimento
      */
     $(document).on('click', '.jq-address', function () {
+        $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
+        var action = $(this).data('action')
+        if (action == 'store') {
+            $('#form-adress').find("label span").first().text('Loja');
+            $('#form-adress').find("label input").first().val('Endereço').attr('readonly', true);
+        }
         if (typeof ($(this).data('id')) !== "undefined") {
             $('.alertbox-title').text('Editar endereço');
-            $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id("' + $(this).data('id') + '")><i class="fa fa-trash"></i> remover endereço</span>');
+            $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id="' + $(this).data('id') + '"><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
-            $.get('/accont/adresses/' + $(this).data('id'), function (data) {
+            $.get('/accont/adresses/' + action + '/' + $(this).data('id'), function (data) {
                 inputvalue(data);
             }, 'json');
         } else {
@@ -99,13 +126,36 @@ $(function () {
             $('.alertbox-title').text('Cadastrar endereço');
             $('.address').find('button').text('cadastrar');
         }
-
+        $('.address').find('form').attr('data-action', action);
         $('.address').show();
     });
 
+    $(document).on('click', '.jq-remove-address', function () {
+        var element = $(this);
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este endereço?',
+            function () {
+                var id = element.data('id');
+                $.get('/accont/adresses/destroy/'+id, function (response) {
+                    if (response.status) {
+                        alertify.success('Endereço removido!');
+
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                }, 'json');
+                $('.alertbox-close').click();
+            }, function () {
+                return true;
+            });
+
+        return false;
+    })
+
+
     /**
-     * Menu mobile do painel de administração dos usuários
+     * Menu mobile do painel de controle
      */
+    $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
     $('.panel-icon-mobile').click(function () {
         if ($('.panel-nav').is(':visible')) {
             $(this).find('i').attr('class', 'fa fa-chevron-down');
@@ -115,71 +165,149 @@ $(function () {
         $('.panel-nav').slideToggle();
     });
 
+    /*
+     -------------------------------------------------------------
+     Menu do painel de controle flutuante de acordo com o scroll
+     */
+
+    var objScrollMenu = {
+        ePNM: $('.panel-nav > div'),
+        SPxSPNMTop: $('.panel-nav > div').offset().top,
+        SPxSPNMBottom: $('.panel-nav > div').offset().top + $('.panel-nav > div').outerHeight(),
+        SPxSPNBottom: $('.panel-nav').offset().top + $('.panel-nav').outerHeight()
+    }
+
+    /**
+     * Scroll Window Indentificador
+     */
+    $(this).bind('scroll', window, function () {
+        var SPxWindow = $(window).height() + $(this).scrollTop();
+        var maxCurrentVal = objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom;
+        var currentScroll = SPxWindow - objScrollMenu.SPxSPNMBottom;
+        var reverseCurrentScroll = (objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom) - currentScroll;
+        var pxToNavMenu = $(this).scrollTop() - 90;
+
+        if ($(this).scrollTop() > objScrollMenu.SPxSPNMTop) {
+            if (SPxWindow > objScrollMenu.SPxSPNMBottom) {
+                if (objScrollMenu.ePNM.height() > $(window).height()) {
+                    if ((reverseCurrentScroll > 0 && reverseCurrentScroll < maxCurrentVal)) {
+                        objScrollMenu.ePNM.addClass('floatmenu').css({bottom: reverseCurrentScroll + 15 + 'px'});
+                    }
+                } else {
+                    if (SPxWindow <= objScrollMenu.SPxSPNBottom + 170) {
+                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': pxToNavMenu, bottom: 'inherit'});
+                    } else {
+                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': 'inherit', bottom: 10});
+                    }
+                }
+            } else {
+                objScrollMenu.ePNM.removeClass('floatmenu');
+            }
+        }else{
+            objScrollMenu.ePNM.css({top: 'inherit', 'margin-top': 'inherit'}).removeClass('floatmenu');
+        }
+    });
+
+
     /**
      * Procura de loja em tempo real no painel
      */
-    $(".jq-input-search").keyup(function () {
-        if($(this).val().length > 2) {
-            var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
-            var implementTr = $('#pop-searchStore tbody');
-            $.ajax({
-                url: '/accont/searchstore',
-                data: data,
-                type: 'POST',
-                dataType: 'json',
-                beforeSend: function () {
-                    implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
-                },
-                success: function (e) {
-                    implementTr.html('');
-                    $.each(e, function (i, element) {
-                        implementTr.append('<tr><td><a href="/' + element.slug + '" class="fontem-12 c-green-avocadodark">' + element.name + '</a></td><td>' + element.salesman + '</td></tr>');
-                    });
-                }
-            });
-        }
-    });
+    /*$(".jq-input-search").keyup(function () {
+        var data = '_token=' + $('input[name=_token]').val() + '&name=' + $(this).val();
+        var implementTr = $('#jq-search-table-result tbody');
+        $.ajax({
+            url: '/accont/searchstore',
+            data: data,
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function () {
+                implementTr.html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>")
+            },
+            error: function (response) {
+                alertify.error(response.responseJSON.msg);
+            },
+            success: function (e) {
+                console.log(e);
+                implementTr.html('');
+                $.each(e, function (i, element) {
+                    implementTr.append('<tr><td><a href="/' + element.slug + '" class="fontem-12 c-green-avocadodark">' + element.name + '</a></td><td>' + element.salesman + '</td></tr>');
+                });
+            }
+        });
+
+    });*/
 
     /**
      * Busca o cep na API do correio
      */
 
     $('#zip_code').focusout(function () {
-        var cep = $(this).val();
+        var element = $(this);
+        var cep = element.val();
         if ((/^\d{5}-?\d{3}$/).test(cep)) {
-            $.get('/accont/adresses/zip_code/' + cep, function (data) {
-                var dados = {
-                    'state': data.uf,
-                    'city': data.cidade,
-                    'neighborhood': data.bairro,
-                    'public_place': data.logradouro
-                };
-                inputvalue(dados);
-            }, "json");
+            $.ajax({
+                url: '/accont/adresses/zip_code/' + cep,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    element.parents('form').find('.loader-address').show();
+                },
+                error: function (response) {
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (data) {
+                    data = data[0];
+                    var dados = {
+                        'state': data.uf,
+                        'city': data.cidade,
+                        'neighborhood': data.bairro,
+                        'public_place': data.logradouro
+                    };
+                    element.parents('form').find('.loader-address').hide();
+                    inputvalue(dados);
+                }
+            })
         } else {
             inputerror(false, $(this), 'Cep inválido');
         }
     });
 
+
+    /**
+     * Máscara de telefone e celular.
+     */
+    $('.celphone').on('focusout', function (e) {
+        if (!(/\([0-9]{2}\)[\s][0-9]{4,5}-[0-9]{4}/.test($(this).val()))) {
+            $(this).val('');
+            $(this).next('span').removeClass('hidden').text('Telefone inválido');
+        }
+    });
+
+    /**
+     * LIMPEZA DE CAMPOS AO FECHAR UM ALERTBOX
+     */
     $('.alertbox-close').click(function () {
         var form = $(this).siblings('div').find('form');
-        form.find('input').val('');
-        if(form.find(":checkbox").is(":checked")){
+        clear_input(form);
+        if (form.find(":checkbox").is(":checked")) {
             form.find(":checkbox").click();
         }
+
+        $('.jq-remove-address').hide();
         // console.log();
     })
+
     /**
      * grava ou atualiza o novo endereço
      */
-
     $('#form-adress').on('submit', function (event) {
         var form = $(this);
+        var action = $(this).data('action');
         var dados = form.serialize();
         var id = form.find('input[name=id]').val();
         if (id.length == 0) {
             $.ajax({
-                url: '/accont/adresses',
+                url: '/accont/adresses/' + action,
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
@@ -203,9 +331,9 @@ $(function () {
                         form.parents('.address').slideUp(function () {
                             if (data.adress.master) {
                                 $('#group-pnl-end').find('.address-master').text('');
-                                $('#group-pnl-end').prepend(window_adress(data.adress));
+                                $('#group-pnl-end').prepend(window_adress(data.adress, data.action));
                             } else {
-                                $('#group-pnl-end').append(window_adress(data.adress));
+                                $('#group-pnl-end').append(window_adress(data.adress, data.action));
                             }
                         });
                     }
@@ -213,26 +341,77 @@ $(function () {
             });
         } else {
             $.ajax({
-                url: '/accont/adresses/' + id,
+                url: '/accont/adresses/' + action + '/' + id,
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
                 beforeSend: function () {
                     form.find('button').html('<i class="fa fa-spin fa-spinner"></i> atualizando...');
                 },
+                error: function (data, status) {
+                    form.find('button').html('atualizar');
+                    var trigger = JSON.parse(data.responseText);
+                    $.each(trigger, function (index, element) {
+                        inputerror(false, form.find('input[name=' + index + ']'), element[0]);
+                    });
+                },
                 success: function (data) {
                     form.find('button').html('atualizado com sucesso!');
                     form.parents('.address').slideUp(function () {
-                        if(data.adress.master == 1){
+                        if (data.adress.master == 1) {
                             $('.panel-end h4 .address-master').text(" ");
                         }
-                        $('#end_' + data.adress.id).replaceWith(window_adress(data.adress));
+                        $('#end_' + data.adress.id).replaceWith(window_adress(data.adress, data.action));
                     });
+                    clear_input(form);
                 }
             });
         }
-        form.find('input').val('');
         return false;
+    });
+
+    /** CHAMAR MODAL BUSCA DE CEP*/
+    $(document).on('click', '.jq-whichcep', function () {
+        $('.whichcep').show();
+    });
+
+    /**
+     * FORMULÁRIO DE RASTREIO DE CEP
+     */
+    $(document).on('submit', '.whichcep form', function () {
+        var element = $(this);
+        var data = element.find('input').val();
+        var implementTr = $('.pop-select-cep');
+
+        $.ajax({
+            url: '/accont/adresses/zip_code/' + cleanAccents(data),
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function () {
+                implementTr.html('<tr><td colspan="2"><i class="fa fa-spin fa-spinner"></i></td></tr>');
+            },
+            error: function (response) {
+                alertify.error(response.responseJSON.msg);
+            },
+            success: function (response) {
+                element.find('button').text('buscar').css({background: '#B71C1C'});
+                implementTr.html('');
+                $.each(response, function (i, element) {
+                    implementTr.append('<tr data-cep="' + element.cep + '"><td>' + element.cep + '</td><td>' + element.logradouro + ' | <b>' + element.bairro + ' - ' + element.cidade + '</b> - ' + element.uf + '</td></tr>');
+                });
+            }
+        });
+
+        return false;
+    });
+
+    /**
+     * CAPTAR CEP E IMPLEMENTAR NA MODAL DE ENDEREÇO
+     */
+    $(document).on('click', '.pop-select-cep tr', function () {
+        var cep = $(this).data('cep');
+        $('#zip_code').val(cep).focusout();
+        $(this).parents('.alertbox').find('.alertbox-close').click();
     });
 
     /**
@@ -246,7 +425,7 @@ $(function () {
         } else {
             $('.select_cnpj').slideDown();
             $(".select_cnpj").find('input').val('');
-            $(".selects_people").find('input[name=cpf]').attr('disabled','disabled');
+            $(".selects_people").find('input[name=cpf]').attr('disabled', 'disabled');
         }
         call(radiobox);
         return false;
@@ -254,10 +433,35 @@ $(function () {
 
     /** Trazer subcategoria de acordo com a categoria selecionada */
     $('.select_subcat').change(function () {
-        var id = $(this).val();
-        $.post('', {category_id: id}, function (data) {
-            $('.subcat_info').html(data.option);
-        }, "json");
+        var category = $(this).val();
+        var loader = $(this).data('loader');
+        if (category !== "") {
+            $.ajax({
+                url: '/accont/categories/subcategories/' + category,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('.' + loader).show();
+                },
+                error: function (response) {
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (response) {
+                    if (Object.keys(response.subcategories).length > 0) {
+                        $('.subcat_info').html('<option selected >Selecione uma Subcategoria</option>');
+                        $.each(response.subcategories, function (i, e) {
+                            $('.subcat_info').append('<option value="' + i + '">' + e + '</option>');
+                        });
+                    } else {
+                        $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
+                    }
+                    $('.' + loader).hide();
+
+                }
+            });
+        } else {
+            $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
+        }
     });
 
     /**
@@ -266,30 +470,86 @@ $(function () {
     $(".select_msg").click(function () {
         var array = checkInputsMsg($(this).attr('class'));
         if (array.length !== 0) {
-            $("#pop-remove-msg").show();
+            $("#pop-remove-msg").removeClass('btn-gray cursor-nodrop').addClass('btn-popmartin');
         } else {
-            $("#pop-remove-msg").hide();
+            $("#pop-remove-msg").removeClass('btn-popmartin').addClass('btn-gray cursor-nodrop');
         }
     });
 
     /**
-     * Apagar mensagens selecionadas em tempo real
+     * OPERAÇÃO DE CONTROLE DE ESTOQUE DE PRODUTOS
      */
-    $("#pop-remove-msg").click(function () {
-        var indexes = arrayToObject(checkInputsMsg('select_msg'));
-        $.get('', indexes, function (response) {
-            if (response.status) {
-                indexes.each(function (e) {
-                    $('.select_msg').eq(e).hide();
-                });
+    $('#type_operation_stock').on('change', function (e) {
+        e.preventDefault();
+        var count = $(this).siblings('input');
+        var type = $(this).val() ? '/' + $(this).val() : '';
+        console.log(type);
+        var product_id = $('#product_id').val();
+        var token = $('input[name=_token]').val();
+        var loader = $(this).data('loader');
+        if (count.val() > 0) {
+            var data = {
+                'product_id': product_id,
+                'count': count.val(),
+                '_token': token
             }
-        }, 'json');
-        return false;
+            $.ajax({
+                url: '/accont/movement_stock' + type,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                beforeSend: function () {
+                    $('.' + loader).show();
+                },
+                error: function (response) {
+                    $('.' + loader).hide();
+                    alertify.error(response.responseJSON.msg);
+                    //    $('#quantity').parent().find('span.alert').val(response.responseJSON.msg).removeClass('hidden');
+                },
+                success: function (response) {
+                    $('#quantity').val(response.product);
+                    count.val(0);
+                    $('.' + loader).hide();
+                }
+            });
+        }
+        resetChange($(this));
     });
 
-    /**  */
-    $(".wt-header span").click(function () {
-        windowToggle($(this), 'wt-selected');
+    /**
+     * resetar select
+     * @param e
+     */
+    function resetChange(e) {
+        e.children().removeAttr('selected');
+    }
+
+    /**
+     * Apagar mensagens selecionadas em tempo real
+     */
+
+    $(document).on('click', "#pop-remove-msg.btn-popmartin", function () {
+        var token = $(this).data('token');
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover?',
+            function () {
+                var indexes = arrayToObject(checkInputsMsg('select_msg'));
+                var dados = {'ids': indexes, '_token': token};
+                $.post('/accont/messages/destroy', dados, function (response) {
+                    if (response.status) {
+                        $.each(indexes, function (key, value) {
+                            $('.select_msg').eq(key).parents('tr').hide(800);
+                        });
+                        // $('body').append('<p class="ajax-trigger accept">Menssagens excluída com sucesso</p>');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                }, 'json').fail(function (response) {
+                    alertify.error(response.responseJSON.msg);
+                });
+            }, function () {
+                return true;
+            });
+        return false;
     });
 
     /** Eventos para a troca de imagens da galeria */
@@ -310,30 +570,39 @@ $(function () {
     $('.pop-cart-obs form a').click(function () {
         $(this).parents('form').hide().siblings('.show-formobs').show();
     });
-    $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
+
+    $('.jq-close-alertbox').on('click', function () {
+        $('.alertbox-close').click();
+    })
+
 });
+
+/**  */
+$(document).on('click', '.wt-header span', function () {
+    windowToggle($(this), 'wt-selected');
+});
+
 /** Modal de informações de usuarios */
-$(document).on('click', '.jq-info-user', function(){
+$(document).on('click', '.jq-info-user', function () {
     $("#jq-info-user").slideDown();
 });
 /** Modal de informações de produtos */
-$(document).on('click', '.jq-info-sales', function(){
+$(document).on('click', '.jq-info-sales', function () {
     $("#jq-info-sales").slideDown();
 });
 
 /** Modal de informações das notificações */
-$(document).on('click', '.jq-notification', function(){
+$(document).on('click', '.jq-notification', function () {
     $("#jq-notification").slideDown();
 });
 
 /** Modal de informações de produtos */
-$(document).on('click', '.jq-info-product', function(){
+$(document).on('click', '.jq-info-product', function () {
     $("#jq-info-product").slideDown();
 });
 
-
 /** Modal de atualização e cadastro de banners */
-$(document).on('click', '.jq-new-banner', function(){
+$(document).on('click', '.jq-new-banner', function () {
     var e = $(this);
     var modal = $("#jq-new-banner");
     var form = modal.find('form');
@@ -345,52 +614,65 @@ $(document).on('click', '.jq-new-banner', function(){
     $.get('', e.data('banner'), function (response) {
         inputvalue(response);
         form.find('select').find('option').each(function () {
-            if($(this).val() == response.id){
+            if ($(this).val() == response.id) {
                 $(this).attr('selected', 'true');
                 return false;
             }
         });
-    })
+    }).fail(function (response) {
+        alertify.error(response.responseJSON.msg);
+    });
     $("#jq-new-banner").slideDown();
 });
 
 /**
- * Abrir modal de categoria
+ * ABRIR MODAL DE CATEGORIA
  */
-$(document).on('click', '.jq-new-category', function(){
+$(document).on('click', '.jq-new-category', function () {
     var e = $(this);
     var modal = $("#jq-new-category");
     var form = modal.find('form');
     var title = (e.data('category') ? 'Atualizar categoria - nome da categoria' : 'Cadastrar categoria');
     var buttonText = (e.data('category') ? 'atualizar' : 'cadastrar');
+    var category = (e.data('category') ? '/' + e.data('category') : '');
     modal.find('h2').text(title);
     modal.find('button').text(buttonText);
 
-    $.get('', e.data('category'), function (response) {
-        form.find('input').val(response.name);
-        form.find('select').find('optin').each(function () {
-            if($(this).val() == response.id){
-                $(this).attr('selected', 'true');
-                return false;
+    $.get('/accont/categories' + category, function (response) {
+        var select = form.find('select');
+        select.html('<option value="">Escolher uma categória pai</option>');
+        if (response.category) {
+            var dados = {'id': response.category.id, 'name': response.category.name};
+            inputvalue(dados);
+        }
+        $.each(response.categories, function (i, obj) {
+            var selected = '';
+            if (response.category) {
+                selected = (response.category.category_id === i) ? ' selected="selected"' : '';
             }
+            select.append('<option value="' + i + '"' + selected + '>' + obj + '</option>');
         });
-    })
+    }).fail(function (response) {
+        alertify.error(response.responseJSON.msg);
+    });
 
     $("#jq-new-category").slideDown();
 });
 
 /**
- * Atualizae e cadastrar categorias no sistema
+ * ATUALIZAR E CADASTRAR CATEGORIAS NO SISTEMA
  */
-$(document).on('submit', '#jq-new-category form', function(){
+$(document).on('submit', '#jq-new-category form', function () {
     var form = $(this);
     var dados = form.serialize();
+    console.log(dados);
+    var id = $('input[name=id]').val();
     var buttonText = form.find('button').text();
     var buttonTextloading = '<i class="fa fa-spin fa-spinner"></i> processando...';
 
-    if (!dados.id) {
+    if (!id) {
         $.ajax({
-            url: '',
+            url: '/accont/categories',
             type: 'POST',
             dataType: 'json',
             data: dados,
@@ -399,6 +681,7 @@ $(document).on('submit', '#jq-new-category form', function(){
             },
             error: function (data, status) {
                 form.find('button').html(buttonText);
+                alertify.error(data.responseJSON.msg);
             },
             success: function (data) {
                 form.find('button').html(buttonText);
@@ -406,43 +689,32 @@ $(document).on('submit', '#jq-new-category form', function(){
         });
     } else {
         $.ajax({
-            url: '',
+            url: '/accont/categories/' + id,
             type: 'PUT',
             dataType: 'json',
             data: dados,
             beforeSend: function () {
                 form.find('button').html(buttonTextloading);
             },
+            error: function () {
+                alertify.error(response.responseJSON.msg);
+            },
             success: function (data) {
                 form.find('button').html(buttonText);
             }
         });
     }
-
+    clear_input(form);
     return false;
 });
 
-// $(document).on('click', '.pop-remove-product-cart', function(){
-//     var pr = $(this).parents("tr");
-//     var countProducts = $("#jq-count-product");
-//     var prId = pr.attr('id');
-//     var prThis = pr.parents('tbody').find('tr').length;
-//
-//
-//     console.log(prThis);
-
-    // $.get('', {product_id: prId}, function (response) {
-    //     if(response.status === true){
-    //         countProducts.text((parseInt(countProducts.text() - 1) >= 0 ? parseInt(countProducts.text() - 1) : 0));
-    //         if (prThis > 1) {
-    //             pr.slideUp().remove('');
-    //         } else {
-    //             pr.parents('.pop-cart').slideUp().html('');
-    //         }
-    //     }
-    // }, "json");
-// });
-
+function scrollWindow() {
+    var r = 0;
+    $(window).scroll(function () {
+        r = $(this).scrollTop();
+    });
+    return r;
+}
 
 /**
  * verivica se um determinado grupo de mensagens de array estão checados(marcados) ou não
@@ -468,12 +740,84 @@ function checkInputsMsg(class_element) {
  */
 function switchForm(t) {
     var r = false;
-    switch (t.attr('name')) {
+    switch (t.data('required')) {
+        case 'minlength':
+            r = inputerror(!compareLenght(t.val(), '<', t.data('minlength')), t, 'Campo deve ter no mínimo ' + t.data('minlength') + ' caracteres');
+            break;
+        case 'notnull':
+            r = inputerror(!compareLenght(t.val(), '<', 1), t, 'Campo não pode ser vazio');
+            break;
+        case 'notzero':
+            r = inputerror(!(t.val() < 1), t, 'Campo não pode ser zero');
+            break;
+        case 'fullname':
+            r = inputerror(fullname(t.val()), t, 'Nome completo inválido');
+            break;
+        case 'name':
+            var response = function () {
+                if (is_numberString(t.val()) || compareLenght(t.val(), '<', 2)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'Nome inválido!');
+            break;
+        case 'last_name':
+            var response = function () {
+                if (is_numberString(t.val()) || compareLenght(t.val(), '<', 2)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'Sobrenome inválido!');
+            break;
         case 'email':
             r = inputerror(is_mail(t.val()), t, 'e-mail inválido!');
             break;
+        case 'email_confirm':
+            var response = function () {
+                if (!is_mail(t.val()) || (t.val() != t.parents('form').find('input[name=email_register]').val())) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'e-mail não confere');
+            break;
+        case 'cpf':
+            var response = function () {
+                if (compareLenght(t.val(), '<', 14) || !is_cpf(t.val())) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'cpf inválido!');
+            break;
+
+        case 'fullphone':
+            r = inputerror(!compareLenght(t.val(), '<', 14), t, 'Telefone inválido');
+            break;
+        case 'cellphone':
+            r = inputerror(!compareLenght(t.val(), '<', 15), t, 'Telefone inválido');
+            break;
+        case 'whatsapp':
+            r = inputerror(!compareLenght(t.val(), '<', 14), t, 'Whatsapp inválido');
+            break;
         case 'password':
-            r = inputerror(is_count(6, t.val()), t, 'senha deve ter no mínimo 6 caracteres!');
+            r = inputerror(!compareLenght(t.val(), '<', 6), t, 'senha deve ter no mínimo 6 caracteres!');
+            break;
+        case 'password_confirm':
+            var response = function () {
+                if (compareLenght(t.val(), '<', 6) || (t.val() != t.parents('form').find('input[name=password_register]').val())) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            r = inputerror(response(), t, 'senha não confere!');
             break;
         default:
             r = true;
@@ -481,12 +825,19 @@ function switchForm(t) {
     return r;
 }
 
+
 /**
  * verifica os input de acordo com as regras estipuladas e chama uma função que determina um erro
  * @param object html DOM
  */
 function verificaform(f) {
     f.find("input").focusout(function () {
+        var t = $(this);
+        switchForm(t);
+    }).focusin(function () {
+        $(this).removeClass('input-error').siblings('.alert').addClass('hidden');
+    });
+    f.find("textarea").focusout(function () {
         var t = $(this);
         switchForm(t);
     }).focusin(function () {
@@ -500,13 +851,18 @@ function verificaform(f) {
  */
 function verifySubmit(f) {
     var r = false;
-    f.find('input').each(function () {
-        var t = $(this);
-        r = switchForm(t);
-        if (!r) {
-            return false;
-        }
-    });
+    if(f.find('input').length){
+        f.find('input').each(function () {
+            var t = $(this);
+            r = switchForm(t);
+            if (!r) {
+                return false;
+            }
+        });
+    }else{
+        return true;
+    }
+
     return r;
 }
 /**
@@ -533,25 +889,26 @@ function inputerror(is, param, msg) {
 function inputvalue(inputs, e) {
     if (inputs instanceof Object) {
         $.each(inputs, function (index, element) {
-            if (index === 'state') {
-                element = element.substr(0, 2);
-            }
-            if (!is_Number(element)) {
-                element = element.replace(/\s+/g, " ");
-            }
-            $('input[name=' + index + ']').val(element);
-
-            var master = $("#form-adress .checkbox").find("input[name=master]");
-
-            if (index === 'master' && element) {
-                $("#form-adress .checkbox").find('.fa').attr('class', 'fa fa-check-square-o');
-                if (!master.is(":checked")) {
-                    master.click();
+            if (element) {
+                if (index === 'state') {
+                    element = element.substr(0, 2);
                 }
+                if (!is_Number(element)) {
+                    element = element.replace(/\s+/g, " ");
+                }
+                $('input[name=' + index + ']').val(element);
 
-            } else {
-                if (master.is(":checked")) {
-                    master.click();
+                var master = $("#form-adress .checkbox").find("input[name=master]");
+
+                if (index === 'master' && element) {
+                    $("#form-adress .checkbox").find('.fa').attr('class', 'fa fa-check-square-o');
+                    if (!master.is(":checked")) {
+                        master.click();
+                    }
+                } else {
+                    if (master.is(":checked")) {
+                        master.click();
+                    }
                 }
             }
         });
@@ -559,15 +916,190 @@ function inputvalue(inputs, e) {
     }
 }
 
-function window_adress(obj) {
+/**
+ * ATUALIZAR E APRESENTAR BOX DE ENDEREÇO NO PAINEL
+ * @param obj
+ * @param action
+ * @returns {string}
+ */
+function window_adress(obj, action) {
     obj.master = (obj.master ? 'principal' : '');
     var janela = '<div class="panel-end" id="end_' + obj.id + '">';
-    janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
+    if (action === 'user') {
+        janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
+    } else {
+        janela += '<h4><span>Endereço da Loja</span></h4>';
+    }
     janela += '<div class="panel-end-content">';
     janela += '<p>CEP: ' + obj.zip_code + '</p>';
     janela += '<p> ' + obj.public_place + ', ' + obj.number + ' - ' + obj.city + '</p>';
     janela += '</div>';
-    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '">editar|excluir</a>';
+    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '" data-action="' + action + '">editar|excluir</a>';
     janela += '</div>';
     return janela;
 }
+
+/**
+ * LIMPAR CAMPOS DE IMPUT EXETO TOKEN
+ * @param form
+ */
+function clear_input(form) {
+    var _token = form.find('input[name=_token]').val();
+    form.find('input').val('');
+    form.find('input[name=_token]').val(_token);
+}
+
+/**
+ * BLOQUEAR E DESBLOQUEAR LOJA
+ */
+function blockStore() {
+    var element = $(this);
+    var txt = element.text().trim();
+    var msg = (txt == 'bloquear loja' ? 'Tem certeza de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem!')
+    alertify.confirm(alertfyConfirmTitle, msg,
+        function () {
+            $.get('/accont/salesman/stores/block', function (response) {
+                if (response.status) {
+                    if (response.lock) {
+                        element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear loja');
+                    } else {
+                        element.html('<i class="fa fa-lock vertical-middle"></i> desbloquear loja');
+                    }
+                    alertify.success('Loja Bloqueada');
+                } else {
+                    alertify.error(response.msg);
+                }
+            }, 'json').fail(function (response) {
+                alertify.error(response.responseJSON.msg);
+            });
+        }, function () {
+            return true;
+        });
+}
+/**
+ * REMOÇÃO DE PRODUTO EM TEMPO REAL
+ * @returns {boolean}
+ */
+function removePrduct() {
+    var element = $(this);
+    var id = element.data('id');
+    var token = element.data('token');
+    console.log(token);
+    alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este produto?',
+        function () {
+            $.ajax({
+                url: '/accont/salesman/products/' + id,
+                method: 'DELETE',
+                data: {'_token':token},
+                type: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        element.parents('tr').slideUp(500);
+                        alertify.success('Produto removido');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                },
+                error: function (response) {
+                    if (response.status === 406) {
+                        alertify.confirm(alertfyConfirmTitle, 'Voce tem pendências, você não pode remover este produto, no máximo pode desativar deseja fazer isso agora?  ',
+                            function () {
+                                $.get('accont/salesman/products/change/' + id, function (response) {
+                                    if (response.status) {
+                                        element.parents('tr').slideUp(500);
+                                        alertify.success('Produto removido');
+                                    }
+                                }, 'json').fail(function (response) {
+                                    alertify.error(response.responseJSON.msg);
+                                });
+                            }, function () {
+                                return true;
+                            });
+                    } else {
+                        alertify.error(response.responseJSON.msg);
+                    }
+                }
+            });
+        }, function () {
+            return true;
+        });
+    return false;
+}
+
+/**
+ * REMOÇÃO DE IMAGEM DE PRODUTO EM TEMPO REAL
+ * REMOÇÃO DE IMAGEM DE PRODUTO TEMPORÁRIA
+ * @returns {boolean}
+ */
+function removeImgGarely() {
+    var element = $(this);
+    var action = element.data('action');
+    var textImg = $(this).parents('.product-galery').find('input[type=text]').val();
+    if (action == 'create') {
+        clearImgGalery(element);
+    }
+    if (textImg.length > 0) {
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esta imagem?',
+            function () {
+                var id = element.data('id');
+                var prev = element.data('preview');
+                $.get('/accont/salesman/products/remove/image/' + id, function (response) {
+                    if (response.status) {
+                        clearImgGalery(element);
+                        alertify.success('Produto removido!');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                }, 'json').fail(function (response) {
+                    alertify.error(response.responseJSON.msg);
+                });
+            }, function () {
+                return true;
+            });
+    }
+    return false;
+}
+
+
+/**
+ * LIMPAR IMAGEM PROVISÓRIA E INPUT FILE AO REMOVER PRODUTO
+ * @param element
+ */
+function clearImgGalery(element) {
+    element.parents('.product-galery').find('.prevImg img').attr('src', '/image/img-exemple.jpg?h=110')
+    element.parents('.product-galery').find('.file input[type=text]').val('');
+    element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
+    element.parents('.product-galery').find('.file input[type=file]').remove();
+
+}
+
+
+$(document).on('submit', '.form-modern', function () {
+    $(this).find("button[type=submit]").text('processando..').css({background: '#E57373'});
+});
+$(document).on('click', '.jq-remove-product', removePrduct);
+$(document).on('click', '.jq-remove-img-galery', removeImgGarely);
+$(document).on('click', '.jq-block-store', blockStore);
+
+
+/**
+ * CONFIGURAÇÃO DE MÁSKARA PARA CAMPOS INPUT DE FORMULÁRIOS
+ */
+$(function () {
+    $(".masked_date").mask("00/00/0000", {placeholder: "mm/dd/yyyy"});
+    $(".masked_phone").mask("(00) 0000-0000");
+    $(".masked_cellphone").mask("(00) 00000-0000");
+    $(".masked_cpf").mask("000.000.000-00");
+    $(".masked_cnpj").mask("00.000.000/0000-00");
+})
+
+var fullPhone = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+    },
+    phoneOptions = {
+        onKeyPress: function (val, e, field, options) {
+            field.mask(fullPhone.apply({}, arguments), options);
+        }
+    };
+
+$('.masked_fullphone').mask(fullPhone, phoneOptions);

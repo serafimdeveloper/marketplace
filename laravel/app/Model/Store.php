@@ -4,13 +4,17 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
-    protected $fillable = ['salesman_id','name','type_salesman','cpf','cnpj','fantasy_name','social_name','slug','brach_activity'
-        ,'about','exchange_policy','freight_policy','logo_file','rate','adress_id','active'];
-
+    use SoftDeletes;
     use Sluggable;
+
+    protected $fillable = ['salesman_id','name','type_salesman','cnpj','fantasy_name','social_name','slug','brach_activity'
+        ,'about','exchange_policy','freight_policy','logo_file','rate','active','blocked'];
+    protected $dates = ['deleted_at'];
+
 
     /**
      * Return the sluggable configuration array for this model.
@@ -25,12 +29,20 @@ class Store extends Model
         ];
     }
 
-    public function adress(){
-        return $this->belongsTo(Adress::class);
+    public function owner_sender(){
+        return $this->morphOne(Message::class,'sender' );
+    }
+
+    public function owner_recipient(){
+        return $this->morphOne(Message::class,'recipient' );
     }
 
     public function salesman(){
         return $this->belongsTo(Salesman::class);
+    }
+
+    public function adress(){
+        return $this->hasOne(Adress::class);
     }
 
     public function products(){
@@ -47,6 +59,6 @@ class Store extends Model
 
     public function scopeSearch($query, $name) {
 
-        return $query->where('name', 'LIKE', '%'.$name.'%')->with('salesman')->get();
+        return $query->where('name', 'LIKE', '%'.$name.'%')->with('salesman');
     }
 }

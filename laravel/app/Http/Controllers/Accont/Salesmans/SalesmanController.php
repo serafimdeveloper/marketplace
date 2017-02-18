@@ -36,9 +36,10 @@ class SalesmanController extends AbstractController
         $dados = $request->except('photo_document','proof_adress');
         $dados['user_id'] = $user->id;
         if($salesman = $this->repo->store($dados)){
-            $dados['photo_document'] = $this->upload($request->photo_document,'imagem/vendedor','D1V'.$salesman->id);
-            $dados['proof_adress'] = $this->upload($request->proof_adress,'imagem/vendedor','D2V'.$salesman->id);
+            $dados['photo_document'] = $this->upload($request->photo_document,'img/vendedor','D1V'.$salesman->id);
+            $dados['proof_adress'] = $this->upload($request->proof_adress,'img/vendedor','D2V'.$salesman->id);
             $this->repo->update($dados,$salesman->id);
+            $user->fill(['type_user'=>'salesman'])->save();
             flash('Vendedor salvo com sucesso!', 'accept');
             return redirect()->route('accont.salesman.info');
         }
@@ -82,9 +83,9 @@ class SalesmanController extends AbstractController
             }else{
                 $user->salesman->save(['active' => 1]);
             }
-            return response()->json(['status'=>true]);
+            return response()->json(['status'=>true],200);
         }
-        return response()->json(['status'=>false]);
+        return response()->json(['status'=>false],500);
     }
 
 
@@ -98,7 +99,7 @@ class SalesmanController extends AbstractController
                 return redirect()->route('accont.home');
             }
         }
-        return response()->json(['status'=>false]);
+        return response()->json(['status'=>false],500);
     }
 
     private function check_pending($salesman){

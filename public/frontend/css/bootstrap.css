@@ -1,8 +1,6 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,400i,500,700,900';
 @import url("colors.css");
 @import url("font-awesome.min.css");
-@import url("../lib/alertfy/alertify.core.css");
-@import url("../lib/alertfy/alertify.default.css");
 *{font-family: Roboto, arial, verdana, sans-serif;font-weight: 300;margin: 0;padding: 0;outline: 0;font-size: 1em;line-height: 1.2em;letter-spacing: 0;box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;}
 :before, :after{margin: 0;padding: 0;outline: 0;}
 body, html{height: 100%;}
@@ -86,7 +84,12 @@ ul{list-style: none;}a{text-decoration: none;}a img{border: 0;}img{max-width: 10
 .video-element{position: absolute;top: 0;left: 0;height: 100%; width: 100%;border: none;}
 
 /**** SCROLL *****/
-.scroll{position: relative;overflow: scroll;}
+.scroll{position: relative;overflow: scroll;
+    background: -moz-linear-gradient(top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 51%, rgba(255,255,255,0.7) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0) 51%,rgba(255,255,255,0.7) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0) 51%,rgba(255,255,255,0.7) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3ffffff', endColorstr='#b3ffffff',GradientType=0 ); /* IE6-9 */}
+
 .scroll::-webkit-scrollbar{width:5px; border-radius:15px; -webkit-border-radius:15px;background:#E3E3E3;}
 .scroll::-webkit-scrollbar:horizontal{height: 0;}
 .scroll::-webkit-scrollbar-track{border-radius:15px; -webkit-border-radius:15px;background:#E3E3E3;}
@@ -326,6 +329,7 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 /**** OUTRAS FORMATAÇÕES *****/
 .align-middle{vertical-align: middle;}
 .cursor-pointer{cursor: pointer;}
+.cursor-nodrop{cursor: no-drop;}
 .height-full{min-height: 100%;}
 .clear-both{clear: both;}
 .vertical-middle{vertical-align: middle;}
@@ -441,6 +445,13 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .bs-dialog-footer .bsbtn:hover{background-color: #D8D8D8;}
 .bs-dialog-footer .bsbtn.bsbtn-accept:active{background-color: #2E64FE;color: #FFF;border-color: #2E64FE;}
 .bs-dialog-footer .bsbtn.bsbtn-cancel:active{background-color: #F44336;color: #FFF;border-color: #F44336;}
+
+
+.pagination{display: block;}
+.pagination li{float: left;}
+.pagination a, .pagination .disabled, .pagination .active{padding: 5px 10px;background-color: #EEE;border: 1px solid #E3E3E3;display: block;color: #333333;font-weight: 500;}
+.pagination .active{background-color: #9d9d9d;color: #FFFFFF;}
+.pagination .disabled{color: #9E9E9E;display: none;}
 
 /**** PADRONIZAÇÃO DESIGN RESPONSIVO ******************************
     aAplicação de media query responsivas

@@ -15,10 +15,13 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('category_id')->unsigned()->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('SET NULL');
             $table->string('name',100);
-            $table->tinyInteger('order');
-            $table->boolean('menu');
-            $table->boolean('active');
+            $table->string('slug', 100)->nullable();
+            $table->tinyInteger('order')->default(0);
+            $table->boolean('menu')->default(0);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }
@@ -30,6 +33,10 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
+        Schema::table('categories', function(Blueprint $table){
+            $table->dropForeign(['category_id']);
+        });
+
         Schema::dropIfExists('categories');
     }
 }

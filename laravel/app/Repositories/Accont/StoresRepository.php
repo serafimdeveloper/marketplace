@@ -11,6 +11,7 @@ namespace App\Repositories\Accont;
 
 use App\Repositories\BaseRepository;
 use App\Model\Store;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class StoresRepository extends BaseRepository
 {
@@ -20,8 +21,19 @@ class StoresRepository extends BaseRepository
         return Store::class;
     }
 
-    public function search($name){
-        return $this->model->search($name);
+    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+        $stores =  $this->model->search($name);
+        if (!empty($with)) {
+            $stores = $stores->with($with);
+        }
+
+        foreach ($orders as $column => $order) {
+            $stores = $stores->orderBy($column, $order);
+        }
+
+        $stores = $stores->paginate($limit, $columns, 'page', $page);
+
+        return $stores;
     }
 
     public function bySlug($slug){

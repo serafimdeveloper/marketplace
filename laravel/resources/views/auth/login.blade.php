@@ -16,12 +16,12 @@
                 {{ csrf_field() }}
                 <label>
                     <span>E-mail</span>
-                    <input type="email" name="email" placeholder="informe seu e-mail" value="{{ old('email') }}" required>
+                    <input type="email" name="email" placeholder="informe seu e-mail" value="{{ old('email') }}" data-required="email" required>
                     <span class="alert{{ $errors->has('email') ? '' : ' hidden' }}">{{ $errors->first('email') }}</span>
                 </label>
                 <label>
                     <span>Senha</span>
-                    <input type="password" name="password" placeholder="informe sua senha">
+                    <input type="password" name="password" placeholder="informe sua senha" data-required="password">
                     <span class="alert{{ $errors->has('password') ? '' : ' hidden' }}">{{ $errors->first('password') }}</span>
                 </label>
                 <div class="txt-center">
@@ -45,33 +45,33 @@
             <form class="form-modern pop-form" role="form" method="POST" action="{{ url('/register') }}" novalidate>
                 {{ csrf_field() }}
                 <label>
-                    <span>Nome</span>
-                    <input type="text" name="name" placeholder="Ex: João" value="{{ old('name') }}" required>
+                    <span>Nome <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    <input type="text" name="name" placeholder="Ex: João" value="{{ old('name') }}" data-required="name" required>
                     <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
                 </label>
                 <label>
-                    <span>Sobrenome</span>
-                    <input type="text" name="last_name" placeholder="Ex: da Silva santos" value="{{ old('last_name') }}" required>
+                    <span>Sobrenome <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    <input type="text" name="last_name" placeholder="Ex: da Silva santos" value="{{ old('last_name') }}" data-required="last_name" required>
                     <span class="alert{{ $errors->has('last_name') ? '' : ' hidden' }}">{{ $errors->first('last_name') }}</span>
                 </label>
                 <label>
-                    <span>E-mail</span>
-                    <input type="email" name="email" placeholder="Ex: exemplo@exemplo.com" value="{{ old('email') }}" required>
-                    <span class="alert{{ $errors->has('email') ? '' : ' hidden' }}">{{ $errors->first('email') }}</span>
+                    <span>E-mail <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    <input type="email" name="email_register" placeholder="Ex: exemplo@exemplo.com" value="{{ old('email_register') }}" data-required="email" required>
+                    <span class="alert{{ $errors->has('email_register') ? '' : ' hidden' }}">{{ $errors->first('email_register') }}</span>
                 </label>
                 <label>
-                    <span>Confirmar E-mail</span>
-                    <input type="email" name="email_confirmation" placeholder="Ex: exemplo@exemplo.com" required>
+                    <span>Confirmar E-mail <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    <input type="email" name="email_register_confirmation" placeholder="Ex: exemplo@exemplo.com" data-required="email_confirm" required>
                     <span class="alert hidden"></span>
                 </label>
                 <label>
-                    <span>Criar Senha</span>
-                    <input type="password" name="password" min="6" max="20" required>
+                    <span>Criar Senha <sup class="c-red fontem-06 fl-right">obrigatório</sup> </span>
+                    <input type="password" name="password_register" min="6" max="20" data-required="password" required>
                     <span class="alert{{ $errors->has('password') ? '' : ' hidden' }}">{{ $errors->first('password') }}</span>
                 </label>
                 <label>
-                    <span>Repetir Senha</span>
-                    <input type="password" name="password_confirmation" min="6" max="20" required>
+                    <span>Repetir Senha <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    <input type="password" name="password_register_confirmation" min="6" max="20" data-required="password_confirm" required>
                     <span class="alert hidden"></span>
                 </label>
                 <div style="border: 1px solid #B0BEC5; padding: 10px;">

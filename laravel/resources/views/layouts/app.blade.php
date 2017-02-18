@@ -10,6 +10,8 @@
         <link href="/frontend/lib/owlcarousel/owl.carousel.min.css" rel="stylesheet">
         <link href="/frontend/lib/owlcarousel/theme/owl.theme.default.min.css" rel="stylesheet">
         <link href="/frontend/lib/tooltipster/css/tooltipster.bundle.min.css" rel="stylesheet">
+        <link href="/frontend/lib/alertfy/css/alertify.min.css" rel="stylesheet">
+        <link href="/frontend/lib/alertfy/css/themes/semantic.rtl.min.css" rel="stylesheet">
         @yield('css')
         <link href="/css/popmartin.css" rel="stylesheet">
 
@@ -28,21 +30,14 @@
         </main>
         <script src="/frontend/js/jquery1.js"></script>
         <script src="/frontend/lib/jqueryui/jquery-ui.min.js"></script>
-        <script src="/frontend/js/jquery.maskedinput.min.js"></script>
+        <script src="/frontend/lib/maskinput/jquery.mask.min.js"></script>
         <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
         <script src="/frontend/lib/tooltipster/js/tooltipster.bundle.min.js"></script>
         <script src="/frontend/lib/bsdialog/jquery.bsdialog.js"></script>
-        @yield('script')
+        <script src="/frontend/lib/alertfy/alertify.min.js"></script>
+        {{--<script src="/frontend/lib/twbsPagination/jquery.twbsPagination.min.js"></script>--}}
         <script src="/frontend/js/bootstrap.js"></script>
         <script src="{{ url('/js/popmartin.js') }}"></script>
-        <script>
-            jQuery(function($){
-                $(".masked_date").mask("99/99/9999",{placeholder:"mm/dd/yyyy"});
-                $(".masked_phone").mask("(99) 9999-9999");
-                $(".masked_cellphone").mask("(99) 99999-9999");
-                $(".masked_cpf").mask("999.999.999-99");
-                $(".masked_cnpj").mask("99.999.999/9999-99");
-            });
-        </script>
+        @yield('script')
     </body>
 </html>

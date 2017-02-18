@@ -11,7 +11,7 @@
 
 		public function index(){
 			$user = Auth::User();
-			$collection = $user->adresses->sortByDesc(function($adress, $key){
+			$collection = $user->addresses->sortByDesc(function($adress, $key){
 				return $adress->master;
 			});
 			$adresses = $collection->values()->all();
@@ -19,6 +19,7 @@
 		}
 
 		public function store(HomeStoreRequest $request){
+//            dd($request);
 			$input = $request->all();
 			$user = Auth::User()->fill($input);
 			$user->save();
@@ -31,11 +32,11 @@
 			if(Auth::attempt(['email'=>$user->email, 'password'=>$request->get('password')])){
 				$user->fill(['password'=> bcrypt($request->get('newpassword'))]);
 				$user->save();
-				flash('Senha alterada com sucesso!', 'accept');			
-				return view('accont.home', compact('user'));
+				flash('Senha alterada com sucesso!', 'accept');
+                return redirect()->route('accont.home');
 			}
-			flash('Ocorreu um erro ao alterar a senha!', 'error');	
-			return view('accont.home', compact('user'));
+			flash('Ocorreu um erro ao alterar a senha!', 'error');
+            return redirect()->route('accont.home');
 
 		}
 	}

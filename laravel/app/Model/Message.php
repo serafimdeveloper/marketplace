@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    protected $fillable = ['sender_id','recipient_id','message_type_id','request_id','product_id','message_id','title',
-        'content','status'];
+    protected $fillable = ['sender_id','sender_type','recipient_id','recipient_type','request_id','product_id','message_id','title',
+        'content','desactive','status'];
 
     public function sender(){
-        return $this->belongsTo(User::class,'sender_id');
+        return $this->morphTo();
     }
 
     public function recipient(){
-        return $this->belongsTo(User::class,'recipient_id');
+        return $this->morphTo();
     }
 
-    public function message_type(){
+    /*public function message_type(){
         return $this->belongsTo(MessageType::class,'message_type_id');
-    }
+    }*/
 
     public function request(){
         return $this->belongsTo(Request::class);
@@ -30,6 +30,6 @@ class Message extends Model
     }
 
     public function message(){
-        return $this->hasOne(Message::class);
+        return $this->hasMany($this);
     }
 }

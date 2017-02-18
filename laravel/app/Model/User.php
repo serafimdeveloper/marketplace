@@ -2,12 +2,14 @@
 
 namespace App\Model;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -15,8 +17,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','confirm_token','last_name','document','birth','genre','phone'
+        'name', 'email', 'password','confirm_token','last_name','cpf','document','birth','genre','phone','type_user'
     ];
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -27,7 +30,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function adresses(){
+    public function addresses(){
         return $this->hasMany(Adress::class);
     }
 
@@ -57,5 +60,13 @@ class User extends Authenticatable
 
     public function shopvaluations(){
         return $this->hasMany(ShopValuation::class);
+    }
+
+    public function owner_sender(){
+        return $this->morphOne(Message::class,'sender' );
+    }
+
+    public function owner_recipient(){
+        return $this->morphOne(Message::class,'recipient' );
     }
 }

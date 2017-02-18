@@ -16,7 +16,7 @@ class CreateMessageTypesTable extends Migration
         Schema::create('message_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description',40);
-            $table->boolean('active');
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }

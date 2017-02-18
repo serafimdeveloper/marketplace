@@ -15,8 +15,12 @@ class CreateAdressesTable extends Migration
     {
         Schema::create('adresses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->integer('store_id')->unsigned()->nullable();
+            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('cascade');
+
             $table->string('name',40);
             $table->string('zip_code',9);
             $table->string('state',2);
@@ -24,8 +28,9 @@ class CreateAdressesTable extends Migration
             $table->string('public_place',50);
             $table->string('neighborhood',50);
             $table->integer('number');
-            $table->string('complements');
+            $table->string('complements')->nullable();
             $table->boolean('master')->default(0);
+            $table->timestamps();
             $table->softDeletes();
         });
     }
@@ -39,6 +44,7 @@ class CreateAdressesTable extends Migration
     {
         Schema::table('adresses', function(Blueprint $table){
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['store_id']);
         });
 
         Schema::dropIfExists('adresses');

@@ -19,22 +19,21 @@ class CreateProductsTable extends Migration
             $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('NO ACTION');
-            $table->integer('subcategory_id')->unsigned()->nullable();
-            $table->foreign('subcategory_id')->references('id')->on('sub_categories')->onUpdate('cascade')->onDelete('NO ACTION');
             $table->string('name',100);
+            $table->integer('quantity')->unsigned()->default(1);
             $table->decimal('price',8,2);
-            $table->decimal('price_with_desconto',8,2);
+            $table->decimal('price_out_discount',8,2)->nullable();
             $table->string('slug')->nullable();
             $table->tinyInteger('deadline');
-            $table->boolean('free_shipping');
-            $table->tinyInteger('minimum_tock');
+            $table->boolean('free_shipping')->default(0);
+            $table->tinyInteger('minimum_stock');
             $table->text('details');
-            $table->integer('length_cm');
-            $table->integer('width_cm');
-            $table->integer('height_cm');
-            $table->integer('weight_gr');
-            $table->integer('diameter_cm');
-            $table->boolean('active');
+            $table->float('length_cm');
+            $table->float('width_cm');
+            $table->float('height_cm');
+            $table->float('weight_gr',10,3);
+            $table->float('diameter_cm');
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }
@@ -49,7 +48,7 @@ class CreateProductsTable extends Migration
         Schema::table('products', function(Blueprint $table){
             $table->dropForeign(['store_id']);
             $table->dropForeign(['category_id']);
-            $table->dropForeign(['subcategory_id']);
+//            $table->dropForeign(['subcategory_id']);
         });
         Schema::dropIfExists('products');
     }

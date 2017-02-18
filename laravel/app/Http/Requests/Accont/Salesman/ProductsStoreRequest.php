@@ -39,26 +39,17 @@ class ProductsStoreRequest extends Request
             ],
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
-            'price_with_desconto' => 'numeric',
+            'price_out_discount' => 'numeric',
             'deadline' => 'required|numeric',
-            'free_shipping'=>'boolean',
+            'minimum_stock'=>'required|numeric',
             'details'=>'required|string|max:500',
-            'image_master' => 'required|image|mimes:png,jpg,jpeg|max:10000',
-            'image' => 'file|mimes:png,jpg,jpeg,pdf|max:10000',
+            'image_1' => 'required',
+            'image.*' => 'mimes:png,jpg,jpeg,pdf|max:10000',
             'length_cm' => 'required|numeric',
             'width_cm' => 'required|numeric',
             'height_cm' => 'required|numeric',
             'weight_gr' => 'required|numeric',
             'diameter_cm' => 'required|numeric',
-            'active'=>'boolean'
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'cpf_mascara' => 'O :attribute é inválido',
-        ];
-    }
-
 }
