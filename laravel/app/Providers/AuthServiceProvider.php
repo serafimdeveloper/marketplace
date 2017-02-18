@@ -36,21 +36,44 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('read_message', function($user, $message, $box = 'received'){
-            $colum['type'] = ($box === 'received' ? 'recipient_type' : 'sender_type');
-            $colum['id'] = ($box === 'received' ? 'recipient_id' : 'sender_id');
-            $recipient = app($message->{$colum['type']});
+            $recipient = app($message->recipient_type);
+            $send = app($message->sender_type);
 
-            if($recipient instanceof User){
-                return $message->{$colum['id']} === $user->id;
+            if($recipient instanceof User || $send instanceof User){
+                if($message->sender_id === $user->id || $message->recipient_id === $user->id){
+                    return true;
+                }
             }
-            if($recipient instanceof Admin){
-                return $message->{$colum['id']} === $user->admin->id;
+            if($recipient instanceof Admin || $send instanceof Admin){
+                if($message->sender_id === $user->admin->id || $message->recipient_id === $user->admin->id){
+                    return true;
+                }
             }
-            if($recipient instanceof Store){
-//                dd($message->{$colum['id']} === $user->salesman->store->id);
-                return $message->{$colum['id']} === $user->salesman->store->id;
+            if($recipient instanceof Store || $send instanceof Store){
+                if($message->sender_id === $user->salesman->store->id || $message->recipient_id === $user->salesman->store->id){
+                    return true;
+                }
             }
             return false;
         });
+
+
+//        Gate::define('read_message', function($user, $message, $box = 'received'){
+//            $colum['type'] = ($box === 'received' ? 'recipient_type' : 'sender_type');
+//            $colum['id'] = ($box === 'received' ? 'recipient_id' : 'sender_id');
+//            $recipient = app($message->{$colum['type']});
+//
+//            if($recipient instanceof User){
+//                return $message->{$colum['id']} === $user->id;
+//            }
+//            if($recipient instanceof Admin){
+//                return $message->{$colum['id']} === $user->admin->id;
+//            }
+//            if($recipient instanceof Store){
+////                dd($message->{$colum['id']} === $user->salesman->store->id);
+//                return $message->{$colum['id']} === $user->salesman->store->id;
+//            }
+//            return false;
+//        });
     }
 }

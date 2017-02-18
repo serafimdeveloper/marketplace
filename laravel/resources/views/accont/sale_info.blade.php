@@ -10,7 +10,8 @@
             <div class="colbox">
                 <div class="colbox-2">
                     <p>
-                        <span class="fontw-500">Status:</span> <span class="c-green fontw-600">{{ $request->requeststatus->description }}</span><span class="c-blue fontw-600"> {{isset($rastreamento[0]) ? $rastreamento[0]->status :'aguardando envio'}}</span><br>
+                        <span class="fontw-500">Status:</span><span class="fontw-600 c-{{ $request->requeststatus->trigger }}"> {{ $request->requeststatus->description }} </span><br>
+                        {{--{{isset($rastreamento[0]) ? $rastreamento[0]->status :'aguardando envio'}}--}}
                         <span class="fontw-500">Pedido N°:</span> {{$request->key}}<br>
                         <span class="fontw-500">Data:</span> {{$request->created_at->diffForHumans()}}<br>
                         <span class="fontw-500">Cliente:</span> {{$request->user->name.' '.$request->user->last_name}}

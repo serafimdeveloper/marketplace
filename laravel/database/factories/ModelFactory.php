@@ -205,16 +205,24 @@ $factory->define(Freight::class, function(Generator $faker){
 $factory->define(RequestStatus::class, function(Generator $faker){
     return [
 
-        'description' => $faker->unique()->randomElement([
-            'Aguardando pagamento',
-            'Compra incompleta',
-            'Aguardando envio',
-            'Aguardando chegada',
-            'Aguardando avaliação',
-            'Negociação concluída',
-            'Pedido devolvido',
-            'Compra cancelada'
-        ]),
+        'description' => function(){
+            $data = [
+                'Aguardando pagamento',
+                'Compra incompleta',
+                'Aguardando envio',
+                'Aguardando chegada',
+                'Aguardando avaliação',
+                'Negociação concluída',
+                'Pedido devolvido',
+                'Compra cancelada'
+            ];
+            for($i = 0; $i < count($data); $i++){
+                $element = RequestStatus::where('description', $data[$i])->get();
+                if(!$element->first()){
+                    return $data[$i];
+                }
+            }
+        },
 
         'trigger' => function(array $data){
             switch($data['description']){

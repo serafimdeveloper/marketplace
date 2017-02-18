@@ -30,6 +30,7 @@ class MessagesRepository extends BaseRepository
         $admin = isset($user->admin) ? $user->admin : '';
         $class = ($data['type'] === 'user' ? $user : ($data['type'] === 'store' ? $store : $admin));
         $id = ($class == $user ? $user : ($class == $store ? $store : $admin));
+
         if($data['box'] === 'received'){
             $messages = $messages->where('recipient_id', $id->id)->where('recipient_type', get_class($class));
         }else{

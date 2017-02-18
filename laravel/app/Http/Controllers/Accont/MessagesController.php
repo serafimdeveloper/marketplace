@@ -50,20 +50,23 @@ class MessagesController extends AbstractController
 
     public function show($box, $id)
     {
+        $user = Auth::user();
         if($message = $this->repo->get($id)){
+            $message->update(['status' => 'readed']);
+            if($message->message_id){
+                $message = $this->repo->get($message->message_id);
+            }
             if(Gate::allows('read_message', [$message, $box])){
                 $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC']);
                 if($message->status === 'received'){
                     $message->update(['status' => 'readed']);
                 }
-                $user = Auth::user();
                 $eu = $user->name;
                 return view('accont.message_info', compact('messages','message', 'box', 'eu'));
             }
             flash('Mensagem não encontrada', 'error');
             return redirect()->back();
         }
-
     }
 
     public function comments(Request $request, $type, $id){
@@ -101,12 +104,42 @@ class MessagesController extends AbstractController
             'message'=>'required|min:5:max:500'
         ]);
 
+
         if($model = $this->repo->get($id,$this->columns,$this->with)){
-            $dados = ['sender_id' => $model->recipient_id, 'sender_type' => get_class($model->recipient),
-                'recipient_id' => $model->sender_id, 'recipient_type' => get_class($model->sender),
-                'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id,
-                'product_id' => $model->product_id, 'message_id' => $model->message_id,
-                'title' => $model->title, 'content' => $request->message];
+            if($model->message_id){
+                $model = $this->repo->get($model->message_id,$this->columns,$this->with);
+            }
+
+            $cU = ($model->sender_type == 'App\Model\User');
+            $cS = ($model->sender_type == 'App\Model\Store');
+
+
+            $sender_id = ($cS ? Auth::user()->id : ($cU ? Auth::user()->salesman->store->id : Auth::user()->admin->id));
+            $sender_type = ($cS ? get_class(Auth::user()) : ($cU ? get_class(Auth::user()->salesman->store) : get_class(Auth::user()->admin)));
+
+            $recipient_id = $model->sender_id;
+            $recipient_type = get_class($model->sender);
+
+
+            if($model->sender_id == Auth::user()->id){
+                $sender_id = Auth::user()->id;
+                $sender_type = get_class(Auth::user());
+                $recipient_id = $model->recipient_id;
+                $recipient_type = $model->recipient_type;
+            }
+            $dados = [
+                'sender_id' => $sender_id,
+                'sender_type' => $sender_type,
+                'recipient_id' => $recipient_id,
+                'recipient_type' => $recipient_type,
+                'message_type_id' => $model->message_type_id,
+                'request_id' => $model->request_id,
+                'product_id' => $model->product_id,
+                'message_id' => $model->id,
+                'title' => $model->title,
+                'content' => $request->message
+            ];
+
             $this->repo->filter_messages($request->message);
             if($message = $this->repo->store($dados)) {
                 flash('Mensagem enviada com sucesso!', 'accept');

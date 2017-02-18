@@ -69,12 +69,16 @@ class SalesController extends AbstractController
         $this->validate($req,[
             'tracking_code' => 'required'
         ]);
-       if($request = $this->repo->update(['tracking_code'=>$req->tracking_code],$id)){
+
+        $element = $this->repo->get($id);
+        $st = ($element->request_status_id < 6 ? 4 : $element->request_status_id);
+
+       if($request = $this->repo->update(['tracking_code'=>$req->tracking_code, 'request_status_id' => $st],$id)){
            flash('Código de rastreamento do correio salvo', 'accept');
-           return redirect()->route('accont.salesman.sale_info');
+           return redirect()->route('accont.salesman.sale_info', ['id' => $id]);
        }
         flash('Erro ao salvar o código do correio', 'error');
-        return redirect()->route('accont.salesman.sale_info');
+        return redirect()->route('accont.salesman.sale_info', ['id' => $id]);
     }
 
     public function update(){
