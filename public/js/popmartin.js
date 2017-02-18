@@ -549,11 +549,6 @@ $(function () {
         return false;
     });
 
-    /**  */
-    $(".wt-header span").click(function () {
-        windowToggle($(this), 'wt-selected');
-    });
-
     /** Eventos para a troca de imagens da galeria */
     $(".pop-product-galery img").click(function () {
         $(this).parent().siblings().css({opacity: 0.5})
@@ -578,6 +573,12 @@ $(function () {
     })
 
 });
+
+/**  */
+$(document).on('click', '.wt-header span', function () {
+    windowToggle($(this), 'wt-selected');
+});
+
 /** Modal de informações de usuarios */
 $(document).on('click', '.jq-info-user', function () {
     $("#jq-info-user").slideDown();

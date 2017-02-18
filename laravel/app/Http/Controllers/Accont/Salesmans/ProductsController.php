@@ -42,6 +42,7 @@ class ProductsController extends AbstractController
     {
         if ($store = Auth::user()->salesman->store) {
             $products = $this->repo->all($this->columns, $this->with, ['store_id' => $store->id], [], 5);
+
             return view('accont.products', compact('products'));
         }
         flash('Antes de cadastrar um produto tem que criar uma loja!', 'warning');
