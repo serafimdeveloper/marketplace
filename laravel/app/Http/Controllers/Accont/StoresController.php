@@ -139,7 +139,7 @@ class StoresController extends AbstractController
     public function search(Request $request)
     {
         $page = Input::get('page') ? Input::get('page') : 1 ;
-        $result = $this->repo->search($request->name, $this->columns, $this->with, ['name'=>'ASC'], $limit = 5, $page);
+        $result = $this->repo->search($request->name, $this->columns, $this->with, ['name'=>'ASC'], $limit = 10, $page);
         if($request->ajax()){
             return view('accont.presearchstore', compact('result'));
         }
