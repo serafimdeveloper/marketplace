@@ -983,12 +983,14 @@ function blockStore() {
 function removePrduct() {
     var element = $(this);
     var id = element.data('id');
-
+    var token = element.data('token');
+    console.log(token);
     alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este produto?',
         function () {
             $.ajax({
                 url: '/accont/salesman/products/' + id,
                 method: 'DELETE',
+                data: {'_token':token},
                 type: 'json',
                 success: function (response) {
                     if (response.status) {

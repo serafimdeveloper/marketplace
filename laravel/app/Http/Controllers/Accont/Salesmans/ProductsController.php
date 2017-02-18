@@ -145,12 +145,12 @@ class ProductsController extends AbstractController
     public function destroy($id)
     {
         if ($products = $this->repo->get($id, ['*'], ['requests'])) {
-            if ($requests =$products->requests->where(['finalized' => 0])) {
+           /* if ($requests = $products->requests) {
                 return response()->json(compact('requests'),406);
-            } else {
+            } else {*/
                 $products->delete();
                 return response()->json(['status'=>true]);
-            }
+           // }
         }
         return response()->json(['msg'=>'Produto não encontrado'],404);
     }
