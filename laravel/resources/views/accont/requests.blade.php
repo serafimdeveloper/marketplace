@@ -30,7 +30,7 @@
                 @foreach($requests as $order)
                     <tr>
                         <td>{{ $order->key }}</td>
-                        <td>{{ $order->created_at->format('d/m/Y H:i:s') }}</td>
+                        <td>{{ $order->created_at->diffForHumans() }}</td>
                         <td>R$ {{ $order->amount }}</td>
                         <td>{{ $order->store->name }}</td>
                         <td class="t-status t-{{ $order->requeststatus->trigger }}">{{ $order->requeststatus->description }}</td>
