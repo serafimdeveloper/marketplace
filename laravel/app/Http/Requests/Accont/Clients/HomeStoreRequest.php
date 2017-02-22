@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Accont\Clients;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeStoreRequest extends Request
 {
@@ -23,9 +24,10 @@ class HomeStoreRequest extends Request
      */
     public function rules()
     {
+        $user = Auth::user();
         return [
             'name'=>'required',
-            'cpf'=>'required|cpf_mascara|unique:users,cpf',
+            'cpf'=>'required|cpf_mascara|unique:users,cpf,'.$user->id,
             'birth'=>'required|date',
             'genre'=>'required'
         ];
