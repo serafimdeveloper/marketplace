@@ -25,7 +25,7 @@ class HomeStoreRequest extends Request
     {
         return [
             'name'=>'required',
-            'cpf'=>'cpf_mascara',
+            'cpf'=>'required|cpf_mascara|unique:users,cpf',
             'birth'=>'required|date',
             'genre'=>'required'
         ];

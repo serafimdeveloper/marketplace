@@ -109,7 +109,7 @@ $(function () {
      */
     $(document).on('click', '.jq-address', function () {
         $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
-        var action = $(this).data('action')
+        var action = $(this).data('action');
         if (action == 'store') {
             $('#form-adress').find("label span").first().text('Loja');
             $('#form-adress').find("label input").first().val('Endereço').attr('readonly', true);
@@ -888,6 +888,7 @@ function inputerror(is, param, msg) {
 
 function inputvalue(inputs, e) {
     if (inputs instanceof Object) {
+        var master = $("#form-adress .checkbox").find("input[name=master]");
         $.each(inputs, function (index, element) {
             if (element) {
                 if (index === 'state') {
@@ -898,15 +899,11 @@ function inputvalue(inputs, e) {
                 }
                 $('input[name=' + index + ']').val(element);
 
-                var master = $("#form-adress .checkbox").find("input[name=master]");
-
                 if (index === 'master' && element) {
                     $("#form-adress .checkbox").find('.fa').attr('class', 'fa fa-check-square-o');
                     if (!master.is(":checked")) {
                         master.click();
-                    }
-                } else {
-                    if (master.is(":checked")) {
+                    } else if (master.is(":checked")) {
                         master.click();
                     }
                 }

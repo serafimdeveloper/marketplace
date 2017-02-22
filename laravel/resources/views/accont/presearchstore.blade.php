@@ -20,10 +20,11 @@
 
 @section('script')
     <script>
+        $(document).ready(function(){
        /**
         * Procura de loja em tempo real no painel
         */
-        $(".jq-input-search").keyup(function () {
+        $(document).on('keyup', '.jq-input-search',function () {
             var data = 'name=' + $(this).val();
             getData(1, data);
         });
@@ -48,7 +49,7 @@
                }
            }
        });
-
+    });
        function getData(page, data){
             $.ajax({
                 url: '/accont/searchstore?page='+page,
