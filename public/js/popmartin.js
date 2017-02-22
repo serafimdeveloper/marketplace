@@ -119,7 +119,7 @@ $(function () {
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id="' + $(this).data('id') + '"><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
             $.get('/accont/adresses/' + action + '/' + $(this).data('id'), function (data) {
-                inputvalue(data);
+                inputvalue(data, '#form-adress');
             }, 'json');
         } else {
 
@@ -264,7 +264,7 @@ $(function () {
                         'public_place': data.logradouro
                     };
                     element.parents('form').find('.loader-address').hide();
-                    inputvalue(dados);
+                    inputvalue(dados,'#form-adress');
                 }
             })
         } else {
@@ -643,7 +643,7 @@ $(document).on('click', '.jq-new-category', function () {
         select.html('<option value="">Escolher uma categória pai</option>');
         if (response.category) {
             var dados = {'id': response.category.id, 'name': response.category.name};
-            inputvalue(dados);
+            inputvalue(dados,'#jq-new-category');
         }
         $.each(response.categories, function (i, obj) {
             var selected = '';
@@ -897,7 +897,7 @@ function inputvalue(inputs, e) {
                 if (!is_Number(element)) {
                     element = element.replace(/\s+/g, " ");
                 }
-                $('input[name=' + index + ']').val(element);
+                $(e).find('input[name=' + index + ']').val(element);
 
                 if (index === 'master' && element) {
                     $("#form-adress .checkbox").find('.fa').attr('class', 'fa fa-check-square-o');
