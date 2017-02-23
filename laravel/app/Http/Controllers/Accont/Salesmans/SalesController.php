@@ -55,7 +55,7 @@ class SalesController extends AbstractController
 
     public function edit($id){
         $request = $this->repo->get($id,$this->columns,$this->with);
-        if($request->store->id == Auth::user()->salesman->store->id){
+        if(($request->store->id == Auth::user()->salesman->store->id) || ($request->user->id == Auth::user()->id)){
             $rastreamento = [];
             if(isset($request->tracking_code)){
                 $rastreamento = Correios::rastrear($request->tracking_code);
@@ -66,7 +66,6 @@ class SalesController extends AbstractController
             return view('accont.sale_info', compact('request','rastreamento'));
         }
 
-        return redirect()->route('accont.home');
     }
 
     public function tracking_code(Request $req, $id){

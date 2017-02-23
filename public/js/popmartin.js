@@ -1015,7 +1015,7 @@ function clearImgGalery(element) {
 
 
 $(document).on('submit', '.form-modern', function () {
-    $(this).find("button[type=submit]").text('processando..').css({background: '#E57373'});
+    $(this).find("button[type=submit]").html('<i class="fa fa-spin fa-spinner vertical-middle"></i> aguarde...').css({background: '#E57373'});
 });
 $(document).on('click', '.jq-remove-product', removePrduct);
 $(document).on('click', '.jq-remove-img-galery', removeImgGarely);
