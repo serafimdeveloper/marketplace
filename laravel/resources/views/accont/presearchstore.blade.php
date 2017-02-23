@@ -16,6 +16,9 @@
     @endforelse
     </tbody>
 </table>
+<<<<<<< HEAD
+{!! $result->render() !!}
+=======
 {!! $result->render() !!}
 
 @section('script')
@@ -69,3 +72,4 @@
     </script>
 
 @endsection
+>>>>>>> aed8a7e164e0d7788852d26ed82097aa6f56819a

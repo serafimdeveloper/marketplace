@@ -15,7 +15,7 @@
                     <li><a href="javascript:void(0)"><i class="fa fa-cart-plus"></i></a></li>
                 </ul>
                 <figure>
-                    <img src="{{ url('imagem/produto/camisa.jpg') }}" alt="[]" title="">
+                    <img src="{{ url('imagem/produto/camisa.jpg?w=250&h=250&fit=crop') }}" alt="[]" title="">
                     <figcaption><a href="/juca/produto/nome-produto">R$ 24,90</a></figcaption>
                     <span class="modal-product-frete"></span>
                     <span class="modal-product-descont"></span>
@@ -42,7 +42,7 @@
                         <li><a href="javascript:void(0)"><i class="fa fa-cart-plus"></i></a></li>
                     </ul>
                     <figure>
-                        <img src="{{ url('imagem/produto/camisa.jpg') }}" alt="[]" title="">
+                        <img src="{{ url('imagem/produto/camisa.jpg?w=250&h=250&fit=crop') }}" alt="[]" title="">
                         <figcaption><a href="/juca/produto/nome-produto">R$ 24,90</a></figcaption>
                         <span class="modal-product-frete"></span>
                         <span class="modal-product-descont"></span>
