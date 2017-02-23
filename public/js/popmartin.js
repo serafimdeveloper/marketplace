@@ -108,19 +108,33 @@ $(function () {
      * Caso seja um cadastro, apnenas abre para preenchimento
      */
     $(document).on('click', '.jq-address', function () {
+        var form = $('#form-adress');
         $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
         var action = $(this).data('action')
         if (action == 'store') {
-            $('#form-adress').find("label span").first().text('Loja');
-            $('#form-adress').find("label input").first().val('Endereço').attr('readonly', true);
+            form.find("label span").first().text('Loja');
+            form.find("label input").first().val('Endereço').attr('readonly', true);
         }
         if (typeof ($(this).data('id')) !== "undefined") {
             $('.alertbox-title').text('Editar endereço');
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id="' + $(this).data('id') + '"><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
-            $.get('/accont/adresses/' + action + '/' + $(this).data('id'), function (data) {
-                inputvalue(data);
-            }, 'json');
+            $.ajax({
+                url: '/accont/adresses/' + action + '/' + $(this).data('id'),
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    form.find('.loader-address').show();
+                },
+                error: function (response) {
+                    form.find('.loader-address').hide();
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function(response){
+                    form.find('.loader-address').hide();
+                    inputvalue(form, response);
+                }
+            });
         } else {
 
             $('.alertbox-title').text('Cadastrar endereço');
@@ -192,7 +206,7 @@ $(function () {
                         'public_place': data.logradouro
                     };
                     element.parents('form').find('.loader-address').hide();
-                    inputvalue(dados);
+                    inputvalue(element.parents('form'), dados);
                 }
             })
         } else {
@@ -540,7 +554,7 @@ $(document).on('click', '.jq-new-banner', function () {
     modal.find('button').text(buttonText);
 
     $.get('', e.data('banner'), function (response) {
-        inputvalue(response);
+        inputvalue(form, response);
         form.find('select').find('option').each(function () {
             if ($(this).val() == response.id) {
                 $(this).attr('selected', 'true');
@@ -571,7 +585,7 @@ $(document).on('click', '.jq-new-category', function () {
         select.html('<option value="">Escolher uma categória pai</option>');
         if (response.category) {
             var dados = {'id': response.category.id, 'name': response.category.name};
-            inputvalue(dados);
+            inputvalue(form, dados);
         }
         $.each(response.categories, function (i, obj) {
             var selected = '';
@@ -814,7 +828,7 @@ function inputerror(is, param, msg) {
  * @param inputs object
  */
 
-function inputvalue(inputs, e) {
+function inputvalue(e, inputs) {
     if (inputs instanceof Object) {
         $.each(inputs, function (index, element) {
             if (element) {
@@ -824,7 +838,7 @@ function inputvalue(inputs, e) {
                 if (!is_Number(element)) {
                     element = element.replace(/\s+/g, " ");
                 }
-                $('input[name=' + index + ']').val(element);
+                e.find('input[name=' + index + ']').val(element);
 
                 var master = $("#form-adress .checkbox").find("input[name=master]");
 

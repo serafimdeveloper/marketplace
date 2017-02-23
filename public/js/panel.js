@@ -28,7 +28,8 @@ $(function(){
                         objScrollMenu.ePNM.addClass('floatmenu').css({bottom: reverseCurrentScroll + 15 + 'px'});
                     }
                 } else {
-                    if (SPxWindow <= objScrollMenu.SPxSPNBottom + 170) {
+                    console.log(objScrollMenu.SPxSPNMBottom, pxToNavMenu);
+                    if (pxToNavMenu > 0 && pxToNavMenu < objScrollMenu.SPxSPNMBottom + 150) {
                         objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': pxToNavMenu, bottom: 'inherit'});
                     } else {
                         objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': 'inherit', bottom: 10});
