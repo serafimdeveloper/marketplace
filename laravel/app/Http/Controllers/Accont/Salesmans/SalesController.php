@@ -55,14 +55,18 @@ class SalesController extends AbstractController
 
     public function edit($id){
         $request = $this->repo->get($id,$this->columns,$this->with);
-        $rastreamento = [];
-        if(isset($request->tracking_code)){
-          $rastreamento = Correios::rastrear($request->tracking_code);
+        if($request->store->id == Auth::user()->salesman->store->id){
+            $rastreamento = [];
+            if(isset($request->tracking_code)){
+                $rastreamento = Correios::rastrear($request->tracking_code);
+            }
+            if($request->visualized === 0){
+                $request->fill(['visualized' =>1])->save();
+            }
+            return view('accont.sale_info', compact('request','rastreamento'));
         }
-        if($request->visualized === 0){
-            $request->fill(['visualized' =>1])->save();
-        }
-        return view('accont.sale_info', compact('request','rastreamento'));
+
+        return redirect()->route('accont.home');
     }
 
     public function tracking_code(Request $req, $id){
