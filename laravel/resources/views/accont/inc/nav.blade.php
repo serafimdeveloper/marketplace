@@ -84,7 +84,3 @@
         @endcan
     </div>
 </nav>
-
-@section('script')
-    <script src="{{ url('/js/panel.js') }}"></script>
-    @endsection

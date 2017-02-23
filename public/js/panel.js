@@ -14,7 +14,7 @@ $(function(){
     /**
      * Scroll Window Indentificador
      */
-    $(this).bind('scroll', window, function () {
+    $(window).scroll(function () {
         var SPxWindow = $(window).height() + $(this).scrollTop();
         var maxCurrentVal = objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom;
         var currentScroll = SPxWindow - objScrollMenu.SPxSPNMBottom;
@@ -43,6 +43,9 @@ $(function(){
         }
     });
 
+
+
+
     /**
      * Procura de loja em tempo real no painel
      */
@@ -50,42 +53,42 @@ $(function(){
         var data = 'name=' + $(this).val();
         getData(1, data);
     });
+});
 
-    $(document).on('click', '.pagination a',function(event){
-        $('li').removeClass('active');
-        $(this).parent('li').addClass('active');
-        event.preventDefault();
-        var page=$(this).attr('href').split('page=')[1];
+$(document).on('click', '.pagination a',function(event){
+    $('li').removeClass('active');
+    $(this).parent('li').addClass('active');
+    event.preventDefault();
+    var page=$(this).attr('href').split('page=')[1];
+    var data = 'name='+ $(".jq-input-search").val();
+    getData(page, data);
+});
+
+$(window).on('hashchange', function() {
+    if (window.location.hash) {
+        var page = window.location.hash.replace('#', '');
         var data = 'name='+ $(".jq-input-search").val();
-        getData(page, data);
-    });
-
-    $(window).on('hashchange', function() {
-        if (window.location.hash) {
-            var page = window.location.hash.replace('#', '');
-            var data = 'name='+ $(".jq-input-search").val();
-            if (page == Number.NaN || page <= 0) {
-                return false;
-            }else{
-                getData(page, data);
-            }
+        if (page == Number.NaN || page <= 0) {
+            return false;
+        }else{
+            getData(page, data);
         }
-    });
-
-    function getData(page, data){
-        $.ajax({
-            url: '/accont/searchstore?page='+page,
-            type: "get",
-            data: data,
-            datatype: "html",
-            beforeSend: function(){
-                $('#jq-search-table-result tbody').html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>");
-            }
-        }).done(function(data){
-            $("#result").empty().html(data);
-            location.hash = page;
-        }).fail(function(jqXHR, ajaxOptions, thrownError){
-            alertify.error(response.responseJSON.msg);
-        });
     }
 });
+
+function getData(page, data){
+    $.ajax({
+        url: '/accont/searchstore?page='+page,
+        type: "get",
+        data: data,
+        datatype: "html",
+        beforeSend: function(){
+            $('#jq-search-table-result tbody').html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>");
+        }
+    }).done(function(data){
+        $("#result").empty().html(data);
+        location.hash = page;
+    }).fail(function(jqXHR, ajaxOptions, thrownError){
+        alertify.error(response.responseJSON.msg);
+    });
+}
