@@ -14,8 +14,8 @@
         <div class="colbox">
             <div class="colbox-2">
                 <label>
-                    <span>CPF</span>
-                    {!! Form::text(null, Auth::user()->cpf, ['disabled' => true]) !!}
+                    <span>CPF <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
+                    {!! Form::text(null, Auth::user()->cpf, ['disable' => true]) !!}
                     <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
 
                 </label>
@@ -52,7 +52,7 @@
 
 
                     <div class="txt-center">
-                        @if(!isset($salesman->photo_document))
+                        @if(!$isDocs['document'])
                             <p>Documento com foto (formato PNG ou JPG)</p>
                             <div class="file" style="border:1px solid #B0BEC5;padding: 10px;">
                                 {!! Form::file('photo_document') !!}
@@ -68,7 +68,7 @@
                             </p>
                         @endif
                         <br>
-                        @if(!isset($salesman->proof_adress))
+                        @if(!$isDocs['document'])
                             <p>Comprovante de residência (formato PNG ou JPG ou PDF)</p>
                             <div class="file" style="border:1px solid #B0BEC5;padding: 10px;">
                                 {!! Form::file('proof_adress') !!}
@@ -127,5 +127,4 @@
     </section>
     <div class="clear-both"></div>
     @include('layouts.parties.alert_adress')
-    <div class="clear-both"></div>
 @endsection

@@ -162,7 +162,7 @@ input{padding: 5px;width: 100%;}
 .menu-hidden .btn{width: 90%;}
 
 .panel-nav{float: left; position: relative;width: 18%;min-width: 200px;padding: 40px 5px 5px 5px;background-color: #EEEEEE;}
-.panel-nav > div{position: absolute;width: 94%;}
+.panel-nav > div{width: 94%;}
 .panel-nav .panel-nav-acsess{margin: 10px 0;}
 .panel-nav h3{font-size: 1.2em;background-color: #ac2925;color: #e0e0e0;padding: 7px 5px; text-align: center;}
 .panel-nav-acsess a{display: block; width: 100%; padding: 10px 5px;border-bottom: 1px solid #BDBDBD;color: #757575;transition: all 0.4s;-moz-transition: all 0.4s;-webkit-transition: all 0.4s;}

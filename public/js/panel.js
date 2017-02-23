@@ -6,21 +6,26 @@ $(function(){
      */
     /** definição de variáveis*/
     var boundaries =
-        {top: 0, bottom: 0},
+        {top: 0, bottom: 0, position: 'absolute'},
         menuContainer = $('.panel-nav'),
         menu = $('.panel-nav > div'),
         wnd = $(window);
 
     wnd.on('scroll', function(){
-        var offset = menuContainer.offset();
-        boundaries.top = offset.top;
-        boundaries.bottom = offset.top + menuContainer.height() - menu.height();
+        if(menuContainer.height() > wnd.height()){
+            menu.css({position: boundaries.position});
+            var offset = menuContainer.offset();
+            boundaries.top = offset.top;
+            boundaries.bottom = offset.top + menuContainer.height() - menu.height();
 
-        var st = boundaries.top;
-        st = wnd.scrollTop() > st ? wnd.scrollTop() - 40 : st;
-        st = st > boundaries.bottom ? st = boundaries.bottom : st;
 
-        menu.css({top: st});
+            var st = boundaries.top;
+            st = wnd.scrollTop() > st ? wnd.scrollTop() - 40 : st;
+            st = st > boundaries.bottom ? st = boundaries.bottom : st;
+
+            menu.css({top: st});
+        }
+
     }).triggerHandler('scroll');
 
     /**
