@@ -70,6 +70,8 @@
                 if(isset($request->master)){
                     $this->change_master($user->addresses);
                     $dados['master'] = 1;
+                }else{
+                    $dados['master'] = 0;
                 }
                 $dados['user_id'] = $user->id;
             }else{

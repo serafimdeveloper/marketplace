@@ -27,7 +27,7 @@ class RequestsController extends AbstractController
 
     public function show($id){
         $user = Auth::User();
-        $request = $this->repo->all($this->columns,$this->with,['id' => $id, 'user_id'=>$user->id])->first();
+        $request = $this->repo->all($this->columns,$this->with,['id' => $id])->first();
         $type = ['type' => 'request', 'id' => $request->id];
         $request = ($request ? $request : false);
 
