@@ -14,8 +14,8 @@
         <div class="colbox">
             <div class="colbox-2">
                 <label>
-                    <span>CPF <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
-                    {!! Form::text('cpf', Auth::user()->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF', 'data-required' => 'cpf']) !!}
+                    <span>CPF</span>
+                    {!! Form::text(null, Auth::user()->cpf, ['disabled' => true]) !!}
                     <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
 
                 </label>
@@ -127,4 +127,5 @@
     </section>
     <div class="clear-both"></div>
     @include('layouts.parties.alert_adress')
+    <div class="clear-both"></div>
 @endsection

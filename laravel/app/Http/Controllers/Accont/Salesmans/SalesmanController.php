@@ -49,6 +49,13 @@ class SalesmanController extends AbstractController
 
 
     public function edit(){
+        if ($user = Auth::user()) {
+//            dd($user->cpf);
+            if(!$user->cpf){
+                flash('É necessário cadastrar seu cpf para se tornar um vendedor', 'warning');
+                return redirect()->route('accont.home');
+            }
+        }
         $salesman = Auth::user()->salesman;
         return view('accont.salesman', compact('salesman'));
     }

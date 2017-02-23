@@ -1,57 +1,27 @@
 $(function(){
+
     /*
      -------------------------------------------------------------
      Menu do painel de controle flutuante de acordo com o scroll
      */
+    /** definição de variáveis*/
+    var boundaries =
+        {top: 0, bottom: 0},
+        menuContainer = $('.panel-nav'),
+        menu = $('.panel-nav > div'),
+        wnd = $(window);
 
-    var objScrollMenu = {
-        /** offset botom content menu*/
-        ePNM: $('.panel-nav > div'),
+    wnd.on('scroll', function(){
+        var offset = menuContainer.offset();
+        boundaries.top = offset.top;
+        boundaries.bottom = offset.top + menuContainer.height() - menu.height();
 
-        /** altura inteira contando com paddings do container menu */
-        SPxSPNBottom: $('.panel-nav').offset().top + $('.panel-nav').outerHeight(),
+        var st = boundaries.top;
+        st = wnd.scrollTop() > st ? wnd.scrollTop() - 40 : st;
+        st = st > boundaries.bottom ? st = boundaries.bottom : st;
 
-        /** offset top list menu*/
-        SPxSPNMTop: $('.panel-nav > div').offset().top,
-
-        /** offset botom list menu*/
-        SPxSPNMBottom: $('.panel-nav > div').offset().top + $('.panel-nav > div').outerHeight()
-    }
-
-    /**
-     * Scroll Window Indentificador
-     */
-    $(window).scroll(function () {
-        var SPxWindow = $(window).height() + $(this).scrollTop();
-        var maxCurrentVal = objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom;
-        var currentScroll = SPxWindow - objScrollMenu.SPxSPNMBottom;
-        var reverseCurrentScroll = (objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom) - currentScroll;
-        var pxToNavMenu = $(this).scrollTop() - 90;
-
-        if ($(this).scrollTop() > objScrollMenu.SPxSPNMTop) {
-            if (SPxWindow > objScrollMenu.SPxSPNMBottom) {
-                if (objScrollMenu.ePNM.height() > $(window).height()) {
-                    if ((reverseCurrentScroll > 0 && reverseCurrentScroll < maxCurrentVal)) {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({bottom: reverseCurrentScroll + 15 + 'px'});
-                    }
-                } else {
-                    console.log(objScrollMenu.SPxSPNMBottom, pxToNavMenu);
-                    if (pxToNavMenu > 0 && pxToNavMenu < objScrollMenu.SPxSPNMBottom + 150) {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': pxToNavMenu, bottom: 'inherit'});
-                    } else {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': 'inherit', bottom: 10});
-                    }
-                }
-            } else {
-                objScrollMenu.ePNM.removeClass('floatmenu');
-            }
-        }else{
-            objScrollMenu.ePNM.css({top: 'inherit', 'margin-top': 'inherit'}).removeClass('floatmenu');
-        }
-    });
-
-
-
+        menu.css({top: st});
+    }).triggerHandler('scroll');
 
     /**
      * Procura de loja em tempo real no painel
