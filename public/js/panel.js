@@ -5,10 +5,17 @@ $(function(){
      */
 
     var objScrollMenu = {
+        /** offset botom content menu*/
         ePNM: $('.panel-nav > div'),
+
+        /** altura inteira contando com paddings do container menu */
+        SPxSPNBottom: $('.panel-nav').offset().top + $('.panel-nav').outerHeight(),
+
+        /** offset top list menu*/
         SPxSPNMTop: $('.panel-nav > div').offset().top,
-        SPxSPNMBottom: $('.panel-nav > div').offset().top + $('.panel-nav > div').outerHeight(),
-        SPxSPNBottom: $('.panel-nav').offset().top + $('.panel-nav').outerHeight()
+
+        /** offset botom list menu*/
+        SPxSPNMBottom: $('.panel-nav > div').offset().top + $('.panel-nav > div').outerHeight()
     }
 
     /**
@@ -29,7 +36,7 @@ $(function(){
                     }
                 } else {
                     console.log(objScrollMenu.SPxSPNMBottom, pxToNavMenu);
-                    if (pxToNavMenu > 0 && pxToNavMenu < objScrollMenu.SPxSPNMBottom - 210) {
+                    if (pxToNavMenu > 0 && pxToNavMenu < objScrollMenu.SPxSPNMBottom + 150) {
                         objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': pxToNavMenu, bottom: 'inherit'});
                     } else {
                         objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': 'inherit', bottom: 10});
