@@ -75,7 +75,13 @@
             </table>
             <hr>
             <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-pop fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span></p>
-            <div class="padding30"></div>
+            <div class="padding10"></div>
+            <div class="content">
+                <h4>Anotações enviada junto ao pedido</h4>
+                <p class="padding20-40 bg-graylightextreme">
+                    {{ $request->note }}
+                </p>
+            </div>
         </div>
     </section>
     <div class="clear-both"></div>

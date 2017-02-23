@@ -84,24 +84,24 @@
         <div class="content">
             <h2 style="text-align: center;">Dados do conta</h2>
 
-            {!! Form::open(['route' => ['accont.changepassword.store'], 'method' => 'POST','class'=>'content form-modern']) !!}
+            {!! Form::open(['route' => ['accont.changepassword.store'], 'method' => 'POST','class'=>'content form-modern pop-form']) !!}
                 <label>
-                    <span class="title title-gray">email</span>
+                    <span>email</span>
                     <input type="text" name="email" value="{{$user->email}}" disabled="true" style="color: #FFFFFF;background-color: #888888;">
                 </label>
                 <label>
                     <span>senha atual</span>
-                    {!! Form::password('password',null, [ 'placeholder' => 'Senha']) !!}                  
+                    {!! Form::password('password', [ 'placeholder' => 'Senha', 'data-required' => 'password']) !!}
                     <span class="alert{{ $errors->has('password') ? '' : ' hidden' }}">{{ $errors->first('password') }}</span>
                 </label>
                 <label>
                     <span>criar nova senha</span>
-                    {!! Form::password('newpassword',null, [ 'placeholder' => 'Nova senha']) !!}
+                    {!! Form::password('newpassword', [ 'placeholder' => 'Nova senha', 'data-required' => 'password']) !!}
                     <span class="alert{{ $errors->has('newpassword') ? '' : ' hidden' }}">{{ $errors->first('newpassword') }}</span>
                 </label>
                 <label>
-                    <span>repetir senha</span>
-                    {!! Form::password('newpassword_confirmation',null, [ 'placeholder' => 'Repita sua nova senha']) !!}
+                    <span>repetir nova senha</span>
+                    {!! Form::password('newpassword_confirmation', [ 'placeholder' => 'Repita sua nova senha', 'data-required' => 'password']) !!}
                     <span class="alert{{ $errors->has('newpassword_confirmation') ? '' : ' hidden' }}">{{ $errors->first('newpassword_confirmation') }}</span>
                 </label>
                 <div class="txt-center">

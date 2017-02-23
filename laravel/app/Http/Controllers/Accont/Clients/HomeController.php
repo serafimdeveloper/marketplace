@@ -34,7 +34,10 @@
 				$user->save();
 				flash('Senha alterada com sucesso!', 'accept');
                 return redirect()->route('accont.home');
-			}
+			}else{
+                flash('Senha atual informada incorreta', 'error');
+                return redirect()->route('accont.home');
+            }
 			flash('Ocorreu um erro ao alterar a senha!', 'error');
             return redirect()->route('accont.home');
 
