@@ -8,7 +8,7 @@
     <tbody>
     @forelse($result as $store)
         <tr>
-            <td><a href="{{url($store->slug)}}" class="fontem-12 c-green-avocadodark">{{ $store->name }}</a> </td>
+            <td><a href="{{url($store->slug)}}" class="fontem-12 c-green-avocadodark">{{ $store->name }}</a></td>
             <td>{{ $store->salesman->user->name }}</td>
         </tr>
     @empty
@@ -17,3 +17,15 @@
     </tbody>
 </table>
 {!! $result->render() !!}
+@section('script')
+    <script>
+        $(document).on('click', '.pagination a', function (event) {
+            $('li').removeClass('active');
+            $(this).parent('li').addClass('active');
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            var data = 'name=' + $(".jq-input-search").val();
+            getData(page, data);
+        });
+    </script>
+@endsection

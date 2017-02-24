@@ -13,7 +13,7 @@ $(function(){
 
     wnd.on('scroll', function(){
         if(menuContainer.height() > wnd.height()){
-            menu.css({position: boundaries.position});
+            menu.css({position: boundaries.position, width: '95%'});
             var offset = menuContainer.offset();
             boundaries.top = offset.top;
             boundaries.bottom = offset.top + menuContainer.height() - menu.height();
@@ -35,15 +35,6 @@ $(function(){
         var data = 'name=' + $(this).val();
         getData(1, data);
     });
-});
-
-$(document).on('click', '.pagination a',function(event){
-    $('li').removeClass('active');
-    $(this).parent('li').addClass('active');
-    event.preventDefault();
-    var page=$(this).attr('href').split('page=')[1];
-    var data = 'name='+ $(".jq-input-search").val();
-    getData(page, data);
 });
 
 $(window).on('hashchange', function() {
