@@ -191,7 +191,7 @@
                 <div class="colbox-5">
                     <label>
                         <span>Diametro (cm)</span>
-                        {!! Form::text('diameter_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5, 'data-required' => 'notzero']) !!}
+                        {!! Form::text('diameter_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
                         <span class="alert{{ $errors->has('diameter_cm') ? '' : ' hidden' }}">{{ $errors->first('diameter_cm') }}</span>
                     </label>
                 </div>
