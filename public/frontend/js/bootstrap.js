@@ -1,6 +1,5 @@
 $(function () {
     var urlBase = window.location.origin;
-
     if ($(".ajax-trigger:visible")) {
         setTimeout(function () {
             $(".ajax-trigger").animate({
@@ -15,12 +14,6 @@ $(function () {
 
     /** altura da modal lightbox */
     $('.alertbox').height($(document).height() + 60);
-
-
-
-
-
-
 });
 
 

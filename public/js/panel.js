@@ -280,6 +280,67 @@ $(function(){
         return false;
     });
 
+    /**
+     * Abre modal com formulário de preenchimento de endereço
+     * Requisita endereço via ajax caso seja uma edição
+     * Caso seja um cadastro, apnenas abre para preenchimento
+     */
+    $(document).on('click', '.jq-address', function () {
+        var form = $('#form-adress');
+        $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
+        var action = $(this).data('action')
+        if (action == 'store') {
+            form.find("label span").first().text('Loja');
+            form.find("label input").first().val('Endereço').attr('readonly', true);
+        }
+        if (typeof ($(this).data('id')) !== "undefined") {
+            $('.alertbox-title').text('Editar endereço');
+            $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id="' + $(this).data('id') + '"><i class="fa fa-trash"></i> remover endereço</span>');
+            $('.address').find('button').text('atualizar');
+            $.ajax({
+                url: '/accont/adresses/' + action + '/' + $(this).data('id'),
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    form.find('.loader-address').show();
+                },
+                error: function (response) {
+                    form.find('.loader-address').hide();
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (response) {
+                    form.find('.loader-address').hide();
+                    inputValue(form, response);
+                }
+            });
+        } else {
+            $('.alertbox-title').text('Cadastrar endereço');
+            $('.address').find('button').text('cadastrar');
+        }
+        $('.address').find('form').attr('data-action', action);
+        $('.address').show();
+    });
+
+    /** Remover enderço do usuário */
+    $(document).on('click', '.jq-remove-address', function () {
+        var element = $(this);
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este endereço?',
+            function () {
+                var id = element.data('id');
+                $.get('/accont/adresses/destroy/' + id, function (response) {
+                    if (response.status) {
+                        alertify.success('Endereço removido!');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                }, 'json');
+                $('.alertbox-close').click();
+            }, function () {
+                return true;
+            });
+        return false;
+    });
+
     /** Captar cep e implementar na modal de endereço */
     $(document).on('click', '.pop-select-cep tr', function () {
         var cep = $(this).data('cep');
@@ -337,6 +398,15 @@ $(function(){
     $(document).on('click', '.jq-info-user', function () {
         $("#jq-info-user").slideDown();
     });
+
+    /** Chamada de função para remoção de produtos */
+    $(document).on('click', '.jq-remove-product', removePrduct);
+
+    /** Chamada de função para remoção de galerias relaciona a produtos */
+    $(document).on('click', '.jq-remove-img-galery', removeImgGarely);
+
+    /** Chamada de função para bloquear ou desbloqueer loja */
+    $(document).on('click', '.jq-block-store', blockStore);
 
     /** Modal de atualização e cadastro de banners */
     $(document).on('click', '.jq-new-banner', function () {

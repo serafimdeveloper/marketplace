@@ -64,6 +64,8 @@
                                 <br>
                                 <span>{{$product->quantity}} peça(s) disponível(veis)Prazo de {{$product->deadline}} dias para envio</span>
                             </div>
+                            <br>
+                            <br>
                             <div class="pop-rate">
                                 <p>Avaliação do vendedor</p>
                                 <div>
