@@ -41,6 +41,8 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->register(Artesaos\Moip\Providers\MoipServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
