@@ -28,7 +28,7 @@ class MessagesController extends AbstractController
     {
         return MessagesRepository::class;
     }
-    
+
     public function index($type, $box = 'received')
     {
         if($box !== 'received' && $box !== 'send'){

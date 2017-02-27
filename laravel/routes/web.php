@@ -150,6 +150,4 @@ Route::get('/{store}', function(){
     return view('pages.store');
 })->name('pages.store');
 
-Route::get('/{store}/{category}/{product}', function(){
-    return view('pages.product');
-})->name('pages.product');
+Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');

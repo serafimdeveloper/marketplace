@@ -13,15 +13,14 @@
                 <div class="coltable">
                     <div class="coltable-2">
                         <ul class="pop-product-galery">
-                            <li><img src="{{ url('img') }}"></li>
-                            <li><img src="{{ url('/imagem/produto/camisa2.jpg?w=100&h=100&fit=crop') }}"></li>
-                            <li><img src="{{ url('/imagem/produto/camisa3.jpg?w=100&h=100&fit=crop') }}"></li>
-                            <li><img src="{{ url('/imagem/produto/camisa4.jpg?w=100&h=100&fit=crop') }}"></li>
+                            @foreach($product->galeries as $galery)
+                                <li><img src="{{ url('/imagem/produto/'.$galery->image.'?w=100&h=100&fit=crop') }}"></li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="coltable-10">
                         <figure style="border-bottom: 1px solid #e0e0e0;margin-bottom: 10px;">
-                            <img id="img-product" src="{{ url('imagem/produto/camisa2.jpg?w=500&h=500&fit=crop') }}" alt="[]"
+                            <img id="img-product" src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=500&h=500&fit=crop') }}" alt="[]"
                                  title="">
                         </figure>
                     </div>
@@ -29,10 +28,10 @@
                 <div class="clear-both"></div>
                 <div class="pop-product-salesman">
                         <div class="fl-left">
-                            <p>Nome da Loja</p>
+                            <p>{{$product->store->name}}</p>
                         </div>
                         <div class="fl-right">
-                            <a id="messageToSalesman" class="btn btn-popmartin-trans"><i
+                            <a class="btn btn-popmartin-trans jq-new-message"><i
                                         class="fa fa-comments-o"></i> contatar o vendedor</a>
                         </div>
                     <div class="clear-both"></div>
@@ -40,7 +39,7 @@
             </div>
             <article class="colbox-2">
                 <header class="pop-title">
-                    <h1>Nome do produto apresentado</h1>
+                    <h1>{{$product->name}}</h1>
                 </header>
                 <div class="padding05">
                     <a href="" class="btn btn-small btn-facebook"><i class="fa fa-facebook"></i> compartilhar</a>
@@ -49,17 +48,21 @@
                 <section>
                     <div class="colbox" style="margin: 30px 0;">
                         <div class="colbox-2 txt-center">
-                            <span class="price">de R$ 29,90</span>
-                            <p class="price-descont">R$14,90</p>
-                            <span class="frete frete-gratis">FRETE GRÁTIS</span>
-                            <span class="frete frete-pac">PAC</span>
+                            <span class="price">de R${{number_format($product->price,2,',','.')}}</span>
+                            <p class="price-descont">R${{number_format($product->price_out_discount,2,',','.')}}</p>
+                            @if($product->free_shipping)
+                                <span class="frete frete-gratis">FRETE GRÁTIS</span>
+                            @else
+                                <span class="frete frete-pac">PAC</span>
+                                <span class="frete frete-pac" style="color:#fff">SEDEX</span>
+                            @endif
                         </div>
                         <div class="colbox-2 txt-center">
                             <div class="btn-purshace">
                                 <a class="btn btn-popmartin" href="/carrinho" title="">COMPRAR</a>
                                 <br>
                                 <br>
-                                <span>30 peça(s) disponível(veis)Prazo de 2 dias para envio</span>
+                                <span>{{$product->quantity}} peça(s) disponível(veis)Prazo de {{$product->deadline}} dias para envio</span>
                             </div>
                             <div class="pop-rate">
                                 <p>Avaliação do vendedor</p>
@@ -90,24 +93,13 @@
                             </div>
                             <div class="wt-container">
                                 <div class="wt-content wt-selected wt-visible">
-                                    Lorem Ipsum é simplesmente uma simulação de texto <br>
-                                    Lorem Ipsum é simplesmente uma simulação de texto <br>
-                                    Lorem Ipsum é simplesmente uma simulação de texto <br>
-                                    Lorem Ipsum é simplesmente uma simulação de texto <br>
-                                    Lorem Ipsum é simplesmente uma simulação de texto <br>
-                                    Lorem Ipsum é simplesmente uma simulação de texto <br>
-                                    Lorem Ipsum é simplesmente uma simulação de texto <br>
-                                    Lorem Ipsum é simplesmente uma simulação de texto <br>
+                                   {{$product->details}}
                                 </div>
                                 <div class="wt-content">
-                                    Lorem Ipsum 2 é simplesmente uma simulação de texto da indústria tipográfica
-                                    e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor
-                                    desconhecido pegou uma bandeja
+                                    {{$product->store->exchange_policy}}
                                 </div>
                                 <div class="wt-content">
-                                    Lorem Ipsum 2 é simplesmente uma simulação de texto da indústria tipográfica
-                                    e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor
-                                    desconhecido pegou uma bandeja
+                                    {{$product->store->freight_policy}}
                                 </div>
                             </div>
                         </div>
@@ -129,6 +121,7 @@
             </form>
         </div>
     </div>
+    @include('layouts.parties.alert_message')
 @endsection
 @section('script')
     <script src="/frontend/lib/rater/rater.min.js"></script>
