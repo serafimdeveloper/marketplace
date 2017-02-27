@@ -11,4 +11,5 @@
             }
         </script>
     @endif
+    <script src="{{ url('/js/panel.js') }}"></script>
 @endsection
