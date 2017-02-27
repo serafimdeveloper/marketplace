@@ -27,7 +27,8 @@ class HomeController extends Controller {
 
     public function single_page($store, $category, $prod){
         $product = $this->product->single_page($this->with_product, $store, $category, $prod);
-        return view('pages.product', compact('product'));
+        $type = ['type' => 'product', 'id' => $product->id];
+        return view('pages.product', compact('product','type'));
     }
 
 }

@@ -31,7 +31,7 @@
                             <p>{{$product->store->name}}</p>
                         </div>
                         <div class="fl-right">
-                            <a id="messageToSalesman" class="btn btn-popmartin-trans"><i
+                            <a class="btn btn-popmartin-trans jq-new-message"><i
                                         class="fa fa-comments-o"></i> contatar o vendedor</a>
                         </div>
                     <div class="clear-both"></div>
@@ -50,8 +50,12 @@
                         <div class="colbox-2 txt-center">
                             <span class="price">de R${{number_format($product->price,2,',','.')}}</span>
                             <p class="price-descont">R${{number_format($product->price_out_discount,2,',','.')}}</p>
-                            <span class="frete frete-gratis">FRETE GRÁTIS</span>
-                            <span class="frete frete-pac">PAC</span>
+                            @if($product->free_shipping)
+                                <span class="frete frete-gratis">FRETE GRÁTIS</span>
+                            @else
+                                <span class="frete frete-pac">PAC</span>
+                                <span class="frete frete-pac" style="color:#fff">SEDEX</span>
+                            @endif
                         </div>
                         <div class="colbox-2 txt-center">
                             <div class="btn-purshace">
@@ -117,6 +121,7 @@
             </form>
         </div>
     </div>
+    @include('layouts.parties.alert_message')
 @endsection
 @section('script')
     <script src="/frontend/lib/rater/rater.min.js"></script>
