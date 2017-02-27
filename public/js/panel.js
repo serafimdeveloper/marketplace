@@ -1,6 +1,6 @@
 $(function(){
     /** Definição de variáveis globais dentro deste escopo*/
-    var boundaries = {top: 0, bottom: 0, position: 'absolute'};
+    var boundaries = {top: 0, bottom: 0, position: 'relative', marginTop: '-50px'};
     var menuContainer = $('.panel-nav');
     var menu = $('.panel-nav > div');
     var wnd = $(window);
@@ -8,14 +8,14 @@ $(function(){
     /** Flutuar menu do painel de controle ao rolar scroll e ajeitar de acordo! */
     wnd.on('scroll', function(){
         if(menuContainer.height() > wnd.height()){
-            menu.css({position: boundaries.position, width: '95%'});
+            menu.css({position: boundaries.position});
             var offset = menuContainer.offset();
             boundaries.top = offset.top;
             boundaries.bottom = offset.top + menuContainer.height() - menu.height();
             var st = boundaries.top;
             st = wnd.scrollTop() > st ? wnd.scrollTop() - 40 : st;
             st = st > boundaries.bottom ? st = boundaries.bottom : st;
-            menu.css({top: st});
+            menu.css({top: st, 'margin-top': boundaries.marginTop});
         }
     }).triggerHandler('scroll');
 
