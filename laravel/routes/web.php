@@ -4,6 +4,9 @@
  * ROTAS DE TESTES
  ******************************************************/
 Route::get('/integration/moip/test', 'MoipController@order')->name('test.integrationmoip');
+Route::get('/progress/log', function(){
+    return view('log');
+})->name('test.integrationmoip');
 
 
 
