@@ -1,4 +1,12 @@
 <?php
+
+/*******************************************************
+ * ROTAS DE TESTES
+ ******************************************************/
+Route::get('/integration/moip/test', 'MoipController@order')->name('test.integrationmoip');
+
+
+
 /** Rotas de páginas */
 Route::get('/', 'HomeController@index')->name('homepage');
 
@@ -143,4 +151,3 @@ Route::get('/{store}', function(){
 })->name('pages.store');
 
 Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');
-

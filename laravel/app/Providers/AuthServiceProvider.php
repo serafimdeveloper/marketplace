@@ -2,6 +2,7 @@
 namespace App\Providers;
 
 use App\Model\Admin;
+use App\Model\Request;
 use App\Model\Store;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -33,6 +34,15 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('store_access', function($user, $store){
             return $user->salesman->id === $store->salesman->id;
+        });
+
+        Gate::define('orders', function(User $user, Request $order){
+            if($user->salesman->store->id === $order->store->id){
+                return true;
+            }elseif($user->id === $order->user->id){
+                return true;
+            }
+            return false;
         });
 
         Gate::define('read_message', function($user, $message, $box = 'received'){

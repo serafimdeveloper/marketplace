@@ -172,6 +172,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Artesaos\Moip\Providers\MoipServiceProvider::class,
         //
 
         /*
@@ -237,6 +238,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Correios' => Cagartner\CorreiosConsulta\Facade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Moip' => Artesaos\Moip\Facades\Moip::class
     ],
 
 ];

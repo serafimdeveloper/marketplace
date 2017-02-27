@@ -1,66 +1,53 @@
 $(function(){
-    /*
-     -------------------------------------------------------------
-     Menu do painel de controle flutuante de acordo com o scroll
-     */
+    /** Definição de variáveis globais dentro deste escopo*/
+    var boundaries = {top: 0, bottom: 0, position: 'absolute'};
+    var menuContainer = $('.panel-nav');
+    var menu = $('.panel-nav > div');
+    var wnd = $(window);
 
-    var objScrollMenu = {
-        ePNM: $('.panel-nav > div'),
-        SPxSPNMTop: $('.panel-nav > div').offset().top,
-        SPxSPNMBottom: $('.panel-nav > div').offset().top + $('.panel-nav > div').outerHeight(),
-        SPxSPNBottom: $('.panel-nav').offset().top + $('.panel-nav').outerHeight()
-    }
+    /** Flutuar menu do painel de controle ao rolar scroll e ajeitar de acordo! */
+    wnd.on('scroll', function(){
+        if(menuContainer.height() > wnd.height()){
+            menu.css({position: boundaries.position, width: '95%'});
+            var offset = menuContainer.offset();
+            boundaries.top = offset.top;
+            boundaries.bottom = offset.top + menuContainer.height() - menu.height();
+            var st = boundaries.top;
+            st = wnd.scrollTop() > st ? wnd.scrollTop() - 40 : st;
+            st = st > boundaries.bottom ? st = boundaries.bottom : st;
+            menu.css({top: st});
+        }
+    }).triggerHandler('scroll');
 
-    /**
-     * Scroll Window Indentificador
-     */
-    $(this).bind('scroll', window, function () {
-        var SPxWindow = $(window).height() + $(this).scrollTop();
-        var maxCurrentVal = objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom;
-        var currentScroll = SPxWindow - objScrollMenu.SPxSPNMBottom;
-        var reverseCurrentScroll = (objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom) - currentScroll;
-        var pxToNavMenu = $(this).scrollTop() - 90;
-
-        if ($(this).scrollTop() > objScrollMenu.SPxSPNMTop) {
-            if (SPxWindow > objScrollMenu.SPxSPNMBottom) {
-                if (objScrollMenu.ePNM.height() > $(window).height()) {
-                    if ((reverseCurrentScroll > 0 && reverseCurrentScroll < maxCurrentVal)) {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({bottom: reverseCurrentScroll + 15 + 'px'});
-                    }
-                } else {
-                    console.log(objScrollMenu.SPxSPNMBottom, pxToNavMenu);
-                    if (pxToNavMenu > 0 && pxToNavMenu < objScrollMenu.SPxSPNMBottom + 150) {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': pxToNavMenu, bottom: 'inherit'});
-                    } else {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': 'inherit', bottom: 10});
-                    }
-                }
-            } else {
-                objScrollMenu.ePNM.removeClass('floatmenu');
-            }
-        }else{
-            objScrollMenu.ePNM.css({top: 'inherit', 'margin-top': 'inherit'}).removeClass('floatmenu');
+    /** Flutuar informação de mensagem relacionada na página de mensagens */
+    wnd.scroll(function () {
+        var scroll = $(this).scrollTop();
+        if (scroll > 85) {
+            $('.jq-scrollposition').addClass('pop-notice-msg-fixed');
+        } else {
+            $('.jq-scrollposition').removeClass('pop-notice-msg-fixed');
         }
     });
 
-    /**
-     * Procura de loja em tempo real no painel
-     */
+    /** Menu mobile do painel de controle */
+    $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
+    $('.panel-icon-mobile').click(function () {
+        if ($('.panel-nav').is(':visible')) {
+            $(this).find('i').attr('class', 'fa fa-chevron-down');
+        } else {
+            $(this).find('i').attr('class', 'fa fa-chevron-up');
+        }
+        $('.panel-nav').slideToggle();
+    });
+
+    /** Procura de loja em tempo real no painel */
     $(".jq-input-search").keyup(function () {
         var data = 'name=' + $(this).val();
         getData(1, data);
     });
 
-    $(document).on('click', '.pagination a',function(event){
-        $('li').removeClass('active');
-        $(this).parent('li').addClass('active');
-        event.preventDefault();
-        var page=$(this).attr('href').split('page=')[1];
-        var data = 'name='+ $(".jq-input-search").val();
-        getData(page, data);
-    });
-
-    $(window).on('hashchange', function() {
+    /** Hash para integração de paginação na procura de lojas*/
+    wnd.on('hashchange', function() {
         if (window.location.hash) {
             var page = window.location.hash.replace('#', '');
             var data = 'name='+ $(".jq-input-search").val();
@@ -72,289 +59,551 @@ $(function(){
         }
     });
 
-    function getData(page, data){
-        $.ajax({
-            url: '/accont/searchstore?page='+page,
-            type: "get",
-            data: data,
-            datatype: "html",
-            beforeSend: function(){
-                $('#jq-search-table-result tbody').html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>");
+    /** Modelo de container aprecer conforme clique menu CPF ou CNPJ accont do painel */
+    $(".select_type_sallesman input").on("click", function () {
+        $(".selects_people:visible").slideUp();
+        if ($(this).val() === 'F') {
+            $('.select_cpf').slideDown();
+            $(".selects_people").find('input[name=cpf]').removeAttr('disabled');
+        } else {
+            $('.select_cnpj').slideDown();
+            $(".select_cnpj").find('input').val('');
+            $(".selects_people").find('input[name=cpf]').attr('disabled', 'disabled');
+        }
+        call(radiobox);
+        return false;
+    });
+
+    /** Trazer subcategoria de acordo com a categoria selecionada */
+    $('.select_subcat').change(function () {
+        var category = $(this).val();
+        var loader = $(this).data('loader');
+        if (category !== "") {
+            $.ajax({
+                url: '/accont/categories/subcategories/' + category,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('.' + loader).show();
+                },
+                error: function (response) {
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (response) {
+                    if (Object.keys(response.subcategories).length > 0) {
+                        $('.subcat_info').html('<option selected >Selecione uma Subcategoria</option>');
+                        $.each(response.subcategories, function (i, e) {
+                            $('.subcat_info').append('<option value="' + i + '">' + e + '</option>');
+                        });
+                    } else {
+                        $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
+                    }
+                    $('.' + loader).hide();
+                }
+            });
+        } else {
+            $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
+        }
+    });
+
+    /** Verificar ao clicar em selecionar mensagem se o botão de remover aparece ou não */
+    $(".select_msg").click(function () {
+        var array = checkInputsMsg($(this).attr('class'));
+        if (array.length !== 0) {
+            $("#pop-remove-msg").removeClass('btn-gray cursor-nodrop').addClass('btn-popmartin');
+        } else {
+            $("#pop-remove-msg").removeClass('btn-popmartin').addClass('btn-gray cursor-nodrop');
+        }
+    });
+
+    /** Operação de controle de estoque de produto */
+    $('#type_operation_stock').on('change', function (e) {
+        e.preventDefault();
+        var count = $(this).siblings('input');
+        var type = $(this).val() ? '/' + $(this).val() : '';
+        console.log(type);
+        var product_id = $('#product_id').val();
+        var token = $('input[name=_token]').val();
+        var loader = $(this).data('loader');
+        if (count.val() > 0) {
+            var data = {
+                'product_id': product_id,
+                'count': count.val(),
+                '_token': token
             }
-        }).done(function(data){
-            $("#result").empty().html(data);
-            location.hash = page;
-        }).fail(function(jqXHR, ajaxOptions, thrownError){
+            $.ajax({
+                url: '/accont/movement_stock' + type,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                beforeSend: function () {
+                    $('.' + loader).show();
+                },
+                error: function (response) {
+                    $('.' + loader).hide();
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (response) {
+                    $('#quantity').val(response.product);
+                    count.val(0);
+                    $('.' + loader).hide();
+                }
+            });
+        }
+        resetChange($(this));
+    });
+
+    /** Apagar mensagens selecionadas em tempo real */
+    $(document).on('click', "#pop-remove-msg.btn-popmartin", function () {
+        var token = $(this).data('token');
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover?',
+            function () {
+                var indexes = arrayToObject(checkInputsMsg('select_msg'));
+                var dados = {'ids': indexes, '_token': token};
+                $.post('/accont/messages/destroy', dados, function (response) {
+                    if (response.status) {
+                        $.each(indexes, function (key, value) {
+                            $('.select_msg').eq(key).parents('tr').hide(800);
+                        });
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                }, 'json').fail(function (response) {
+                    alertify.error(response.responseJSON.msg);
+                });
+            }, function () {
+                return true;
+            });
+        return false;
+    });
+
+    /** Busca o cep na API do correio */
+    $('#zip_code').focusout(function () {
+        var element = $(this);
+        var cep = element.val();
+        if ((/^\d{5}-?\d{3}$/).test(cep)) {
+            $.ajax({
+                url: '/accont/adresses/zip_code/' + cep,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    element.parents('form').find('.loader-address').show();
+                },
+                error: function (response) {
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (data) {
+                    data = data[0];
+                    var dados = {
+                        'state': data.uf,
+                        'city': data.cidade,
+                        'neighborhood': data.bairro,
+                        'public_place': data.logradouro
+                    };
+                    element.parents('form').find('.loader-address').hide();
+                    inputValue(element.parents('form'), dados);
+                }
+            })
+        } else {
+            inputError(false, $(this), 'Cep inválido');
+        }
+    });
+
+    /** Grava ou atualiza o novo endereço*/
+    $('#form-adress').on('submit', function (event) {
+        var form = $(this);
+        var action = $(this).data('action');
+        var dados = form.serialize();
+        var id = form.find('input[name=id]').val();
+        if (id.length == 0) {
+            $.ajax({
+                url: '/accont/adresses/' + action,
+                type: 'POST',
+                dataType: 'json',
+                data: dados,
+                beforeSend: function () {
+                    form.find('button').html('<i class="fa fa-spin fa-spinner"></i> cadastrando...');
+                },
+                error: function (data, status) {
+                    form.find('button').html('cadastrar');
+                    var trigger = JSON.parse(data.responseText);
+                    $.each(trigger, function (index, element) {
+                        inputError(false, form.find('input[name=' + index + ']'), element[0]);
+                    });
+                },
+                success: function (data) {
+                    if (!data.status) {
+                        form.find('button').html('cadastrar');
+                        form.find('.form-result').html('<p class="trigger error">' + data.msg + '</p>');
+                    } else {
+                        $("#isAddress").remove();
+                        form.find('button').html('cadastrado com sucesso!');
+                        form.parents('.address').slideUp(function () {
+                            if (data.adress.master) {
+                                $('#group-pnl-end').find('.address-master').text('');
+                                $('#group-pnl-end').prepend(windowAdress(data.adress, data.action));
+                            } else {
+                                $('#group-pnl-end').append(windowAdress(data.adress, data.action));
+                            }
+                        });
+                    }
+                }
+            });
+        } else {
+            $.ajax({
+                url: '/accont/adresses/' + action + '/' + id,
+                type: 'POST',
+                dataType: 'json',
+                data: dados,
+                beforeSend: function () {
+                    form.find('button').html('<i class="fa fa-spin fa-spinner"></i> atualizando...');
+                },
+                error: function (data, status) {
+                    form.find('button').html('atualizar');
+                    var trigger = JSON.parse(data.responseText);
+                    $.each(trigger, function (index, element) {
+                        inputError(false, form.find('input[name=' + index + ']'), element[0]);
+                    });
+                },
+                success: function (data) {
+                    form.find('button').html('atualizado com sucesso!');
+                    form.parents('.address').slideUp(function () {
+                        if (data.adress.master == 1) {
+                            $('.panel-end h4 .address-master').text(" ");
+                        }
+                        $('#end_' + data.adress.id).replaceWith(windowAdress(data.adress, data.action));
+                    });
+                    clearInput(form);
+                }
+            });
+        }
+        return false;
+    });
+
+    /** Captar cep e implementar na modal de endereço */
+    $(document).on('click', '.pop-select-cep tr', function () {
+        var cep = $(this).data('cep');
+        $('#zip_code').val(cep).focusout();
+        $(this).parents('.alertbox').find('.alertbox-close').click();
+    });
+
+    /** Cheamar modal de busca de cep (não sei meu endereço!)*/
+    $(document).on('click', '.jq-whichcep', function () {
+        $('.whichcep').show();
+    });
+
+    /** Formulário de rastreio de cep */
+    $(document).on('submit', '.whichcep form', function () {
+        var element = $(this);
+        var data = element.find('input').val();
+        var implementTr = $('.pop-select-cep');
+        $.ajax({
+            url: '/accont/adresses/zip_code/' + cleanAccents(data),
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function () {
+                implementTr.html('<tr><td colspan="2"><i class="fa fa-spin fa-spinner"></i></td></tr>');
+            },
+            error: function (response) {
+                alertify.error(response.responseJSON.msg);
+            },
+            success: function (response) {
+                element.find('button').text('buscar').css({background: '#B71C1C'});
+                implementTr.html('');
+                $.each(response, function (i, element) {
+                    implementTr.append('<tr data-cep="' + element.cep + '"><td>' + element.cep + '</td><td>' + element.logradouro + ' | <b>' + element.bairro + ' - ' + element.cidade + '</b> - ' + element.uf + '</td></tr>');
+                });
+            }
+        });
+        return false;
+    });
+
+    /** Modal de informações de produtos */
+    $(document).on('click', '.jq-info-sales', function () {
+        $("#jq-info-sales").slideDown();
+    });
+
+    /** Modal de informações das notificações */
+    $(document).on('click', '.jq-notification', function () {
+        $("#jq-notification").slideDown();
+    });
+
+    /** Modal de informações de produtos */
+    $(document).on('click', '.jq-info-product', function () {
+        $("#jq-info-product").slideDown();
+    });
+
+    /** Modal de informações de usuarios */
+    $(document).on('click', '.jq-info-user', function () {
+        $("#jq-info-user").slideDown();
+    });
+
+    /** Modal de atualização e cadastro de banners */
+    $(document).on('click', '.jq-new-banner', function () {
+        var e = $(this);
+        var modal = $("#jq-new-banner");
+        var form = modal.find('form');
+        var title = (e.data('banner') ? 'Atualizar banner - loja' : 'Cadastrar banner');
+        var buttonText = (e.data('banner') ? 'atualizar' : 'cadastrar');
+        modal.find('h2').text(title);
+        modal.find('button').text(buttonText);
+        $.get('', e.data('banner'), function (response) {
+            inputValue(form, response);
+            form.find('select').find('option').each(function () {
+                if ($(this).val() == response.id) {
+                    $(this).attr('selected', 'true');
+                    return false;
+                }
+            });
+        }).fail(function (response) {
             alertify.error(response.responseJSON.msg);
         });
-    }
-});
-/*
+        $("#jq-new-banner").slideDown();
+    });
 
- -------------------------------------------------------------
-
- Menu do painel de controle flutuante de acordo com o scroll
-
- */
-
-
-
-/**
-
- * Scroll Window Indentificador
-
- */
-
-var objScrollMenu = dataScrollMenu();
-
-$(this).bind('scroll', window, function () {
-
-    var SPxWindow = $(window).height() + $(this).scrollTop();
-
-    var maxCurrentVal = objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom;
-
-    var currentScroll = SPxWindow - objScrollMenu.SPxSPNMBottom;
-
-    var reverseCurrentScroll = (objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom) - currentScroll;
-
-    var pxToNavMenu = $(this).scrollTop() - 90;
-
-
-
-    if ($(this).scrollTop() > objScrollMenu.SPxSPNMTop) {
-
-        if (SPxWindow > objScrollMenu.SPxSPNMBottom) {
-
-            if (objScrollMenu.ePNM.height() > $(window).height()) {
-
-                if ((reverseCurrentScroll > 0 && reverseCurrentScroll < maxCurrentVal)) {
-
-                    objScrollMenu.ePNM.addClass('floatmenu').css({bottom: reverseCurrentScroll + 15 + 'px'});
-
-                }
-
-            } else {
-
-                if (SPxWindow <= objScrollMenu.SPxSPNBottom + 170) {
-
-                    objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': pxToNavMenu, bottom: 'inherit'});
-
-                } else {
-
-                    objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': 'inherit', bottom: 10});
-
-                }
-
+    /** Abri modal de categoria */
+    $(document).on('click', '.jq-new-category', function () {
+        var e = $(this);
+        var modal = $("#jq-new-category");
+        var form = modal.find('form');
+        var title = (e.data('category') ? 'Atualizar categoria - nome da categoria' : 'Cadastrar categoria');
+        var buttonText = (e.data('category') ? 'atualizar' : 'cadastrar');
+        var category = (e.data('category') ? '/' + e.data('category') : '');
+        modal.find('h2').text(title);
+        modal.find('button').text(buttonText);
+        $.get('/accont/categories' + category, function (response) {
+            var select = form.find('select');
+            select.html('<option value="">Escolher uma categória pai</option>');
+            if (response.category) {
+                var dados = {'id': response.category.id, 'name': response.category.name};
+                inputValue(form, dados);
             }
+            $.each(response.categories, function (i, obj) {
+                var selected = '';
+                if (response.category) {
+                    selected = (response.category.category_id === i) ? ' selected="selected"' : '';
+                }
+                select.append('<option value="' + i + '"' + selected + '>' + obj + '</option>');
+            });
+        }).fail(function (response) {
+            alertify.error(response.responseJSON.msg);
+        });
+        $("#jq-new-category").slideDown();
+    });
 
+    /** Cadastrar e atualizar categorias no sistema */
+    $(document).on('submit', '#jq-new-category form', function () {
+        var form = $(this);
+        var dados = form.serialize();
+        console.log(dados);
+        var id = $('input[name=id]').val();
+        var buttonText = form.find('button').text();
+        var buttonTextloading = '<i class="fa fa-spin fa-spinner"></i> processando...';
+        if (!id) {
+            $.ajax({
+                url: '/accont/categories',
+                type: 'POST',
+                dataType: 'json',
+                data: dados,
+                beforeSend: function () {
+                    form.find('button').html(buttonTextloading);
+                },
+                error: function (response, status) {
+                    form.find('button').html(buttonText);
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (response) {
+                    form.find('button').html(buttonText);
+                }
+            });
         } else {
-
-            objScrollMenu.ePNM.removeClass('floatmenu');
-
+            $.ajax({
+                url: '/accont/categories/' + id,
+                type: 'PUT',
+                dataType: 'json',
+                data: dados,
+                beforeSend: function () {
+                    form.find('button').html(buttonTextloading);
+                },
+                error: function (response) {
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (response) {
+                    form.find('button').html(buttonText);
+                }
+            });
         }
-
-    } else {
-
-        objScrollMenu.ePNM.css({top: 'inherit', 'margin-top': 'inherit'}).removeClass('floatmenu');
-
-    }
-
+        clearInput(form);
+        return false;
+    });
 });
 
-function dataScrollMenu() {
-
-    this.ePNM = $('.panel-nav > div');
-
-    this.SPxSPNMTop = $('.panel-nav > div').offset().top;
-
-    this.SPxSPNMBottom = $('.panel-nav > div').offset().top + $('.panel-nav > div').outerHeight();
-
-    this.SPxSPNBottom = $('.panel-nav').offset().top + $('.panel-nav').outerHeight();
-
-}
-
-
+/***************************************************************
+ ********** DECLARAÇÃO DE FUNÇÕES *****************************
+ ***************************************************************/
 
 /**
-
- * Procura de loja em tempo real no painel
-
+ * Buscar lojas e tempo real e exibilas de aordo
+ * @param page
+ * @param data
  */
-
-$(".jq-input-search").keyup(function () {
-
-    var data = 'name=' + $(this).val();
-
-    getData(1, data);
-
-});
-
-
-
-$(document).on('click', '.pagination a',function(event){
-
-    $('li').removeClass('active');
-
-    $(this).parent('li').addClass('active');
-
-    event.preventDefault();
-
-    var page=$(this).attr('href').split('page=')[1];
-
-    var data = 'name='+ $(".jq-input-search").val();
-
-    getData(page, data);
-
-});
-
-
-
-$(window).on('hashchange', function() {
-
-    if (window.location.hash) {
-
-        var page = window.location.hash.replace('#', '');
-
-        var data = 'name='+ $(".jq-input-search").val();
-
-        if (page == Number.NaN || page <= 0) {
-
-            return false;
-
-        }else{
-
-            getData(page, data);
-
-        }
-
-    }
-
-});
-
-
-
 function getData(page, data){
-
     $.ajax({
-
         url: '/accont/searchstore?page='+page,
-
         type: "get",
-
         data: data,
-
         datatype: "html",
-
         beforeSend: function(){
-
             $('#jq-search-table-result tbody').html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>");
-
         }
-
     }).done(function(data){
-
         $("#result").empty().html(data);
-
         location.hash = page;
-
-    }).fail(function(jqXHR, ajaxOptions, thrownError){
-
+    }).fail(function(response){
         alertify.error(response.responseJSON.msg);
-
     });
-
 }
-$(function(){
-    /*
-     -------------------------------------------------------------
-     Menu do painel de controle flutuante de acordo com o scroll
-     */
 
-    var objScrollMenu = {
-        ePNM: $('.panel-nav > div'),
-        SPxSPNMTop: $('.panel-nav > div').offset().top,
-        SPxSPNMBottom: $('.panel-nav > div').offset().top + $('.panel-nav > div').outerHeight(),
-        SPxSPNBottom: $('.panel-nav').offset().top + $('.panel-nav').outerHeight()
-    }
-
-    /**
-     * Scroll Window Indentificador
-     */
-    $(window).scroll(function () {
-        var SPxWindow = $(window).height() + $(this).scrollTop();
-        var maxCurrentVal = objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom;
-        var currentScroll = SPxWindow - objScrollMenu.SPxSPNMBottom;
-        var reverseCurrentScroll = (objScrollMenu.SPxSPNBottom - objScrollMenu.SPxSPNMBottom) - currentScroll;
-        var pxToNavMenu = $(this).scrollTop() - 90;
-
-        if ($(this).scrollTop() > objScrollMenu.SPxSPNMTop) {
-            if (SPxWindow > objScrollMenu.SPxSPNMBottom) {
-                if (objScrollMenu.ePNM.height() > $(window).height()) {
-                    if ((reverseCurrentScroll > 0 && reverseCurrentScroll < maxCurrentVal)) {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({bottom: reverseCurrentScroll + 15 + 'px'});
-                    }
-                } else {
-                    console.log(objScrollMenu.SPxSPNMBottom, pxToNavMenu);
-                    if (pxToNavMenu > 0 && pxToNavMenu < objScrollMenu.SPxSPNMBottom + 150) {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': pxToNavMenu, bottom: 'inherit'});
+/**
+ * Bloquear e desbloquear loja
+ */
+function blockStore() {
+    var element = $(this);
+    var txt = element.text().trim();
+    var msg = (txt == 'bloquear loja' ? 'Tem certeza de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem!')
+    alertify.confirm(alertfyConfirmTitle, msg,
+        function () {
+            $.get('/accont/salesman/stores/block', function (response) {
+                if (response.status) {
+                    if (response.lock) {
+                        element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear loja');
                     } else {
-                        objScrollMenu.ePNM.addClass('floatmenu').css({'margin-top': 'inherit', bottom: 10});
+                        element.html('<i class="fa fa-lock vertical-middle"></i> desbloquear loja');
+                    }
+                    alertify.success('Loja Bloqueada');
+                } else {
+                    alertify.error(response.msg);
+                }
+            }, 'json').fail(function (response) {
+                alertify.error(response.responseJSON.msg);
+            });
+        }, function () {
+            return true;
+        });
+}
+
+/**
+ * Remoção de imagens de produtos em tempo real
+ * Remoçao de imagens de produtos temporário
+ * @returns {boolean}
+ */
+function removeImgGarely() {
+    var element = $(this);
+    var action = element.data('action');
+    var textImg = $(this).parents('.product-galery').find('input[type=text]').val();
+    if (action == 'create') {
+        clearImgGalery(element);
+    }
+    if (textImg.length > 0) {
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esta imagem?',
+            function () {
+                var id = element.data('id');
+                var prev = element.data('preview');
+                $.get('/accont/salesman/products/remove/image/' + id, function (response) {
+                    if (response.status) {
+                        clearImgGalery(element);
+                        alertify.success('Produto removido!');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                }, 'json').fail(function (response) {
+                    alertify.error(response.responseJSON.msg);
+                });
+            }, function () {
+                return true;
+            });
+    }
+    return false;
+}
+
+/**
+ * Remoção de produtos em tempo real
+ * @returns {boolean}
+ */
+function removePrduct() {
+    var element = $(this);
+    var id = element.data('id');
+    alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este produto?',
+        function () {
+            $.ajax({
+                url: '/accont/salesman/products/' + id,
+                method: 'DELETE',
+                type: 'json',
+                success: function (response) {
+                    if (response.status) {
+                        element.parents('tr').slideUp(500);
+                        alertify.success('Produto removido');
+                    } else {
+                        alertify.error(response.msg);
+                    }
+                },
+                error: function (response) {
+                    if (response.status === 406) {
+                        alertify.confirm(alertfyConfirmTitle, 'Voce tem pendências, você não pode remover este produto, no máximo pode desativar deseja fazer isso agora?  ',
+                            function () {
+                                $.get('accont/salesman/products/change/' + id, function (response) {
+                                    if (response.status) {
+                                        element.parents('tr').slideUp(500);
+                                        alertify.success('Produto removido');
+                                    }
+                                }, 'json').fail(function (response) {
+                                    alertify.error(response.responseJSON.msg);
+                                });
+                            }, function () {
+                                return true;
+                            });
+                    } else {
+                        alertify.error(response.responseJSON.msg);
                     }
                 }
-            } else {
-                objScrollMenu.ePNM.removeClass('floatmenu');
-            }
-        }else{
-            objScrollMenu.ePNM.css({top: 'inherit', 'margin-top': 'inherit'}).removeClass('floatmenu');
-        }
-    });
+            });
+        }, function () {
+            return true;
+        });
+    return false;
+}
 
+/**
+ * Limpar imagem proviória e  limpar input file ao remover produto
+ * @param element
+ * @return void
+ */
+function clearImgGalery(element) {
+    element.parents('.product-galery').find('.prevImg img').attr('src', '/image/img-exemple.jpg?h=110')
+    element.parents('.product-galery').find('.file input[type=text]').val('');
+    element.parents('.product-galery').find('.file').prepend('<input data-preview="' + prev + '" onchange="previewFile($(this))" name="image.' + prev + '" type="file">');
+    element.parents('.product-galery').find('.file input[type=file]').remove();
+}
 
-
-
-    /**
-     * Procura de loja em tempo real no painel
-     */
-    $(".jq-input-search").keyup(function () {
-        var data = 'name=' + $(this).val();
-        getData(1, data);
-    });
-});
-
-$(document).on('click', '.pagination a',function(event){
-    $('li').removeClass('active');
-    $(this).parent('li').addClass('active');
-    event.preventDefault();
-    var page=$(this).attr('href').split('page=')[1];
-    var data = 'name='+ $(".jq-input-search").val();
-    getData(page, data);
-});
-
-$(window).on('hashchange', function() {
-    if (window.location.hash) {
-        var page = window.location.hash.replace('#', '');
-        var data = 'name='+ $(".jq-input-search").val();
-        if (page == Number.NaN || page <= 0) {
-            return false;
-        }else{
-            getData(page, data);
-        }
+/**
+ * Atualizar e apresentar container de endereço no painel no lugar paropriado
+ * @param obj
+ * @param action
+ * @returns {string}
+ */
+function windowAdress(obj, action) {
+    obj.master = (obj.master ? 'principal' : '');
+    var janela = '<div class="panel-end" id="end_' + obj.id + '">';
+    if (action === 'user') {
+        janela += '<h4>' + obj.name + ' <span class="fl-right address-master">' + obj.master + '</span></h4>';
+    } else {
+        janela += '<h4><span>Endereço da Loja</span></h4>';
     }
-});
-
-function getData(page, data){
-    $.ajax({
-        url: '/accont/searchstore?page='+page,
-        type: "get",
-        data: data,
-        datatype: "html",
-        beforeSend: function(){
-            $('#jq-search-table-result tbody').html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>");
-        }
-    }).done(function(data){
-        $("#result").empty().html(data);
-        location.hash = page;
-    }).fail(function(jqXHR, ajaxOptions, thrownError){
-        alertify.error(response.responseJSON.msg);
-    });
+    janela += '<div class="panel-end-content">';
+    janela += '<p>CEP: ' + obj.zip_code + '</p>';
+    janela += '<p> ' + obj.public_place + ', ' + obj.number + ' - ' + obj.city + '</p>';
+    janela += '</div>';
+    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '" data-action="' + action + '">editar|excluir</a>';
+    janela += '</div>';
+    return janela;
 }

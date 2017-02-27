@@ -23,7 +23,6 @@ class SalesmanUpdateRequest extends Request
     public function rules()
     {
         return [
-            'cpf'=>'required|cpf_mascara',
             'phone'=>'required',
             'cellphone'=>'required',
             'moip'=>'required'
