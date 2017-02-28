@@ -9,14 +9,6 @@ Route::get('/progress/log', function(){
 })->name('test.integrationmoip');
 
 
-
-/** Rotas de páginas */
-Route::get('/', 'HomeController@index')->name('homepage');
-
-Route::get('/carrinho', function () {
-    return view('pages.cart');
-})->name('pages.cart');
-
 Route::get('/contato', function () {
     return view('pages.contact');
 })->name('pages.contact');
@@ -136,6 +128,8 @@ Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
     $server->outputImage($path, $request->input());
 })->where('path', '.+');*/
 
+/** Rotas de páginas */
+Route::get('/', 'HomeController@index')->name('homepage');
 
 Route::get('/categoria/{category}', function(){
     return view('pages.products');
@@ -148,6 +142,9 @@ Route::get('/pesquisa/{search}', function(){
 Route::get('/favoritos', function(){
     return view('pages.favorites');
 })->name('pages.favorites');
+
+Route::get('/carrinho', 'CartController@index')->name('pages.cart');
+Route::get('/carrinho/add_product/{id}', 'CartController@add_product')->name('pages.cart.add_product');
 
 Route::get('/{store}', function(){
     return view('pages.store');

@@ -5,9 +5,9 @@
         <header class="pop-title">
             <h1><span id="jq-count-product">1</span> item no meu carrinho</h1>
         </header>
-        @for($i = 0; $i < 2; $i++)
+        @foreach($cart->stores as $store)
             <article class="pop-cart">
-                <h1>Loja do Juca</h1>
+                <h1>{{$store['name']}}</h1>
                 <div>
                     <table class="table pop-cart-info-product">
                         <thead>
@@ -19,17 +19,17 @@
                         </tr>
                         </thead>
                         <tbody id="jq-pr-cart">
-                        @for($j = 0; $j < 2; $j++)
-                            <tr id="pr{{$j.$i}}">
+                        @foreach($store['products'] as $product)
+                            <tr id="pr{{key($store).key($product)}}">
                                 <td>
                                     <div class="coltable">
                                         <div class="coltable-2 product-cart-img">
-                                            <img src="{{ url('imagem/produto/camisa.jpg') }}"
+                                            <img src="{{ url('imagem/produto/'.$product['image']) }}"
                                                  alt="[]"
                                                  title="">
                                         </div>
                                         <div class="coltable-10 product-cart-info">
-                                            <p class="c-pop fontem-12 fontw-400">Nome do produto</p>
+                                            <p class="c-pop fontem-12 fontw-400">{{$product['name']}}</p>
                                             <span>Código: 0gos8d4</span>
                                             <br>
                                             <br>
@@ -38,11 +38,11 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><label><input type="number" name="" value="1"></label></td>
-                                <td class="price">R$ 14,90</td>
-                                <td class="price" style="font-weight: bold;">R$ 14,90</td>
+                                <td><label><input type="number" name="" value="{{$product['qtd']}}"></label></td>
+                                <td class="price">R$ {{$product['price_unit']}}</td>
+                                <td class="price" style="font-weight: bold;">R$ {{$product['subtotal']}}</td>
                             </tr>
-                        @endfor
+                        @endforeach
                         </tbody>
                     </table>
                     <div class="pop-cart-footer">
@@ -74,7 +74,7 @@
                                     <p class="c-pop">
                                         <span class="">Subtotal para esta loja</span>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <span class="fontem-16 fontw-500">R$ 58,00</span>
+                                        <span class="fontem-16 fontw-500">R$ {{$store['subtotal']}}</span>
                                     </p>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </article>
-        @endfor
+        @endforeach
         <div class="pop-cart-cep">
             <div class="txt-right">
                 <form class="form-modern pop-form">
@@ -116,7 +116,7 @@
                     <a href="/" class="btn btn-popmartin">CONTINUAR COMPRANDO</a>
                 </div>
                 <div class="colbox-2">
-                    <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">R$ 24,60</span></p>
+                    <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">R$ {{$cart->amount}}</span></p>
                     <a href="" class="btn btn-green">FINALIZAR PEDIDO</a>
                 </div>
             </div>
