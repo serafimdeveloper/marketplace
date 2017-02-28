@@ -20,7 +20,7 @@ class MessagesController extends AbstractController
     {
         parent::__construct($app);
         $this->user = $user;
-        $this->product = $user;
+        $this->product = $product;
         $this->req = $req;
     }
 
