@@ -59,7 +59,7 @@
                         </div>
                         <div class="colbox-2 txt-center">
                             <div class="btn-purshace">
-                                <a class="btn btn-popmartin" href="/carrinho" title="">COMPRAR</a>
+                                <a class="btn btn-popmartin" href="{{route('pages.cart.add_product',['id'=>$product->id])}}" title="">COMPRAR</a>
                                 <br>
                                 <br>
                                 <span>{{$product->quantity}} peça(s) disponível(veis)Prazo de {{$product->deadline}} dias para envio</span>
