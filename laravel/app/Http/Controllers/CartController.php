@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 use App\Model\Cart;
+use App\Model\Freight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -17,8 +18,9 @@ class CartController extends Controller
 
     public function index(){
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses : null);
+        $freights = Freight::where('name', '!=', 'Frete Grátis')->get();
         $cart = Session::has('cart') ? Session::get('cart') : null;
-        return view('pages.cart', compact('cart', 'addresses'));
+        return view('pages.cart', compact('cart', 'addresses', 'freights'));
     }
 
     public function add_product(Request $request, $id){

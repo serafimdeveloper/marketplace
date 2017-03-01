@@ -89,13 +89,14 @@
                 <form class="form-modern pop-form freight-form">
                     <span>Forma de frete</span>
                     <select name="freight-type">
-                        <option value="1" selected="true">PAC - envio normal</option>
-                        <option value="1">SEDEX - envio rápido</option>
+                        @foreach($freights as $freight)
+                            <option value="{{ $freight->code }}" selected="true">{{ $freight->name }}</option>
+                        @endforeach
                     </select>
                     <br>
                     <br>
                     @if($addresses)
-                        <select name="address">
+                        <select name="address" class="freight-address">
                             <option selected disabled>selecionar endereço</option>
                             @foreach($addresses as $address)
                                 <option value="{{ $address->zip_code }}">{{ $address->name }}</option>
@@ -103,7 +104,7 @@
                         </select>
                         <span class="pop-cart-cep-ou">ou</span>
                     @endif
-                    {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
+                    {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'class' => 'freight-cep']) !!}
                     <button type="submit" class="btn btn-popmartin">CALCULAR</button>
                 </form>
             </div>
