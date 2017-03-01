@@ -21,6 +21,7 @@ class Cart
 
     public function add_cart($id){
         $product = Product::find($id);
+        $volume = ceil($product->length_cm * $product->width_cm * $product->height_cm);
         $storedItem = ['name' => $product->name, 'qtd' => 0, 'price_unit' => isset($product->price_out_discount) ? $product->price_out_discount : $product->price, 'subtotal'=> 0, 'image'=>$product->galeries->first()->image  ];
         $store = $product->store;
         if(array_key_exists($store->id, $this->stores)){
@@ -30,7 +31,7 @@ class Cart
         }
         $storedItem['qtd']++;
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
-        $storedItem['freight'] = 0;
+        $storedItem['volume'] = $volume;
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['products'][$id] = $storedItem;
         $this->amount_price();

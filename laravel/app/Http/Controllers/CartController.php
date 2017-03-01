@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Session;
 class CartController extends Controller
 {
 
-    public function index(){
+    public function index(Request $request){
+
+//        dd($request->session()->get('cart'));
+
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses : null);
         $freights = Freight::where('name', '!=', 'Frete Grátis')->get();
         $cart = Session::has('cart') ? Session::get('cart') : null;

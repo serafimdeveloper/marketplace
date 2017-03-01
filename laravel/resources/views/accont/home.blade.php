@@ -83,7 +83,6 @@
         <hr>
         <div class="content">
             <h2 style="text-align: center;">Dados do conta</h2>
-
             {!! Form::open(['route' => ['accont.changepassword.store'], 'method' => 'POST','class'=>'content form-modern pop-form']) !!}
                 <label>
                     <span>email</span>
