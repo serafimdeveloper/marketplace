@@ -18,7 +18,6 @@ class Cart
             $this->address = $oldcart->address;
             $this->stores = $oldcart->stores;
             $this->count = $oldcart->count;
-            $this->amount = $oldcart->amount;
             $this->address = $oldcart->address;
         }
     }
@@ -32,15 +31,14 @@ class Cart
         if(array_key_exists($store->id, $this->stores)){
             if(array_key_exists($id, $this->stores[$store->id]['products'])){
                 $storedItem = $this->stores[$store->id]['products'][$id];
-                $this->calcula_frete($this->stores[$store->id]['products'], $store->id);
             }
         }
         $storedItem['qtd']++;
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
-        $storedItem['freight'] = 0;
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['products'][$id] = $storedItem;
         $this->amount_price();
+        return $this;
     }
 
     public function remove_product($id){
@@ -50,11 +48,10 @@ class Cart
         if(array_key_exists($product->store_id, $this->stores)){
             if(array_key_exists($id, $this->stores[$store->id]['products'])){
                 unset($this->stores[$store->id]['products'][$id]);
-                $this->calcula_frete($this->stores[$store->id]['products'], $store->id);
-
                 $this->amount_price();
             }
         }
+        return $this;
     }
 
     public function update_qtd_product($qtd, $id)
@@ -66,6 +63,7 @@ class Cart
                 $this->amount_price();
             }
         }
+        return $this;
     }
 
     public function add_obs($obs, $id)
@@ -76,6 +74,7 @@ class Cart
                 $this->stores[$product->store_id]['products'][$id]['obs'] = $obs;
             }
         }
+        return $this;
     }
 
     private function amount_price(){
@@ -87,7 +86,7 @@ class Cart
                 $count+= $product['qtd'];
             }
             $this->stores[$key]['subtotal'] = $subtotal;
-            $this->amount = $subtotal;
+            $this->amount+= $subtotal;
             $this->count = $count;
         }
     }

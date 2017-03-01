@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Request;
 use App\Repositories\Accont\ProductsRepository;
 use App\Repositories\Accont\CategoriesRepository;
+use Illuminate\Support\Facades\Auth;
+
 class HomeController extends Controller {
 
     protected $product;
@@ -26,9 +28,12 @@ class HomeController extends Controller {
     }
 
     public function single_page($store, $category, $prod){
+        if($user = Auth::user()){
+            $auth = $user->id;
+        }
         $product = $this->product->single_page($this->with_product, $store, $category, $prod);
         $type = ['type' => 'product', 'id' => $product->id];
-        return view('pages.product', compact('product','type'));
+        return view('pages.product', compact('product','type', 'auth'));
     }
 
     public function category($category){

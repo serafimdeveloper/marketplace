@@ -7,13 +7,16 @@ Route::get('/integration/moip/test', 'MoipController@order')->name('test.integra
 Route::get('/progress/log', function(){
     return view('log');
 })->name('test.integrationmoip');
+/**---------------------------------------------------------------------------------------*/
 
+Auth::routes();
+
+Route::get('/calculatefreight', 'FreightController@toCalculate')->name('calculatefreight');
 
 Route::get('/contato', function () {
     return view('pages.contact');
 })->name('pages.contact');
 
-Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){

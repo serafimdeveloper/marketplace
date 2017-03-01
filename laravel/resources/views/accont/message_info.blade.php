@@ -25,7 +25,7 @@
             </div>
         @elseif(isset($message->product))
             <div class="trigger notice jq-scrollposition">
-                <a href="/juca/produto/{{ $message->product->slug }}" class="c-white" target="_blank">
+                <a href="/{{ $message->product->store->slug }}/{{ $message->product->category->slug }}/{{ $message->product->slug }}" class="c-white" target="_blank">
                     <img class="dp-inblock vertical-middle"
                          src="{{ url('imagem/produto/' . $message->product->galeries[0]->image . '?w=42&h=42&filt=crop') }}"
                          alt="imagem" title="imagem">

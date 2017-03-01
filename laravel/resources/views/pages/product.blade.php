@@ -31,8 +31,9 @@
                             <p>{{$product->store->name}}</p>
                         </div>
                         <div class="fl-right">
-                            <a class="btn btn-popmartin-trans jq-new-message"><i
-                                        class="fa fa-comments-o"></i> contatar o vendedor</a>
+                            <a class="btn btn-popmartin-trans {{ isset($auth) ? 'jq-new-message' : 'jq-auth' }}">
+                                <i class="fa fa-comments-o"></i> contatar o vendedor
+                            </a>
                         </div>
                     <div class="clear-both"></div>
                 </div>
@@ -81,11 +82,9 @@
                                     <div style="color: #B71C1C">652</div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="clear-both"></div>
-
                     <div class="pop-product-info">
                         <div class="wt">
                             <div class="wt-header">

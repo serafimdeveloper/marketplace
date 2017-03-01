@@ -8,8 +8,9 @@
 
 namespace App\Http\Controllers;
 use App\Model\Cart;
-use App\Repositories\Accont\RequestsRepository;
+use App\Model\Freight;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -21,8 +22,10 @@ class CartController extends Controller
     }
 
     public function index(){
+        $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','zip_code') : null);
+        $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
         $cart = Session::has('cart') ? Session::get('cart') : null;
-        return view('pages.cart', compact('cart'));
+        return view('pages.cart', compact('cart', 'addresses', 'freight'));
     }
 
     public function add_product(Request $request, $id){

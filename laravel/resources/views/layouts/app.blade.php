@@ -32,7 +32,6 @@
         <script src="/frontend/lib/maskinput/jquery.mask.min.js"></script>
         <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
         <script src="/frontend/lib/tooltipster/js/tooltipster.bundle.min.js"></script>
-        <script src="/frontend/lib/bsdialog/jquery.bsdialog.js"></script>
         <script src="/frontend/lib/alertfy/alertify.min.js"></script>
         {{--<script src="/frontend/lib/twbsPagination/jquery.twbsPagination.min.js"></script>--}}
         <script src="/frontend/js/bootstrap.js"></script>
