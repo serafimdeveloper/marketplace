@@ -96,7 +96,7 @@
                     <br>
                     <br>
                     @if($addresses)
-                        <select name="address" class="freight-address">
+                        <select class="freight-address">
                             <option selected disabled>selecionar endereço</option>
                             @foreach($addresses as $address)
                                 <option value="{{ $address->zip_code }}">{{ $address->name }}</option>
