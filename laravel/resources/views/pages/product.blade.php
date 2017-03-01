@@ -31,7 +31,7 @@
                             <p>{{$product->store->name}}</p>
                         </div>
                         <div class="fl-right">
-                            <a class="btn btn-popmartin-trans {{ isset($user) ? 'jq-new-message' : 'jq-auth' }}">
+                            <a class="btn btn-popmartin-trans {{ isset($auth) ? 'jq-new-message' : 'jq-auth' }}">
                                 <i class="fa fa-comments-o"></i> contatar o vendedor
                             </a>
                         </div>
