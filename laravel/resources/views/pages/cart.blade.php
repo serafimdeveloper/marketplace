@@ -31,7 +31,7 @@
                             </thead>
                             <tbody id="jq-pr-cart">
                             @foreach($store['products'] as $product)
-                                <tr id="pr{{key($store).key($product)}}" class="product-cart" data-volume="{{ $product['volume'] }}" data-weight="{{ $product['weight'] }}">
+                                <tr id="pr{{key($store).key($product)}}" class="product-cart">
                                     <td>
                                         <div class="coltable">
                                             <div class="coltable-2 product-cart-img">
