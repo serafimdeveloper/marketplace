@@ -86,28 +86,30 @@
         @endforeach
         <div class="pop-cart-cep">
             <div class="txt-right">
-                <form class="form-modern pop-form">
+                <form class="form-modern pop-form freight-form">
                     <span>Forma de frete</span>
-                    <select name="freight">
+                    <select name="freight-type">
                         <option value="1" selected="true">PAC - envio normal</option>
                         <option value="1">SEDEX - envio rápido</option>
                     </select>
                     <br>
                     <br>
-                    <select name="address">
-                        <option selected disabled>selecionar endereço</option>
-                        <option value="1">endereço 1</option>
-                        <option value="1">endereço 2</option>
-                        <option value="1">endereço 3</option>
-                    </select>
-                    <span class="pop-cart-cep-ou">ou</span>
+                    @if($addresses)
+                        <select name="address">
+                            <option selected disabled>selecionar endereço</option>
+                            @foreach($addresses as $address)
+                                <option value="{{ $address->zip_code }}">{{ $address->name }}</option>
+                            @endforeach
+                        </select>
+                        <span class="pop-cart-cep-ou">ou</span>
+                    @endif
                     {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
-
                     <button type="submit" class="btn btn-popmartin">CALCULAR</button>
                 </form>
             </div>
-            <p>Frete referente a (loja do Juca) Valor <span class="fontw-500 c-pop">R$ 18,60</span></p>
-            <p>Frete referente a (loja do Juca) Valor <span class="fontw-500 c-pop">R$ 24,60</span></p>
+            <div class="freight-calculation dp-none">
+                <p>Frete referente a (loja do Juca) Valor <span class="fontw-500 c-pop">R$ 18,60</span></p>
+            </div>
         </div>
         <br>
         <div class="pop-cart-total">
