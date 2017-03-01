@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Request;
+
+use Illuminate\Http\Request;
 
 class FreightController extends Controller{
     public function toCalculate(Request $request){
-        dd();
+        dd($request->all());
     }
 }
