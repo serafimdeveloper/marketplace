@@ -53,6 +53,12 @@ if(!function_exists('amount_products_final')){
     }
 }
 
+if(!function_exists('real')){
+    function real($value){
+        return 'R$ '.number_format($value,2,',','.');
+    }
+}
+
 if(!function_exists('buscar_address')){
     function buscar_address($adress){
 

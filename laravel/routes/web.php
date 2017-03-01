@@ -134,23 +134,18 @@ Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
 /** Rotas de páginas */
 Route::get('/', 'HomeController@index')->name('homepage');
 
-Route::get('/categoria/{category}', function(){
-    return view('pages.products');
-})->name('pages.products.categoria');
+Route::get('/categoria/{category}', 'HomeController@category')->name('pages.products.categoria');
 
-Route::get('/pesquisa/{search}', function(){
-    return view('pages.products');
-})->name('pages.products.pesquisa');
+Route::get('/pesquisa/{search}', 'HomeController@search')->name('pages.products.pesquisa');
 
-Route::get('/favoritos', function(){
-    return view('pages.favorites');
-})->name('pages.favorites');
+Route::get('/favoritos', 'HomeController@favorites')->name('pages.favorites');
 
 Route::get('/carrinho', 'CartController@index')->name('pages.cart');
 Route::get('/carrinho/add_product/{id}', 'CartController@add_product')->name('pages.cart.add_product');
+Route::post('/carrinho/update_qtd/{id}', 'CartController@update_qtd')->name('pages.cart.update_qtd');
+Route::get('/carrinho/remove_product/{id}', 'CartController@remove_product')->name('pages.cart.remove_product');
+Route::post('/carrinho/observation', 'CartController@observation')->name('pages.cart.observation');
 
-Route::get('/{store}', function(){
-    return view('pages.store');
-})->name('pages.store');
+Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 
 Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');
