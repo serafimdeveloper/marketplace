@@ -3,7 +3,8 @@
 @section('content')
     <section class="content">
         <header class="pop-title">
-            <h1><span id="jq-count-product">{{ ($cart ? count($cart->store->product) : 0) }}</span> item no meu carrinho</h1>
+            <h1><span id="jq-count-product">0</span> item no meu carrinho</h1>
+            {{--{{ ($cart ? count($cart->stores->products) : 0) }}--}}
         </header>
         @if(!$cart)
             <div class="txt-center">
@@ -34,22 +35,32 @@
                                     <td>
                                         <div class="coltable">
                                             <div class="coltable-2 product-cart-img">
-                                                <img src="{{ url('imagem/produto/'.$product['image']) }}"
+                                                <img src="{{ url('imagem/produto/'.$product['image'] . '?w=100&h=100&fit=crop') }}"
                                                      alt="[]"
                                                      title="">
                                             </div>
                                             <div class="coltable-10 product-cart-info">
-                                                <p class="c-pop fontem-12 fontw-400">{{$product['name']}}</p>
+                                                <span class="c-pop fontem-12 fontw-400">{{$product['name']}}</span><br>
                                                 <span>Código: 0gos8d4</span>
                                                 <br>
                                                 <br>
-                                                <a class="pop-remove-product-cart c-pop" href="javascript:void(0)"><i
-                                                            class="fa fa-trash"></i> remover</a>
+                                                <p>
+                                                    <a class="pop-remove-product-cart c-pop" href="javascript:void(0)">
+                                                        <i class="fa fa-trash"></i> remover
+                                                    </a>
+                                                </p>
                                             </div>
                                         </div>
+                                        <div class="clear-both"></div>
                                     </td>
-                                    <td><label><input type="number" name="" value="{{$product['qtd']}}"></label></td>
-                                    <td class="price">R$ {{$product['price_unit']}}</td>
+                                    <td>
+                                        <label>
+                                            <input type="number" name="" value="{{$product['qtd']}}">
+                                        </label>
+                                    </td>
+                                    <td class="price">
+                                        R$ {{$product['price_unit']}}
+                                    </td>
                                     <td class="price" style="font-weight: bold;">R$ {{$product['subtotal']}}</td>
                                 </tr>
                             @endforeach
