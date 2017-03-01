@@ -31,7 +31,7 @@ class Cart
         }
         $storedItem['qtd']++;
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
-        $storedItem['volume'] = $volume;
+        $storedItem['volume'] = $volume * $storedItem['qtd'];
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['products'][$id] = $storedItem;
         $this->amount_price();
