@@ -89,7 +89,7 @@
             @endforeach
             <div class="pop-cart-cep">
                 <div class="txt-right">
-                    <form class="form-modern pop-form">
+                    <form class="form-modern pop-form freight-form">
                         <span>Forma de frete</span>
                         {!! Form::select('freight',$freight) !!}
                         <br>

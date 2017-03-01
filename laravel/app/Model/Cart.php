@@ -38,7 +38,6 @@ class Cart
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['products'][$id] = $storedItem;
         $this->amount_price();
-        return $this;
     }
 
     public function remove_product($id){
@@ -51,7 +50,6 @@ class Cart
                 $this->amount_price();
             }
         }
-        return $this;
     }
 
     public function update_qtd_product($qtd, $id)
@@ -63,7 +61,6 @@ class Cart
                 $this->amount_price();
             }
         }
-        return $this;
     }
 
     public function add_obs($obs, $id)
@@ -74,7 +71,6 @@ class Cart
                 $this->stores[$product->store_id]['products'][$id]['obs'] = $obs;
             }
         }
-        return $this;
     }
 
     private function amount_price(){
@@ -88,12 +84,6 @@ class Cart
             $this->stores[$key]['subtotal'] = $subtotal;
             $this->amount+= $subtotal;
             $this->count = $count;
-        }
-    }
-
-    public function calcula_frete($produtos, $store){
-        foreach($produtos as $key => $produto){
-            $pr = Product::find($key);
         }
     }
 }
