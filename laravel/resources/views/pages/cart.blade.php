@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content">
+    <section class="content jq-cart">
         <header class="pop-title">
-            <h1><span id="jq-count-product">0</span> item no meu carrinho</h1>
+            <h1><span id="jq-count-product">0</span> item no carrinho</h1>
             {{--{{ ($cart ? count($cart->stores->products) : 0) }}--}}
         </header>
         @if(!$cart)
@@ -31,7 +31,7 @@
                             </thead>
                             <tbody id="jq-pr-cart">
                             @foreach($store['products'] as $product)
-                                <tr id="pr{{key($store).key($product)}}">
+                                <tr id="pr{{key($store).key($product)}}" class="product-cart" data-volume="{{ $product['volume'] }}" data-weight="{{ $product['weight'] }}">
                                     <td>
                                         <div class="coltable">
                                             <div class="coltable-2 product-cart-img">
