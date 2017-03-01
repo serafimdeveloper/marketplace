@@ -104,7 +104,7 @@
                         </select>
                         <span class="pop-cart-cep-ou">ou</span>
                     @endif
-                    {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'class' => 'freight-cep']) !!}
+                    {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'class' => 'freight-cep', 'maxlength' => 8]) !!}
                     <button type="submit" class="btn btn-popmartin">CALCULAR</button>
                 </form>
             </div>

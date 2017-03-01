@@ -7,7 +7,9 @@ Route::get('/integration/moip/test', 'MoipController@order')->name('test.integra
 Route::get('/progress/log', function(){
     return view('log');
 })->name('test.integrationmoip');
+/**---------------------------------------------------------------------------------------*/
 
+Route::get('/calculatefreight', 'FreightController@toCalculate')->name('calculatefreight');
 
 Route::get('/contato', function () {
     return view('pages.contact');
