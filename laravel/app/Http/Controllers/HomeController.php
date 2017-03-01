@@ -31,4 +31,22 @@ class HomeController extends Controller {
         return view('pages.product', compact('product','type'));
     }
 
+    public function category($category){
+        return view('pages.products');
+    }
+
+    public function search($search){
+        return view('pages.products');
+    }
+
+    public function favorites(){
+        return view('pages.favorites');
+    }
+
+    public function stores($store){
+        return view('pages.store');
+
+
+    }
+
 }

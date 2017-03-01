@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content">
+    @if(Session::has('cart'))
+        <section class="content">
         <header class="pop-title">
-            <h1><span id="jq-count-product">1</span> item no meu carrinho</h1>
+            <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
         </header>
-        @foreach($cart->stores as $store)
-            <article class="pop-cart">
+
+        @foreach($cart->stores as $key_store => $store )
+                <article class="pop-cart">
                 <h1>{{$store['name']}}</h1>
                 <div>
                     <table class="table pop-cart-info-product">
@@ -19,8 +21,8 @@
                         </tr>
                         </thead>
                         <tbody id="jq-pr-cart">
-                        @foreach($store['products'] as $product)
-                            <tr id="pr{{key($store).key($product)}}">
+                        @foreach($store['products'] as $key_product => $product)
+                            <tr id="pr{{$key_store.$key_product}}">
                                 <td>
                                     <div class="coltable">
                                         <div class="coltable-2 product-cart-img">
@@ -39,8 +41,8 @@
                                     </div>
                                 </td>
                                 <td><label><input type="number" name="" value="{{$product['qtd']}}"></label></td>
-                                <td class="price">R$ {{$product['price_unit']}}</td>
-                                <td class="price" style="font-weight: bold;">R$ {{$product['subtotal']}}</td>
+                                <td class="price">{{real($product['price_unit'])}}</td>
+                                <td class="price" style="font-weight: bold;">{{real($product['subtotal'])}}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -50,7 +52,8 @@
                             <a href="javascript:void(0)" class="show-formobs btn btn-small btn-popmartin">adicionar
                                 observação aos produtos deste de vendedor</a>
                             <form class="form-modern" action="" method="POST">
-                                <input type="hidden" name="store" value="1">
+                                {{csrf_field()}}
+                                <input type="hidden" name="store" value="{{$key_store}}">
                                 <label>
                                     <textarea name="note" class="radius"
                                               placeholder="Exemplo: tamanho, cor, outra informação"></textarea>
@@ -74,7 +77,7 @@
                                     <p class="c-pop">
                                         <span class="">Subtotal para esta loja</span>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <span class="fontem-16 fontw-500">R$ {{$store['subtotal']}}</span>
+                                        <span class="fontem-16 fontw-500">{{real($store['subtotal'])}}</span>
                                     </p>
                                 </div>
                             </div>
@@ -116,7 +119,7 @@
                     <a href="/" class="btn btn-popmartin">CONTINUAR COMPRANDO</a>
                 </div>
                 <div class="colbox-2">
-                    <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">R$ {{$cart->amount}}</span></p>
+                    <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">{{real($cart->amount)}}</span></p>
                     <a href="" class="btn btn-green">FINALIZAR PEDIDO</a>
                 </div>
             </div>
@@ -124,4 +127,5 @@
         </div>
     </section>
     <div class="bs-dialog radius-small" title="Enviar observação para LOJA DO JUCA"></div>
+    @endif
 @endsection
