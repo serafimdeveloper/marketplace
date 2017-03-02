@@ -6,7 +6,6 @@
             <header class="pop-title">
                 <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
             </header>
-
             @foreach($cart->stores as $key_store => $store )
                 <article class="pop-cart">
                     <h1>{{$store['name']}}</h1>
@@ -40,7 +39,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><label><input type="number" name="" value="{{$product['qtd']}}"></label></td>
+                                    <td><label><input type="number" name="qtd" value="{{$product['qtd']}}" data-product="{{$key_product}}" class="qtd_product"></label></td>
                                     <td class="price">{{real($product['price_unit'])}}</td>
                                     <td class="price" style="font-weight: bold;">{{real($product['subtotal'])}}</td>
                                 </tr>
@@ -49,14 +48,13 @@
                         </table>
                         <div class="pop-cart-footer">
                             <div class="pop-cart-obs">
-                                <a href="javascript:void(0)" class="show-formobs btn btn-small btn-popmartin">adicionar
-                                    observação aos produtos deste de vendedor</a>
+                                <a href="javascript:void(0)" class="show-formobs btn btn-small btn-popmartin">{{isset($store['obs']) ? 'ver' : 'adicionar'}} observações aos produtos deste de vendedor</a>
                                 <form class="form-modern" action="" method="POST">
                                     {{csrf_field()}}
                                     <input type="hidden" name="store" value="{{$key_store}}">
                                     <label>
                                     <textarea name="note" class="radius"
-                                              placeholder="Exemplo: tamanho, cor, outra informação"></textarea>
+                                              placeholder="Exemplo: tamanho, cor, outra informação">{{$store['obs']}}</textarea>
                                     </label>
                                     <div class="">
                                         <button type="submit" class="btn btn-small btn-popmartin">Salvar</button>

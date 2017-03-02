@@ -40,18 +40,20 @@ class CartController extends Controller
 
     public function update_qtd(Request $request, $id){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->update_qtd_product($request->qtd, $id);
-        $request->session()->put('cart', $cart);
-        return response()->json(compact('cart'),200);
+        $obj = new Cart($oldCart);
+        if($cart =  $obj->update_qtd_product($request->qtd, $id)){
+            $request->session()->put('cart', $cart);
+            return response()->json(compact('cart'),200);
+        }
+        return response()->json(['msg'=>'quantidade de produtos insuficiente'],422);
     }
 
-    public function add_obs(Request $request, $id){
+    public function add_obs(Request $request){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->add_obs($request->obs, $id);
+        $cart->add_obs($request->note, $request->store);
         $request->session()->put('cart', $cart);
-        return redirect()->route('pages.cart');
+        return response()->json(['status'=>true],200);
     }
 
 }
