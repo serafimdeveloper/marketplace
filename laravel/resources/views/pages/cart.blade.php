@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-        <section class="content">
-            @if(Session::has('cart'))
+    <section class="content">
+        @if(Session::has('cart'))
             <header class="pop-title">
                 <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
             </header>
@@ -76,7 +76,6 @@
                                     <div class="colbox-2">
                                         <p class="c-pop">
                                             <span class="">Subtotal para esta loja</span>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
                                             <span class="fontem-16 fontw-500">{{real($store['subtotal'])}}</span>
                                         </p>
                                     </div>
@@ -89,16 +88,13 @@
             @endforeach
             <div class="pop-cart-cep">
                 <div class="txt-right">
-                    <form class="form-modern pop-form">
+                    <form class="form-modern pop-form freight-form">
                         <span>Forma de frete</span>
                         {!! Form::select('freight',$freight) !!}
-                        <br>
-                        <br>
                         @if($addresses)
-                        {!! Form::select('address', $addresses, null, ['placeholder' => 'Selecionar endereço']) !!}
-                        <span class="pop-cart-cep-ou">ou</span>
+                            {!! Form::select('address', $addresses, null, ['placeholder' => 'Selecionar endereço']) !!}
                         @else
-                        {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
+                            {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
                         @endif
                         <button type="submit" class="btn btn-popmartin">CALCULAR</button>
                     </form>
@@ -113,13 +109,14 @@
                         <a href="/" class="btn btn-popmartin">CONTINUAR COMPRANDO</a>
                     </div>
                     <div class="colbox-2">
-                        <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">{{real($cart->amount)}}</span></p>
+                        <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">{{real($cart->amount)}}</span>
+                        </p>
                         <a href="" class="btn btn-green">FINALIZAR PEDIDO</a>
                     </div>
                 </div>
                 <div class="clear-both"></div>
             </div>
-            @endif
-        </section>
-        <div class="bs-dialog radius-small" title="Enviar observação para LOJA DO JUCA"></div>
+        @endif
+    </section>
+    <div class="bs-dialog radius-small" title="Enviar observação para LOJA DO JUCA"></div>
 @endsection
