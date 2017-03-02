@@ -15,12 +15,6 @@ use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
-    protected  $cart;
-    public function __construct() {
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $this->cart = new Cart($oldCart);
-    }
-
     public function index(){
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','zip_code') : null);
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
@@ -29,25 +23,33 @@ class CartController extends Controller
     }
 
     public function add_product(Request $request, $id){
-        $cart = $this->cart->add_cart($id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->add_cart($id);
         $request->session()->put('cart', $cart);
         return redirect()->route('pages.cart');
     }
 
     public function remove_product (Request $request, $id){
-        $cart = $this->cart->remove_product($id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->remove_product($id);
         $request->session()->put('cart', $cart);
         return redirect()->route('pages.cart');
     }
 
     public function update_qtd(Request $request, $id){
-        $cart = $this->cart->update_qtd_product($request->qtd, $id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->update_qtd_product($request->qtd, $id);
         $request->session()->put('cart', $cart);
         return response()->json(compact('cart'),200);
     }
 
     public function add_obs(Request $request, $id){
-        $cart = $this->add_obs($request->obs, $id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->add_obs($request->obs, $id);
         $request->session()->put('cart', $cart);
         return redirect()->route('pages.cart');
     }
