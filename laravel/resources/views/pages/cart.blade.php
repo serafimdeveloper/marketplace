@@ -15,6 +15,7 @@
                             <thead>
                             <tr>
                                 <th></th>
+                                <th class="t-medium">Frete</th>
                                 <th class="t-medium">Quantidade</th>
                                 <th class="t-medium">Preço Unitário</th>
                                 <th class="t-medium">Subtotal</th>
@@ -26,12 +27,13 @@
                                     <td>
                                         <div class="coltable">
                                             <div class="coltable-2 product-cart-img">
-                                                <img src="{{ url('imagem/produto/'.$product['image']) }}"
+                                                <img src="{{ url('imagem/produto/'.$product['image'] . '?w120&h=120&fit=cropt') }}"
                                                      alt="[]"
                                                      title="">
                                             </div>
                                             <div class="coltable-10 product-cart-info">
-                                                <p class="c-pop fontem-12 fontw-400">{{$product['name']}}</p>
+                                                <span class="c-pop fontem-12 fontw-400">{{$product['name']}}</span>
+                                                <br>
                                                 <span>Código: 0gos8d4</span>
                                                 <br>
                                                 <br>
@@ -40,6 +42,8 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td>Grátis</td>
+                                    {{--<td>{{ ($product['free_shipping'] ? 'Grátis' : 'á calcular') }}</td>--}}
                                     <td><label><input type="number" name="" value="{{$product['qtd']}}"></label></td>
                                     <td class="price">{{real($product['price_unit'])}}</td>
                                     <td class="price" style="font-weight: bold;">{{real($product['subtotal'])}}</td>
@@ -65,22 +69,37 @@
                                 </form>
                             </div>
                             <div class="pop-cart-subtotal">
-                                <div class="colbox">
-                                    <div class="colbox-2 txt-left">
-                                        <p>
-                                            <span class="vertical-middle bg-popmartin c-white padding10">FRETE: </span>
+                                <table>
+                                    <tr>
+                                        <td>Subtotal:</td>
+                                        <td>{{real($store['subtotal'])}}</td>
+                                    </tr>
+                                    <tr class="c-bluedark">
+                                        <td>Frete:</td>
+                                        <td>R$ 0.00</td>
+                                    </tr>
+                                    <tr class="fontem-12">
+                                        <td><span class="c-pop fontw-600">Total para esta loja:</span></td>
+                                        <td>{{real($store['subtotal'])}}</td>
+                                    </tr>
+                                </table>
+
+                                {{--<div class="colbox">--}}
+                                    {{--<div class="colbox-2 txt-left">--}}
+                                        {{--<p>--}}
+                                            {{--<span class="vertical-middle bg-popmartin c-white padding10">FRETE: </span>--}}
                                             {{--<span class="padding10-20">GRÁTIS</span>--}}
-                                            <span class="padding10-20">Á CALCULAR</span>
-                                        </p>
-                                    </div>
-                                    <div class="colbox-2">
-                                        <p class="c-pop">
-                                            <span class="">Subtotal para esta loja</span>
-                                            <span class="fontem-16 fontw-500">{{real($store['subtotal'])}}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="clear-both"></div>
+                                            {{--<span class="padding10-20">Á CALCULAR</span>--}}
+                                        {{--</p>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="colbox-2">--}}
+                                        {{--<p class="c-pop">--}}
+                                            {{--<span class="">Subtotal para esta loja</span>--}}
+                                            {{--<span class="fontem-16 fontw-500">{{real($store['subtotal'])}}</span>--}}
+                                        {{--</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="clear-both"></div>--}}
                             </div>
                         </div>
                     </div>
@@ -88,19 +107,17 @@
             @endforeach
             <div class="pop-cart-cep">
                 <div class="txt-right">
-                    <form class="form-modern pop-form freight-form">
-                        <span>Forma de frete</span>
-                        {!! Form::select('freight',$freight) !!}
+                    <form class="form-modern pop-form freight-form" action="" method="GET">
                         @if($addresses)
+                            <span>Seleione o endereço</span>
                             {!! Form::select('address', $addresses, null, ['placeholder' => 'Selecionar endereço']) !!}
                         @else
+                            <span>Informe o Cep</span>
                             {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
                         @endif
                         <button type="submit" class="btn btn-popmartin">CALCULAR</button>
                     </form>
                 </div>
-                <p>Frete referente a (loja do Juca) Valor <span class="fontw-500 c-pop">R$ 18,60</span></p>
-                <p>Frete referente a (loja do Juca) Valor <span class="fontw-500 c-pop">R$ 24,60</span></p>
             </div>
             <br>
             <div class="pop-cart-total">

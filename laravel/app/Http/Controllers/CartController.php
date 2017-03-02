@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Session;
 class CartController extends Controller
 {
     public function index(){
+        calculate_freight('27286210');
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','zip_code') : null);
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
         $cart = Session::has('cart') ? Session::get('cart') : null;
