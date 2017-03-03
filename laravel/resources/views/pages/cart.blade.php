@@ -47,8 +47,20 @@
                                         </div>
                                     </td>
                                     <td>{{ ($product['free_shipping'] ? 'Grátis' : 'á calcular') }}</td>
-                                    <td><form action="javascript:void(0)" class="atualizar-produtos"><label><input type="number" name="qtd" value="{{$product['qtd']}}"></label>
-                                    <input type="hidden" name="product" value="{{$key_product}}"/>{{csrf_field()}}<br><button>atualizar</button></form></td>
+                                    <td class="txt-center">
+                                        <form action="javascript:void(0)" class="atualizar-produtos">
+                                            <label>
+                                                <input type="number" name="qtd" value="{{$product['qtd']}}">
+                                            </label>
+                                            <input type="hidden" name="product" value="{{$key_product}}"/>
+                                            {{csrf_field()}}
+                                            <br>
+                                            <button class="c-popdark cursor-pointer" style="background: none; border: none;">
+                                                <i class="fa fa-refresh"></i>
+                                                atualizar
+                                            </button>
+                                        </form>
+                                    </td>
                                     <td class="price">{{real($product['price_unit'])}}</td>
                                     <td class="price" style="font-weight: bold;">{{real($product['subtotal'])}}</td>
                                 </tr>
@@ -72,7 +84,7 @@
                                 </form>
                             </div>
                             <div class="pop-cart-subtotal">
-                                <div style="float:left">
+                                <div>
                                     @if(isset($store['freight']))
                                     <div class="checkbox-container" style="position:relative;">
                                         <span>Frete para o CEP: <b>{{$cart->address}}</b></span>
