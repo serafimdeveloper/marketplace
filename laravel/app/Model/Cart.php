@@ -63,8 +63,10 @@ class Cart
         $product = Product::find($id);
         if (array_key_exists($product->store_id, $this->stores)) {
             if (array_key_exists($id, $this->stores[$product->store_id]['products'])) {
-                if($product->quantity <= $qtd){
+                if($product->quantity >= $qtd){
                     $this->stores[$product->store_id]['products'][$id]['qtd'] = $qtd;
+                    $this->stores[$product->store_id]['products'][$id]['subtotal'] = $this->stores[$product->store_id]['products'][$id]['price_unit'] * $qtd;
+
                     $this->amount_price();
                     $this->calc_freight();
                     return $this;
