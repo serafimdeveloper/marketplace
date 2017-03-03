@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Request;
 use Artesaos\Moip\facades\Moip;
+use Illuminate\Http\Request;
 
 class CheckoutController extends Controller{
     private $moip;
@@ -11,46 +11,38 @@ class CheckoutController extends Controller{
     function __construct(){
         $this->moip = Moip::start();
     }
-    public function order(){
-        try {
-            $customer = $this->moip->customers()->setOwnId(uniqid())
+    public function order(Request $request){
+        $order = $this->moip->orders()->setOwnId('seu_identificador_proprio')
+            ->addItem('Descrição do pedido', 1, 'Mais info...', 10000)
+            ->setShippingAmount(100)
+            ->setCustomer($this->moip->customers()->setOwnId('seu_identificador_proprio_de_cliente')
                 ->setFullname('Jose Silva')
-                ->setEmail('sandbox_v2_1401147277@email.com')
+                ->setEmail('nome@email.com')
                 ->setBirthDate('1988-12-30')
                 ->setTaxDocument('33333333333')
                 ->setPhone(11, 66778899)
-                ->addAddress('SHIPPING',
+                ->addAddress('BILLING',
                     'Avenida Faria Lima', 2927,
                     'Itaim', 'Sao Paulo', 'SP',
-                    '01234000', 8);
+                    '01234000', 8))
+//            ->setCheckout()
+            ->create();
 
-            $order1 = $this->moip->orders()->setOwnId(uniqid())
-                ->addItem('Camisa Verde e Amarelo - Brasil', 1, 'Seleção Brasileira', 10000)
-                ->setShippingAmount(100)
-                ->setCustomer($customer)
-                ->addReceiver('MPA-VB5OGTVPCI52');
+        $ccNumber = '5555666677778884';
+        $cvcNumber = '123';
 
-            $order2 = $this->moip->orders()->setOwnId(uniqid())
-                ->addItem('Camisa Preta - Alemanha', 1, 'Camisa da Copa 2014', 10000)
-                ->setShippingAmount(100)
-                ->setCustomer($customer)
-                ->addReceiver('MPA-IFYRB1HBL73Z');
 
-            $multiorder = $this->moip->multiorders()
-                ->addOrder($order1)
-                ->addOrder($order2)
-                ->setOwnId(uniqid())
-                ->create();
+        $payment = $order->payments()
+            ->setCreditCard('05', '18', $ccNumber, $cvcNumber,
+                $this->moip->customers()->setOwnId('sandbox_v2_1401147277')
+                    ->setFullname('Jose Portador da Silva')
+                    ->setEmail('fulano@email.com')
+                    ->setBirthDate('1988-12-30')
+                    ->setTaxDocument('33333333333')
+                    ->setPhone(11, 66778899))
+            ->execute();
 
-//            dd($multiorder);
-//            $multipayments = $this->moip->multiorders()->get('MOR-8H8VSF36G5HT')->multipayments()->execute();
-
-            $multpayment = $multiorder->multipayments();
-            dd($multpayment);
-        } catch (Exception $e) {
-            dd($e->__toString());
-        }
-
+        dd($payment->get('seu_identificador_proprio'));
         return view('test.integrationmoip');
     }
 }
