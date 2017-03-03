@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content">
-        @if(Session::has('cart'))
+        @if(Session::has('cart') && (count($cart->stores)))
             <header class="pop-title">
                 <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
             </header>
@@ -57,8 +57,7 @@
                                     {{csrf_field()}}
                                     <input type="hidden" name="store" value="{{$key_store}}">
                                     <label>
-                                    <textarea name="note" class="radius"
-                                              placeholder="Exemplo: tamanho, cor, outra informação">{{$store['obs']}}</textarea>
+                                    <textarea name="note" class="radius" placeholder="Exemplo: tamanho, cor, outra informação">{{$store['obs']}}</textarea>
                                     </label>
                                     <div class="">
                                         <button type="submit" class="btn btn-small btn-popmartin">Salvar</button>
@@ -74,8 +73,8 @@
                                         <div class="checkboxies">
                                         @foreach($store['freight'] as $key => $freight)
                                             <label class="radio" style="border: none; display: block; float: none; padding-left: 0px;">
-                                                <span><span class="fa {{ ($key === 'PAC') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> {{$key. ': '.real($freight['val']).' ('.$freight['deadline'].' dias utéis)'}}</span>
-                                                {!! Form::radio( strtolower($key), strtolower($key)) !!}
+                                                <span><span class="fa {{ ($key === $store['type_freight']) ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> {{$key. ': '.real($freight['val']).' ('.$freight['deadline'].' dias utéis)'}}</span>
+                                                {!! Form::radio('type_freight', $key, ($key === $store['type_freight']), ['class'=>'type-freight', 'data-store' => $key_store, 'data-token' => csrf_token()] ) !!}
                                             </label>
                                         @endforeach
                                         </div>
@@ -89,11 +88,11 @@
                                     </tr>
                                     <tr class="c-bluedark">
                                         <td>Frete:</td>
-                                        <td>R$ 0.00</td>
+                                        <td>{{real($store['price_freight'])}}</td>
                                     </tr>
                                     <tr class="fontem-12">
                                         <td><span class="c-pop fontw-600">Total para esta loja:</span></td>
-                                        <td>{{real($store['subtotal'])}}</td>
+                                        <td>{{real($store['amount'])}}</td>
                                     </tr>
                                 </table>
 
@@ -123,10 +122,10 @@
                     {!! Form::open(['route'=>['pages.cart.add_address'],'class'=>'form-modern pop-form freight-form', 'method'=>'POST']) !!}
                         @if($addresses)
                             <span>Seleione o endereço</span>
-                            {!! Form::select('address', $addresses, null, ['placeholder' => 'Selecionar endereço']) !!}
+                            {!! Form::select('address', $addresses, $cart->address, ['placeholder' => 'Selecionar endereço']) !!}
                         @else
                             <span>Informe o Cep</span>
-                            {!! Form::text('address',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
+                            {!! Form::text('address',$cart->address , ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
                         @endif
                         <button type="submit" class="btn btn-popmartin">CALCULAR</button>
                     {!! Form::close() !!}
