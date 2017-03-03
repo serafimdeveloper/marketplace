@@ -11,7 +11,6 @@
             <header class="pop-title">
                 <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
             </header>
-
             @foreach($cart->stores as $key_store => $store )
                 <article class="pop-cart">
                     <h1>{{$store['name']}}</h1>
@@ -42,14 +41,14 @@
                                                 <span>Código: 0gos8d4</span>
                                                 <br>
                                                 <br>
-                                                <a class="pop-remove-product-cart c-pop" href="javascript:void(0)"><i
-                                                            class="fa fa-trash"></i> remover</a>
+                                                <a class="pop-remove-product-cart c-pop" href="javascript:void(0)" data-product="{{$key_product}}">
+                                                    <i class="fa fa-trash"></i> remover</a>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>Grátis</td>
-                                    {{--<td>{{ ($product['free_shipping'] ? 'Grátis' : 'á calcular') }}</td>--}}
-                                    <td><label><input type="number" name="" value="{{$product['qtd']}}"></label></td>
+                                    <td>{{ ($product['free_shipping'] ? 'Grátis' : 'á calcular') }}</td>
+                                    <td><form action="javascript:void(0)" class="atualizar-produtos"><label><input type="number" name="qtd" value="{{$product['qtd']}}"></label>
+                                    <input type="hidden" name="product" value="{{$key_product}}"/>{{csrf_field()}}<br><button>atualizar</button></form></td>
                                     <td class="price">{{real($product['price_unit'])}}</td>
                                     <td class="price" style="font-weight: bold;">{{real($product['subtotal'])}}</td>
                                 </tr>
@@ -58,14 +57,13 @@
                         </table>
                         <div class="pop-cart-footer">
                             <div class="pop-cart-obs">
-                                <a href="javascript:void(0)" class="show-formobs btn btn-small btn-popmartin">adicionar
-                                    observação aos produtos deste de vendedor</a>
+                                <a href="javascript:void(0)" class="show-formobs btn btn-small btn-popmartin">{{isset($store['obs']) ? 'ver' : 'adicionar'}} observações aos produtos deste de vendedor</a>
                                 <form class="form-modern" action="" method="POST">
                                     {{csrf_field()}}
                                     <input type="hidden" name="store" value="{{$key_store}}">
                                     <label>
                                     <textarea name="note" class="radius"
-                                              placeholder="Exemplo: tamanho, cor, outra informação"></textarea>
+                                              placeholder="Exemplo: tamanho, cor, outra informação">{{$store['obs']}}</textarea>
                                     </label>
                                     <div class="">
                                         <button type="submit" class="btn btn-small btn-popmartin">Salvar</button>
@@ -74,6 +72,21 @@
                                 </form>
                             </div>
                             <div class="pop-cart-subtotal">
+                                <div style="float:left">
+                                    @if(isset($store['freight']))
+                                    <div class="checkbox-container" style="position:relative;">
+                                        <span>Frete para o CEP: <b>{{$cart->address}}</b></span>
+                                        <div class="checkboxies">
+                                        @foreach($store['freight'] as $key => $freight)
+                                            <label class="radio" style="border: none; display: block; float: none; padding-left: 0px;">
+                                                <span><span class="fa {{ ($key === 'PAC') ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> {{$key. ': '.real($freight['val']).' ('.$freight['deadline'].' dias utéis)'}}</span>
+                                                {!! Form::radio( strtolower($key), strtolower($key)) !!}
+                                            </label>
+                                        @endforeach
+                                        </div>
+                                    @endif
+                                    </div>
+                                </div>
                                 <table>
                                     <tr>
                                         <td>Subtotal:</td>
@@ -112,16 +125,16 @@
             @endforeach
             <div class="pop-cart-cep">
                 <div class="txt-right">
-                    <form class="form-modern pop-form freight-form" action="" method="GET">
+                    {!! Form::open(['route'=>['pages.cart.add_address'],'class'=>'form-modern pop-form freight-form', 'method'=>'POST']) !!}
                         @if($addresses)
                             <span>Seleione o endereço</span>
                             {!! Form::select('address', $addresses, null, ['placeholder' => 'Selecionar endereço']) !!}
                         @else
                             <span>Informe o Cep</span>
-                            {!! Form::text('cep',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
+                            {!! Form::text('address',null, ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
                         @endif
                         <button type="submit" class="btn btn-popmartin">CALCULAR</button>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div>
             <br>

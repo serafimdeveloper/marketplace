@@ -78,11 +78,11 @@ if(!function_exists('calculate_freight')){
             $df['diametro'] = 0;
             $df['cep_destino'] = preg_replace("/-/", '', $cep);
             /* Opicionais */
-//      $df['empresa'] = '';
-//      $df['senha'] = '';
-//      $df['mao_propria'] = '';
-//      $df['valor_declarado'] = '';
-//      $df['aviso_recebimento'] = '';
+            //      $df['empresa'] = '';
+            //      $df['senha'] = '';
+            //      $df['mao_propria'] = '';
+            //      $df['valor_declarado'] = '';
+            //      $df['aviso_recebimento'] = '';
             /**
              * Desmontar sessão para pegar informações do carrinho
              * Montar um array contendo informações básicas para o cálculo de frete
@@ -96,6 +96,7 @@ if(!function_exists('calculate_freight')){
                 foreach($freights as $freight){
                     /** definir tipo para minusculo para comparar com biblioteca vendor de cálculo de frete */
                     $df['tipo'] = trim(strtolower($freight->name));
+                    $data = array();
                     /**
                      * Pegar cada produto para somar seu volume e obter peso total
                      * @var  $product_id
@@ -109,7 +110,6 @@ if(!function_exists('calculate_freight')){
                             $weight += $product_data->weight_gr * $product['qtd'];
                         }
                     }
-//                dd($volume, $weight);
                     /** @var  $volume - Arredondar para cima o valor do volume */
                     $volume = ceil($volume);
                     /** @var  $weight - transformar para Kilos */
@@ -148,9 +148,9 @@ if(!function_exists('calculate_freight')){
                     }
                 }
             }
+            // dd($data);
             return $data;
         }
-
     }
 }
 
