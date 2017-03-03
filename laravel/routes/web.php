@@ -142,9 +142,10 @@ Route::get('/favoritos', 'HomeController@favorites')->name('pages.favorites');
 
 Route::get('/carrinho', 'CartController@index')->name('pages.cart');
 Route::get('/carrinho/add_product/{id}', 'CartController@add_product')->name('pages.cart.add_product');
-Route::post('/carrinho/update_qtd/{id}', 'CartController@update_qtd')->name('pages.cart.update_qtd');
+Route::post('/carrinho/update_qtd', 'CartController@update_qtd')->name('pages.cart.update_qtd');
 Route::get('/carrinho/remove_product/{id}', 'CartController@remove_product')->name('pages.cart.remove_product');
 Route::post('/carrinho/observation', 'CartController@add_obs')->name('pages.cart.observation');
+Route::post('/carrinho/add_address', 'cartController@add_address')->name('pages.cart.add_address');
 
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 

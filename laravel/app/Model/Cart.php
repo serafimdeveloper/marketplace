@@ -10,7 +10,7 @@ class Cart
      */
      public $amount = 0;
      public $count = 0;
-     public $address = [];
+     public $address;
      public $stores = [];
 
     public function __construct($oldcart){
@@ -26,7 +26,7 @@ class Cart
         $product = Product::find($id);
         $storedItem = ['name' => $product->name, 'qtd' => 0,
             'price_unit' => isset($product->price_out_discount) ? $product->price_out_discount : $product->price,
-            'subtotal' => 0, 'image' => $product->galeries->first()->image, 'slug' => $product->slug];
+            'subtotal' => 0, 'image' => $product->galeries->first()->image, 'slug' => $product->slug, 'free_shipping' => $product->free_shipping];
         $store = $product->store;
         if(array_key_exists($store->id, $this->stores)){
             if(array_key_exists($id, $this->stores[$store->id]['products'])){
@@ -37,8 +37,9 @@ class Cart
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['slug'] = $store->slug;
-        $this->stores[$store->id]['obs'] = null;
+        $this->stores[$store->id]['obs'] = isset($this->stores[$store->id]['obs']) ? $this->stores[$store->id]['obs'] : null;
         $this->stores[$store->id]['products'][$id] = $storedItem;
+        $this->calc_freight();
         $this->amount_price();
     }
 
@@ -49,6 +50,11 @@ class Cart
         if(array_key_exists($product->store_id, $this->stores)){
             if(array_key_exists($id, $this->stores[$store->id]['products'])){
                 unset($this->stores[$store->id]['products'][$id]);
+                if(count($this->stores[$store->id]['products']) < 1){
+                    unset($this->stores[$store->id]);
+                }
+                $this->amount_price();
+                $this->calc_freight();
             }
         }
     }
@@ -60,9 +66,9 @@ class Cart
                 if($product->quantity <= $qtd){
                     $this->stores[$product->store_id]['products'][$id]['qtd'] = $qtd;
                     $this->amount_price();
+                    $this->calc_freight();
                     return $this;
                 }else{
-                    $this->amount_price();
                     return false;
                 }
             }
@@ -74,6 +80,11 @@ class Cart
             $this->stores[$id]['obs'] = $obs;
         }
         $this->amount_price();
+    }
+
+    public function add_address($address){
+        $this->address = $address;
+        $this->calc_freight();
     }
 
     private function amount_price(){
@@ -90,5 +101,13 @@ class Cart
             $this->count = $count;
         }
         $this->amount = $amount;
+    }
+
+    private function calc_freight(){
+        if(isset($this->address)){
+            foreach(calculate_freight($this->address) as $store => $value){
+                $this->stores[$store]['freight'] = $value;
+            }
+        }
     }
 }

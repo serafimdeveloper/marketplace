@@ -126,7 +126,11 @@ input{padding: 5px;width: 100%;}
 .pop-cart-obs{position: relative;padding: 20px 10px;text-align: center;}
 .pop-cart-obs form{display: none;}
 .pop-cart-footer textarea{width: 100%;height: 80px;}
-.pop-cart-subtotal{padding: 30px 10px;text-align: right;background-color: #FBEFEF;}
+.pop-cart-subtotal{padding: 20px 10px;text-align: right;background-color: #E0E0E0;}
+.pop-cart-subtotal table{display: inline-block;}
+.pop-cart-subtotal tr td{padding: 4px 2px;}
+.pop-cart-subtotal tr td:last-of-type{text-align: left;}
+
 .pop-cart-cep, .pop-cart-total{text-align: right;}
 .pop-cart-cep input{font-size: 1.4em;padding: 5px;max-width: 140px;vertical-align: middle;}
 .pop-cart-cep p{margin-bottom: 5px;font-size: 1em;color: #8e8e8e;}
