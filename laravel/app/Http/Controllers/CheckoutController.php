@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Request;
 use Artesaos\Moip\facades\Moip;
 
-class MoipController extends Controller{
+class CheckoutController extends Controller{
     private $moip;
 
     function __construct(){
@@ -26,9 +26,14 @@ class MoipController extends Controller{
                 ->addAddress('SHIPPING',
                     'Rua de teste do SHIPPING', 123,
                     'Bairro do SHIPPING', 'Sao Paulo', 'SP',
-                    '01234567', 8)
+                    '01234567', 8);
+
+            $order = $this->moip->orders()->setOwnId(uniqid())
+                ->addItem('Bicicleta Specialized Tarmac 26 Shimano Alivio', 1, 'uma linda bicicleta', 10000)
+                ->setCustomer($customer)
                 ->create();
-            dd($customer);
+
+            dd($order);
         } catch (Exception $e) {
             dd($e->__toString());
         }

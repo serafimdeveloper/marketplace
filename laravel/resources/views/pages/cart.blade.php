@@ -2,7 +2,12 @@
 
 @section('content')
     <section class="content">
-        @if(Session::has('cart'))
+        @if(!Session::has('cart'))
+            <div class="trigger warning">
+                <p class="fontem-20">Carrinho vazio</p>
+                <a href="/" class="btn btn-small btn-popmartin"><i class="fa fa-shopping-cart"></i> adicionar produto</a>
+            </div>
+        @else
             <header class="pop-title">
                 <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
             </header>
