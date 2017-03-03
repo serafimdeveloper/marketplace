@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'accont';
+    protected $redirectTo = '';
 
     /**
      * Create a new controller instance.
@@ -36,6 +36,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
+        $this->redirectTo = (Session::has('oldUrl')) ? (Session::get('oldUrl')) : 'accont';
         $this->middleware('guest');
     }
 

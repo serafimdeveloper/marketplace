@@ -159,7 +159,7 @@ class Cart
     /** Traz os valores e o prazo de cada frete */
     private function calc_freight(){
         if(isset($this->address)){
-            foreach(calculate_freight($this->address) as $store => $value){
+            foreach(calculate_freight($this) as $store => $value){
                 $this->stores[$store]['freight'] = $value;
             }
         }

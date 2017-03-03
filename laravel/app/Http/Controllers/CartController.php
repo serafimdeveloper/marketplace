@@ -27,6 +27,9 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->add_cart($id);
         $request->session()->put('cart', $cart);
+        if($request->ajax()){
+            return redirect()->json(compact('cart'), 201);
+        }
         return redirect()->route('pages.cart');
     }
 
@@ -35,7 +38,7 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->remove_product($id);
         $request->session()->put('cart', $cart);
-        return response()->json(['msg'=>'Produto removido com sucesso!'],200);
+        return response()->json(['msg'=>'Produto removido com sucesso!'], 200);
     }
 
     public function update_qtd(Request $request){

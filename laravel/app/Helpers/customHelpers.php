@@ -68,16 +68,16 @@ if(!function_exists('buscar_address')){
     }
 }
 if(!function_exists('calculate_freight')){
-    function calculate_freight($cep)
+    function calculate_freight($cart)
     {
         $data = array();
-        if ($ses = Session::get('cart')) {
+//        if ($ses = Session::get('cart')) {
             $volume = 0;
             $weight = 0;
             /** Variávei de dados a serem passados para o cáculo de frete */
             $df['formato'] = 'caixa';
             $df['diametro'] = 0;
-            $df['cep_destino'] = preg_replace("/-/", '', $cep);;
+            $df['cep_destino'] = preg_replace("/-/", '', $cart->address);
             /* Opicionais */
             //      $df['empresa'] = '';
             //      $df['senha'] = '';
@@ -91,7 +91,7 @@ if(!function_exists('calculate_freight')){
                  * @var  $id
                  * @var  $products
                  */
-                foreach ($ses->stores as $id => $products) {
+                foreach ($cart->stores as $id => $products) {
                     $volume = 0;
                     $weight = 0;
                     $freights = Freight::where('code', '!=', null)->get();
@@ -154,6 +154,6 @@ if(!function_exists('calculate_freight')){
             // dd($data);
             return $data;
         }
-    }
+   // }
 }
 
