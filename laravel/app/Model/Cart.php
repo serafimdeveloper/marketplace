@@ -35,7 +35,8 @@ class Cart
         $product = Product::find($id);
         $storedItem = ['name' => $product->name, 'qtd' => 0,
             'price_unit' => isset($product->price_out_discount) ? $product->price_out_discount : $product->price,
-            'subtotal' => 0, 'image' => $product->galeries->first()->image, 'slug' => $product->slug, 'free_shipping' => $product->free_shipping];
+            'subtotal' => 0, 'image' => $product->galeries->first()->image, 'slug' => $product->slug,
+            'free_shipping' => $product->free_shipping, 'category' => $product->category->slug];
         $store = $product->store;
         if(array_key_exists($store->id, $this->stores)){
             if(array_key_exists($id, $this->stores[$store->id]['products'])){

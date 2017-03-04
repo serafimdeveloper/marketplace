@@ -12,6 +12,7 @@ use App\Model\Freight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Correios;
 
 class CartController extends Controller
 {
@@ -19,7 +20,8 @@ class CartController extends Controller
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','zip_code') : null);
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
         $cart = Session::has('cart') ? Session::get('cart') : null;
-        return view('pages.cart', compact('cart', 'addresses', 'freight'));
+        $address = isset($cart->address) ? Correios::cep($cart->address) : [];
+        return view('pages.cart', compact('cart', 'addresses', 'freight', 'address'));
     }
 
     public function add_product(Request $request, $id){
@@ -28,7 +30,7 @@ class CartController extends Controller
         $cart->add_cart($id);
         $request->session()->put('cart', $cart);
         if($request->ajax()){
-            return redirect()->json(compact('cart'), 201);
+            return response()->json(['msg' => 'Produto adicionado com sucesso!', 'cart' => $cart->amount], 201);
         }
         return redirect()->route('pages.cart');
     }

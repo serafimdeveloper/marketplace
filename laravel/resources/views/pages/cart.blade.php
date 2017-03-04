@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content">
-        @if(!Session::has('cart') || !isset(Session::get('cart')->stores))
+        @if(!Session::has('cart') || !(count($cart->stores)))
             <div class="trigger warning">
                 <p class="fontem-20">Carrinho vazio</p>
                 <a href="/" class="btn btn-small btn-popmartin">
@@ -10,7 +10,7 @@
                     adicionar produto
                 </a>
             </div>
-        @elseif(Session::has('cart') && (count($cart->stores)))
+        @else
             <header class="pop-title">
                 <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
             </header>
@@ -39,7 +39,7 @@
                                                      title="">
                                             </div>
                                             <div class="coltable-10 product-cart-info">
-                                                <span class="c-pop fontem-12 fontw-400">{{$product['name']}}</span>
+                                                <a href="{{route('pages.product',['store' => $store['slug'], 'category' => $product['category'], 'product' => $product['slug']])}}" target="_blank"><span class="c-pop fontem-12 fontw-400">{{$product['name']}}</span></a>
                                                 <br>
                                                 <span>Código: 0gos8d4</span>
                                                 <br>
@@ -94,9 +94,13 @@
                                 <div class="colbox">
                                     <div class="colbox-2">
                                         <p class="txt-right" style="margin: 30px 0 20px 0;">
-                                            <span class="fontem-16">Frete para o CEP: <b>{{$cart->address}}</b></span>
-                                            <br>
-                                            <span>Rua Clemilton do Santos neves, Volta Redonda - RJ</span>
+                                            @if(isset($cart->address) && isset($address[0]))
+                                                <span class="fontem-16">Frete para o CEP: <b>{{$cart->address}}</b></span>
+                                                <br>
+                                                <span>{{$address[0]['logradouro'].', '.$address[0]['bairro'].', '.$address[0]['cidade'].' - '.$address[0]['uf']}}</span>
+                                            @else
+                                                <span class="fontem-16">Nenhum endereço encontrado</span>
+                                            @endif
                                         </p>
                                     </div>
                                     <div class="colbox-2">

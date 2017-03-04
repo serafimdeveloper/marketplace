@@ -12,7 +12,7 @@
                 <ul>
                     <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
                     <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
-                    <li><a href="javascript:void(0)"><i class="fa fa-cart-plus"></i></a></li>
+                    <li><a href="javascript:void(0)" data-product="{{$product->id}}" class="add-cart"><i class="fa fa-cart-plus"></i></a></li>
                 </ul>
                 <figure>
                     <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}" alt="[]" title="">
@@ -39,7 +39,7 @@
                     <ul>
                         <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
                         <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
-                        <li><a href="javascript:void(0)"><i class="fa fa-cart-plus"></i></a></li>
+                        <li><a href="javascript:void(0)" data-product="{{$product->id}}" class="add-cart"><i class="fa fa-cart-plus"></i></a></li>
                     </ul>
                     <figure>
                         <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}" alt="[]" title="">
