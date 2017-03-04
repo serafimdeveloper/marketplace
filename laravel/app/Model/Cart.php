@@ -11,10 +11,10 @@ class Cart
      * @var $address
      * @var $stores
      */
-     public $amount = 0;
-     public $count = 0;
-     public $address;
-     public $stores = [];
+    public $amount = 0;
+    public $count = 0;
+    public $address;
+    public $stores = [];
 
     /** Metodo construtor instancia o objeto
      * @var $oldcart
@@ -76,9 +76,11 @@ class Cart
         }
     }
 
-    /** Atualiza a quantidade  do produtos especifico no carrinho
-     *  @var $qtd
-     *  @var $id
+    /**
+     * Atualiza a quantidade  do produtos especifico no carrinho
+     * @param $qtd
+     * @param $id
+     * @return $this|bool
      */
     public function update_qtd_product($qtd, $id) {
         $product = Product::find($id);

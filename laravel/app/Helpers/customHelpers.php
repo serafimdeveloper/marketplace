@@ -78,6 +78,7 @@ if(!function_exists('calculate_freight')){
             $df['formato'] = 'caixa';
             $df['diametro'] = 0;
             $df['cep_destino'] = preg_replace("/-/", '', $cart->address);
+
             /* Opicionais */
             //      $df['empresa'] = '';
             //      $df['senha'] = '';
@@ -98,16 +99,15 @@ if(!function_exists('calculate_freight')){
                     foreach ($freights as $freight) {
                     /** definir tipo para minusculo para comparar com biblioteca vendor de cálculo de frete */
                     $df['tipo'] = trim(strtolower($freight->name));
-
                     /**
                      * Pegar cada produto para somar seu volume e obter peso total
                      * @var  $product_id
                      * @var  $product
                      */
-                    foreach ($products['products'] as $product_id => $product) {
+                    foreach($products['products'] as $product_id => $product){
                         $product_data = Product::find($product_id);
                         /** Verifica se algum produto esta marcado como frete grátis, então zera seu valor */
-                        if (!$product_data->free_shipping || $freight->code != '41106') {
+                        if(!$product_data->free_shipping || $freight->code != '41106'){
                             $volume += $product_data->width_cm * $product_data->length_cm * $product_data->height_cm * $product['qtd'];
                             $weight += $product_data->weight_gr * $product['qtd'];
                         }
@@ -121,7 +121,7 @@ if(!function_exists('calculate_freight')){
                     /** @var  $r3 - raíz Cúbica do volume total */
                     $r3 = ceil(pow($volume, 1 / 3));
                     /** Enquanto a soma da altura, largura e comprimento for maior que 200, divide o pacote em 2 */
-                    while ($r3 * 3 >= 200) {
+                    while($r3 * 3 >= 200){
                         $r3 = $r3 / 2;
                         $weight = $weight / 2;
                         $loop++;
@@ -132,26 +132,26 @@ if(!function_exists('calculate_freight')){
                     $df['largura'] = $r3;
                     $df['peso'] = $weight;
                     /** @var  $i - Calcula o frete separadamente de acordo com a separação de pacotes */
-                    for ($i = 0; $i < $loop; $i++) {
+                    for($i = 0; $i < $loop; $i++){
                         /** Armazena cada cálculo */
                         $return[$id][$freight->name][] = Correios::frete($df);
                     }
-
                     /**
                      * Monta o array com informações a serem retornadas separadas pelo Id de cada loja
                      * @var  $key
                      * @var  $value
                      */
-                    foreach ($return as $key => $value) {
+//                    dd($return);
+                    foreach($return as $key => $value){
                         $data[$key][$freight->name]['val'] = 0;
-                        for ($i = 0; $i < count($value[$freight->name]); $i++) {
+                        for($i = 0; $i < count($value[$freight->name]); $i++){
                             $data[$key][$freight->name]['val'] += $value[$freight->name][$i]['valor'];
                             $data[$key][$freight->name]['deadline'] = $value[$freight->name][$i]['prazo'];
                         }
                     }
                 }
             }
-            // dd($data);
+//             dd($data);
             return $data;
         }
    // }

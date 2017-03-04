@@ -2,7 +2,15 @@
 
 @section('content')
     <section class="content">
-        @if(Session::has('cart') && (count($cart->stores)))
+        @if(!Session::has('cart') || !isset(Session::get('cart')->stores))
+            <div class="trigger warning">
+                <p class="fontem-20">Carrinho vazio</p>
+                <a href="/" class="btn btn-small btn-popmartin">
+                    <i class="fa fa-shopping-cart"></i>
+                    adicionar produto
+                </a>
+            </div>
+        @elseif(Session::has('cart') && (count($cart->stores)))
             <header class="pop-title">
                 <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
             </header>
@@ -36,14 +44,28 @@
                                                 <span>Código: 0gos8d4</span>
                                                 <br>
                                                 <br>
-                                                <a class="pop-remove-product-cart c-pop" href="javascript:void(0)" data-product="{{$key_product}}">
+                                                <a class="pop-remove-product-cart c-pop" href="javascript:void(0)"
+                                                   data-product="{{$key_product}}">
                                                     <i class="fa fa-trash"></i> remover</a>
                                             </div>
                                         </div>
                                     </td>
                                     <td>{{ ($product['free_shipping'] ? 'Grátis' : 'á calcular') }}</td>
-                                    <td><form action="javascript:void(0)" class="atualizar-produtos"><label><input type="number" name="qtd" value="{{$product['qtd']}}"></label>
-                                    <input type="hidden" name="product" value="{{$key_product}}"/>{{csrf_field()}}<br><button>atualizar</button></form></td>
+                                    <td class="txt-center">
+                                        <form action="javascript:void(0)" class="atualizar-produtos">
+                                            <label>
+                                                <input type="number" name="qtd" value="{{$product['qtd']}}">
+                                            </label>
+                                            <input type="hidden" name="product" value="{{$key_product}}"/>
+                                            {{csrf_field()}}
+                                            <br>
+                                            <button class="c-popdark cursor-pointer"
+                                                    style="background: none; border: none;">
+                                                <i class="fa fa-refresh"></i>
+                                                atualizar
+                                            </button>
+                                        </form>
+                                    </td>
                                     <td class="price">{{real($product['price_unit'])}}</td>
                                     <td class="price" style="font-weight: bold;">{{real($product['subtotal'])}}</td>
                                 </tr>
@@ -52,12 +74,15 @@
                         </table>
                         <div class="pop-cart-footer">
                             <div class="pop-cart-obs">
-                                <a href="javascript:void(0)" class="show-formobs btn btn-small btn-popmartin">{{isset($store['obs']) ? 'ver' : 'adicionar'}} observações aos produtos deste de vendedor</a>
+                                <a href="javascript:void(0)"
+                                   class="show-formobs btn btn-small btn-popmartin">{{isset($store['obs']) ? 'ver' : 'adicionar'}}
+                                    observações aos produtos deste de vendedor</a>
                                 <form class="form-modern" action="" method="POST">
                                     {{csrf_field()}}
                                     <input type="hidden" name="store" value="{{$key_store}}">
                                     <label>
-                                    <textarea name="note" class="radius" placeholder="Exemplo: tamanho, cor, outra informação">{{$store['obs']}}</textarea>
+                                        <textarea name="note" class="radius"
+                                                  placeholder="Exemplo: tamanho, cor, outra informação">{{$store['obs']}}</textarea>
                                     </label>
                                     <div class="">
                                         <button type="submit" class="btn btn-small btn-popmartin">Salvar</button>
@@ -66,52 +91,47 @@
                                 </form>
                             </div>
                             <div class="pop-cart-subtotal">
-                                <div style="float:left">
-                                    @if(isset($store['freight']))
-                                    <div class="checkbox-container" style="position:relative;">
-                                        <span>Frete para o CEP: <b>{{$cart->address}}</b></span>
-                                        <div class="checkboxies">
-                                        @foreach($store['freight'] as $key => $freight)
-                                            <label class="radio" style="border: none; display: block; float: none; padding-left: 0px;">
-                                                <span><span class="fa {{ ($key === $store['type_freight']) ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></span> {{$key. ': '.real($freight['val']).' ('.$freight['deadline'].' dias utéis)'}}</span>
-                                                {!! Form::radio('type_freight', $key, ($key === $store['type_freight']), ['class'=>'type-freight', 'data-store' => $key_store, 'data-token' => csrf_token()] ) !!}
-                                            </label>
-                                        @endforeach
-                                        </div>
-                                    @endif
+                                <div class="colbox">
+                                    <div class="colbox-2">
+                                        <p class="txt-right" style="margin: 30px 0 20px 0;">
+                                            <span class="fontem-16">Frete para o CEP: <b>{{$cart->address}}</b></span>
+                                            <br>
+                                            <span>Rua Clemilton do Santos neves, Volta Redonda - RJ</span>
+                                        </p>
+                                    </div>
+                                    <div class="colbox-2">
+                                        @if(isset($store['freight']))
+                                            <table>
+                                                <tr>
+                                                    <td>Subtotal:</td>
+                                                    <td>{{real($store['subtotal'])}}</td>
+                                                </tr>
+                                            </table>
+                                            <br>
+                                            <div class="checkbox-container dp-inblock txt-right">
+                                                <div class="checkboxies txt-left">
+                                                    @foreach($store['freight'] as $key => $freight)
+                                                        <label class="radio" style="float: none; display: block;">
+                                                        <span>
+                                                            <i class="fa {{ ($key === $store['type_freight']) ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></i>
+                                                            {{$key. ': '.real($freight['val']).' ('.$freight['deadline'].' dias utéis)'}}
+                                                        </span>
+                                                            {!! Form::radio('type_freight', $key, ($key === $store['type_freight']), ['class'=>'type-freight', 'data-store' => $key_store, 'data-token' => csrf_token()] ) !!}
+                                                        </label>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <br>
+                                        @endif
+                                        <table>
+                                            <tr class="fontem-12">
+                                                <td><span class="c-pop fontw-600">Total para esta loja:</span></td>
+                                                <td>{{real($store['amount'])}}</td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
-                                <table>
-                                    <tr>
-                                        <td>Subtotal:</td>
-                                        <td>{{real($store['subtotal'])}}</td>
-                                    </tr>
-                                    <tr class="c-bluedark">
-                                        <td>Frete:</td>
-                                        <td>{{real($store['price_freight'])}}</td>
-                                    </tr>
-                                    <tr class="fontem-12">
-                                        <td><span class="c-pop fontw-600">Total para esta loja:</span></td>
-                                        <td>{{real($store['amount'])}}</td>
-                                    </tr>
-                                </table>
-
-                                {{--<div class="colbox">--}}
-                                    {{--<div class="colbox-2 txt-left">--}}
-                                        {{--<p>--}}
-                                            {{--<span class="vertical-middle bg-popmartin c-white padding10">FRETE: </span>--}}
-                                            {{--<span class="padding10-20">GRÁTIS</span>--}}
-                                            {{--<span class="padding10-20">Á CALCULAR</span>--}}
-                                        {{--</p>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="colbox-2">--}}
-                                        {{--<p class="c-pop">--}}
-                                            {{--<span class="">Subtotal para esta loja</span>--}}
-                                            {{--<span class="fontem-16 fontw-500">{{real($store['subtotal'])}}</span>--}}
-                                        {{--</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="clear-both"></div>--}}
+                                <div class="clear-both"></div>
                             </div>
                         </div>
                     </div>
@@ -120,14 +140,14 @@
             <div class="pop-cart-cep">
                 <div class="txt-right">
                     {!! Form::open(['route'=>['pages.cart.add_address'],'class'=>'form-modern pop-form freight-form', 'method'=>'POST']) !!}
-                        @if($addresses)
-                            <span>Seleione o endereço</span>
-                            {!! Form::select('address', $addresses, $cart->address, ['placeholder' => 'Selecionar endereço']) !!}
-                        @else
-                            <span>Informe o Cep</span>
-                            {!! Form::text('address',$cart->address , ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
-                        @endif
-                        <button type="submit" class="btn btn-popmartin">CALCULAR</button>
+                    @if($addresses)
+                        <span>Seleione o endereço</span>
+                        {!! Form::select('address', $addresses, $cart->address, ['placeholder' => 'Selecionar endereço']) !!}
+                    @else
+                        <span>Informe o Cep</span>
+                        {!! Form::text('address',$cart->address , ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
+                    @endif
+                    <button type="submit" class="btn btn-popmartin">CALCULAR</button>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -140,7 +160,7 @@
                     <div class="colbox-2">
                         <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">{{real($cart->amount)}}</span>
                         </p>
-                        <a href="" class="btn btn-green">FINALIZAR PEDIDO</a>
+                        <a href="" class="btn btn-green">CONTINUAR PEDIDO</a>
                     </div>
                 </div>
                 <div class="clear-both"></div>
