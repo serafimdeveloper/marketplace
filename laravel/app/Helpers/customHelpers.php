@@ -96,7 +96,6 @@ if(!function_exists('calculate_freight')){
                 foreach($freights as $freight){
                     /** definir tipo para minusculo para comparar com biblioteca vendor de cálculo de frete */
                     $df['tipo'] = trim(strtolower($freight->name));
-                    $data = array();
                     /**
                      * Pegar cada produto para somar seu volume e obter peso total
                      * @var  $product_id
@@ -139,6 +138,7 @@ if(!function_exists('calculate_freight')){
                      * @var  $key
                      * @var  $value
                      */
+//                    dd($return);
                     foreach($return as $key => $value){
                         $data[$key][$freight->name]['val'] = 0;
                         for($i = 0; $i < count($value[$freight->name]); $i++){
@@ -148,7 +148,7 @@ if(!function_exists('calculate_freight')){
                     }
                 }
             }
-            // dd($data);
+//             dd($data);
             return $data;
         }
     }

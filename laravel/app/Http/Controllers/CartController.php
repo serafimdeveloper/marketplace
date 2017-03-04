@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Session;
 class CartController extends Controller
 {
     public function index(){
-        //calculate_freight('27211840');
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','zip_code') : null);
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
         $cart = Session::has('cart') ? Session::get('cart') : null;
@@ -28,6 +27,9 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->add_cart($id);
         $request->session()->put('cart', $cart);
+        if($request->ajax()){
+
+        }
         return redirect()->route('pages.cart');
     }
 
@@ -44,9 +46,9 @@ class CartController extends Controller
         $obj = new Cart($oldCart);
         if($cart =  $obj->update_qtd_product($request->qtd, $request->product)){
             $request->session()->put('cart', $cart);
-            return response()->json(['msg'=>'Quantidade de produtos no carrinho atualizado com sucesso!'],200);
+            return response()->json(['msg' => 'Quantidade de produtos no carrinho atualizado com sucesso!'],200);
         }
-        return response()->json(['msg'=>'Quantidade de produtos insuficiente!'],422);
+        return response()->json(['msg' => 'Quantidade de produtos insuficiente!'],422);
     }
 
     public function add_obs(Request $request){
@@ -54,7 +56,7 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->add_obs($request->note, $request->store);
         $request->session()->put('cart', $cart);
-        return response()->json(['msg'=>'Observação salva com sucesso!'],200);
+        return response()->json(['msg' => 'Observação salva com sucesso!'],200);
     }
 
     public function add_address(Request $request){
@@ -64,6 +66,14 @@ class CartController extends Controller
         $cart->add_address($request->address);
         $request->session()->put('cart', $cart);
         return redirect()->route('pages.cart');
+    }
+
+    public function type_freight(Request $request){
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->change_type_freight($request->store, $request->type_freight);
+        $request->session()->put('cart', $cart);
+        return response()->json(['msg' => 'Tipo de Frete alterado!'],200);
     }
 
 }
