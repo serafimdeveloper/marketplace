@@ -60,7 +60,7 @@ class ProductsRepository extends BaseRepository
         $model = $this->model->with($with)->distinct()
             ->select(DB::raw('products.*, SUM(product_request.quantity) AS qtd_product_request'))
             ->leftJoin('product_request','products.id','=','product_request.product_id')
-            ->groupBy('products.id')
+            ->groupBy('id')
             ->orderBy('qtd_product_request','desc')
             ->get();
 
@@ -71,7 +71,7 @@ class ProductsRepository extends BaseRepository
         $model = $this->model->with($with)->distinct()
             ->select(DB::raw('products.*, SUM(visit_products.count) AS qtd_product_visit'))
             ->leftJoin('visit_products','products.id','=','visit_products.product_id')
-            ->groupBy('products.id')
+            ->groupBy('id')
             ->orderBy('qtd_product_visit','desc')
             ->get();
 
