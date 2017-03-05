@@ -21,7 +21,7 @@ class HomeController extends Controller {
     }
 
     public function index(){
-        $features = $this->product->all($this->columns, $this->with_product,[],[],20,1);
+        $features = $this->product->getHighlights($this->with_product);
         $news = $this->product->all($this->columns, $this->with_product,[],['created_at'=>'DESC'],20,1);
         $categories_masters = $this->category->all($this->columns, $this->with_category);
         return view('pages.homepage', compact('features','news','categories_masters'));
