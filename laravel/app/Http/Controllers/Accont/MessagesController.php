@@ -20,7 +20,7 @@ class MessagesController extends AbstractController
     {
         parent::__construct($app);
         $this->user = $user;
-        $this->product = $user;
+        $this->product = $product;
         $this->req = $req;
     }
 
@@ -64,9 +64,9 @@ class MessagesController extends AbstractController
                 $eu = $user->name;
                 return view('accont.message_info', compact('messages','message', 'box', 'eu'));
             }
-            flash('Mensagem não encontrada', 'error');
-            return redirect()->back();
         }
+        flash('Mensagem não encontrada', 'error');
+        return redirect()->back();
     }
 
     public function comments(Request $request, $type, $id){

@@ -49,7 +49,7 @@ class MovementStocksController extends AbstractController
         if($typeMovementStock = $this->typeMovementStock->where('slug','=',$type)->first()){
             $dados['type_movement_stock_id'] = $typeMovementStock->id;
             if($typeMovementStock->type === 'out'){
-                if($dados['count'] < $product->quantity){
+                if($dados['count'] <= $product->quantity){
                     $product->decrement('quantity',$dados['count']);
                 }else{
                     return response()->json(['msg'=>'A quantidade de produtos insuficientes'],402);

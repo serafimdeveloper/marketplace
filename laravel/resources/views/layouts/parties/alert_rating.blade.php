@@ -4,37 +4,60 @@
         <div class="alertbox-content">
             <h2 class="alertbox-title c-pop fontw-500">Avaliar {{ $request->store->name }}</h2>
             <div class="jq-content-rate">
-                <p class="fontem-16 txt-center">Avalie como foi sua experiência com esse vendedor?</p>
+
+                <p class="fontem-16 txt-center">
+                    @if(!isset($request->shopvaluation))
+                        Avalie como foi sua experiência com esse vendedor?
+                    @else
+                        Pedido já avaliado. <b>Obrigado!</b>
+                    @endif
+                </p>
                 <div class="colbox">
                     <div class="colbox-3">
                         <div class="pop-rating">
                             <h3>Prazo de entrega</h3>
-                            <div class="rating" data-rate-value={{isset($request->shopvaluation) ? $request->shopvaluation->note_term : 5}} data-item="delivery" ></div>
+                            <div class="rating"
+                                 data-rate-value={{isset($request->shopvaluation) ? $request->shopvaluation->note_term : 5}} data-item="delivery"></div>
                         </div>
                     </div>
                     <div class="colbox-3">
                         <div class="pop-rating">
                             <h3>Qualidade do produto</h3>
-                            <div class="rating" data-rate-value={{isset($request->shopvaluation) ? $request->shopvaluation->note_term : 5}} data-item="product"></div>
+                            <div class="rating"
+                                 data-rate-value={{isset($request->shopvaluation) ? $request->shopvaluation->note_term : 5}} data-item="product"></div>
                         </div>
                     </div>
                     <div class="colbox-3">
                         <div class="pop-rating">
                             <h3>Atendimento</h3>
-                            <div class="rating" data-rate-value={{isset($request->shopvaluation) ? $request->shopvaluation->note_service : 5}} data-item="attendance"></div>
+                            <div class="rating"
+                                 data-rate-value={{isset($request->shopvaluation) ? $request->shopvaluation->note_service : 5}} data-item="attendance"></div>
                         </div>
                     </div>
                 </div>
                 <div class="clear-both"></div>
-                <form class="form-modern pop-form sendRating" action="javascript:void(0)" method="POST">
-                    {!! Form::textarea('message', null,['id' => 'msgS2', 'class' => 'limiter-textarea', 'maxlength' => '500', 'placeholder'=>'Informe aqui sua mensagem', 'rows'=>'7']) !!}
-                    <span class="limiter-result" for="msgS2" data-limit="500">500</span>
-                    <div class="clear-both"></div>
-                    <div class="txt-center">
-                        <button type="submit" class="btn btn-popmartin">enviar</button>
-                        <button type="reset" class="btn btn-gray jq-close-alertbox">cancelar</button>
+                @if(!isset($request->shopvaluation))
+                    <form class="form-modern pop-form sendRating" action="javascript:void(0)" method="POST">
+                        {!! Form::textarea('message', null ,['id' => 'msgS2', 'class' => 'limiter-textarea', 'maxlength' => '500', 'placeholder'=>'Informe aqui sua mensagem', 'rows'=>'7']) !!}
+                        <span class="limiter-result" for="msgS2" data-limit="500">500</span>
+                        <div class="clear-both"></div>
+                        @if(!isset($request->shopvaluation))
+                            <div class="txt-center">
+                                <button type="submit" class="btn btn-popmartin">enviar</button>
+                            </div>
+                        @endif
+                    </form>
+                @else
+                    <div class="content">
+                        <p>Comentário</p>
+                        <div class="padding10-20 bg-white">
+                            {{ $request->shopvaluation->comment }}
+                        </div>
                     </div>
-                </form>
+                    <div class="txt-center">
+                        <span class="btn btn-popmartin jq-close-alertbox">fechar</span>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -44,15 +67,7 @@
     <script>
         $(function () {
             var rating = [];
-            var readonly = '{{isset($request->shopvaluation) ? true : false}}';
             $(".rating").rate();
-            var options = {
-                max_value: 6,
-                step_size: 0.5,
-                readonly: readonly
-            }
-            $(".rating").rate(options);
-
             $(".rating").on("change", function (ev, data) {
                 var e = $(this)
                 rating[e.data('item')] = data.to;
@@ -62,14 +77,22 @@
                 var e = $(this);
                 var comment = e.find('textarea').val();
                 var id = '{{$request->id}}';
-                var data = {'user_id': '{{ $user->id }}', 'store_id': '{{ $request->store->id }}', 'note_store': rating.product, 'note_term': rating.delivery, 'note_service': rating.attendance, 'comment': comment,'_token':'{{ csrf_token() }}'};
-                if(comment.length < 3){
+                var data = {
+                    'user_id': '{{ $user->id }}',
+                    'store_id': '{{ $request->store->id }}',
+                    'note_store': rating.product,
+                    'note_term': rating.delivery,
+                    'note_service': rating.attendance,
+                    'comment': comment,
+                    '_token': '{{ csrf_token() }}'
+                };
+                if (comment.length < 3) {
                     alertify.error("Comentário precisa ter no mínimo 4 caracteres!");
-                }else if(objectLength(rating) < 3){
+                } else if (objectLength(rating) < 3) {
                     alertify.error("Você precisa avaliar as 3 característica deste vendedor");
-                }else{
+                } else {
                     $.ajax({
-                        url: '/accont/request/shop_valuations/'+id,
+                        url: '/accont/request/shop_valuations/' + id,
                         data: data,
                         type: 'POST',
                         dataType: 'json',
@@ -90,5 +113,12 @@
                 return false;
             });
         });
+        var readonly = '{{isset($request->shopvaluation) ? true : false}}';
+        var options = {
+            max_value: 6,
+            step_size: 0.5,
+            readonly: readonly
+        }
+        $(".rating").rate(options);
     </script>
 @endsection

@@ -24,7 +24,6 @@
     <body>
         <main class="container">
             @include('inc.header')
-            @include('layouts.parties.messages')
             @yield('content')
             @include('inc.footer')
         </main>
@@ -33,11 +32,22 @@
         <script src="/frontend/lib/maskinput/jquery.mask.min.js"></script>
         <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
         <script src="/frontend/lib/tooltipster/js/tooltipster.bundle.min.js"></script>
-        <script src="/frontend/lib/bsdialog/jquery.bsdialog.js"></script>
         <script src="/frontend/lib/alertfy/alertify.min.js"></script>
         {{--<script src="/frontend/lib/twbsPagination/jquery.twbsPagination.min.js"></script>--}}
         <script src="/frontend/js/bootstrap.js"></script>
         <script src="{{ url('/js/popmartin.js') }}"></script>
         @yield('script')
+        @if (session()->has('flash_notification.message'))
+            <script>
+                var alert = '{{ session('flash_notification.level') }}';
+                var message = '{!! session('flash_notification.message') !!}';
+                console.log(alert);
+                if(alert == 'accept'){
+                    alertify.success(message);
+                }else{
+                    alertify.error(message);
+                }
+            </script>
+        @endif
     </body>
 </html>

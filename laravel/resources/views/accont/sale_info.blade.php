@@ -83,10 +83,15 @@
             <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-green fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span></p>
             <div class="clear-both"></div>
         </div>
+        <div class="content">
+            <h4>Anotações do cliente</h4>
+            <p class="padding20-40 bg-graylightextreme">
+                {{ $request->note }}
+            </p>
+        </div>
         <div class="txt-center">
             <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
         </div>
-
     </section>
     <div class="clear-both"></div>
 @endsection

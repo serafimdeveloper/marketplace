@@ -23,7 +23,6 @@ class SalesmanStoreRequest extends Request
     public function rules()
     {
         return [
-            'cpf'=>'required|cpf_mascara',
             'phone'=>'required',
             'cellphone'=>'required',
             'photo_document'=>'required|image|mimes:png,jpg,jpeg|max:10000',

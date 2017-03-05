@@ -29,7 +29,7 @@
                                     <a class="vertical-middle" href="/carrinho">
                                         <i class="fa fa-shopping-cart c-green-avocadodark vertical-middle"></i>
                                         <div class="dp-inblock fontem-07 txt-center">
-                                            <span class="c-green fontw-500">R$ 0,00</span>
+                                            <span class="c-green fontw-500" id="amount-cart">R$ {{number_format(Session::has('cart') ? Session::get('cart')->amount : 0.00,2,',','.')}}</span>
                                         </div>
                                     </a>
                                 </div>
@@ -64,7 +64,7 @@
                         <div class="pop-ads owl-carousel">
                             @for($i = 0; $i < 5; $i++)
                             <div class="vertical-flex">
-                                <img src="{{ url('img') }}" title="" alt="[]">
+                                <img src="{{ url('imagem/loja/loja.jpg?w=100&h=100&fit=crop') }}" title="" alt="[]">
                                 <p>nome da loja <br> <span>frase de impactação</span></p>
                                 <a href=""></a>
                             </div>

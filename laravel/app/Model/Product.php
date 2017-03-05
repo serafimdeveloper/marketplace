@@ -56,4 +56,8 @@ class Product extends Model
     public function galeries(){
         return $this->hasMany(Galery::class);
     }
+
+    public function visitproduct(){
+        return $this->hasMany(VisitProduct::class);
+    }
 }
