@@ -142,10 +142,10 @@ Route::get('/favoritos', 'HomeController@favorites')->name('pages.favorites');
 
 Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::get('/', 'CartController@index')->name('cart');
-    Route::get('/add_product/{id}', 'CartController@add_product')->name('add_product');
-    Route::post('/update_qtd', 'CartController@update_qtd')->name('update_qtd');
-    Route::get('/remove_product/{id}', 'CartController@remove_product')->name('remove_product');
-    Route::post('/observation', 'CartController@add_obs')->name('observation');
+    Route::get('/add_product/{id}', 'CartController@add_product')->name('cart.add_product');
+    Route::post('/update_qtd', 'CartController@update_qtd')->name('cart.update_qtd');
+    Route::get('/remove_product/{id}', 'CartController@remove_product')->name('cart.remove_product');
+    Route::post('/observation', 'CartController@add_obs')->name('cart.observation');
     Route::post('/add_address', 'cartController@add_address')->name('cart.add_address');
     Route::post('/type_freight', 'cartController@type_freight')->name('cart.type_freight');
 

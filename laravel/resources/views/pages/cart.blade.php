@@ -39,7 +39,9 @@
                                                      title="">
                                             </div>
                                             <div class="coltable-10 product-cart-info">
-                                                <a href="{{route('pages.product',['store' => $store['slug'], 'category' => $product['category'], 'product' => $product['slug']])}}" target="_blank"><span class="c-pop fontem-12 fontw-400">{{$product['name']}}</span></a>
+                                                <a href="{{route('pages.product',['store' => $store['slug'], 'category' => $product['category'], 'product' => $product['slug']])}}"
+                                                   target="_blank"><span
+                                                            class="c-pop fontem-12 fontw-400">{{$product['name']}}</span></a>
                                                 <br>
                                                 <span>Código: 0gos8d4</span>
                                                 <br>
@@ -146,7 +148,11 @@
                     {!! Form::open(['route'=>['pages.cart.add_address'],'class'=>'form-modern pop-form freight-form', 'method'=>'POST']) !!}
                     @if($addresses)
                         <span>Seleione o endereço</span>
-                        {!! Form::select('address', $addresses, $cart->address, ['placeholder' => 'Selecionar endereço']) !!}
+                        {!! Form::select(null, $addresses, $cart->address, ['class' => 'selectAddressCart', 'placeholder' => 'Selecionar endereço']) !!}
+                    <label style="display: inline-block;width: auto;">
+                        {!! Form::text('address',$cart->address , ['class' => 'getCepAddressCart', 'onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
+                    </label>
+
                     @else
                         <span>Informe o Cep</span>
                         {!! Form::text('address',$cart->address , ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
@@ -167,8 +173,13 @@
                     </div>
                     <div class="colbox-2">
                         @if(Auth::user())
-                            <a href="{{ route('pages.cart.cart_address') }}" class="btn btn-popmartin">enviar pedido</a>
+                            @if(Session::get('cart')->address)
+                                <a href="{{ route('pages.cart.cart_address') }}" class="btn btn-popmartin">enviar
+                                    pedido</a>
                             @else
+                                <span class="btn btn-gray cursor-nodrop tooltip" title="Necessário informar um cep">enviar pedido</span>
+                            @endif
+                        @else
                             <a href="/login" class="btn btn-green">Enviar pedido</a>
                         @endif
                     </div>
