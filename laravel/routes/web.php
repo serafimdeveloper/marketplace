@@ -152,9 +152,7 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::group(['prefix' => 'checkout', 'middleware' => 'auth'], function(){
         Route::get('/confirmaddress','CheckoutController@confirmAddress')->name('cart.cart_address');
         Route::post('/confirmaddress', 'CheckoutController@confirmPostAddress')->name('cart.cart_address.post');
-        Route::get('/', function(){return view('pages.cart_checkout');})->name('cart.cart_checkout');
-
-
+        Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
     });
 });
 

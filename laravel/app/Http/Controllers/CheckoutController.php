@@ -78,11 +78,12 @@ class CheckoutController extends Controller{
                 $address = $this->repo_address->update($req->all(),$cart->address['id']);
             }else{
                 $address = $this->repo_address->store($req->all());
+                $cart->add_address(['id' =>$address->id, 'zip_code' => $address->zip_code]);
             }
             foreach($cart->stores as $key_store => $store){
                 $dados = [
                     'user_id' => $user->id, 'adress_id' => $address->id, 'store_id' => $key_store, 'request_status_id' => 2, 'key'=> generate_key(),
-                    'freight_price' => $store['freight'][$store['type_freight']]['val'], 'amount' =>$store['amount'],
+                    'freight_price' => $store['freight'][$store['type_freight']['name']]['val'], 'amount' =>$store['amount'],
                     'note' => $store['obs']
                 ];
                 if(isset($store['request'])){
@@ -101,5 +102,14 @@ class CheckoutController extends Controller{
         }
         flash('Ocorreu um erro ao confirmar o endereço','error');
         return redirect()->route('cart.cart_address');
+    }
+
+    public function checkout(){
+        if(Session::has('cart')){
+            $cart = Session::get('cart');
+            if(isset($cart->address['id'])){
+                return view('pages.cart_checkout');
+            }
+        }
     }
 }

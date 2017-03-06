@@ -73,7 +73,7 @@ class CartController extends Controller
     public function type_freight(Request $request){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->change_type_freight($request->store, $request->type_freight);
+        $cart->change_type_freight($request->store, ['name' => $request->type_freight, 'id' => $request->id]);
         $request->session()->put('cart', $cart);
         return response()->json(['msg' => 'Tipo de Frete alterado!'],200);
     }

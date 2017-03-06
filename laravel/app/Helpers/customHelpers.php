@@ -148,6 +148,7 @@ if(!function_exists('calculate_freight')){
                         for($i = 0; $i < count($value[$freight->name]); $i++){
                             $data[$key][$freight->name]['val'] += $value[$freight->name][$i]['valor'];
                             $data[$key][$freight->name]['deadline'] = $value[$freight->name][$i]['prazo'];
+                            $data[$key][$freight->name]['id'] = $freight->id;
                         }
                     }
                 }

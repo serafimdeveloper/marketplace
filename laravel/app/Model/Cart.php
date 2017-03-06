@@ -17,7 +17,7 @@ class Cart
     public $stores = [];
 
     /** Metodo construtor instancia o objeto
-     * @var $oldcart
+     *  @param $oldcart
      */
     public function __construct($oldcart){
         if($oldcart){
@@ -29,7 +29,7 @@ class Cart
     }
 
     /** Adiciona o produto no carrinho e cria loja caso não houver
-     *  @var $id
+     *  @param $id
      */
     public function add_cart($id){
         $product = Product::find($id);
@@ -47,7 +47,8 @@ class Cart
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['slug'] = $store->slug;
-        $this->stores[$store->id]['type_freight'] =  isset($this->stores[$store->id]['type_freight']) ?  $this->stores[$store->id]['type_freight'] : 'PAC';
+        $this->stores[$store->id]['type_freight']['id'] =  isset($this->stores[$store->id]['type_freight']['id']) ?  $this->stores[$store->id]['type_freight']['id'] : 'PAC';
+        $this->stores[$store->id]['type_freight']['name'] =  isset($this->stores[$store->id]['type_freight']['name']) ?  $this->stores[$store->id]['type_freight']['name'] : 'PAC';
         $this->stores[$store->id]['obs'] = isset($this->stores[$store->id]['obs']) ? $this->stores[$store->id]['obs'] : null;
         $this->stores[$store->id]['products'][$id] = $storedItem;
         $this->calc_freight();
@@ -57,7 +58,7 @@ class Cart
     }
 
     /** remove o produto do carrinho e a loja caso não houver nenhum produto
-     *  @var $id
+     *  @param $id
      */
     public function remove_product($id){
         $product = Product::find($id);
@@ -102,8 +103,8 @@ class Cart
     }
 
     /** Adiciona a observação no pedido da loja especifica
-     *  @var $obs
-     *  @var $id
+     *  @param $obs
+     *  @param $id
      */
     public function add_obs($obs, $id) {
         if (array_key_exists($id, $this->stores)) {
@@ -113,7 +114,7 @@ class Cart
     }
 
     /** Adiciona o endereço na sessão do carrinho
-     * @var $address
+     *  @param $address
      */
     public function add_address($address){
         $this->address['id'] = $address['id'];
@@ -123,11 +124,12 @@ class Cart
     }
 
     /** Muda o tipo de frete da loja especificada
-     *  @var $store
-     *  @var $type_freight
+     *  @param $store
+     *  @param $type_freight
      */
     public function change_type_freight($store, $type_freight){
-        $this->stores[$store]['type_freight'] = $type_freight;
+        $this->stores[$store]['type_freight']['id'] = $type_freight['id'];
+        $this->stores[$store]['type_freight']['name'] = $type_freight['name'];
         $this->price_freight($store);
         $this->amount_price();
     }
@@ -150,16 +152,23 @@ class Cart
         $this->amount = $amount;
     }
 
+    /**
+     * Seta na classe o endereço da loja
+     * @param $store
+     * @param $request
+     */
     public function add_request($store, $request){
         $this->stores[$store]['request'] = $request;
     }
 
     /** Calcula o preço do frete
-     *  @var $store
+     *  @param $store
      */
     private function price_freight($store){
+
         if(isset($this->address['zip_code'])){
-            $this->stores[$store]['price_freight'] = $this->stores[$store]['freight'][$this->stores[$store]['type_freight']]['val'];
+            $type_freight = $this->stores[$store]['type_freight']['name'];
+            $this->stores[$store]['price_freight'] = $this->stores[$store]['freight'][$type_freight]['val'];
         }else{
             $this->stores[$store]['price_freight'] = 0;
         }
