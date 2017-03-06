@@ -39,7 +39,9 @@
                                                      title="">
                                             </div>
                                             <div class="coltable-10 product-cart-info">
-                                                <a href="{{route('pages.product',['store' => $store['slug'], 'category' => $product['category'], 'product' => $product['slug']])}}" target="_blank"><span class="c-pop fontem-12 fontw-400">{{$product['name']}}</span></a>
+                                                <a href="{{route('pages.product',['store' => $store['slug'], 'category' => $product['category'], 'product' => $product['slug']])}}"
+                                                   target="_blank"><span
+                                                            class="c-pop fontem-12 fontw-400">{{$product['name']}}</span></a>
                                                 <br>
                                                 <span>Código: 0gos8d4</span>
                                                 <br>
@@ -94,8 +96,8 @@
                                 <div class="colbox">
                                     <div class="colbox-2">
                                         <p class="txt-right" style="margin: 30px 0 20px 0;">
-                                            @if(isset($cart->address) && isset($address[0]))
-                                                <span class="fontem-16">Frete para o CEP: <b>{{$cart->address}}</b></span>
+                                            @if(isset($cart->address['zip_code']) && isset($address[0]))
+                                                <span class="fontem-16">Frete para o CEP: <b>{{$cart->address['zip_code']}}</b></span>
                                                 <br>
                                                 <span>{{$address[0]['logradouro'].', '.$address[0]['bairro'].', '.$address[0]['cidade'].' - '.$address[0]['uf']}}</span>
                                             @else
@@ -145,11 +147,15 @@
                 <div class="txt-right">
                     {!! Form::open(['route'=>['pages.cart.add_address'],'class'=>'form-modern pop-form freight-form', 'method'=>'POST']) !!}
                     @if($addresses)
-                        <span>Seleione o endereço</span>
-                        {!! Form::select('address', $addresses, $cart->address, ['placeholder' => 'Selecionar endereço']) !!}
+                        <span>Selecione o endereço</span>
+                        {!! Form::select('address', $addresses, (isset($cart->address['id']) ? $cart->address['id'] : null), ['class' => 'selectAddressCart', 'placeholder' => 'Selecionar endereço']) !!}
+                    <label style="display: inline-block;width: auto;">
+                        {!! Form::text('zip_code',(isset($cart->address['zip_code']) ? $cart->address['zip_code'] : null), ['class' => 'getCepAddressCart', 'onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
+                    </label>
+
                     @else
                         <span>Informe o Cep</span>
-                        {!! Form::text('address',$cart->address , ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
+                        {!! Form::text('zip_code', (isset($cart->address['zip_code']) ? $cart->address['zip_code'] : null), ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
                     @endif
                     <button type="submit" class="btn btn-popmartin">calcular</button>
                     {!! Form::close() !!}
@@ -166,7 +172,12 @@
                         <a href="/" class="c-pop"><i class="fa fa-chevron-left vertical-middle"></i> continuar comprando</a>
                     </div>
                     <div class="colbox-2">
-                            <a href="{{ route('pages.cart.cart_address') }}" class="btn btn-green">enviar pedido</a>
+                        @if(Session::get('cart')->address)
+                            <a href="{{ route('pages.cart.cart_address') }}" class="btn btn-popmartin">enviar
+                                pedido</a>
+                        @else
+                            <span class="btn btn-gray cursor-nodrop tooltip" title="Necessário informar um cep">enviar pedido</span>
+                        @endif
                     </div>
                 </div>
                 <div class="clear-both"></div>

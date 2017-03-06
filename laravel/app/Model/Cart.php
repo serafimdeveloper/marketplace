@@ -13,7 +13,7 @@ class Cart
      */
     public $amount = 0;
     public $count = 0;
-    public $address;
+    public $address = [];
     public $stores = [];
 
     /** Metodo construtor instancia o objeto
@@ -116,7 +116,9 @@ class Cart
      * @var $address
      */
     public function add_address($address){
-        $this->address = $address;
+        $this->address['id'] = $address['id'];
+        $this->address['zip_code'] = $address['zip_code'];
+
         $this->calc_freight();
     }
 
@@ -148,11 +150,15 @@ class Cart
         $this->amount = $amount;
     }
 
+    public function add_request($store, $request){
+        $this->stores[$store]['request'] = $request;
+    }
+
     /** Calcula o preço do frete
      *  @var $store
      */
     private function price_freight($store){
-        if(isset($this->address)){
+        if(isset($this->address['zip_code'])){
             $this->stores[$store]['price_freight'] = $this->stores[$store]['freight'][$this->stores[$store]['type_freight']]['val'];
         }else{
             $this->stores[$store]['price_freight'] = 0;
@@ -161,7 +167,7 @@ class Cart
 
     /** Traz os valores e o prazo de cada frete */
     private function calc_freight(){
-        if(isset($this->address)){
+        if(isset($this->address['zip_code'])){
             foreach(calculate_freight($this) as $store => $value){
                 $this->stores[$store]['freight'] = $value;
             }

@@ -7,13 +7,12 @@
                 <h1>Confirmar endereço de entrega</h1>
             </header>
             <div class="">
-                {!!Form::model(null,['route'=>['pages.cart.cart_checkout'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
-                {{ csrf_field() }}
+                {!!Form::open(['route'=>['pages.cart.cart_address.post'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                 <div class="colbox">
                     <div class="colbox-full">
                         <label>
                             <span>Destinatário: </span>
-                            {!! Form::text('name', null, ['placeholder' => 'Informe um nome', 'data-required' => 'fullname']) !!}
+                            {!! Form::text('name', (isset($address->name) ? $address->name : null), ['placeholder' => 'Informe um nome', 'data-required' => 'fullname']) !!}
                             <span class="alert hidden"></span>
                         </label>
                     </div>
@@ -22,14 +21,14 @@
                     <div class="colbox-3">
                         <label>
                             <span>CEP:</span>
-                            <input type="text" name="zip_code" value="27286210" readonly>
+                            {!! Form::text('zip_code', (isset($address->zip_code) ? $address->zip_code : $address->cep), ['readonly'=>'readonly']) !!}
                             <span class="alert hidden"></span>
                         </label>
                     </div>
                     <div class="colbox-3">
                         <label>
                             <span>UF:</span>
-                            <input type="text" name="state" value="" placeholder="Digite sua UF" readonly="readonly">
+                            {!! Form::text('state', (isset($address->state) ? $address->state : $address->uf) ,['readonly'=>'readonly']) !!}
                             <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                             <span class="alert hidden"></span>
                         </label>
@@ -37,7 +36,7 @@
                     <div class="colbox-3">
                         <label>
                             <span>Município:</span>
-                            <input type="text" name="city" value="" placeholder="Digite seu Município" readonly="readonly">
+                            {!! Form::text('city', (isset($address->city) ? $address->city : $address->cidade) ,['readonly'=>'readonly']) !!}
                             <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                             <span class="alert hidden"></span>
                         </label>
@@ -48,7 +47,7 @@
                     <div class="colbox-2">
                         <label>
                             <span>Bairro:</span>
-                            {!! Form::text('neighborhood', null, ['placeholder' => 'Digite seu Bairro', 'data-required' => 'notnull']) !!}
+                            {!! Form::text('neighborhood',(isset($address->neighborhood) ? $address->neighborhood : (isset($address->bairro) ? $address->bairro : null)) , ['placeholder' => 'Digite seu Bairro', 'data-required' => 'notnull']) !!}
                             <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                             <span class="alert hidden"></span>
                         </label>
@@ -56,7 +55,7 @@
                     <div class="colbox-2">
                         <label>
                             <span>Endereço:</span>
-                            {!! Form::text('public_place', null, ['placeholder' => 'Digite seu Endereço', 'data-required' => 'minlength', 'data-minlength' => 5]) !!}
+                            {!! Form::text('public_place', (isset($address->public_place) ? $address->public_place : (isset($address->logradouro) ? $address->logradouro : null)), ['placeholder' => 'Digite seu Endereço', 'data-required' => 'minlength', 'data-minlength' => 5]) !!}
                             <span class="fa fa-spinner fa-spin jq-loader dp-none loader-address"></span>
                             <span class="alert hidden"></span>
                         </label>
@@ -67,14 +66,14 @@
                     <div class="colbox-2">
                         <label>
                             <span>Número:</span>
-                            {!! Form::text('number', null, ['placeholder' => 'Digite seu número', 'data-required' => 'notnull']) !!}
+                            {!! Form::text('number', (isset($address->number) ? $address->number : null), ['placeholder' => 'Digite seu número', 'data-required' => 'notnull']) !!}
                             <span class="alert hidden"></span>
                         </label>
                     </div>
                     <div class="colbox-2">
                         <label>
                             <span>Complemento:</span>
-                            <input type="text" name="complements" value="" placeholder="Seu Complemento">
+                            {!! Form::text('complements', (isset($address->complements) ? $address->complements : null),['placeholder'=>'Seu complemento']) !!}
                             <span class="alert hidden"></span>
                         </label>
                     </div>

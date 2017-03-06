@@ -17,10 +17,10 @@ use Correios;
 class CartController extends Controller
 {
     public function index(){
-        $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','zip_code') : null);
+        $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','id') : null);
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
         $cart = Session::has('cart') ? Session::get('cart') : null;
-        $address = isset($cart->address) ? Correios::cep($cart->address) : [];
+        $address = isset($cart->address['zip_code']) ? Correios::cep($cart->address['zip_code']) : [];
         return view('pages.cart', compact('cart', 'addresses', 'freight', 'address'));
     }
 
@@ -62,10 +62,10 @@ class CartController extends Controller
     }
 
     public function add_address(Request $request){
-        $this->validate($request,['address'=>'required|regex:/^\d{5}-?\d{3}$/']);
+        $this->validate($request,['zip_code'=>'required|regex:/^\d{5}-?\d{3}$/']);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->add_address($request->address);
+        $cart->add_address(['id' => $request->address, 'zip_code' => $request->zip_code]);
         $request->session()->put('cart', $cart);
         return redirect()->route('pages.cart');
     }

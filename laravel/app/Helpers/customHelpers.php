@@ -1,4 +1,5 @@
 <?php
+use App\Model\CountOrder;
 use App\Model\Freight;
 use App\Model\Product;
 use App\Model\Store;
@@ -77,7 +78,7 @@ if(!function_exists('calculate_freight')){
             /** Variávei de dados a serem passados para o cáculo de frete */
             $df['formato'] = 'caixa';
             $df['diametro'] = 0;
-            $df['cep_destino'] = preg_replace("/-/", '', $cart->address);
+            $df['cep_destino'] = preg_replace("/-/", '', $cart->address['zip_code']);
 
             /* Opicionais */
             //      $df['empresa'] = '';
@@ -155,5 +156,15 @@ if(!function_exists('calculate_freight')){
             return $data;
         }
    // }
+}
+
+if(!function_exists('generate_key')){
+    function generate_key(){
+        $count = CountOrder::first();
+        $value = $count->count + 1;
+        $key = substr(date('M'), 0, 1) .  date('Y') . date('d') . $value;
+        $count->update(['count' => $value]);
+        return $key;
+    }
 }
 

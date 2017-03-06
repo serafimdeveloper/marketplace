@@ -22,7 +22,7 @@
 	    public function rules()
 	    {
 	        return [
-	            'zip_code'=>'required|string|max:9',
+	            'zip_code'=>'required|regex:/^\d{5}-?\d{3}$/',
 	            'state'=>'required|string|min:2|max:2',
 	            'city'=>'required|min:3|max:100',
 	            'public_place'=>'required|min:3|max:50',

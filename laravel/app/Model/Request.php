@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Request extends Model
 {
     use SoftDeletes;
-    protected $fillable =['user_id','adress_id','freight_id','settlement_date','cancellation_date','send_date','payment_id',
+    protected $fillable =['user_id','adress_id','store_id','key','freight_id','settlement_date','cancellation_date','send_date','payment_id',
         'number_installments','tracking_code','freight_price','payment_reference','note','request_status_id','amount','visualized'];
 
     protected  $dates = ['create_at','update_at','deleted_at','cancellation_date','send_date','settlement_date'];
