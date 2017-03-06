@@ -63,7 +63,6 @@ class ProductsRepository extends BaseRepository
             ->groupBy('id')
             ->orderBy('qtd_product_request','desc')
             ->get();
-
         return $model;
     }
 

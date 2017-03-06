@@ -149,9 +149,9 @@
                     @if($addresses)
                         <span>Seleione o endereço</span>
                         {!! Form::select(null, $addresses, $cart->address, ['class' => 'selectAddressCart', 'placeholder' => 'Selecionar endereço']) !!}
-                    <label style="display: inline-block;width: auto;">
-                        {!! Form::text('address',$cart->address , ['class' => 'getCepAddressCart', 'onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
-                    </label>
+                        <label style="display: inline-block;width: auto;">
+                            {!! Form::text('address',$cart->address , ['class' => 'getCepAddressCart', 'onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
+                        </label>
 
                     @else
                         <span>Informe o Cep</span>
@@ -172,15 +172,10 @@
                         <a href="/" class="c-pop"><i class="fa fa-chevron-left vertical-middle"></i> continuar comprando</a>
                     </div>
                     <div class="colbox-2">
-                        @if(Auth::user())
-                            @if(Session::get('cart')->address)
-                                <a href="{{ route('pages.cart.cart_address') }}" class="btn btn-popmartin">enviar
-                                    pedido</a>
-                            @else
-                                <span class="btn btn-gray cursor-nodrop tooltip" title="Necessário informar um cep">enviar pedido</span>
-                            @endif
+                        @if(Session::get('cart')->address)
+                            <a href="{{ route('pages.cart.cart_address') }}" class="btn btn-popmartin">enviar pedido</a>
                         @else
-                            <a href="/login" class="btn btn-green">Enviar pedido</a>
+                            <span class="btn btn-gray cursor-nodrop tooltip" title="Necessário informar um cep">enviar pedido</span>
                         @endif
                     </div>
                 </div>

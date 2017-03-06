@@ -35,7 +35,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->redirectTo = (Session::has('oldUrl')) ? (Session::get('oldUrl')) : 'accont';
+        $this->redirectTo = (Session::has('old')) ? (Session::get('old')) : 'accont';
         $this->middleware('guest', ['except' => 'logout']);
     }
 }

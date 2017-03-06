@@ -32,9 +32,7 @@
                 <br>
                 <div class="colbox">
                     <div class="colbox-full">
-                        <p><span class="fontw-500 c-graydark">Forma de envio:</span> PAC</p>
-                        <p><span class="fontw-500 c-graydark">Prazo de postagem:</span> 1 dias</p>
-                        <p><span class="fontw-500 c-graydark">Prazo de entrega:</span> prazo de postagem + 3 dias</p>
+                        <p><span class="fontw-500 c-graydark">Prazo de entrega:</span> prazo de postagem da loja + 3 dias</p>
                         <p><span class="fontw-500 c-graydark">Endereço:</span>
                             Rua Don Antônio Cabral 117, São Luíz, Volta Redonda - RJ
                         </p>
@@ -50,12 +48,23 @@
         <br>
         @for($i=0;$i<2;$i++)
             <div class="padding15-30">
-                <img src="{{ url('/imagem/loja/8b83714c7d5b66a44a6076b6a7e5ccc2.jpg?w=50&h=50&fit=crop') }}" title=""
-                     alt="[nome da loja]" class="vertical-middle">
-                <p class="dp-inblock vertical-middle">
-                    <span class="fontem-14">Nome da Loja</span><br>
-                    <span>Pedido nº FHBY676IU - Data 02/25/1669</span>
-                </p>
+                <div class="colbox">
+                    <div class="colbox-2">
+                        <img src="{{ url('/imagem/loja/8b83714c7d5b66a44a6076b6a7e5ccc2.jpg?w=50&h=50&fit=crop') }}" title=""
+                             alt="[nome da loja]" class="vertical-middle">
+                        <p class="dp-inblock vertical-middle">
+                            <span class="fontem-14">Nome da Loja</span><br>
+                            <span class="dp-inblock"><b class="c-graydark">Pedido</b> nº FHBY676IU -</span>
+                            <span class="dp-inblock"><b class="c-graydark">Data</b> 02/25/1669</span>
+                        </p>
+                    </div>
+                    <div class="colbox-2">
+                        <span><span class="fontw-500 c-graydark">Forma de envio:</span> PAC</span>
+                        <br>
+                        <span><span class="fontw-500 c-graydark">Prazo de postagem:</span> 1 dias</span>
+                    </div>
+                </div>
+                <div class="clear-both"></div>
             </div>
             <table class="table">
                 <thead>
