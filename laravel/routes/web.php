@@ -140,13 +140,20 @@ Route::get('/pesquisa/{search}', 'HomeController@search')->name('pages.products.
 
 Route::get('/favoritos', 'HomeController@favorites')->name('pages.favorites');
 
-Route::get('/carrinho', 'CartController@index')->name('pages.cart');
-Route::get('/carrinho/add_product/{id}', 'CartController@add_product')->name('pages.cart.add_product');
-Route::post('/carrinho/update_qtd', 'CartController@update_qtd')->name('pages.cart.update_qtd');
-Route::get('/carrinho/remove_product/{id}', 'CartController@remove_product')->name('pages.cart.remove_product');
-Route::post('/carrinho/observation', 'CartController@add_obs')->name('pages.cart.observation');
-Route::post('/carrinho/add_address', 'cartController@add_address')->name('pages.cart.add_address');
-Route::post('/carrinho/type_freight', 'cartController@type_freight')->name('pages.cart.type_freight');
+Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
+    Route::get('/', 'CartController@index')->name('cart');
+    Route::get('/add_product/{id}', 'CartController@add_product')->name('add_product');
+    Route::post('/update_qtd', 'CartController@update_qtd')->name('update_qtd');
+    Route::get('/remove_product/{id}', 'CartController@remove_product')->name('remove_product');
+    Route::post('/observation', 'CartController@add_obs')->name('observation');
+    Route::post('/add_address', 'cartController@add_address')->name('cart.add_address');
+    Route::post('/type_freight', 'cartController@type_freight')->name('cart.type_freight');
+
+    Route::group(['prefix' => 'checkout', 'middleware' => 'auth'], function(){
+        Route::post('/', function(){return view('pages.cart_checkout');})->name('cart.cart_checkout');
+        Route::get('/confirmaddress', function(){return view('pages.cart_address');})->name('cart.cart_address');
+    });
+});
 
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <section class="pop-forms content">
     <div class="colbox">

@@ -151,20 +151,22 @@
                         <span>Informe o Cep</span>
                         {!! Form::text('address',$cart->address , ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}
                     @endif
-                    <button type="submit" class="btn btn-popmartin">CALCULAR</button>
+                    <button type="submit" class="btn btn-popmartin">calcular</button>
                     {!! Form::close() !!}
                 </div>
             </div>
             <br>
             <div class="pop-cart-total">
+                <p class="pop-cart-subtotal">Total:
+                    <span class="fontw-500 c-pop fontem-12 vertical-middle">{{real($cart->amount)}}</span>
+                </p>
                 <div class="colbox">
                     <div class="colbox-2 txt-left">
-                        <a href="/" class="btn btn-popmartin">CONTINUAR COMPRANDO</a>
+                        <br>
+                        <a href="/" class="c-pop"><i class="fa fa-chevron-left vertical-middle"></i> continuar comprando</a>
                     </div>
                     <div class="colbox-2">
-                        <p>Total: <span class="fontw-500 c-pop fontem-20 vertical-middle">{{real($cart->amount)}}</span>
-                        </p>
-                        <a href="" class="btn btn-green">CONTINUAR PEDIDO</a>
+                            <a href="{{ route('pages.cart.cart_address') }}" class="btn btn-green">enviar pedido</a>
                     </div>
                 </div>
                 <div class="clear-both"></div>

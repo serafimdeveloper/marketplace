@@ -45,4 +45,8 @@ class CheckoutController extends Controller{
         dd($payment->get('seu_identificador_proprio'));
         return view('test.integrationmoip');
     }
+
+    public function confirmAddress(Request $request){
+
+    }
 }
