@@ -2,25 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Accont\AdressesStoreRequest;
-use App\Repositories\Accont\RequestsRepository;
 use Artesaos\Moip\facades\Moip;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Correios;
-use App\Repositories\Accont\AdressesRepository;
 
 class PaymentController extends Controller{
-    private $moip;
+    private $moip, $order = null, $type = 'setMultPayments';
 
     function __construct(){
         $this->moip = Moip::start();
+        $this->constructOrder();
     }
 
     public function order(Request $request){
-        //        https://sandbox.moip.com.br/v2/multiorders/{multiorder_id}/multipayments
+        $this->type = ($request->set_type ? $request->set_type : $this->type);
+        if($request->set_method == 'cardcred'){
+            $this->setCreditCard();
+        }elseif($request->set_method == 'boleto'){
+            $this->setBoleto();
+        }elseif($request->set_method == 'bank'){
+            $this->setOnlineBankDebit();
+        }elseif($request->set_method == 'wallet'){
+            $this->setWallet();
+        }
+    }
 
+    private function constructOrder(){
         $customer = $this->moip->customers()->setOwnId('sandbox_v2_1401147277')
             ->setFullname('Jose Silva')
             ->setEmail('sandbox_v2_1401147277@email.com')
@@ -44,44 +50,47 @@ class PaymentController extends Controller{
             ->setCustomer($customer)
             ->addReceiver('MPA-IFYRB1HBL73Z');
 
-        $multiorder = $this->moip->multiorders()->addOrder($order1)
+        $this->order = $this->moip->multiorders()->addOrder($order1)
             ->addOrder($order2)
             ->setOwnId('multi-pedido')
             ->create();
-
-        dd($multiorder);
-        return view('test.integrationmoip');
     }
 
-    public function setMultPayments(){
-//        https://sandbox.moip.com.br/v2/multiorders/MOR-8H8VSF36G5HT/multipayments
 
-//        $multipayments = $moip->multiorders()->get('MOR-8H8VSF36G5HT')->multipayments();
-
+    private function setMultPayments(){
+        return $this->moip->multiorders()->get($this->order->getId())->multipayments();
     }
 
     public function setCreditCard(){
-//        https://sandbox.moip.com.br/v2/multiorders/MOR-8H8VSF36G5HT/multipayments
+        //Dados de exemplo
+        $ccNumber = '5555666677778884';
+        $cvcNumber = '123';
 
-//        $multipayments->setCreditCard('05','18', $ccNumber, $cvcNumver, $customer)->execute();
+        $this->{$this->type}()->setCreditCard('05','18', $ccNumber, $cvcNumber, $this->order)->execute();
+        dd($this->{$this->type}());
     }
 
     public function setBoleto(){
-//        https://sandbox.moip.com.br/v2/multiorders/MOR-QXZKIF6GPN5V/multipayments
+        $this->{$this->type}()->setBoleto(
+            '2016-09-30',
+            'https://image.freepik.com/free-icon/apple-logo_318-40184.jpg',
+//            'http://popmartin.dev/imagem/pop/logo-popmartin.png',
+            array(
+                'Primeira linha se instrução',
+                'Segunda linha se instrução',
+                'Terceira linha se instrução'
+            )
+        )->execute();
 
-//        $multipayments->setBoleto('2016-09-30', 'https://logo-uri.com', array('Primeira linha se instrução',
-//            'Segunda linha se instrução',
-//            'Terceira linha se instrução'))
-//            ->execute();
+        dd($this->order, 'setBoleto');
     }
 
     public function setOnlineBankDebit(){
-//        https://sandbox.moip.com.br/v2/multiorders/MOR-BZ1UC1FEZUWG/multipayments
-
 //        $multipayments->setOnlineBankDebit('001', '2016-12-30', 'https://return-uri.com')->execute();
+        dd('setOnlineBankDebit');
     }
 
     public function setWallet(){
-
+        dd('setWallet');
     }
 }
