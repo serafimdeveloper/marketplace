@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Http\Controllers\AbstractController;
 use Artesaos\Moip\facades\Moip;
-use Illuminate\Http\Request;
 
-class PaymentController extends Controller{
-    private $moip;
-    public $order = null;
+class PaymentController extends AbstractController {
+    private $moip, $customer;
+    public $order = array(), $multorder;
+
 
     function __construct(){
         $this->moip = Moip::start();
-//        $this->constructOrder();
+        $this->setCustomer();
+        $this->setOrder();
+        $this->setMultOrders();
     }
 
-    public function constructOrder(){
-        $customer = $this->moip->customers()->setOwnId('sandbox_v2_1401147277')
+    public function repo(){
+    }
+
+    public function setCustomer(){
+        $this->customer = $this->moip->customers()->setOwnId('sandbox_v2_1401147277')
             ->setFullname('Jose Silva')
             ->setEmail('sandbox_v2_1401147277@email.com')
             ->setBirthDate('1988-12-30')
@@ -25,42 +31,28 @@ class PaymentController extends Controller{
                 'Avenida Faria Lima', 2927,
                 'Itaim', 'Sao Paulo', 'SP',
                 '01234000', 8);
+    }
 
-        $order1 = $this->moip->orders()->setOwnId('multi-pedido-1')
+    public function setOrder($order = null){
+        $this->order[] = $this->moip->orders()->setOwnId('multi-pedido-1')
             ->addItem('Camisa Verde e Amarelo - Brasil', 1, 'Seleção Brasileira', 10000)
             ->setShippingAmount(100)
-            ->setCustomer($customer)
+            ->setCustomer($this->customer)
             ->addReceiver('MPA-VB5OGTVPCI52');
-
-        $order2 = $this->moip->orders()->setOwnId('multi-pedido-2')
-            ->addItem('Camisa Preta - Alemanha', 1, 'Camisa da Copa 2014', 10000)
-            ->setShippingAmount(100)
-            ->setCustomer($customer)
-            ->addReceiver('MPA-IFYRB1HBL73Z');
-
-        $this->order = $this->moip->multiorders()->addOrder($order1)
-            ->addOrder($order2)
-            ->setOwnId('multi-pedido')
-            ->create();
     }
 
+    public function setMultOrders(){
+        if($this->order){
+            $this->multorder = $this->moip->multiorders();
+            for($i = 0; $i < count($this->order); $i++){
+                $this->multorder->addOrder($this->order[$i]);
+            }
+            $this->multorder->setOwnId('multi-pedido')->create();
+        }
+    }
 
     public function setMultPayments(){
-        return $this->moip->multiorders()->get($this->order->getId())->multipayments();
+        return $this->moip->multiorders()->get($this->multorder->getId())->multipayments();
     }
 
-    private function setBoleto(){
-        $this->setMultPayments()->setBoleto(
-            '2016-09-30',
-            'https://image.freepik.com/free-icon/apple-logo_318-40184.jpg',
-//            'http://popmartin.dev/imagem/pop/logo-popmartin.png',
-            array(
-                'Primeira linha se instrução',
-                'Segunda linha se instrução',
-                'Terceira linha se instrução'
-            )
-        )->execute();
-
-        dd($this->order, 'setBoleto');
-    }
 }

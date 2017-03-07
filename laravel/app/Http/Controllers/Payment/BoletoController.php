@@ -16,11 +16,17 @@ class BoletoController extends Controller{
     }
 
     private function toPay(){
-        //Dados de exemplo
-        $ccNumber = '5555666677778884';
-        $cvcNumber = '123';
+        $this->payment->setMultPayments()->setBoleto(
+            '2016-09-30',
+            'https://image.freepik.com/free-icon/apple-logo_318-40184.jpg',
+//            'http://popmartin.dev/imagem/pop/logo-popmartin.png',
+            array(
+                'Primeira linha se instrução',
+                'Segunda linha se instrução',
+                'Terceira linha se instrução'
+            )
+        )->execute();
 
-        $this->payment->setMultPayments()->setCreditCard('05','18', $ccNumber, $cvcNumber, $this->order)->execute();
-        dd($this->{$this->type}());
+        dd($this->order, 'setBoleto');
     }
 }
