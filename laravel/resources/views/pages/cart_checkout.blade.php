@@ -21,11 +21,11 @@
                     <i class="fa fa-barcode"></i>
                     boleto</a>
                 <p></p>
-                <h2 class="c-pop fontem-10">Débito online</h2>
-                <a href="" class="btn btn-popmartin-trans">Itaí</a>
-                <a href="" class="btn btn-popmartin-trans">Brasil</a>
-                <a href="" class="btn btn-popmartin-trans">Bradesco</a>
-                <a href="" class="btn btn-popmartin-trans">Caixa</a>
+                {{--<h2 class="c-pop fontem-10">Débito online</h2>--}}
+                {{--<a href="" class="btn btn-popmartin-trans">Itaí</a>--}}
+                {{--<a href="" class="btn btn-popmartin-trans">Brasil</a>--}}
+                {{--<a href="" class="btn btn-popmartin-trans">Bradesco</a>--}}
+                {{--<a href="" class="btn btn-popmartin-trans">Caixa</a>--}}
             </div>
             <div class="colbox-2">
                 <h2 class="c-pop fontem-10">Dados da entrega</h2>

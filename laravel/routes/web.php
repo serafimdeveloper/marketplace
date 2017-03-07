@@ -150,7 +150,8 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::post('/type_freight', 'cartController@type_freight')->name('cart.type_freight');
 
     Route::group(['prefix' => 'checkout', 'middleware' => 'auth'], function(){
-        Route::get('/payment/moip/{set_type}/{set_method}', 'PaymentController@order')->name('cart.cart_payment');
+        Route::get('/payment/{set_method}', 'PaymentController@methodView')->name('cart.cart_payment_method');
+        Route::get('/payment/{set_method}/moip', 'PaymentController@order')->name('cart.cart_payment_moip');
         Route::get('/confirmaddress','CheckoutController@confirmAddress')->name('cart.cart_address');
         Route::post('/confirmaddress', 'CheckoutController@confirmPostAddress')->name('cart.cart_address.post');
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
