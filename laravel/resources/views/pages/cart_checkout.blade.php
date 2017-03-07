@@ -7,7 +7,7 @@
         </div>
         <br>
         <p class="txt-center fontem-14 fontw-500 c-graydark">Valor:
-            <span class="c-pop">R$287,00</span>
+            <span class="c-pop">{{real($cart->amount)}}</span>
         </p>
         <hr>
         <br>
@@ -46,20 +46,20 @@
         <br>
         <h2 class="c-pop fontem-10">Dados dos produtos</h2>
         <br>
-        @for($i=0;$i<2;$i++)
+        @foreach($requests as $request)
             <div class="padding15-30">
                 <div class="colbox">
                     <div class="colbox-2">
-                        <img src="{{ url('/imagem/loja/8b83714c7d5b66a44a6076b6a7e5ccc2.jpg?w=50&h=50&fit=crop') }}" title=""
-                             alt="[nome da loja]" class="vertical-middle">
+                        <img src="{{ url('/imagem/loja/'.$request->store->logo_file.'?w=50&h=50&fit=crop') }}" title=""
+                             alt="{{$request->store->name}}" class="vertical-middle">
                         <p class="dp-inblock vertical-middle">
-                            <span class="fontem-14">Nome da Loja</span><br>
-                            <span class="dp-inblock"><b class="c-graydark">Pedido</b> nº FHBY676IU -</span>
-                            <span class="dp-inblock"><b class="c-graydark">Data</b> 02/25/1669</span>
+                            <span class="fontem-14">{{$request->store->name}}</span><br>
+                            <span class="dp-inblock"><b class="c-graydark">Pedido</b> nº: {{$request->key}} -</span>
+                            <span class="dp-inblock"><b class="c-graydark">Data:</b> {{$request->created_at}}</span>
                         </p>
                     </div>
                     <div class="colbox-2">
-                        <span><span class="fontw-500 c-graydark">Forma de envio:</span> PAC</span>
+                        <span><span class="fontw-500 c-graydark">Forma de envio: </span>{{$request->freight->name}}</span>
                         <br>
                         <span><span class="fontw-500 c-graydark">Prazo de postagem:</span> 1 dias</span>
                     </div>
@@ -76,29 +76,26 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($request->products as $product)
                 <tr>
-                    <td>nome do produto</td>
-                    <td>2</td>
-                    <td>R$ 25,90</td>
-                    <td>R$ 51,80</td>
+                    <td>{{$product->name}}</td>
+                    <td>{{$product->pivot->quantity}}</td>
+                    <td>{{real($product->pivot->unit_price)}}</td>
+                    <td>{{real($product->pivot->amount)}}</td>
                 </tr>
-                <tr>
-                    <th>nome do produto</th>
-                    <td>2</td>
-                    <td>R$ 25,90</td>
-                    <td>R$ 51,80</td>
-                </tr>
+                @endforeach
+
                 <tr>
                     <td colspan="3" style="text-align: right">frete</td>
-                    <td>R$ 19,90</td>
+                    <td>{{real($request->freight_price)}}</td>
                 </tr>
                 <tr>
                     <td colspan="3" style="text-align: right">Total</td>
-                    <td>R$ 143,50</td>
+                    <td>{{real($request->amount)}}</td>
                 </tr>
                 </tbody>
             </table>
-        @endfor
+        @endforeach
         <div class="colbox-2">
             <br>
             <a href="/carrinho" class="c-pop"><i class="fa fa-chevron-left"></i> Voltar para o carrinho</a>

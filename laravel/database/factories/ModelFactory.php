@@ -58,9 +58,6 @@ $factory->define(Salesman::class, function(Generator $faker){
         'moip' => function (array $post) {
             return User::find($post['user_id'])->name;
         },
-        'cpf' => function (array $post) {
-            return User::find($post['user_id'])->cpf;
-        },
         'facebook' => $faker->url,
         'phone' => $faker->numerify('(##) ####-####'),
         'whatsapp' => $faker->cellphoneNumber,
@@ -138,18 +135,18 @@ $factory->define(Product::class, function(Generator $faker){
             return $element->id;
         },
         'name' => $faker->unique()->sentence(3),
-        'price' => $faker->randomFloat(2, 50, 200),
-        'price_out_discount' => $faker->randomFloat(2, 1, 50),
+        'price' => $faker->randomFloat(2, 100, 200),
+        'price_out_discount' => $faker->randomFloat(2, 50, 100),
         'deadline' => $faker->numberBetween(1, 15),
         'quantity' => $faker->numberBetween(1, 20),
         'free_shipping' => $faker->randomElement(array('0','1')),
         'minimum_stock' => $faker->numberBetween(1, 50),
         'details' => $faker->text(500),
-        'length_cm' => $faker->randomFloat(2, 1, 500),
-        'width_cm' => $faker->randomFloat(2, 1, 500),
-        'height_cm' => $faker->randomFloat(2, 1, 500),
-        'weight_gr' => $faker->randomFloat(2, 1, 500),
-        'diameter_cm' => $faker->randomFloat(2, 1, 500),
+        'length_cm' => $faker->numberBetween(1, 200),
+        'width_cm' => $faker->numberBetween(1, 200),
+        'height_cm' => $faker->numberBetween(1, 80),
+        'weight_gr' => $faker->numberBetween(1, 2000),
+        'diameter_cm' => $faker->numberBetween(1, 200),
         'active' => 1
     ];
 });
