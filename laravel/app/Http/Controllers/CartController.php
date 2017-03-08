@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 use App\Model\Cart;
 use App\Model\Freight;
+use App\Services\CartServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -16,11 +17,21 @@ use Correios;
 
 class CartController extends Controller
 {
+    protected $cart_service;
+    public function __construct(CartServices $cart_service){
+        $this->cart_service = $cart_service;
+    }
+
+
     public function index(){
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','id') : null);
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
-        $cart = Session::has('cart') ? Session::get('cart') : null;
-        $address = isset($cart->address['zip_code']) ? Correios::cep($cart->address['zip_code']) : [];
+        $address = [];
+        $cart = [];
+        if(Session::has('cart')){
+            $cart = $this->cart_service->setCart(Session::get('cart'))->check_cart()->getCart();
+            $address = isset($cart->address['zip_code']) ? Correios::cep($cart->address['zip_code']) : [];
+        }
         return view('pages.cart', compact('cart', 'addresses', 'freight', 'address'));
     }
 

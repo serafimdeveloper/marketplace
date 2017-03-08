@@ -149,9 +149,9 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::post('/add_address', 'cartController@add_address')->name('cart.add_address');
     Route::post('/type_freight', 'cartController@type_freight')->name('cart.type_freight');
 
-    Route::group(['prefix' => 'checkout', 'namespace' => 'Payment', 'middleware' => 'auth'], function(){
-        Route::get('/payment/creditcard', 'CreditCardController@index')->name('cart.cart_payment_creditcard');
-        Route::get('/payment/{set_method}/moip', 'PaymentController@order')->name('cart.cart_payment_moip');
+    Route::group(['prefix' => 'checkout', 'middleware' => 'auth'], function(){
+        Route::get('/payment/creditcard', 'Payment\CreditCardController@index')->name('cart.cart_payment_creditcard');
+        Route::get('/payment/{set_method}/moip', 'Payment\PaymentController@order')->name('cart.cart_payment_moip');
         Route::get('/confirmaddress','CheckoutController@confirmAddress')->name('cart.cart_address');
         Route::post('/confirmaddress', 'CheckoutController@confirmPostAddress')->name('cart.cart_address.post');
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');

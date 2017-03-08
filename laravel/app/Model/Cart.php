@@ -47,14 +47,12 @@ class Cart
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['slug'] = $store->slug;
-        $this->stores[$store->id]['type_freight']['id'] =  isset($this->stores[$store->id]['type_freight']['id']) ?  $this->stores[$store->id]['type_freight']['id'] : 'PAC';
+        $this->stores[$store->id]['type_freight']['id'] =  isset($this->stores[$store->id]['type_freight']['id']) ?  $this->stores[$store->id]['type_freight']['id'] : 2;
         $this->stores[$store->id]['type_freight']['name'] =  isset($this->stores[$store->id]['type_freight']['name']) ?  $this->stores[$store->id]['type_freight']['name'] : 'PAC';
+        $this->stores[$store->id]['price_freight'] = isset($this->stores[$store->id]['price_freight']) ? $this->stores[$store->id]['price_freight'] : 0;
         $this->stores[$store->id]['obs'] = isset($this->stores[$store->id]['obs']) ? $this->stores[$store->id]['obs'] : null;
         $this->stores[$store->id]['products'][$id] = $storedItem;
         $this->calc_freight();
-        $this->price_freight($store->id);
-        $this->amount_price();
-
     }
 
     /** remove o produto do carrinho e a loja caso não houver nenhum produto
@@ -69,11 +67,8 @@ class Cart
                 unset($this->stores[$store->id]['products'][$id]);
                 if(count($this->stores[$store->id]['products']) < 1){
                     unset($this->stores[$store->id]);
-                }else{
-                    $this->calc_freight();
-                    $this->price_freight($store->id);
                 }
-                $this->amount_price();
+                $this->calc_freight();
             }
         }
     }
@@ -92,8 +87,6 @@ class Cart
                     $this->stores[$product->store_id]['products'][$id]['qtd'] = $qtd;
                     $this->stores[$product->store_id]['products'][$id]['subtotal'] = $this->stores[$product->store_id]['products'][$id]['price_unit'] * $qtd;
                     $this->calc_freight();
-                    $this->price_freight($product->store_id);
-                    $this->amount_price();
                     return $this;
                 }else{
                     return false;
@@ -110,7 +103,6 @@ class Cart
         if (array_key_exists($id, $this->stores)) {
             $this->stores[$id]['obs'] = $obs;
         }
-        $this->amount_price();
     }
 
     /** Adiciona o endereço na sessão do carrinho
@@ -119,7 +111,6 @@ class Cart
     public function add_address($address){
         $this->address['id'] = $address['id'];
         $this->address['zip_code'] = $address['zip_code'];
-
         $this->calc_freight();
     }
 
@@ -153,7 +144,7 @@ class Cart
     }
 
     /**
-     * Seta na classe o endereço da loja
+     * Seta na classe o pedido da loja
      * @param $store
      * @param $request
      */
@@ -165,7 +156,6 @@ class Cart
      *  @param $store
      */
     private function price_freight($store){
-
         if(isset($this->address['zip_code'])){
             $type_freight = $this->stores[$store]['type_freight']['name'];
             $this->stores[$store]['price_freight'] = $this->stores[$store]['freight'][$type_freight]['val'];
@@ -175,11 +165,13 @@ class Cart
     }
 
     /** Traz os valores e o prazo de cada frete */
-    private function calc_freight(){
+    public function calc_freight(){
         if(isset($this->address['zip_code'])){
             foreach(calculate_freight($this) as $store => $value){
                 $this->stores[$store]['freight'] = $value;
+                $this->price_freight($store);
             }
         }
+        $this->amount_price();
     }
 }

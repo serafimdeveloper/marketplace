@@ -28,9 +28,6 @@ class CreateRequestsTable extends Migration
             $table->integer('request_status_id')->unsigned();
             $table->foreign('request_status_id')->references('id')->on('request_statuses')->onUpdate('cascade');
             $table->string('key', 100)->unique();
-            $table->date('settlement_date')->nullable();
-            $table->datetime('cancellation_date')->nullable();
-            $table->datetime('send_date')->nullable();
             $table->tinyInteger('number_installments')->nullable()->default(1);
             $table->string('tracking_code',15)->nullable();
             $table->decimal('freight_price',7,2)->nullable();
@@ -39,6 +36,9 @@ class CreateRequestsTable extends Migration
             $table->text('note')->nullable();
             $table->boolean('visualized')->default(0);
             $table->boolean('finalized')->default(0);
+            $table->timestamp('settlement_date')->nullable();
+            $table->timestamp('cancellation_date')->nullable();
+            $table->timestamp('send_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
