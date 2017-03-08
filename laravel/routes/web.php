@@ -36,6 +36,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
    // Route::post('/searchstore', 'StoresController@search')->name('search.store');
 
     /** Vendedores */
+    Route::get('/appmoip/connect', 'ConnectAppMoipController@show')->name('appmoip_connect');
     Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){
 
         Route::get('create','Salesmans\SalesmanController@create')->name('create');
@@ -157,7 +158,6 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
     });
 });
-
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 
 Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');
