@@ -16,13 +16,13 @@
                 </ul>
                 <figure>
                     <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}" alt="[]" title="">
-                    <figcaption><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">R${{number_format($product->price,2,',','.')}}</a></figcaption>
-                    <span class="modal-product-frete"></span>
-                    <span class="modal-product-descont"></span>
+                    <figcaption><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}</a></figcaption>
+                    <span class="modal-product-frete">{{($product->free_shipping) ? 'Grátis' : ''}}</span>
+                    <span class="modal-product-descont">{{isset($product->price_out_discount) ? real($product->price) : ''}}</span>
                 </figure>
                 <header>
                     <h2><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{$product->name}}</a></h2>
-                    <p class="tagline"><a href="/juca">{{$product->store->name}}</a></p>
+                    <p class="tagline"><a href="{{route('pages.store',['store' => $product->store->slug])}}">{{$product->store->name}}</a></p>
                 </header>
             </article>
         @empty
@@ -63,13 +63,13 @@
                     </ul>
                     <figure>
                         <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}" alt="[]" title="">
-                        <figcaption><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">R${{number_format($product->price,2,',','.')}}</a></figcaption>
-                        <span class="modal-product-frete"></span>
-                        <span class="modal-product-descont"></span>
+                        <figcaption><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}</a></figcaption>
+                        <span class="modal-product-frete">{{($product->free_shipping) ? 'Grátis' : ''}}</span>
+                        <span class="modal-product-descont">{{isset($product->price_out_discount) ? real($product->price) : ''}}</span>
                     </figure>
                     <header>
                         <h2><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{$product->name}}</a></h2>
-                        <p class="tagline"><a href="/juca">{{$product->store->name}}</a></p>
+                        <p class="tagline"><a href="{{route('pages.store',['store' => $product->store->slug])}}">{{$product->store->name}}</a></p>
                     </header>
                 </article>
             @empty

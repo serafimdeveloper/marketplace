@@ -80,9 +80,13 @@
                                         class="fontem-06" style="vertical-align: middle;">categorias</span></div>
                             <div class="clear-both"></div>
                             <ul class="nav nav-mobile">
-                                @for($i=1;$i<9;$i++)
-                                    <li><a href="">menu {{$i}}</a></li>
-                                @endfor
+                                @forelse(get_categories(1) as $category)
+                                    <li><a href="{{route('pages.products.categoria',['category'=>$category->slug])}}">{{$category->name}}</a></li>
+                                @empty
+                                    @for($i=1;$i<9;$i++)
+                                        <li><a href="">menu {{$i}}</a></li>
+                                    @endfor
+                                @endforelse
                             </ul>
                         </div>
                     </div>

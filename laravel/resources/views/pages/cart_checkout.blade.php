@@ -55,7 +55,7 @@
                         <p class="dp-inblock vertical-middle">
                             <span class="fontem-14">{{$request->store->name}}</span><br>
                             <span class="dp-inblock"><b class="c-graydark">Pedido</b> nº: {{$request->key}} -</span>
-                            <span class="dp-inblock"><b class="c-graydark">Data:</b> {{$request->created_at->toDayDateTimeString()}}</span>
+                            <span class="dp-inblock"><b class="c-graydark">Data:</b> {{$request->created_at->format('d/m/Y H:i:s')}}</span>
                         </p>
                     </div>
                     <div class="colbox-2">
