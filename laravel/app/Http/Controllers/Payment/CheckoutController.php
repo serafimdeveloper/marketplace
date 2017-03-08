@@ -70,7 +70,7 @@ class CheckoutController extends Controller{
                     $model_request = $model_store->requests->find($store['request']);
                     $request = $model_store->requests()->save($model_request);
                 }
-                $cart->add_request($key_store, $request->id);
+//                $cart->add_request($key_store, $request->id);
                 $request->products()->sync($this->products($store));
             }
             Session::put('cart', $cart);
