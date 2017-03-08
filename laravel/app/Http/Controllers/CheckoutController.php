@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Accont\AdressesStoreRequest;
-use App\Repositories\Accont\RequestsRepository;
+use App\Repositories\Accont\StoresRepository;
 use App\Services\CartServices;
 use Artesaos\Moip\facades\Moip;
 use Illuminate\Http\Request;
@@ -14,49 +14,14 @@ use App\Repositories\Accont\AdressesRepository;
 
 class CheckoutController extends Controller{
     private $moip;
-    protected $repo_address, $repo_request, $service;
+    protected $repo_address, $repo_stores, $service;
     protected $with = ['user','adress','freight','payment','requeststatus','products','store','movementstocks'];
 
-    function __construct(AdressesRepository $repo_address, RequestsRepository $repo_request, CartServices $service){
+    function __construct(AdressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service){
         $this->moip = Moip::start();
         $this->repo_address = $repo_address;
-        $this->repo_request = $repo_request;
+        $this->repo_stores = $repo_stores;
         $this->service = $service;
-    }
-
-    public function order(Request $request){
-        $order = $this->moip->orders()->setOwnId('seu_identificador_proprio')
-            ->addItem('Descrição do pedido', 1, 'Mais info...', 10000)
-            ->setShippingAmount(100)
-            ->setCustomer($this->moip->customers()->setOwnId('seu_identificador_proprio_de_cliente')
-                ->setFullname('Jose Silva')
-                ->setEmail('nome@email.com')
-                ->setBirthDate('1988-12-30')
-                ->setTaxDocument('33333333333')
-                ->setPhone(11, 66778899)
-                ->addAddress('BILLING',
-                    'Avenida Faria Lima', 2927,
-                    'Itaim', 'Sao Paulo', 'SP',
-                    '01234000', 8))
-//            ->setCheckout()
-            ->create();
-
-        $ccNumber = '5555666677778884';
-        $cvcNumber = '123';
-
-
-        $payment = $order->payments()
-            ->setCreditCard('05', '18', $ccNumber, $cvcNumber,
-                $this->moip->customers()->setOwnId('sandbox_v2_1401147277')
-                    ->setFullname('Jose Portador da Silva')
-                    ->setEmail('fulano@email.com')
-                    ->setBirthDate('1988-12-30')
-                    ->setTaxDocument('33333333333')
-                    ->setPhone(11, 66778899))
-            ->execute();
-
-        dd($payment->get('seu_identificador_proprio'));
-        return view('test.integrationmoip');
     }
 
     public function confirmAddress(){
@@ -81,24 +46,25 @@ class CheckoutController extends Controller{
                 $address = $this->repo_address->update($req->all(),$cart->address['id']);
             }else{
                 $address = $this->repo_address->store($req->all());
-                $cart->add_address(['id' =>$address->id, 'zip_code' => $address->zip_code]);
             }
+            $cart->add_address(['id' =>$address->id, 'zip_code' => $address->zip_code]);
             foreach($cart->stores as $key_store => $store){
                 $dados = [
-                    'user_id' => $user->id, 'adress_id' => $address->id, 'store_id' => $key_store, 'freight_id' => $store['type_freight']['id'], 'request_status_id' => 2, 'key'=> generate_key(),
+                    'user_id' => $user->id, 'adress_id' => $address->id,'freight_id' => $store['type_freight']['id'], 'request_status_id' => 2, 'key'=> generate_key(),
                     'freight_price' => $store['freight'][$store['type_freight']['name']]['val'], 'amount' =>$store['amount'],
                     'note' => $store['obs']
                 ];
+
+                $model_store = $this->repo_stores->get($key_store);
                 if(isset($store['request'])){
-                    $request =  $this->repo_request->update($dados, $store['request']);
+                    $model_request = $model_store->requests->find($store['request']);
+                    $request = $model_store->requests()->save($model_request);
                 }else{
-                    $request =  $this->repo_request->store($dados);
-                    $cart->add_request($key_store, $request->id);
+                    $request =  $model_store->requests()->create($dados);
                 }
-                foreach($store['products'] as $key_product => $product){
-                    $request->products()->sync([$key_product => ['quantity'=> $product['qtd'], 'unit_price' => $product['price_unit'],
-                    'amount' => $product['subtotal']]]);
-                }
+                $cart->add_request($key_store, $request->id);
+                $request->products()->sync($this->products($store));
+
             }
             Session::put('cart', $cart);
 
@@ -121,5 +87,14 @@ class CheckoutController extends Controller{
         }
         flash('Você não tem carrinho definido','error');
         redirect()->route('pages.cart');
+    }
+
+    private function products($store){
+        $products = [];
+        foreach ($store['products'] as $key_product => $product) {
+            $products[$key_product] = ['quantity' => $product['qtd'], 'unit_price' => $product['price_unit'],
+                'amount' => $product['subtotal']];
+        }
+        return $products;
     }
 }

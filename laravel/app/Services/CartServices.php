@@ -50,7 +50,6 @@ class CartServices
 
     public function requests(array $with){
         $requests = [];
-        dd($this->cart->stores);
         foreach ($this->cart->stores as $store){
             $requests[] = $this->repo_request->get($store['request'],['*'],$with);
         }
