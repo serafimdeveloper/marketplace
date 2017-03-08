@@ -45,7 +45,7 @@
         </div>
         <br>
         <div class="txt-center padding10 c-red">
-            &copy; 2016 Pop Martin - Todos os direitos reservados
+            &copy; {{date('Y')}} Pop Martin - Todos os direitos reservados
         </div>
     </div>
     <div class="clear-both"></div>

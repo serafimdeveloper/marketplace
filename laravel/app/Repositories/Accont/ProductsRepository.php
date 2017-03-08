@@ -73,13 +73,15 @@ class ProductsRepository extends BaseRepository
             ->groupBy('id')
             ->orderBy('qtd_product_visit','desc')
             ->get();
-
         return $model;
     }
 
     public function getHighlights(array $with){
         $collection = $this->getBestSellers($with);
         $all = $collection->merge($this->getMostVisited($with));
-        return $all->random(10)->all();
+        if($all->count() >= 10){
+            $all = $all->random(10);
+        }
+        return $all->all();
     }
 }

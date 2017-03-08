@@ -43,9 +43,10 @@ class CheckoutController extends Controller{
             $user = Auth::user();
             $cart = Session::get('cart');
             if($cart->address['id']){
-                $address = $this->repo_address->update($req->all(),$cart->address['id']);
+                $model_address = $user->addresses->find($cart->address['id'])->fill($req->all());
+                $address = $user->addresses()->save($model_address);
             }else{
-                $address = $this->repo_address->store($req->all());
+                $address = $user->addresses()->create($req->all());
             }
             $cart->add_address(['id' =>$address->id, 'zip_code' => $address->zip_code]);
             foreach($cart->stores as $key_store => $store){
@@ -57,7 +58,7 @@ class CheckoutController extends Controller{
 
                 $model_store = $this->repo_stores->get($key_store);
                 if(isset($store['request'])){
-                    $model_request = $model_store->requests->find($store['request']);
+                    $model_request = $model_store->requests->find($store['request'])->fill($dados);
                     $request = $model_store->requests()->save($model_request);
                 }else{
                     $request =  $model_store->requests()->create($dados);

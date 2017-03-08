@@ -64,7 +64,7 @@
                         <div class="pop-ads owl-carousel">
                             @for($i = 0; $i < 5; $i++)
                             <div class="vertical-flex">
-                                <img src="{{ url('imagem/loja/loja.jpg?w=100&h=100&fit=crop') }}" title="" alt="[]">
+                                <img src="{{ url('imagem/popmartin/img-exemple.jpg?w=100&h=100&fit=crop') }}" title="" alt="[]">
                                 <p>nome da loja <br> <span>frase de impactação</span></p>
                                 <a href=""></a>
                             </div>
@@ -80,14 +80,9 @@
                                         class="fontem-06" style="vertical-align: middle;">categorias</span></div>
                             <div class="clear-both"></div>
                             <ul class="nav nav-mobile">
-                                <li><a href="">menu 1</a></li>
-                                <li><a href="">menu 2</a></li>
-                                <li><a href="">menu 3</a></li>
-                                <li><a href="">menu 4</a></li>
-                                <li><a href="">menu 5</a></li>
-                                <li><a href="">menu 6</a></li>
-                                <li><a href="">menu 7</a></li>
-                                <li><a href="">menu 8</a></li>
+                                @for($i=1;$i<9;$i++)
+                                    <li><a href="">menu {{$i}}</a></li>
+                                @endfor
                             </ul>
                         </div>
                     </div>
