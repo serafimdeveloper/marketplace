@@ -158,6 +158,7 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
     });
 });
+Route::get('/appmoip/connect', 'Accont\ConnectAppMoipController@show')->name('appmoip_connect');
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 
 Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');
