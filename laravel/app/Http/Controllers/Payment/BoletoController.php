@@ -26,9 +26,9 @@ class BoletoController extends Controller {
     }
 
     private function toPay(){
-        $payment = $this->payment->setMultPayments()->setBoleto(
-            '2016-09-30',
-            'https://image.freepik.com/free-icon/apple-logo_318-40184.jpg',
+        $pay = $this->payment->setMultPayments()->setBoleto(
+            date("Y-m-d"),
+            null,
 //            'http://popmartin.dev/imagem/pop/logo-popmartin.png',
             array(
                 'Primeira linha se instrução',
@@ -37,6 +37,6 @@ class BoletoController extends Controller {
             )
         )->execute();
 
-        dd($payment);
+        dd($pay);
     }
 }
