@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class BoletoController extends Controller{
+class BoletoController extends Controller {
     private $payment;
 
     function __construct(){
        $this->payment = new PaymentController;
+
+    }
+
+    public function repo(){
+
+    }
+
+    public function show(){
+        $this->toPay();
     }
 
     private function updateOrder(){
@@ -16,7 +26,7 @@ class BoletoController extends Controller{
     }
 
     private function toPay(){
-        $this->payment->setMultPayments()->setBoleto(
+        $payment = $this->payment->setMultPayments()->setBoleto(
             '2016-09-30',
             'https://image.freepik.com/free-icon/apple-logo_318-40184.jpg',
 //            'http://popmartin.dev/imagem/pop/logo-popmartin.png',
@@ -27,6 +37,6 @@ class BoletoController extends Controller{
             )
         )->execute();
 
-        dd($this->order, 'setBoleto');
+        dd($payment);
     }
 }

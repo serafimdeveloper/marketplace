@@ -15,18 +15,18 @@ class CreditCardController extends AbstractController {
        $this->payment = new PaymentController;
     }
 
-    public function index(){
+    public function show(){
         $this->toPay();
     }
 
     private function toPay(){
 
-//        dd($this->payment->multorder);
-
         //Dados de exemplo
         $ccNumber = '5555666677778884';
         $cvcNumber = '123';
 
-        $this->payment->setMultPayments()->setCreditCard('05','18', $ccNumber, $cvcNumber, $this->order)->execute();
+        $pay = $this->payment->setMultPayments()->setCreditCard('05','18', $ccNumber, $cvcNumber, $this->payment->getCustomer())->execute();
+
+        dd($pay);
     }
 }
