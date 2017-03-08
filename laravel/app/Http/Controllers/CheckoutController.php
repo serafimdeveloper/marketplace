@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Payment;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Accont\AdressesStoreRequest;
 use App\Repositories\Accont\StoresRepository;
 use App\Services\CartServices;
+use Artesaos\Moip\facades\Moip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -17,14 +17,11 @@ class CheckoutController extends Controller{
     protected $repo_address, $repo_stores, $service;
     protected $with = ['user','adress','freight','payment','requeststatus','products','store','movementstocks'];
 
-    function __construct(AdressesRepository $repo_address, RequestsRepository $repo_request, CartServices $service){
+    function __construct(AdressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service){
+        $this->moip = Moip::start();
         $this->repo_address = $repo_address;
-        $this->repo_request = $repo_request;
+        $this->repo_stores = $repo_stores;
         $this->service = $service;
-    }
-
-    public function repo(){
-
     }
 
     public function confirmAddress(){
@@ -44,12 +41,12 @@ class CheckoutController extends Controller{
     public function confirmPostAddress(AdressesStoreRequest $req){
         if( Session::has('cart')){
             $user = Auth::user();
-
             $cart = Session::get('cart');
             if($cart->address['id']){
-                $address = $this->repo_address->update($req->all(),$cart->address['id']);
+                $model_address = $user->addresses->find($cart->address['id'])->fill($req->all());
+                $address = $user->addresses()->save($model_address);
             }else{
-                $address = $this->repo_address->store($req->all());
+                $address = $user->addresses()->create($req->all());
             }
             $cart->add_address(['id' =>$address->id, 'zip_code' => $address->zip_code]);
             foreach($cart->stores as $key_store => $store){
@@ -61,17 +58,14 @@ class CheckoutController extends Controller{
 
                 $model_store = $this->repo_stores->get($key_store);
                 if(isset($store['request'])){
-                    $request = $this->repo_request->update($dados,$store['request']);
-                    echo 'request atualizado' . $request->id . '</br>';
-                }else{
-                    $request = $this->repo_request->store($dados);
-                }
-                foreach($store['products'] as $key_product => $product){
-                    $model_request = $model_store->requests->find($store['request']);
+                    $model_request = $model_store->requests->find($store['request'])->fill($dados);
                     $request = $model_store->requests()->save($model_request);
+                }else{
+                    $request =  $model_store->requests()->create($dados);
                 }
-//                $cart->add_request($key_store, $request->id);
+                $cart->add_request($key_store, $request->id);
                 $request->products()->sync($this->products($store));
+
             }
             Session::put('cart', $cart);
 
