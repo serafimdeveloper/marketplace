@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Payment;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Accont\AdressesStoreRequest;
 use App\Repositories\Accont\RequestsRepository;
-use Artesaos\Moip\facades\Moip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Correios;
 use App\Repositories\Accont\AdressesRepository;
 
-class CheckoutController extends Controller{
+class CheckoutController extends Controller {
     protected $repo_address, $repo_request;
 
     function __construct(AdressesRepository $repo_address, RequestsRepository $repo_request){
@@ -19,13 +19,17 @@ class CheckoutController extends Controller{
         $this->repo_request = $repo_request;
     }
 
+    public function repo(){
+
+    }
+
     public function confirmAddress(){
         if(Session::has($cart = 'cart')){
             $cart = Session::get('cart');
-            if(isset($cart->address['id'])){
+            if(isset($cart->address['id']) && $cart->address['id']){
                 $address = $this->repo_address->get($cart->address['id']);
             }else{
-                $address = (object) Correios::cep($cart->address)[0];
+                $address = (object) Correios::cep($cart->address['zip_code'])[0];
             }
             return view('pages.cart_address', compact('address'));
         }
@@ -36,8 +40,9 @@ class CheckoutController extends Controller{
     public function confirmPostAddress(AdressesStoreRequest $req){
         if( Session::has('cart')){
             $user = Auth::user();
+
             $cart = Session::get('cart');
-            if(isset($cart->address['id'])){
+            if($cart->address['id']){
                 $address = $this->repo_address->update($req->all(),$cart->address['id']);
             }else{
                 $address = $this->repo_address->store($req->all());
@@ -50,16 +55,22 @@ class CheckoutController extends Controller{
                     'note' => $store['obs']
                 ];
                 if(isset($store['request'])){
-                    $request =  $this->repo_request->update($dados,$store['request']);
+                    $request = $this->repo_request->update($dados,$store['request']);
+                    echo 'request atualizado' . $request->id . '</br>';
                 }else{
-                    $request =  $this->repo_request->store($dados);
-                    $cart->add_request($key_store, $request->id);
+                    $request = $this->repo_request->store($dados);
+
+//                    $cart->add_request($key_store, $request->id);
                 }
+                echo 'request' . $request->id . '</br>';
                 foreach($store['products'] as $key_product => $product){
                     $request->products()->sync([$key_product => ['quantity'=> $product['qtd'], 'unit_price' => $product['price_unit'],
                     'amount' => $product['subtotal']]]);
                 }
             }
+
+            dd($request);
+
             flash('Confirmação de Endereço realizada com sucesso','accept');
             return redirect()->route('pages.cart.cart_checkout');
         }
