@@ -36,6 +36,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
    // Route::post('/searchstore', 'StoresController@search')->name('search.store');
 
     /** Vendedores */
+    Route::get('/appmoip/connect', 'ConnectAppMoipController@show')->name('appmoip_connect');
     Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){
 
         Route::get('create','Salesmans\SalesmanController@create')->name('create');
@@ -150,14 +151,15 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::post('/type_freight', 'cartController@type_freight')->name('cart.type_freight');
 
     Route::group(['prefix' => 'checkout', 'middleware' => 'auth'], function(){
-        Route::get('/payment/creditcard', 'Payment\CreditCardController@index')->name('cart.cart_payment_creditcard');
+        Route::get('/payment/creditcard', 'Payment\CreditCardController@show')->name('cart.cart_payment_creditcard');
+        Route::get('/payment/boleto', 'Payment\BoletoController@show')->name('cart.cart_payment_creditcard');
         Route::get('/payment/{set_method}/moip', 'Payment\PaymentController@order')->name('cart.cart_payment_moip');
         Route::get('/confirmaddress','CheckoutController@confirmAddress')->name('cart.cart_address');
         Route::post('/confirmaddress', 'CheckoutController@confirmPostAddress')->name('cart.cart_address.post');
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
     });
 });
-
+Route::get('/appmoip/connect', 'Accont\ConnectAppMoipController@show')->name('appmoip_connect');
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 
 Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');

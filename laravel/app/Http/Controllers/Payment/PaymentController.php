@@ -20,6 +20,14 @@ class PaymentController extends AbstractController {
     public function repo(){
     }
 
+    public function getCustomer(){
+        return $this->customer;
+    }
+
+    public function getMoip(){
+        return $this->moip;
+    }
+
     public function setCustomer(){
         $this->customer = $this->moip->customers()->setOwnId('sandbox_v2_1401147277')
             ->setFullname('Jose Silva')
@@ -38,7 +46,13 @@ class PaymentController extends AbstractController {
             ->addItem('Camisa Verde e Amarelo - Brasil', 1, 'Seleção Brasileira', 10000)
             ->setShippingAmount(100)
             ->setCustomer($this->customer)
-            ->addReceiver('MPA-VB5OGTVPCI52');
+            ->addReceiver('MPA-E1DB1C93CD3B', 'PRIMARY');
+
+        $this->order[] = $this->moip->orders()->setOwnId('multi-pedido-2')
+            ->addItem('Camisa de Gola - Brasil', 1, 'Minotauro', 8800)
+            ->setShippingAmount(100)
+            ->setCustomer($this->customer)
+            ->addReceiver('MPA-0894C989C657', 'PRIMARY');
     }
 
     public function setMultOrders(){
@@ -52,7 +66,7 @@ class PaymentController extends AbstractController {
     }
 
     public function setMultPayments(){
-        return $this->moip->multiorders()->get($this->multorder->getId())->multipayments();
+        return $this->multorder->multipayments();
     }
 
 }
