@@ -12,9 +12,9 @@ class StoreTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 0; $i < 14; $i++){
-            factory(Store::class)->create();
-        }
+        factory(Store::class, 20)->create()->each(function ($s) {
+            $s->adress()->save(factory(Adress::class)->make());
+        });
 
     }
 }

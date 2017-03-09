@@ -142,11 +142,11 @@ $factory->define(Product::class, function(Generator $faker){
         'free_shipping' => $faker->randomElement(array('0','1')),
         'minimum_stock' => $faker->numberBetween(1, 50),
         'details' => $faker->text(500),
-        'length_cm' => $faker->numberBetween(1, 200),
-        'width_cm' => $faker->numberBetween(1, 200),
-        'height_cm' => $faker->numberBetween(1, 80),
-        'weight_gr' => $faker->numberBetween(1, 2000),
-        'diameter_cm' => $faker->numberBetween(1, 200),
+        'length_cm' => $faker->numberBetween(16, 105),
+        'width_cm' => $faker->numberBetween(11, 105),
+        'height_cm' => $faker->numberBetween(2, 105),
+        'weight_gr' => $faker->numberBetween(1, 30000),
+        'diameter_cm' => $faker->numberBetween(5, 91),
         'active' => 1
     ];
 });
@@ -154,7 +154,7 @@ $factory->define(Product::class, function(Generator $faker){
 $factory->define(Galery::class, function(Generator $faker){
     $folder = DIRECTORY_SEPARATOR . 'app'. DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . 'produto';
     return [
-        'image' => $faker->image(storage_path(). $folder, 640, 480, 'cats', false)
+        'image' => $faker->image(storage_path(). $folder, 640, 480, 'technics', false)
     ];
 });
 

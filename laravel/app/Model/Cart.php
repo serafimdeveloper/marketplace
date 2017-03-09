@@ -47,7 +47,7 @@ class Cart
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['slug'] = $store->slug;
-        $this->stores[$store->id]['type_freight']['id'] =  isset($this->stores[$store->id]['type_freight']['id']) ?  $this->stores[$store->id]['type_freight']['id'] : 2;
+        $this->stores[$store->id]['type_freight']['id'] =  isset($this->stores[$store->id]['type_freight']['id']) ?  $this->stores[$store->id]['type_freight']['id'] : 3;
         $this->stores[$store->id]['type_freight']['name'] =  isset($this->stores[$store->id]['type_freight']['name']) ?  $this->stores[$store->id]['type_freight']['name'] : 'PAC';
         $this->stores[$store->id]['price_freight'] = isset($this->stores[$store->id]['price_freight']) ? $this->stores[$store->id]['price_freight'] : 0;
         $this->stores[$store->id]['obs'] = isset($this->stores[$store->id]['obs']) ? $this->stores[$store->id]['obs'] : null;
@@ -66,6 +66,9 @@ class Cart
             if(array_key_exists($id, $this->stores[$store->id]['products'])){
                 unset($this->stores[$store->id]['products'][$id]);
                 if(count($this->stores[$store->id]['products']) < 1){
+                    if(isset($this->stores[$store->id]['request'])){
+                        Request::destroy($this->stores[$store->id]['request']);
+                    }
                     unset($this->stores[$store->id]);
                 }
                 $this->calc_freight();

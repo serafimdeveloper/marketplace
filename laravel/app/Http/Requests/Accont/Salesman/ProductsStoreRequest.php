@@ -45,11 +45,11 @@ class ProductsStoreRequest extends Request
             'details'=>'required|string|max:500',
             'image_1' => 'required',
             'image.*' => 'mimes:png,jpg,jpeg,pdf|max:10000',
-            'length_cm' => 'required|numeric',
-            'width_cm' => 'required|numeric',
-            'height_cm' => 'required|numeric',
-            'weight_gr' => 'required|numeric',
-            'diameter_cm' => 'required|numeric',
+            'length_cm' => 'required|numeric|min:16|max:105',
+            'width_cm' => 'required|numeric|min:11|max:105',
+            'height_cm' => 'required|numeric|min:2|max:105',
+            'weight_gr' => 'required|numeric|min:1|max:30000',
+            'diameter_cm' => 'required|numeric|min:5|max:91',
         ];
     }
 }

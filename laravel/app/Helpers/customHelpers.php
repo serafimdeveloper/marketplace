@@ -169,3 +169,15 @@ if(!function_exists('generate_key')){
     }
 }
 
+if(!function_exists('get_categories()')){
+    function get_categories($principal = null){
+        $categories = DB::table('categories')->whereNull('category_id')->where('active','=',1);
+        if(isset($principal)){
+            $categories = $categories->where('menu','=',1)->limit(10);
+        }else{
+            $categories = $categories->limit(25);
+        }
+        return $categories->get();
+    }
+}
+

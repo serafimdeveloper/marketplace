@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Request;
 use App\Repositories\Accont\ProductsRepository;
 use App\Repositories\Accont\CategoriesRepository;
+use App\Repositories\Accont\StoresRepository;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller {
 
-    protected $product;
-    protected $with_product = ['galeries','store','category'];
-    protected $category;
-    protected $with_category = [];
+    protected $category, $store, $product;
+    protected $with_product = ['galeries','store','category'],$with_category = [], $with_store = ['products','adress'] ;
     protected $columns = ['*'];
 
-    public function __construct(ProductsRepository $product, CategoriesRepository $category){
+    public function __construct(ProductsRepository $product, CategoriesRepository $category, StoresRepository $store){
         $this->product = $product;
         $this->category = $category;
+        $this->store = $store;
     }
 
     public function index(){
@@ -48,8 +48,13 @@ class HomeController extends Controller {
         return view('pages.favorites');
     }
 
-    public function stores($store){
-        return view('pages.store');
+    public function stores($slug){
+        if($store = $this->store->getStoreSlug($this->with_store, $slug)){
+            if(!(!$store->active || $store->blocked)){
+                return view('pages.store', compact('store'));
+            }
+
+        }
 
 
     }
