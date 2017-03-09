@@ -18,8 +18,7 @@ class ProductsRepository extends BaseRepository
     public function model(){
         return Product::class;
     }
-    public function single_page(array $with, $store, $category, $product)
-    {
+    public function single_page(array $with, $store, $category, $product) {
         $model = $this->model
             ->with($with)
             ->join('stores', function ($join) use ($store) {
@@ -57,38 +56,37 @@ class ProductsRepository extends BaseRepository
 
 
     public function getBestSellers(array $with){
-       /* $model = $this->model->with($with)->distinct()
-            ->select(DB::raw('products.*'))
-            ->leftJoin('product_request','products.id','=','product_request.product_id')
-            ->groupBy('id')
-            ->orderBy(DB::raw('SUM(product_request.quantity)'),'desc')
+        $model = $this->model->with($with)->select('products.*', DB::raw('SUM(product_request.quantity) AS qtd_product_request'))
+            ->leftJoin('product_request', 'products.id','=','product_request.product_id')
+            ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
+            'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr', 'diameter_cm',
+            'active', 'created_at', 'updated_at')
+            ->orderBy('qtd_product_request','desc')
+            ->limit(15)
             ->get();
-        return $model;*/
-       $model = $this->model->with($with)->get();
-       $collection = $model->sortByDesc(function($product){
-           return $product->requests->each(function($request){
-               return count($request->pivot->quantity);
-           });
-       });
-       return $collection->splice(15);
+        return $model;
+
     }
 
     public function getMostVisited(array $with){
-        $model = $this->model->with($with)->distinct()->get();
-        $collection = $model->sortByDesc(function($product){
-            return $product->visitproduct->each(function ($visit){
-                return count($visit->count);
-            });
-        });
-        return $collection->splice(15);
+        $model = $this->model->with($with)
+            ->select('products.*', DB::raw('SUM(visit_products.count) AS qtd_product_visit'))
+            ->leftJoin('visit_products', 'products.id','=','visit_products.product_id')
+            ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
+                'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr', 'diameter_cm',
+                'active', 'created_at', 'updated_at')
+            ->orderBy('qtd_product_visit', 'desc')
+            ->limit(15)
+            ->get();
+        return $model;
     }
 
     public function getHighlights(array $with){
         $collection = $this->getBestSellers($with);
         $all = $collection->merge($this->getMostVisited($with));
-        if($all->count() >= 10){
+        if($all->count() >= 20){
             $all = $all->random(20);
         }
-        return $all->all();
+        return $all;
     }
 }
