@@ -37,6 +37,7 @@ class HomeController extends Controller {
     }
 
     public function category($category){
+
         return view('pages.products');
     }
 
