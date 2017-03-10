@@ -21,6 +21,10 @@ class BoletoController extends Controller {
         $this->toPay();
     }
 
+    public function toPrint(){
+        $this->payment
+    }
+
     private function updateOrder(){
 
     }
