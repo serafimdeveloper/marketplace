@@ -77,8 +77,9 @@
                         <div class="pop-cart-footer">
                             <div class="pop-cart-obs">
                                 <a href="javascript:void(0)"
-                                   class="show-formobs btn btn-small btn-popmartin">{{isset($store['obs']) ? 'ver' : 'adicionar'}}
-                                    observações aos produtos deste de vendedor</a>
+                                   class="show-formobs btn btn-small btn-popmartin-trans"><i class="fa fa-comments"></i>
+                                    {{isset($store['obs']) ? 'ver' : 'adicionar'}}
+                                    observações a este pedido</a>
                                 <form class="form-modern" action="" method="POST">
                                     {{csrf_field()}}
                                     <input type="hidden" name="store" value="{{$key_store}}">
@@ -141,8 +142,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="txt-right">
+                        @if($cart->address)
+                            <a href="{{ route('pages.cart.cart_address') }}/{{ strtoupper(sha1($key_store)) }}" class="btn btn-popmartin">enviar pedido desta loja</a>
+                        @else
+                            <span class="btn btn-gray cursor-nodrop tooltip" title="Necessário informar um cep">enviar pedido</span>
+                        @endif
+                    </div>
                 </article>
             @endforeach
+        <hr>
             <div class="pop-cart-cep">
                 <div class="txt-right">
                     {!! Form::open(['route'=>['pages.cart.add_address'],'class'=>'form-modern pop-form freight-form', 'method'=>'POST']) !!}
@@ -170,14 +179,14 @@
                         <br>
                         <a href="/" class="c-pop"><i class="fa fa-chevron-left vertical-middle"></i> continuar comprando</a>
                     </div>
-                    <div class="colbox-2">
-                        @if($cart->address)
-                            <a href="{{ route('pages.cart.cart_address') }}" class="btn btn-popmartin">enviar
-                                pedido</a>
-                        @else
-                            <span class="btn btn-gray cursor-nodrop tooltip" title="Necessário informar um cep">enviar pedido</span>
-                        @endif
-                    </div>
+                    {{--<div class="colbox-2">--}}
+                        {{--@if($cart->address)--}}
+                            {{--<a href="{{ route('pages.cart.cart_address') }}" class="btn btn-popmartin">enviar--}}
+                                {{--pedido</a>--}}
+                        {{--@else--}}
+                            {{--<span class="btn btn-gray cursor-nodrop tooltip" title="Necessário informar um cep">enviar pedido</span>--}}
+                        {{--@endif--}}
+                    {{--</div>--}}
                 </div>
                 <div class="clear-both"></div>
             </div>
