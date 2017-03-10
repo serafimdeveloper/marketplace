@@ -92,6 +92,7 @@
         <div class="txt-center">
             <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
         </div>
+        <div class="padding20"></div>
     </section>
     <div class="clear-both"></div>
 @endsection
