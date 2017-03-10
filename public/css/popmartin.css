@@ -64,7 +64,9 @@ input{padding: 5px;width: 100%;}
 .pop-nav-content li:first-child{border-radius: 5px 0 0 5px;-webkit-border-radius: 5px 0 0 5px;-moz-border-radius: 5px 0 0 5px;}
 .pop-nav-content li:last-child{border-right-color: transparent;border-radius: 0 5px 5px 0;-webkit-border-radius: 0 5px 5px 0;-moz-border-radius: 0 5px 5px 0;}
 
-
+.modal-product-frete{position: absolute; z-index:2;left: 0;bottom: 43px;background-color: #FBC02D; color: #FFF; font-weight: bold;padding: 5px;}
+.modal-product-descont{position: absolute; z-index:2;left: 5px;bottom: 10px;text-decoration: line-through;}
+.modal-product-descont-percent{position: absolute; z-index:1;right: 0;top: 10px;background-color: #B71C1C; color: #FFF;padding: 5px 7px;}
 
 .pop-forms .colbox-2{margin-top: 10px;padding: 0 30px;}
 .pop-forms .colbox-2:last-child{border-left: 1px solid #aaaaaa;}
@@ -74,8 +76,8 @@ input{padding: 5px;width: 100%;}
 .pop-title .pop-tile-menu{display: inline-block; float: right;}
 .pop-tile-menu .btn-small{margin-top: -5px;}
 .modal-product{position: relative;padding: 0;margin: 10px 0;}
-.modal-product ul{display: none;background-color: rgba(255,255,255,0.8);position: absolute;width: 100%;top: 0; left: 0;z-index: 1;padding: 5px;}
-.modal-product:hover ul{display: block !important;}
+.modal-product ul{display: none;background-color: rgba(255,255,255,0.8);position: absolute;z-index: 3;width: 100%;top: 0; left: 0;z-index: 1;padding: 5px;}
+.modal-product:hover ul{display: block !important;z-index: 99 !important;}
 .modal-product ul li{display: inline-block;width: 31.5%;}
 .modal-product ul a{color: #000;display: block;font-size: 1.6em;text-align: center;}
 .modal-product header{padding: 2px 5px;}
