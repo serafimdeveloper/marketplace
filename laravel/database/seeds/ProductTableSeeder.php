@@ -12,7 +12,7 @@ class ProductTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Product::class, 30)->create()->each(function($g){
+        factory(Product::class, 20)->create()->each(function($g){
             for($i = 0; $i < 5; $i++){
                 $g->galeries()->save(factory(Galery::class)->make());
             }

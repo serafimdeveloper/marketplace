@@ -86,8 +86,8 @@ class ProductsRepository extends BaseRepository
         $all = $collection->merge($this->getMostVisited($with));
         if($all->count() >= 20){
             $all = $all->random(20);
-        }else{
-            $all = $all->random($all->count());
+        }else if($total = $all->count()){
+            $all = $all->random($total);
         }
         return $all;
     }

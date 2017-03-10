@@ -35,6 +35,9 @@ class CreateConnectSallesmans extends Migration
      */
     public function down()
     {
+        Schema::table('connect_sallesmans', function(Blueprint $table){
+            $table->dropForeign('salesman_id');
+        });
         Schema::dropIfExists('connect_sallesmans');
     }
 }
