@@ -37,7 +37,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->redirectTo = (Session::has('oldUrl')) ? (Session::get('oldUrl')) : 'accont';
+        $this->redirectTo = (Session::has('oldUrl')) ? redirect()->intended() : 'accont';
         $this->middleware('guest');
     }
 

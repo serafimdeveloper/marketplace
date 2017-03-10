@@ -172,7 +172,9 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+       // Artesaos\Moip\Providers\MoipServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        //
         /*
          * Application Service Providers...
          */

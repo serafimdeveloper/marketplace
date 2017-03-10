@@ -144,7 +144,7 @@
                     </div>
                     <div class="txt-right">
                         @if($cart->address)
-                            <a href="{{ route('pages.cart.cart_address') }}/{{ strtoupper(sha1($key_store)) }}" class="btn btn-popmartin">enviar pedido desta loja</a>
+                            <a href="{{ route('pages.cart.cart_address', ['sha1' => strtoupper(sha1($key_store))])}}" class="btn btn-popmartin">enviar pedido desta loja</a>
                         @else
                             <span class="btn btn-gray cursor-nodrop tooltip" title="Necessário informar um cep">enviar pedido</span>
                         @endif

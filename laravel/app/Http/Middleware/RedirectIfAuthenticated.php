@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
             return redirect('/accont');
         }else{
-            Session::put('old',route('pages.cart.cart_address'));
+            Session::put('old', 'redirecionar');
         }
 
         return $next($request);
