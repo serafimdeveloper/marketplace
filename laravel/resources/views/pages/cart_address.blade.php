@@ -7,7 +7,7 @@
                 <h1>Confirmar endereço de entrega</h1>
             </header>
             <div class="">
-                {!!Form::open(['route'=>['pages.cart.cart_address.post'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
+                {!!Form::open(['route'=>['pages.cart.cart_address.post','sha1'=>$sha1],'method'=>'POST','class'=>'form-modern pop-form'])!!}
                 <div class="colbox">
                     <div class="colbox-full">
                         <label>

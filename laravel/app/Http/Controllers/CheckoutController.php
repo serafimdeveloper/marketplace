@@ -24,9 +24,9 @@ class CheckoutController extends Controller{
 
     public function confirmAddress(Request $request){
         if(Session::has('cart')){
-            foreach(Session::has('cart')->stores as $key => $values){
+            $cart = Session::get('cart');
+            foreach($cart->stores as $key => $values){
                 if($request->sha1 === strtoupper(sha1($key))){
-                    $cart = Session::get('cart');
                     $sha1 = $request->sha1;
                     if($cart->address['id']){
                         $address = $this->repo_address->get($cart->address['id']);
