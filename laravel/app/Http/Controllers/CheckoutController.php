@@ -23,14 +23,19 @@ class CheckoutController extends Controller{
     }
 
     public function confirmAddress(Request $request){
-        if(Session::has($cart = 'cart')){
-            $cart = Session::get('cart');
-            if($cart->address['id']){
-                $address = $this->repo_address->get($cart->address['id']);
-            }else{
-                $address = (object) Correios::cep($cart->address['zip_code'])[0];
+        if(Session::has('cart')){
+            foreach(Session::has('cart')->stores as $key => $values){
+                if($request->sha1 === strtoupper(sha1($key))){
+                    $cart = Session::get('cart');
+                    $sha1 = $request->sha1;
+                    if($cart->address['id']){
+                        $address = $this->repo_address->get($cart->address['id']);
+                    }else{
+                        $address = (object)Correios::cep($cart->address['zip_code'])[0];
+                    }
+                    return view('pages.cart_address', compact('address', 'sha1'));
+                }
             }
-            return view('pages.cart_address', compact('address'));
         }
         flash('Não tem nenhum carrinho','error');
         return redirect()->back();
@@ -55,7 +60,6 @@ class CheckoutController extends Controller{
                             'freight_price' => $store['freight'][$store['type_freight']['name']]['val'], 'amount' =>$store['amount'],
                             'note' => $store['obs']
                         ];
-
                         $model_store = $this->repo_stores->get($key_store);
                         if(isset($store['request'])){
                             $model_request = $model_store->requests->find($store['request'])->fill($dados);
