@@ -6,14 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>PopMartin</title>
 
-        <link href="/public/frontend/css/bootstrap.css" rel="stylesheet">
-        <link href="/public/frontend/lib/owlcarousel/owl.carousel.min.css" rel="stylesheet">
-        <link href="/public/frontend/lib/owlcarousel/theme/owl.theme.default.min.css" rel="stylesheet">
-        <link href="/public/frontend/lib/tooltipster/css/tooltipster.bundle.min.css" rel="stylesheet">
-        <link href="/public/frontend/lib/alertfy/css/alertify.min.css" rel="stylesheet">
-        <link href="/public/frontend/lib/alertfy/css/themes/semantic.rtl.min.css" rel="stylesheet">
+        <link href="{{ asset('frontend/css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/lib/owlcarousel/owl.carousel.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/lib/owlcarousel/theme/owl.theme.default.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/lib/tooltipster/css/tooltipster.bundle.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/lib/alertfy/css/alertify.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/lib/alertfy/css/themes/semantic.rtl.min.css') }}" rel="stylesheet">
         @yield('css')
-        <link href="/public/css/popmartin.css" rel="stylesheet">
+        <link href="{{ asset('css/popmartin.css') }}" rel="stylesheet">
 
 
         <!--[if lt IE 9]>
@@ -27,15 +27,15 @@
             @yield('content')
             @include('inc.footer')
         </main>
-        <script src="/public/frontend/js/jquery1.js"></script>
-        <script src="/public/frontend/lib/jqueryui/jquery-ui.min.js"></script>
-        <script src="/public/frontend/lib/maskinput/jquery.mask.min.js"></script>
-        <script src="/public/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="/public/frontend/lib/tooltipster/js/tooltipster.bundle.min.js"></script>
-        <script src="/public/frontend/lib/alertfy/alertify.min.js"></script>
+        <script src="{{ asset('frontend/js/jquery1.js') }}"></script>
+        <script src="{{ asset('frontend/lib/jqueryui/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('frontend/lib/maskinput/jquery.mask.min.js') }}"></script>
+        <script src="{{ asset('frontend/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('frontend/lib/tooltipster/js/tooltipster.bundle.min.js') }}"></script>
+        <script src="{{ asset('frontend/lib/alertfy/alertify.min.js') }}"></script>
         {{--<script src="/frontend/lib/twbsPagination/jquery.twbsPagination.min.js"></script>--}}
-        <script src="/public/frontend/js/bootstrap.js"></script>
-        <script src="{{ url('/js/popmartin.js') }}"></script>
+        <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
+        <script src="{{ asset('js/popmartin.js') }}"></script>
         @yield('script')
         @if (session()->has('flash_notification.message'))
             <script>

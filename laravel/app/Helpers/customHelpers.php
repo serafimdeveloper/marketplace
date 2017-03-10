@@ -3,9 +3,17 @@ use App\Model\CountOrder;
 use App\Model\Freight;
 use App\Model\Product;
 use App\Model\Store;
+use App\Package\Moip\lib\Moip;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
+
+if(!function_exists('moip')){
+    function moip(){
+        $moip = new Moip();
+        return $moip;
+    }
+}
 
 if(!function_exists('notification_sales')){
     function notification_sales($visualized)
@@ -180,4 +188,3 @@ if(!function_exists('get_categories()')){
         return $categories->get();
     }
 }
-

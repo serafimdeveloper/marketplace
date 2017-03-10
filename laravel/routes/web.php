@@ -158,6 +158,7 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
         Route::get('/payment/{set_method}/moip', 'Payment\PaymentController@order')->name('cart.cart_payment_moip');
         Route::get('/confirmaddress','CheckoutController@confirmAddress')->name('cart.cart_address');
         Route::post('/confirmaddress', 'CheckoutController@confirmPostAddress')->name('cart.cart_address.post');
+        Route::get('/testmoip', 'PaymentMoip@show')->name('cart.cart_checkout');
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
     });
 });
