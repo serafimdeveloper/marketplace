@@ -43,10 +43,10 @@ class CheckoutController extends Controller{
 
     public function confirmPostAddress(Request $request, AdressesStoreRequest $req){
         if(Session::has('cart')){
-            foreach(Session::has('cart')->stores as $key => $values){
+            $cart = Session::get('cart');
+            foreach($cart->stores as $key => $values){
                 if( $request->sha1 === strtoupper(sha1($key))){
                     $user = Auth::user();
-                    $cart = Session::get('cart');
                     if($cart->address['id']){
                         $model_address = $user->addresses->find($cart->address['id'])->fill($req->all());
                         $address = $user->addresses()->save($model_address);
