@@ -125,7 +125,7 @@
     @include('layouts.parties.alert_message')
 @endsection
 @section('script')
-    <script src="/frontend/lib/rater/rater.min.js"></script>
+    <script src="/public/frontend/lib/rater/rater.min.js"></script>
     <script>
         var rateOptions = {
             max_value: 5,
