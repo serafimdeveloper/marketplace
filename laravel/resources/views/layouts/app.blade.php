@@ -38,7 +38,6 @@
             <script>
                 var alert = '{{ session('flash_notification.level') }}';
                 var message = '{!! session('flash_notification.message') !!}';
-                console.log(alert);
                 if(alert == 'accept'){
                     alertify.success(message);
                 }else{
