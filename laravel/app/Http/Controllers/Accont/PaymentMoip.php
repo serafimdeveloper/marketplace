@@ -1,9 +1,10 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Accont;
 
+use App\Http\Controllers\AbstractController;
 use App\Package\Moip\lib\Moip;
 
-class PaymentMoip extends Controller
+class PaymentMoip extends AbstractController
 {
     private $moip;
 
@@ -20,17 +21,30 @@ class PaymentMoip extends Controller
         $this->moip->addMessage('Seu pedido contem os produtos X,Y e Z.');
         $this->moip->setReturnURL('http://popm.dev/accont/payment/callback');
         $this->moip->setNotificationURL('http://popm.dev/accont/order/notification');
-        $this->moip->addComission('Motivo da divisão', 'rendaok@live.com', '60.00', true, true);
-        $this->moip->addComission('Motivo da divisão', 'comercial@asiw.com.br', '30.00', true, true);
+        $this->moip->addComission('Vendas da Loja 1', 'rendaok@live.com', '60.00', true, true);
+        $this->moip->addComission('Vendas da Loja 2', 'comercial@asiw.com.br', '30.00', true, true);
         $this->moip->setReceiver('dev@asiw.com.br');
         $this->moip->addParcel('1', '6', null, true);
         $this->moip->validate('Identification');
     }
 
-    public function show()
-    {
+    public function repo(){
+
+    }
+    public function show(){
         $send = $this->moip->send();
 
         echo "<a style='background-color: #008973'>".$this->moip->getAnswer()->payment_url."</a>";
+    }
+
+    public function callback(){
+        return view('accont.payment_callback');
+    }
+
+    public function notification(){
+    }
+
+    private function sadasd(){
+
     }
 }
