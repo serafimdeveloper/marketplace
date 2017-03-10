@@ -70,7 +70,7 @@
                             <div class="pop-rate">
                                 <p>Avaliação do vendedor</p>
                                 <div>
-                                    Qualidade do produto:
+                                    Qualidade dos produtos:
                                     <div class="rating" data-rate-value=3></div>
                                 </div>
                                 <div>

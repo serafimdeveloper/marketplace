@@ -9,6 +9,7 @@
 namespace App\Repositories\Accont;
 
 
+use App\Model\Category;
 use App\Model\Product;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
@@ -86,9 +87,42 @@ class ProductsRepository extends BaseRepository
         $all = $collection->merge($this->getMostVisited($with));
         if($all->count() >= 20){
             $all = $all->random(20);
-        }else{
-            $all = $all->random($all->count());
+        }else if($total = $all->count()){
+            $all = $all->random($total);
         }
         return $all;
     }
+
+    public function getCategory( array $with, $category){
+        $model = $this->model->with($with)->distinct()
+            ->select('products.*')->where('category_id', $category)->get();
+        return $model;
+    }
+
+    public function getSubCategory(array $with, $category, $subcategory = null){
+        $model = $this->model->with($with)->distinct()
+            ->select('products.*')
+            ->whereIn('category_id', function($query) use($category, $subcategory){
+                $query->select('id')->from('categories')->where('category_id', $category);
+                if($subcategory){
+                    $query->where('category.slug', $subcategory);
+                }
+            })->get();
+        return $model;
+    }
+
+    public function productsCategory(array $with,$category, $subcategory = null){
+        $model_cat = Category::where('slug', $category)->first();
+        $categories = $this->getCategory($with, $model_cat->id);
+        $all = $categories->merge($this->getSubCategory($with, $model_cat->id, $subcategory));
+        return $all;
+    }
+
+    public function searchProducts(array $with, $search){
+        $model = $this->model->Search($search, $with)->get();
+        return $model;
+    }
+
+
+
 }
