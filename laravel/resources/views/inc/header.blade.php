@@ -12,7 +12,7 @@
                             <div class="header-search">
                                 <form class="form pop-search" action="/pesquisa" method="get">
                                     <div class="input-group">
-                                        <input type="text" name="search" placeholder="o que procura?">
+                                        <input type="text" name="search" placeholder="o que procura?" value="{{isset($search) ? $search : ''}}">
                                         <button type="submit"><i class="fa fa-search"></i></button>
                                     </div>
                                 </form>

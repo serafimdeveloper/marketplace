@@ -60,4 +60,8 @@ class Product extends Model
     public function visitproduct(){
         return $this->hasMany(VisitProduct::class);
     }
+
+    public function scopeSearch($query, $name, $with) {
+        return $query->where('name', 'LIKE', $name.'%')->with($with);
+    }
 }

@@ -36,13 +36,14 @@ class HomeController extends Controller {
         return view('pages.product', compact('product','type', 'auth'));
     }
 
-    public function category($category){
-
-        return view('pages.products');
+    public function category($search){
+        $products = $this->product->productsCategory($this->with_product, $search);
+        return view('pages.products', compact('products','search'));
     }
 
     public function search($search){
-        return view('pages.products');
+        $products = $this->product->searchProducts($this->with_product, $search);
+        return view('pages.products', compact('products','search'));
     }
 
     public function favorites(){
