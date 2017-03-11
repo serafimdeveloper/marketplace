@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Accont\AdressesStoreRequest;
 use App\Repositories\Accont\StoresRepository;
 use App\Services\CartServices;
+use App\Services\PaymentMoip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -12,7 +13,7 @@ use Correios;
 use App\Repositories\Accont\AdressesRepository;
 
 class CheckoutController extends Controller{
-    private $moip;
+    private $moip, $address;
     protected $repo_address, $repo_stores, $service;
     protected $with = ['user','adress','freight','payment','requeststatus','products','store','movementstocks'];
 
@@ -41,11 +42,11 @@ class CheckoutController extends Controller{
         return redirect()->back();
     }
 
-    public function confirmPostAddress(Request $request, AdressesStoreRequest $req){
+    public function confirmPostAddress(AdressesStoreRequest $req, $sha1){
         if(Session::has('cart')){
             $cart = Session::get('cart');
             foreach($cart->stores as $key => $values){
-                if( $request->sha1 === strtoupper(sha1($key))){
+                if( $sha1 === strtoupper(sha1($key))){
                     $user = Auth::user();
                     if($cart->address['id']){
                         $model_address = $user->addresses->find($cart->address['id'])->fill($req->all());
@@ -72,14 +73,14 @@ class CheckoutController extends Controller{
 
                     }
                     Session::put('cart', $cart);
-                    flash('Confirmação de Endereço realizada com sucesso','accept');
-                    return redirect()->route('pages.cart.cart_checkout');
+                    $payment = new PaymentMoip(CartServices::getStores($sha1), $cart->address);
+                    $endpoint = $payment->getEndpoint();
+
+                    return view('pages.cart_address', compact('address', 'sha1', 'endpoint'));
                 }
             }
         }
-
-        flash('Confirmação de Endereço realizada com sucesso','accept');
-        return redirect()->route('pages.cart.cart_checkout');
+        redirect()->route('pages.cart');
     }
 
     public function checkout(){
@@ -103,5 +104,12 @@ class CheckoutController extends Controller{
                 'amount' => $product['subtotal']];
         }
         return $products;
+    }
+
+    public function callback(){
+        return view('accont.payment_callback');
+    }
+
+    public function notification(){
     }
 }

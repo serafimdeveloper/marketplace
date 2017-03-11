@@ -56,4 +56,11 @@ class CartServices
         return $requests;
     }
 
+    public static function getStores($hash){
+        foreach(Session::get('cart')->stores as $key => $value){
+            if(strtoupper(sha1($key)) === $hash){
+                return Session::get('cart')->stores[$key];
+            }
+        }
+    }
 }

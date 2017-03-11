@@ -22,7 +22,6 @@ class CartController extends Controller
         $this->cart_service = $cart_service;
     }
 
-
     public function index(){
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','id') : null);
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');

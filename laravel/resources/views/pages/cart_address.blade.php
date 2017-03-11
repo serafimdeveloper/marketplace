@@ -85,7 +85,10 @@
                         <a href="/carrinho" class="c-pop"><i class="fa fa-chevron-left"></i> Voltar para o carrinho</a>
                     </div>
                     <div class="colbox-2 txt-right">
-                        <button type="submit" class="btn btn-popmartin">continuar pedido <i class="fa fa-chevron-right vertical-middle"></i></button>
+                        @if(isset($endpoint))
+                            <a href="{{ $endpoint }}" class="btn btn-green">Pagar</a>
+                        @endif
+                        <button type="submit" class="btn btn-popmartin">finalizar pedido</button>
                     </div>
                 </div>
                 <div class="clear-both"></div>

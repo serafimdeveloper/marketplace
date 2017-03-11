@@ -158,6 +158,7 @@
                     @if($addresses)
                         <span>Selecione o endereço</span>
                         {!! Form::select('address', $addresses, (isset($cart->address['id']) ? $cart->address['id'] : null), ['class' => 'selectAddressCart', 'placeholder' => 'Selecionar endereço']) !!}
+                        {{--<input type="hidden" value="">--}}
                         <label style="display: inline-block;width: auto;">
                             {!! Form::text('zip_code',(isset($cart->address['zip_code']) ? $cart->address['zip_code'] : null), ['class' => 'getCepAddressCart', 'onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
                         </label>
