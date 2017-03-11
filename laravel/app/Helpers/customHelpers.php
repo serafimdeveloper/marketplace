@@ -83,7 +83,7 @@ if(!function_exists('calculate_freight')){
 //        if ($ses = Session::get('cart')) {
             $volume = 0;
             $weight = 0;
-            /** Variávei de dados a serem passados para o cáculo de frete */
+            /** Variáveis de dados a serem passados para o cáculo de frete */
             $df['formato'] = 'caixa';
             $df['diametro'] = 0;
             $df['cep_destino'] = preg_replace("/-/", '', $cart->address['zip_code']);

@@ -172,8 +172,8 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-       // Artesaos\Moip\Providers\MoipServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
+        // Artesaos\Moip\Providers\MoipServiceProvider::class,
+        //Laravel\Socialite\SocialiteServiceProvider::class,
         //
         /*
          * Application Service Providers...
@@ -238,7 +238,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Correios' => Cagartner\CorreiosConsulta\Facade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+         //'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

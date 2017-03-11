@@ -5,6 +5,7 @@ use App\Http\Controllers\AbstractController;
 use App\Http\Requests\Request;
 use App\Repositories\Accont\RequestsRepository;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 
 class RequestsController extends AbstractController
 {
@@ -26,15 +27,24 @@ class RequestsController extends AbstractController
 
     public function show($id)
     {
-        $user = Auth::User();
-        $request = $this->repo->get($id, $this->columns, $this->with);
-        if($request->user_id == $user->id){
-            $type = ['type' => 'request', 'id' => $request->id];
-            $request = ($request ? $request : false);
-            if(!$request){
-                return redirect()->route('accont.home');
-            }else{
-                return view('accont.request_info', compact('request', 'user', 'type'));
+        if ($request = $this->repo->get($id, $this->columns, $this->with)) {
+            $user = Auth::User();
+            if (Gate::allows('vendedor', $user)) {
+                if ($store = $user->salesman->store) {
+                    if ($store->id === $request->store->id) {
+                        return redirect()->route('accont.salesman.sale_info', ['id' => $request->id]);
+                    }
+                }
+            }
+
+            if ($request->user->id === $user->id || Gate::allows('admin', $user)) {
+                $type = ['type' => 'request', 'id' => $request->id];
+                $request = ($request ? $request : false);
+                if (!$request) {
+                    return redirect()->route('accont.home');
+                } else {
+                    return view('accont.request_info', compact('request', 'user', 'type'));
+                }
             }
         }
         return redirect()->route('accont.home');

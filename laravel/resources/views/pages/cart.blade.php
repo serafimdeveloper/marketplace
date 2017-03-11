@@ -159,7 +159,7 @@
                         <span>Selecione o endereço</span>
                         {!! Form::select('address', $addresses, (isset($cart->address['id']) ? $cart->address['id'] : null), ['class' => 'selectAddressCart', 'placeholder' => 'Selecionar endereço']) !!}
                         <label style="display: inline-block;width: auto;">
-                            {!! Form::text('zip_code',(isset($cart->address['zip_code']) ? $cart->address['zip_code'] : null), ['class' => 'getCepAddressCart', 'onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'data-required' => 'minlength', 'data-minlength' => 8]) !!}
+                            {!! Form::text('zip_code',(isset($cart->address['zip_code']) ? $cart->address['zip_code'] : null), ['class' => 'getCepAddressCart', 'onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'data-minlength' => 8]) !!}
                             <!--<span class="alert {{ $errors->has('zip_code') ? '' : ' hidden' }}">{{ $errors->first('zip_code') }}</span>-->
                         </label>
                     @else

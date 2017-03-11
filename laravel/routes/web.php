@@ -143,7 +143,10 @@ Route::get('/categoria/{category}', 'HomeController@category')->name('pages.prod
 
 Route::get('/pesquisa/{search}', 'HomeController@search')->name('pages.products.pesquisa');
 
-Route::get('/favoritos', 'HomeController@favorites')->name('pages.favorites');
+Route::get('/favoritos', 'FavoritesController@favorites')->name('pages.favorites');
+Route::get('/favoritos/{product}/add', 'FavoritesController@store')->name('pages.favorites');
+Route::get('/favoritos/{product}/delete', 'FavoritesController@destroy')->name('pages.favorites');
+
 
 Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::get('/', 'CartController@index')->name('cart');

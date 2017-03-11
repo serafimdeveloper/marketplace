@@ -46,10 +46,6 @@ class HomeController extends Controller {
         return view('pages.products', compact('products','search'));
     }
 
-    public function favorites(){
-        return view('pages.favorites');
-    }
-
     public function stores($slug){
         if($store = $this->store->getStoreSlug($this->with_store, $slug)){
             if(!(!$store->active || $store->blocked)){

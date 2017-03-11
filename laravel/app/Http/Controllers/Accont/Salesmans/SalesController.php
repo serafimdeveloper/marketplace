@@ -73,6 +73,9 @@ class SalesController extends AbstractController
             'tracking_code' => 'required'
         ]);
 
+        $rastreamento = Correios::rastrear($req->tracking_code);
+        dd($rastreamento);
+
         $element = $this->repo->get($id);
         $st = ($element->request_status_id < 6 ? 4 : $element->request_status_id);
 
