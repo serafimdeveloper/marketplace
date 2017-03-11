@@ -31,7 +31,7 @@ class ProductsRepository extends BaseRepository
                     ->where('categories.slug', $category);
             })
             ->select('products.*')
-            ->where('products.slug', $product)
+            ->where('products.slug', $product)->where('products.quantity','>',0)->where('products.active',1)
             ->get();
         return $model->first();
     }
@@ -59,6 +59,7 @@ class ProductsRepository extends BaseRepository
     public function getBestSellers(array $with){
         $model = $this->model->with($with)->select('products.*', DB::raw('SUM(product_request.quantity) AS qtd_product_request'))
             ->leftJoin('product_request', 'products.id','=','product_request.product_id')
+            ->where('products.quantity','>',0)->where('products.active',1)
             ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
             'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr', 'diameter_cm',
             'active', 'created_at', 'updated_at')
@@ -73,6 +74,7 @@ class ProductsRepository extends BaseRepository
         $model = $this->model->with($with)
             ->select('products.*', DB::raw('SUM(visit_products.count) AS qtd_product_visit'))
             ->leftJoin('visit_products', 'products.id','=','visit_products.product_id')
+            ->where('products.quantity','>',0)->where('products.active',1)
             ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
                 'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr', 'diameter_cm',
                 'active', 'created_at', 'updated_at')
@@ -95,7 +97,9 @@ class ProductsRepository extends BaseRepository
 
     public function getCategory( array $with, $category){
         $model = $this->model->with($with)->distinct()
-            ->select('products.*')->where('category_id', $category)->get();
+            ->select('products.*')->where('category_id', $category)
+            ->where('products.quantity','>',0)->where('products.active',1)
+            ->get();
         return $model;
     }
 
@@ -107,7 +111,9 @@ class ProductsRepository extends BaseRepository
                 if($subcategory){
                     $query->where('category.slug', $subcategory);
                 }
-            })->get();
+            })
+            ->where('products.quantity','>',0)->where('products.active',1)
+            ->get();
         return $model;
     }
 

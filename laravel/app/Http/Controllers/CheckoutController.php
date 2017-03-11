@@ -48,8 +48,8 @@ class CheckoutController extends Controller{
             foreach($cart->stores as $key => $values){
                 if( $sha1 === strtoupper(sha1($key))){
                     $user = Auth::user();
-                    if($cart->address['id']){
-                        $model_address = $user->addresses->find($cart->address['id'])->fill($req->all());
+                    if($model_address = $user->addresses->where('name',$req->name)->first()){
+                        $model_address->fill($req->all());
                         $address = $user->addresses()->save($model_address);
                     }else{
                         $address = $user->addresses()->create($req->all());
@@ -74,9 +74,11 @@ class CheckoutController extends Controller{
                     }
                     Session::put('cart', $cart);
                     $payment = new PaymentMoip(CartServices::getStores($sha1), $cart->address);
-                    $endpoint = $payment->getEndpoint();
-
-                    return view('pages.cart_address', compact('address', 'sha1', 'endpoint'));
+                    if($endpoint = $payment->getEndpoint()){
+                        return view('pages.cart_address', compact('address', 'sha1', 'endpoint'));
+                    }
+                    flash('Ocorreu um erro não será possível continuar esse procedimento, Contate nos e tente novamente mais tarde!','error');
+                    return redirect()->back();
                 }
             }
         }

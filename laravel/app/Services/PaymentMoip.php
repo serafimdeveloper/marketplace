@@ -33,17 +33,15 @@ class PaymentMoip
         $this->moip->setReason('Compra de produtos efetuada na plataforma Pop Martin');
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
         $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days",strtotime(date('Y-m-d')))), false, ["Primeira linha", "Segunda linha", "Terceira linha"], url('imagem/pop/logo-popmartin.png'));
-        $this->moip->addMessage('Prudutos sendo comprados: ' . $this->getStringProducts());
-        $this->moip->setReturnURL('http://popm.dev/accont/payment/callback');
-        $this->moip->setNotificationURL('http://popm.dev/accont/order/notification');
+        $this->moip->addMessage('Produtos sendo comprados: ' . $this->getStringProducts());
+        $this->moip->setReturnURL(url('accont/payment/callback'));
+        $this->moip->setNotificationURL(url('accont/order/notification'));
         $this->moip->addComission('Comissão de venda Pop Matin', 'dev@asiw.com.br', $this->getStore()->comission, true, false);
         $this->moip->setReceiver($this->getStore()->salesman->moip);
         $this->moip->addParcel('1', '6', null, true);
         $this->moip->validate('Identification');
-
-
         $this->moip->send();
-        $this->endpoint = $this->moip->getAnswer()->payment_url;
+        $this->endpoint = isset($this->moip->getAnswer()->payment_url) ? $this->moip->getAnswer()->payment_url : null;
     }
 
     public function getAddress(){

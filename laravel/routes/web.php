@@ -10,8 +10,8 @@ Route::get('/progress/log', function(){
 /**---------------------------------------------------------------------------------------*/
 
 Auth::routes();
-Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
-Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
+Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider')->name('auth.facebook');
+Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback')->name('auth.facebook.callback');
 
 Route::get('/calculatefreight', 'FreightController@toCalculate')->name('calculatefreight');
 

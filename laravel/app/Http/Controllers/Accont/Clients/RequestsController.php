@@ -28,7 +28,7 @@ class RequestsController extends AbstractController
     {
         $user = Auth::User();
         $request = $this->repo->get($id, $this->columns, $this->with);
-        if((($request->store->id == Auth::user()->salesman->store->id)) || ($request->user_id == $user->id)){
+        if($request->user_id == $user->id){
             $type = ['type' => 'request', 'id' => $request->id];
             $request = ($request ? $request : false);
             if(!$request){

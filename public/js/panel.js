@@ -321,7 +321,7 @@ $(function(){
         $('.address').show();
     });
 
-    /** Remover enderço do usuário */
+    /** Remover endereço do usuário */
     $(document).on('click', '.jq-remove-address', function () {
         var element = $(this);
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este endereço?',
@@ -330,6 +330,7 @@ $(function(){
                 $.get('/accont/adresses/destroy/' + id, function (response) {
                     if (response.status) {
                         alertify.success('Endereço removido!');
+                        $('#end_'+id).remove();
                     } else {
                         alertify.error(response.msg);
                     }

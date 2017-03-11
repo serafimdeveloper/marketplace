@@ -55,7 +55,7 @@ class SalesController extends AbstractController
 
     public function edit($id){
         $request = $this->repo->get($id,$this->columns,$this->with);
-        if(($request->store->id == Auth::user()->salesman->store->id) || ($request->user->id == Auth::user()->id)){
+        if($request->store->id == Auth::user()->salesman->store->id){
             $rastreamento = [];
             if(isset($request->tracking_code)){
                 $rastreamento = Correios::rastrear($request->tracking_code);

@@ -65,8 +65,8 @@ input{padding: 5px;width: 100%;}
 .pop-nav-content li:last-child{border-right-color: transparent;border-radius: 0 5px 5px 0;-webkit-border-radius: 0 5px 5px 0;-moz-border-radius: 0 5px 5px 0;}
 
 .modal-product-frete{position: absolute; z-index:2;left: 0;bottom: 43px;background-color: #FBC02D; color: #FFF; font-weight: bold;padding: 5px;}
-.modal-product-descont{position: absolute; z-index:2;left: 5px;bottom: 10px;text-decoration: line-through;}
-.modal-product-descont-percent{position: absolute; z-index:1;right: 0;top: 10px;background-color: #B71C1C; color: #FFF;padding: 5px 7px;}
+.modal-product-descont{position: absolute; z-index:2;left:10px;bottom: 10px;text-decoration: line-through;}
+.modal-product-descont-percent{position: absolute; z-index:1;right: 0;top: 42px;background-color: #B71C1C; color: #FFF;padding: 5px 7px;}
 
 .pop-forms .colbox-2{margin-top: 10px;padding: 0 30px;}
 .pop-forms .colbox-2:last-child{border-left: 1px solid #aaaaaa;}
