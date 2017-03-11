@@ -73,12 +73,13 @@ class CheckoutController extends Controller{
 
                     }
                     Session::put('cart', $cart);
-                    $payment = new PaymentMoip(CartServices::getStores($sha1), $cart->address);
-                    if($endpoint = $payment->getEndpoint()){
-                        return view('pages.cart_address', compact('address', 'sha1', 'endpoint'));
-                    }
-                    flash('Ocorreu um erro não será possível continuar esse procedimento, Contate nos e tente novamente mais tarde!','error');
-                    return redirect()->back();
+                    return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
+//                    $payment = new PaymentMoip(CartServices::getStores($sha1), $cart->address);
+//                    if($endpoint = $payment->getEndpoint()){
+//                        return view('pages.cart_address', compact('address', 'sha1', 'endpoint'));
+//                    }
+//                    flash('Ocorreu um erro não será possível continuar esse procedimento, Contate nos e tente novamente mais tarde!','error');
+//                    return redirect()->back();
                 }
             }
         }
@@ -108,7 +109,13 @@ class CheckoutController extends Controller{
         return $products;
     }
 
+    public function order($order_key){
+        $order = \App\Model\Request::where('key', '=', $order_key)->first();
+        return view('pages.cart_checkout', compact('order'));
+    }
+
     public function callback(){
+
         return view('accont.payment_callback');
     }
 
