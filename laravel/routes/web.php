@@ -167,9 +167,10 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
         Route::post('/status/{status}', 'CheckoutController@status')->name('cart.cart_order_payment_status');
 
 
+        Route::post('/updateorder', 'CheckoutController@updateOrder')->name('cart.cart_update_order');
+
         Route::get('/confirmaddress/{sha1}', 'CheckoutController@confirmAddress')->name('cart.cart_address');
         Route::post('/confirmaddress/{sha1}', 'CheckoutController@confirmPostAddress')->name('cart.cart_address.post');
-        Route::get('/testmoip', 'PaymentMoip@show')->name('cart.cart_checkout');
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
     });
 });

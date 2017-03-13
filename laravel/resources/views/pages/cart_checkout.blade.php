@@ -15,7 +15,7 @@
             <div class="colbox-2">
                 <h2 class="c-pop fontem-10">Escolher o meio de pagamento</h2>
                 <br>
-                <a href="{{ route('') }}" class="btn btn-popmartin-trans">
+                <a href="/carrinho/checkout/updateorder" class="btn btn-popmartin-trans">
                     <i class="fa fa-credit-card"></i>
                     cartão de crédito</a>
                 <a href="javascript:payBillet()" class="btn btn-popmartin-trans">

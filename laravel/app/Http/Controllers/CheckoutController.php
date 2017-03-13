@@ -153,4 +153,8 @@ class CheckoutController extends Controller{
 
     public function notification(){
     }
+
+    public function updateOrder(){
+
+    }
 }
