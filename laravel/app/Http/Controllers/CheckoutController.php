@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Accont\AdressesStoreRequest;
+use App\Repositories\Accont\RequestsRepository;
 use App\Repositories\Accont\StoresRepository;
 use App\Services\CartServices;
 use App\Services\PaymentMoip;
@@ -14,13 +15,14 @@ use App\Repositories\Accont\AdressesRepository;
 
 class CheckoutController extends Controller{
     private $moip, $address;
-    protected $repo_address, $repo_stores, $service;
+    protected $repo_address, $repo_stores, $service, $repo;
     protected $with = ['user','adress','freight','payment','requeststatus','products','store','movementstocks'];
 
-    function __construct(AdressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service){
+    function __construct(AdressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service, RequestsRepository $repo){
         $this->repo_address = $repo_address;
         $this->repo_stores = $repo_stores;
         $this->service = $service;
+        $this->repo = $repo;
     }
 
     public function confirmAddress(Request $request){
@@ -110,7 +112,7 @@ class CheckoutController extends Controller{
     }
 
     public function order($order_key){
-        $order = \App\Model\Request::where('key', '=', $order_key)->first();
+        $order = $this->repo->order($this->with,$order_key);
         return view('pages.cart_checkout', compact('order'));
     }
 

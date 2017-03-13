@@ -37,10 +37,12 @@
                         <br>
                         <span><span class="fontw-500 c-graydark">Prazo de postagem:</span> {{$order->stores}}</span>
                         <br>
-                        <span class="fontw-500 c-graydark">Prazo de entrega:</span> prazo de postagem da loja + 3 dias
+                        <span class="fontw-500 c-graydark">Prazo de entrega:</span> prazo de postagem da loja + {{$order->deadline}} dias
                         <br>
                         <p><span class="fontw-500 c-graydark">Endereço:</span>
-                            Rua Don Antônio Cabral 117, São Luíz, Volta Redonda - RJ
+                            {{$order->adress->public_place.', '.$order->adress->number.(($order->adress->complements)
+                            ? ' ('.$order->adress->complements.')' : '')
+                            .', '.$order->adress->neighborhood.', '.$order->adress->city.' - '.$order->adress->state}}
                         </p>
                     </div>
                 </div>

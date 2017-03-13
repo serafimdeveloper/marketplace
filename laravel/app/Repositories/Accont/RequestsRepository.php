@@ -18,4 +18,8 @@ class RequestsRepository extends BaseRepository
     {
         return Request::class;
     }
+
+    public function order(array $with, $order_key){
+       return $this->model->with($with)->where('key', '=', $order_key)->first();
+    }
 }
