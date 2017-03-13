@@ -21,12 +21,14 @@ class FavoritesRepository extends BaseRepository
     }
 
     public function getProductsFavorites(){
-        $favorites = Auth::user()->favorites;
         $stores = [];
-        foreach($favorites as $favorite){
-            $store =$favorite->product->store;
-            $stores[$store->id]['store'] = $store;
-            $stores[$store->id]['products'][] = $favorite->product;
+        if(Auth::check()){
+            $favorites = Auth::user()->favorites;
+            foreach($favorites as $favorite){
+                $store =$favorite->product->store;
+                $stores[$store->id]['store'] = $store;
+                $stores[$store->id]['products'][] = $favorite->product;
+            }
         }
         return $stores;
     }

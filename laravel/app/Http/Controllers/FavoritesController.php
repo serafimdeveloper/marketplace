@@ -29,10 +29,10 @@ class FavoritesController extends AbstractController
         $user = Auth::user();
         if($favorite = $user->favorites()->where('product_id', $product)->first()){
             $favorite->delete();
-            return response()->json(['msg' => 'Produto removido do seu favorito com sucesso!'],200);
+            return response()->json(['msg' => 'Produto removido do seu favorito com sucesso!','status'=>200],200);
         }else{
             $user->favorites()->create(['product_id'=>$product]);
-            return response()->json(['msg'=>'Produto adicionado no seu favoritos'], 201);
+            return response()->json(['msg'=>'Produto adicionado no seu favoritos', 'status'=>201], 201);
         }
         return response()->json(['msg'=>'Ocorreu um erro'],500);
     }

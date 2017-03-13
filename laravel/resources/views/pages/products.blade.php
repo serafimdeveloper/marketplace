@@ -11,7 +11,13 @@
                 <div class="colbox-5">
                     <article class="modal-product">
                         <ul>
-                            <li><a href="javascript:void(0)" class="{{ Auth::check() ? '' : 'jq-auth' }}" data-message=" para adicionar ao seus favoritos!"><i class="fa fa-heart"></i></a></li>
+                            @if(Auth::check())
+                                <li><a href="javascript:void(0)" class="add-favorite" data-product="{{$product->id}}" data-message=" para adicionar ao seus favoritos!">
+                                        <i class="fa fa-heart {{is_favorite($favorites, $product->store_id, $product) ? 'c-reddark': ''}}"></i>
+                                    </a></li>
+                            @else
+                                <li><a href="javascript:void(0)" class="jq-auth"  data-message=" para adicionar ao seus favoritos!"><i class="fa fa-heart"></i></a></li>
+                            @endif
                             <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
                             <li><a href="javascript:void(0)" data-product="{{$product->id}}" class="add-cart"><i
                                             class="fa fa-cart-plus"></i></a></li>

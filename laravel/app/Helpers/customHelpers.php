@@ -64,6 +64,23 @@ if(!function_exists('amount_products_final')){
         return $amount_final;
     }
 }
+
+if(!function_exists('is_favorite')){
+    function is_favorite(array $store, $id, $product){
+        if(isset($store[$id])){
+            $collection = new \Illuminate\Support\Collection( $store[$id]['products']);
+            if($collection->each(function($item, $key) use($product){
+                if($item->id === $product->id){
+                    return true;
+                }
+            })){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
 if(!function_exists('real')){
     function real($value)
     {
