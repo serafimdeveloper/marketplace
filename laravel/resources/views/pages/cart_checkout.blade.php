@@ -15,16 +15,12 @@
             <div class="colbox-2">
                 <h2 class="c-pop fontem-10">Escolher o meio de pagamento</h2>
                 <br>
-                <a href="javascript:void(0)" class="btn btn-popmartin-trans">
+                <a href="{{ route('') }}" class="btn btn-popmartin-trans">
                     <i class="fa fa-credit-card"></i>
                     cartão de crédito</a>
-                <a href="javascript:void(0)" class="btn btn-popmartin-trans">
+                <a href="javascript:payBillet()" class="btn btn-popmartin-trans">
                     <i class="fa fa-barcode"></i>
                     boleto</a>
-
-                <a id="payBillet" class="btn btn-popmartin" href="javascript:payBillet();">
-                    Imprimir Boleto
-                </a>
                 <p></p>
                 {{--<h2 class="c-pop fontem-10">Débito online</h2>--}}
                 {{--<a href="" class="btn btn-popmartin-trans">Itaí</a>--}}
@@ -109,44 +105,6 @@
         </div>
         <div class="padding20"></div>
     </section>
-    <div id="MoipWidget"
-         data-token="Z2T0T1M2C0T7G2O3U1V4M2J7A533D859E1J090R0M0Z070T028O5U7U828D5"
-         callback-method-success="moipSuccess"
-         callback-method-error="moipError"></div>
+    @include('layouts.parties.data_moip_checkout')
 @endsection
-@section('script')
-    <script
-            type='text/javascript'
-            src='https://desenvolvedor.moip.com.br/sandbox/transparente/MoipWidget-v2.js'
-            charset='ISO-8859-1'>
-    </script>
-    <script type="text/javascript">
-        var moipSuccess = function(response){
-            console.log(response);
-        };
 
-        var moipError = function(response) {
-//            JSON.stringify(response)
-            console.log(response);
-        };
-
-        payBillet = function() {
-            var settings = {
-                "Forma": "BoletoBancario"
-            }
-            MoipWidget(settings);
-        }
-        payCredCart = function() {
-            var settings = {
-                "Forma": "CartaoCredito",
-                "Instituicao": "Visa",
-                "Parcelas": "1",
-                "CartaoCredito": {
-                    "Cofre": "0b2118bc-fdca-4a57-9886-366326a8a647",
-                    "CodigoSeguranca": "123"
-                }
-            }
-            MoipWidget(settings);
-        }
-    </script>
-@endsection

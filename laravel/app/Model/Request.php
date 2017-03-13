@@ -57,4 +57,8 @@ class Request extends Model
     public function movementstocks(){
         return $this->hasMany(MovementStock::class);
     }
+
+    public function moip(){
+        return $this->hasMany(Moip::class);
+    }
 }

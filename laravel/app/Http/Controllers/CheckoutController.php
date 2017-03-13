@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Accont\AdressesStoreRequest;
+use App\Model\Moip;
 use App\Repositories\Accont\StoresRepository;
 use App\Services\CartServices;
 use App\Services\PaymentMoip;
@@ -24,6 +25,7 @@ class CheckoutController extends Controller{
     }
 
     public function confirmAddress(Request $request){
+        $user = Auth::user();
         if(Session::has('cart')){
             $cart = Session::get('cart');
             foreach($cart->stores as $key => $values){
@@ -34,7 +36,7 @@ class CheckoutController extends Controller{
                     }else{
                         $address = (object)Correios::cep($cart->address['zip_code'])[0];
                     }
-                    return view('pages.cart_address', compact('address', 'sha1'));
+                    return view('pages.cart_address', compact('address', 'sha1', 'user'));
                 }
             }
         }
@@ -43,6 +45,7 @@ class CheckoutController extends Controller{
     }
 
     public function confirmPostAddress(AdressesStoreRequest $req, $sha1){
+        $user = Auth::user();
         if(Session::has('cart')){
             $cart = Session::get('cart');
             foreach($cart->stores as $key => $values){
@@ -54,7 +57,7 @@ class CheckoutController extends Controller{
                     }else{
                         $address = $user->addresses()->create($req->all());
                     }
-                    $cart->add_address(['id' =>$address->id, 'zip_code' => $address->zip_code]);
+                    $cart->add_address(['id' =>$address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
                     foreach($cart->stores as $key_store => $store){
                         $dados = [
                             'user_id' => $user->id, 'adress_id' => $address->id,'freight_id' => $store['type_freight']['id'], 'request_status_id' => 2, 'key'=> generate_key(),
@@ -70,10 +73,15 @@ class CheckoutController extends Controller{
                         }
                         $cart->add_request($key_store, $request->id);
                         $request->products()->sync($this->products($store));
-
+                        if($user->phone != $req->phone){
+                            $user->phone = $req->phone;
+                            $user->save();
+                        }
                     }
                     Session::put('cart', $cart);
                     return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
+
+
 //                    $payment = new PaymentMoip(CartServices::getStores($sha1), $cart->address);
 //                    if($endpoint = $payment->getEndpoint()){
 //                        return view('pages.cart_address', compact('address', 'sha1', 'endpoint'));
@@ -112,9 +120,30 @@ class CheckoutController extends Controller{
     public function order($order_key){
         $order = \App\Model\Request::where('key', '=', $order_key)->first();
 
-        $payment = new PaymentMoip($order);
+        if(!isset($order->moip[0]->token)){
+            $payment = new PaymentMoip($order);
+            $payment->send();
+            $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
+        }
 
-        return view('pages.cart_checkout', compact('order'));
+
+        $tokenmoip = $order->moip[0]->token;
+
+//        $payment = new PaymentMoip($order);
+
+        return view('pages.cart_checkout', compact('order', 'tokenmoip'));
+    }
+
+    public function boleto($order_key){
+        $order = \App\Model\Request::where('key', '=', $order_key)->first();
+        $payment = new PaymentMoip($order);
+        $payment->send();
+
+        return view('pages.cart_checkout_boleto');
+    }
+
+    public function payment(){
+
     }
 
     public function callback(){
