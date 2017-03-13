@@ -21,6 +21,10 @@
                 <a href="javascript:void(0)" class="btn btn-popmartin-trans">
                     <i class="fa fa-barcode"></i>
                     boleto</a>
+
+                <a id="payBillet" class="btn btn-popmartin" href="javascript:payBillet();">
+                    Imprimir Boleto
+                </a>
                 <p></p>
                 {{--<h2 class="c-pop fontem-10">Débito online</h2>--}}
                 {{--<a href="" class="btn btn-popmartin-trans">Itaí</a>--}}
@@ -52,56 +56,97 @@
         <br>
         <h2 class="c-pop fontem-10">Dados dos produtos</h2>
         <br>
-            <div class="padding15-30">
-                <div class="colbox">
-                    <div class="colbox-2">
-                        <img src="{{ url('/imagem/loja/'.$order->store->logo_file.'?w=50&h=50&fit=crop') }}" title=""
-                             alt="{{$order->store->name}}" class="vertical-middle">
-                        <p class="dp-inblock vertical-middle">
-                            <span class="fontem-14">{{$order->store->name}}</span><br>
-                            <span class="dp-inblock"><b class="c-graydark">Pedido</b> nº: {{$order->key}} -</span>
-                            <span class="dp-inblock"><b class="c-graydark">Data:</b> {{$order->created_at->format('d/m/Y H:i:s')}}</span>
-                        </p>
-                    </div>
-                    <div class="colbox-2">
-
-                    </div>
+        <div class="padding15-30">
+            <div class="colbox">
+                <div class="colbox-2">
+                    <img src="{{ url('/imagem/loja/'.$order->store->logo_file.'?w=50&h=50&fit=crop') }}" title=""
+                         alt="{{$order->store->name}}" class="vertical-middle">
+                    <p class="dp-inblock vertical-middle">
+                        <span class="fontem-14">{{$order->store->name}}</span><br>
+                        <span class="dp-inblock"><b class="c-graydark">Pedido</b> nº: {{$order->key}} -</span>
+                        <span class="dp-inblock"><b
+                                    class="c-graydark">Data:</b> {{$order->created_at->format('d/m/Y H:i:s')}}</span>
+                    </p>
                 </div>
-                <div class="clear-both"></div>
+                <div class="colbox-2">
+
+                </div>
             </div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>quantidade</th>
-                    <th>valor unitário</th>
-                    <th>subtotal</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($order->products as $product)
+            <div class="clear-both"></div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Produto</th>
+                <th>quantidade</th>
+                <th>valor unitário</th>
+                <th>subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($order->products as $product)
                 <tr>
                     <td>{{$product->name}}</td>
                     <td>{{$product->pivot->quantity}}</td>
                     <td>{{real($product->pivot->unit_price)}}</td>
                     <td>{{real($product->pivot->amount)}}</td>
                 </tr>
-                @endforeach
+            @endforeach
 
-                <tr>
-                    <td colspan="3" style="text-align: right">frete</td>
-                    <td>{{real($order->freight_price)}}</td>
-                </tr>
-                <tr>
-                    <td colspan="3" style="text-align: right">Total</td>
-                    <td>{{real($order->amount)}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <tr>
+                <td colspan="3" style="text-align: right">frete</td>
+                <td>{{real($order->freight_price)}}</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: right">Total</td>
+                <td>{{real($order->amount)}}</td>
+            </tr>
+            </tbody>
+        </table>
         <div class="colbox-2">
             <br>
             <a href="/carrinho" class="c-pop"><i class="fa fa-chevron-left"></i> Voltar para o carrinho</a>
         </div>
         <div class="padding20"></div>
     </section>
+    <div id="MoipWidget"
+         data-token="Z2T0T1M2C0T7G2O3U1V4M2J7A533D859E1J090R0M0Z070T028O5U7U828D5"
+         callback-method-success="moipSuccess"
+         callback-method-error="moipError"></div>
+@endsection
+@section('script')
+    <script
+            type='text/javascript'
+            src='https://desenvolvedor.moip.com.br/sandbox/transparente/MoipWidget-v2.js'
+            charset='ISO-8859-1'>
+    </script>
+    <script type="text/javascript">
+        var moipSuccess = function(response){
+            console.log(response);
+        };
+
+        var moipError = function(response) {
+//            JSON.stringify(response)
+            console.log(response);
+        };
+
+        payBillet = function() {
+            var settings = {
+                "Forma": "BoletoBancario"
+            }
+            MoipWidget(settings);
+        }
+        payCredCart = function() {
+            var settings = {
+                "Forma": "CartaoCredito",
+                "Instituicao": "Visa",
+                "Parcelas": "1",
+                "CartaoCredito": {
+                    "Cofre": "0b2118bc-fdca-4a57-9886-366326a8a647",
+                    "CodigoSeguranca": "123"
+                }
+            }
+            MoipWidget(settings);
+        }
+    </script>
 @endsection

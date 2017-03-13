@@ -111,6 +111,9 @@ class CheckoutController extends Controller{
 
     public function order($order_key){
         $order = \App\Model\Request::where('key', '=', $order_key)->first();
+
+        $payment = new PaymentMoip($order);
+
         return view('pages.cart_checkout', compact('order'));
     }
 
