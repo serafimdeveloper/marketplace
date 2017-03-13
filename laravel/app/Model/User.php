@@ -69,4 +69,8 @@ class User extends Authenticatable
     public function owner_recipient(){
         return $this->morphOne(Message::class,'recipient' );
     }
+
+    public function favorites(){
+        return $this->hasMany(Favorite::class);
+    }
 }

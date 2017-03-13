@@ -19,11 +19,11 @@
                             </div>
                             <div class="header-menu">
                                 <div class="facebook">
-                                    <a class="" href=""><i
+                                    <a class="" href="https://www.facebook.com/popmartinbrasil/" target="_blank"><i
                                                 class="fa fa-facebook-official c-facebook vertical-middle"></i> </a>
                                 </div>
                                 <div class="favorite">
-                                    <a class="" href="/favoritos"><i class="fa fa-heart c-reddark vertical-middle"></i> </a>
+                                    <a class="{{ Auth::check() ? '' : 'jq-auth' }}" data-message=" para visualizar seus favoritos!" href="/favoritos"><i class="fa fa-heart c-reddark vertical-middle"></i> </a>
                                 </div>
                                 <div class="cart">
                                     <a class="vertical-middle" href="/carrinho">

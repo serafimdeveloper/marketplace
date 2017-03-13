@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Model;
+use Correios;
 
 class Cart
 {
@@ -47,7 +48,7 @@ class Cart
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
         $this->stores[$store->id]['name'] = $store->name;
         $this->stores[$store->id]['slug'] = $store->slug;
-        $this->stores[$store->id]['type_freight']['id'] =  isset($this->stores[$store->id]['type_freight']['id']) ?  $this->stores[$store->id]['type_freight']['id'] : 3;
+        $this->stores[$store->id]['type_freight']['id'] =  isset($this->stores[$store->id]['type_freight']['id']) ?  $this->stores[$store->id]['type_freight']['id'] : 2;
         $this->stores[$store->id]['type_freight']['name'] =  isset($this->stores[$store->id]['type_freight']['name']) ?  $this->stores[$store->id]['type_freight']['name'] : 'PAC';
         $this->stores[$store->id]['price_freight'] = isset($this->stores[$store->id]['price_freight']) ? $this->stores[$store->id]['price_freight'] : 0;
         $this->stores[$store->id]['obs'] = isset($this->stores[$store->id]['obs']) ? $this->stores[$store->id]['obs'] : null;
@@ -161,6 +162,10 @@ class Cart
     private function price_freight($store){
         if(isset($this->address['zip_code'])){
             $type_freight = $this->stores[$store]['type_freight']['name'];
+            if(!isset($this->stores[$store]['freight'][$type_freight])){
+                $type_freight = 'PAC';
+                $this->stores[$store]['type_freight']['name'] = $type_freight;
+            }
             $this->stores[$store]['price_freight'] = $this->stores[$store]['freight'][$type_freight]['val'];
         }else{
             $this->stores[$store]['price_freight'] = 0;
@@ -170,11 +175,124 @@ class Cart
     /** Traz os valores e o prazo de cada frete */
     public function calc_freight(){
         if(isset($this->address['zip_code'])){
-            foreach(calculate_freight($this) as $store => $value){
+            foreach($this->calculate_freight() as $store => $value){
                 $this->stores[$store]['freight'] = $value;
                 $this->price_freight($store);
             }
         }
         $this->amount_price();
+    }
+
+
+    private function calculate_freight()
+    {
+        $data = array();
+//
+        /** Variáveis de dados a serem passados para o cáculo de frete */
+        $df['formato'] = 'caixa';
+        $df['diametro'] = 0;
+        $df['cep_destino'] = preg_replace("/-/", '', $this->address['zip_code']);
+
+        /* Opicionais */
+        //      $df['empresa'] = '';
+        //      $df['senha'] = '';
+        //      $df['mao_propria'] = '';
+        //      $df['valor_declarado'] = '';
+        //      $df['aviso_recebimento'] = '';
+
+        /**
+         * Desmontar sessão para pegar informações do carrinho
+         * Montar um array contendo informações básicas para o cálculo de frete
+         * @var  $id
+         * @var  $products
+         */
+        foreach ($this->stores as $id => $store) {
+            $volume = 0;
+            $weight = 0;
+            $freights = Freight::where('code', '!=', null)->get();
+            foreach ($freights as $freight) {
+                /** definir tipo para minusculo para comparar com biblioteca vendor de cálculo de frete */
+                $df['tipo'] = trim(strtolower($freight->name));
+
+                if($amount_free = $this->all_free_freigth($store)){
+                    $volume = $amount_free['volume'];
+                    $weight = $amount_free['weight'];
+                }else{
+                    /**
+                     * Pegar cada produto para somar seu volume e obter peso total
+                     * @var  $product_id
+                     * @var  $product
+                     */
+                    foreach($store['products'] as $product_id => $product){
+                        $product_data = Product::find($product_id);
+                        /** Verifica se algum produto esta marcado como frete grátis, então zera seu valor */
+                        if(!$product_data->free_shipping){
+                            $volume += $product_data->width_cm * $product_data->length_cm * $product_data->height_cm * $product['qtd'];
+                            $weight += $product_data->weight_gr * $product['qtd'];
+                        }
+                    }
+                }
+                /** @var  $volume - Arredondar para cima o valor do volume */
+                $volume = ceil($volume);
+                /** @var  $weight - transformar para Kilos */
+                $weight = $weight / 1000;
+                /** @var  $loop - Inicialização de loop caso para divisão de pacotes caso as regras de cálculo de frete não se aplique */
+                $loop = 1;
+                /** @var  $r3 - raíz Cúbica do volume total */
+                $r3 = ceil(pow($volume, 1 / 3));
+                /** Enquanto a soma da altura, largura e comprimento for maior que 200, divide o pacote em 2 */
+                while($r3 * 3 >= 200){
+                    $r3 = $r3 / 2;
+                    $weight = $weight / 2;
+                    $loop++;
+                }
+                $df['cep_origem'] = preg_replace("/-/", '', Store::find($id)->adress['zip_code']);
+                $df['comprimento'] = $r3;
+                $df['altura'] = $r3;
+                $df['largura'] = $r3;
+                $df['peso'] = $weight;
+                /** @var  $i - Calcula o frete separadamente de acordo com a separação de pacotes */
+                for($i = 0; $i < $loop; $i++){
+                    /** Armazena cada cálculo */
+                    $return[$id][$freight->name][] = Correios::frete($df);
+                }
+                /**
+                 * Monta o array com informações a serem retornadas separadas pelo Id de cada loja
+                 * @var  $key
+                 * @var  $value
+                 */
+//                    dd($return);
+                foreach($return as $key => $value){
+                    $data[$key][$freight->name]['val'] = 0;
+                    for($i = 0; $i < count($value[$freight->name]); $i++){
+                        $data[$key][$freight->name]['val'] += $value[$freight->name][$i]['valor'];
+                        $data[$key][$freight->name]['deadline'] = $value[$freight->name][$i]['prazo'];
+                        $data[$key][$freight->name]['id'] = $freight->id;
+                    }
+                }
+            }
+            if($this->all_free_freigth($store)){
+                $data[$id]['FREE']['val'] = 0;
+                $data[$id]['FREE']['deadline'] = $data[$id]['PAC']['deadline'] + 2;
+                $data[$id]['FREE']['id'] = 3;
+            }
+        }
+//             dd($data);
+        return $data;
+    }
+    // }
+    public function all_free_freigth($store){
+        $volume = 0;
+        $weight = 0;
+        foreach($store['products'] as $id => $product){
+            $product_data = Product::find($id);
+            if(!$product_data->free_shipping){
+                return false;
+            }else{
+                $volume += $product_data->width_cm * $product_data->length_cm * $product_data->height_cm * $product['qtd'];
+                $weight += $product_data->weight_gr * $product['qtd'];
+            }
+        }
+        return ['volume' => $volume, 'weight' => $weight];
     }
 }

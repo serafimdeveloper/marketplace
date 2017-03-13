@@ -8,10 +8,18 @@
 
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
-use Laravel\Socialite\Facades\Socialite;
+use App\Repositories\Accont\UserRepository;
+use Illuminate\Support\Facades\Auth;
+use Socialite;
 
 class AuthController extends Controller
 {
+    protected $user;
+
+    public function __construct(UserRepository $user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * Redirect the user to the GitHub authentication page.
@@ -30,9 +38,17 @@ class AuthController extends Controller
      */
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('facebook')->user();
-        dd($user);
-        // $user->token;
+        $user_social = Socialite::driver('facebook')->user();
+        $name = explode(" ",$user_social->name);
+
+        if(Auth::attempt(['email' => $user_social->email, 'password' => $user_social->id])){
+            return redirect()->intended();
+        }else if($user = $this->user->store(['name' => $name[0], 'last_name' => $name[1], 'email' => $user_social->email,
+            'password' => bcrypt($user_social->id), 'confirm_token'=> str_random(20), 'remember_token'=>str_random(20),
+            'active'=> 1])) {
+            Auth::login($user);
+            return redirect()->intended();
+        }
     }
 
 }

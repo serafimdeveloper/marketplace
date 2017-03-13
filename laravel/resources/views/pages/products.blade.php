@@ -11,9 +11,10 @@
                 <div class="colbox-5">
                     <article class="modal-product">
                         <ul>
-                            <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
+                            <li><a href="javascript:void(0)" class="{{ Auth::check() ? '' : 'jq-auth' }}" data-message=" para adicionar ao seus favoritos!"><i class="fa fa-heart"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
-                            <li><a href="javascript:void(0)" data-product="{{$product->id}}" class="add-cart"><i class="fa fa-cart-plus"></i></a></li>
+                            <li><a href="javascript:void(0)" data-product="{{$product->id}}" class="add-cart"><i
+                                            class="fa fa-cart-plus"></i></a></li>
                         </ul>
                         <figure>
                             <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}" alt="[]" title="">

@@ -10,14 +10,14 @@
             @forelse ($features as $product)
                 <article class="modal-product">
                     <ul>
-                        <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
+                        <li><a href="javascript:void(0)" class="{{ Auth::check() ? '' : 'jq-auth' }}" data-message=" para adicionar ao seus favoritos!"><i class="fa fa-heart"></i></a></li>
                         <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
                         <li><a href="javascript:void(0)" data-product="{{$product->id}}" class="add-cart"><i
                                         class="fa fa-cart-plus"></i></a></li>
                     </ul>
                     <figure>
                         <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}"
-                             alt="[]" title="">
+                             alt="{{$product->name}}" title="{{$product->name}}">
                         <figcaption>
                             <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">
                                 {{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}
@@ -75,14 +75,14 @@
             @forelse ($news as $product)
                 <article class="modal-product">
                     <ul>
-                        <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
+                        <li><a href="javascript:void(0)" class="{{ Auth::check() ? '' : 'jq-auth' }}" data-message=" para adicionar ao seus favoritos!"><i class="fa fa-heart"></i></a></li>
                         <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
                         <li><a href="javascript:void(0)" data-product="{{$product->id}}" class="add-cart"><i
                                         class="fa fa-cart-plus"></i></a></li>
                     </ul>
                     <figure>
                         <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}"
-                             alt="[]" title="">
+                             alt="{{$product->name}}" title="{{$product->name}}">
                         <figcaption>
                             <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">
                                 {{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}
@@ -92,8 +92,10 @@
                             <span class="modal-product-frete"><i class="fa fa-truck"></i> frete grátis</span>
                         @endif
                         @if($product->price_out_discount)
-                            <span class="modal-product-descont-percent">{{ discont_percent($product->price, $product->price_out_discount) }}% OFF</span>
-                            <span class="modal-product-descont">{{isset($product->price_out_discount) ? real($product->price) : ''}}</span>
+                            <div class="modal-discont">
+                                <span class="modal-product-descont-percent">{{ discont_percent($product->price, $product->price_out_discount) }}% OFF</span>
+                                <span class="modal-product-descont">{{isset($product->price_out_discount) ? real($product->price) : ''}}</span>
+                            </div>
                         @endif
                     </figure>
                     <header>
