@@ -15,10 +15,10 @@
             <div class="colbox-2">
                 <h2 class="c-pop fontem-10">Escolher o meio de pagamento</h2>
                 <br>
-                <a href="javascript:void(0)" class="btn btn-popmartin-trans">
+                <a href="/carrinho/checkout/updateorder" class="btn btn-popmartin-trans">
                     <i class="fa fa-credit-card"></i>
                     cartão de crédito</a>
-                <a href="javascript:void(0)" class="btn btn-popmartin-trans">
+                <a href="javascript:payBillet()" class="btn btn-popmartin-trans">
                     <i class="fa fa-barcode"></i>
                     boleto</a>
                 <p></p>
@@ -54,56 +54,59 @@
         <br>
         <h2 class="c-pop fontem-10">Dados dos produtos</h2>
         <br>
-            <div class="padding15-30">
-                <div class="colbox">
-                    <div class="colbox-2">
-                        <img src="{{ url('/imagem/loja/'.$order->store->logo_file.'?w=50&h=50&fit=crop') }}" title=""
-                             alt="{{$order->store->name}}" class="vertical-middle">
-                        <p class="dp-inblock vertical-middle">
-                            <span class="fontem-14">{{$order->store->name}}</span><br>
-                            <span class="dp-inblock"><b class="c-graydark">Pedido</b> nº: {{$order->key}} -</span>
-                            <span class="dp-inblock"><b class="c-graydark">Data:</b> {{$order->created_at->format('d/m/Y H:i:s')}}</span>
-                        </p>
-                    </div>
-                    <div class="colbox-2">
-
-                    </div>
+        <div class="padding15-30">
+            <div class="colbox">
+                <div class="colbox-2">
+                    <img src="{{ url('/imagem/loja/'.$order->store->logo_file.'?w=50&h=50&fit=crop') }}" title=""
+                         alt="{{$order->store->name}}" class="vertical-middle">
+                    <p class="dp-inblock vertical-middle">
+                        <span class="fontem-14">{{$order->store->name}}</span><br>
+                        <span class="dp-inblock"><b class="c-graydark">Pedido</b> nº: {{$order->key}} -</span>
+                        <span class="dp-inblock"><b
+                                    class="c-graydark">Data:</b> {{$order->created_at->format('d/m/Y H:i:s')}}</span>
+                    </p>
                 </div>
-                <div class="clear-both"></div>
+                <div class="colbox-2">
+
+                </div>
             </div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>quantidade</th>
-                    <th>valor unitário</th>
-                    <th>subtotal</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($order->products as $product)
+            <div class="clear-both"></div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Produto</th>
+                <th>quantidade</th>
+                <th>valor unitário</th>
+                <th>subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($order->products as $product)
                 <tr>
                     <td>{{$product->name}}</td>
                     <td>{{$product->pivot->quantity}}</td>
                     <td>{{real($product->pivot->unit_price)}}</td>
                     <td>{{real($product->pivot->amount)}}</td>
                 </tr>
-                @endforeach
+            @endforeach
 
-                <tr>
-                    <td colspan="3" style="text-align: right">frete</td>
-                    <td>{{real($order->freight_price)}}</td>
-                </tr>
-                <tr>
-                    <td colspan="3" style="text-align: right">Total</td>
-                    <td>{{real($order->amount)}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <tr>
+                <td colspan="3" style="text-align: right">frete</td>
+                <td>{{real($order->freight_price)}}</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: right">Total</td>
+                <td>{{real($order->amount)}}</td>
+            </tr>
+            </tbody>
+        </table>
         <div class="colbox-2">
             <br>
             <a href="/carrinho" class="c-pop"><i class="fa fa-chevron-left"></i> Voltar para o carrinho</a>
         </div>
         <div class="padding20"></div>
     </section>
+    @include('layouts.parties.data_moip_checkout')
 @endsection
+

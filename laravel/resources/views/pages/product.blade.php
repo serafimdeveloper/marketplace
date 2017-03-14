@@ -43,8 +43,9 @@
                     <h1>{{$product->name}}</h1>
                 </header>
                 <div class="padding05">
-                    <a href="" class="btn btn-small btn-facebook"><i class="fa fa-facebook"></i> compartilhar</a>
-                    <a href="" class="btn btn-small btn-facebook"><i class="fa fa-facebook"></i> curtir</a>
+                    <div class="fb-like" data-href="{{route('pages.product',
+                    ['store'=>$product->store->slug,'category'=> $product->category->slug, 'product' => $product->slug])}}"
+                         data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
                 </div>
                 <section>
                     <div class="colbox" style="margin: 30px 0;">

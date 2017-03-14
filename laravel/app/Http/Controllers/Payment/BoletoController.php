@@ -22,7 +22,7 @@ class BoletoController extends Controller {
     }
 
     public function toPrint(){
-        $this->payment
+        $this->payment;
     }
 
     private function updateOrder(){

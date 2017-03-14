@@ -27,7 +27,7 @@
                                 <ul>
                                     @if(Auth::check())
                                         <li><a href="javascript:void(0)" class="add-favorite" data-product="{{$product->id}}" data-message=" para adicionar ao seus favoritos!">
-                                                <i class="fa fa-heart {{is_favorite($favorites, $product->store_id, $product) ? 'c-reddark': ''}}"></i>
+                                                <i class="fa fa-heart {{is_favorite($favorites, $product->store_id, $product->id) ? 'c-reddark': ''}}"></i>
                                             </a></li>
                                     @else
                                         <li><a href="javascript:void(0)" class="jq-auth"  data-message=" para adicionar ao seus favoritos!"><i class="fa fa-heart"></i></a></li>

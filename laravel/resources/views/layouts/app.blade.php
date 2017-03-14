@@ -4,6 +4,12 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:url"           content="{{url('/')}}" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Pop martin um brasil de compras" />
+        <meta property="og:description"   content="Your description" />
+        <meta property="og:image"         content="{{url('imagem/popmartin/popmartin.jpg')}}" />
+        <meta property="fb:app_id"        content="1645780162393141" />
         <title>PopMartin</title>
         <link href="{{asset('frontend/css/bootstrap.css')}}" rel="stylesheet">
         <link href="{{asset('frontend/lib/owlcarousel/owl.carousel.min.css')}}" rel="stylesheet">
@@ -19,6 +25,11 @@
         <![endif]-->
     </head>
     <body>
+        <main class="container">
+            @include('inc.header')
+            @yield('content')
+            @include('inc.footer')
+        </main>
         <div id="fb-root"></div>
         <script>
             (function(d, s, id) {
@@ -29,11 +40,6 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         </script>
-        <main class="container">
-            @include('inc.header')
-            @yield('content')
-            @include('inc.footer')
-        </main>
         <script src="{{asset('frontend/js/jquery1.js')}}"></script>
         <script src="{{asset('frontend/lib/jqueryui/jquery-ui.min.js')}}"></script>
         <script src="{{asset('frontend/lib/maskinput/jquery.mask.min.js')}}"></script>

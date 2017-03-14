@@ -13,7 +13,7 @@ class CreateConnectSallesmans extends Migration
      */
     public function up()
     {
-        Schema::create('connect_sallesmans', function (Blueprint $table) {
+        /*Schema::create('connect_sallesmans', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('salesman_id')->unsigned();
             $table->foreign('salesman_id')->references('id')->on('sallesmans')->onUpdate('cascade')->onDelete('cascade');
@@ -25,7 +25,7 @@ class CreateConnectSallesmans extends Migration
             $table->string('moipAccount_id', 17);
             $table->date('expires_in');
             $table->timestamps();
-        });
+        });*/
     }
 
     /**

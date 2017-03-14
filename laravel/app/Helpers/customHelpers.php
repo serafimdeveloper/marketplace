@@ -66,15 +66,12 @@ if(!function_exists('amount_products_final')){
 }
 
 if(!function_exists('is_favorite')){
-    function is_favorite(array $store, $id, $product){
+    function is_favorite(array $store, $id, $product_id){
         if(isset($store[$id])){
-            $collection = new \Illuminate\Support\Collection( $store[$id]['products']);
-            if($collection->each(function($item, $key) use($product){
-                if($item->id === $product->id){
+            foreach($store[$id]['products'] as $product){
+                if($product->id === $product_id){
                     return true;
                 }
-            })){
-                return true;
             }
         }
         return false;

@@ -63,17 +63,24 @@
                 </div>
                 <div class="clear-both"></div>
                 <div class="colbox">
-                    <div class="colbox-2">
+                    <div class="colbox-3">
                         <label>
                             <span>Número:</span>
                             {!! Form::text('number', (isset($address->number) ? $address->number : null), ['placeholder' => 'Digite seu número', 'data-required' => 'notnull']) !!}
                             <span class="alert hidden"></span>
                         </label>
                     </div>
-                    <div class="colbox-2">
+                    <div class="colbox-3">
                         <label>
                             <span>Complemento:</span>
                             {!! Form::text('complements', (isset($address->complements) ? $address->complements : null),['placeholder'=>'Seu complemento']) !!}
+                            <span class="alert hidden"></span>
+                        </label>
+                    </div>
+                    <div class="colbox-3">
+                        <label>
+                            <span>Telefone:</span>
+                            {!! Form::text('phone',(isset($user->phone) ? $user->phone : null), ['placeholder' => 'Telefone para contato', 'class' => 'masked_fullphone', 'data-required' => 'fullphone']) !!}
                             <span class="alert hidden"></span>
                         </label>
                     </div>
