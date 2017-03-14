@@ -59,6 +59,6 @@ class Request extends Model
     }
 
     public function moip(){
-        return $this->hasMany(Moip::class);
+        return $this->hasOne(Moip::class);
     }
 }

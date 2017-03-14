@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\AbstractController;
-use Artesaos\Moip\facades\Moip;
 
 class PaymentController extends AbstractController {
     private $moip, $customer;

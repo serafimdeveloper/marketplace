@@ -120,14 +120,15 @@ class CheckoutController extends Controller{
     public function order($order_key){
         $order = \App\Model\Request::where('key', '=', $order_key)->first();
 
-        if(!isset($order->moip[0]->token)){
+        if(!$order->moip){
+
+            dd($order->moip);
             $payment = new PaymentMoip($order);
             $payment->send();
             $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
         }
 
-
-        $tokenmoip = $order->moip[0]->token;
+        $tokenmoip = $order->moip->token;
 
 //        $payment = new PaymentMoip($order);
 
