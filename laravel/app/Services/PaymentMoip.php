@@ -32,7 +32,7 @@ class PaymentMoip
         $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT) $this->address->zip_code, 'phone' => $user->phone]]);
         $this->moip->setReason('Compra de produtos efetuada na plataforma Pop Martin');
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
-        $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days",strtotime(date('Y-m-d')))), false, ["Primeira linha", "Segunda linha", "Terceira linha"], url('imagem/pop/logo-popmartin.png'));
+        $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days",strtotime(date('Y-m-d')))), false, ["Primeira linha", "Segunda linha", "Terceira linha"], null);
         $this->moip->addMessage('Produtos sendo comprados: ' . $this->getStringProducts());
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('accont/order/notification'));

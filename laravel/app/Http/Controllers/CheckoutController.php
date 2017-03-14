@@ -155,7 +155,7 @@ class CheckoutController extends Controller{
     public function notification(){
     }
 
-    public function updateOrder(){
-
+    public function updateOrder(Request $request){
+        dd($request->all());
     }
 }

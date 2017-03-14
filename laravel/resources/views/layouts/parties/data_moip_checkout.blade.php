@@ -11,7 +11,12 @@
     </script>
     <script type="text/javascript">
         var moipSuccess = function(response){
-            $.post('/carrinho/checkout/updateorder', response, function(){
+            var token = "{!! csrf_token() !!}";
+            var data = {
+                "response": response,
+                "_token": token
+            }
+            $.post('/carrinho/checkout/updateorder', data, function(){
                 loaderAjaxScreen(true, 'finalizando...');
                 if(response.Codigo === 0){
                     $('#billetMoip').attr('src', response.url);
