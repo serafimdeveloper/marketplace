@@ -3,6 +3,120 @@
      callback-method-success="moipSuccess"
      callback-method-error="moipError"></div>
 <iframe name="billetMoip" class="dp-none" id="billetMoip" width="600" height="400" src=""></iframe>
+<form id="formCredences" class="form-modern pop-form dp-none" style="margin-top: -30px;">
+    <label>
+        <span>Nome do titular do cartão:</span>
+        <input type="text" name="Nome" value="{{ $order->user->name }} {{ $order->user->last_name }}"
+               data-required="fullname">
+        <span class="alert hidden"></span>
+    </label>
+    <input type="hidden" name="Telefone" value="{{ $order->user->phone }}">
+    <div class="colbox">
+        <div class="colbox-3">
+            <label>
+                <span>CPF:</span>
+                <input type="text" name="Identidade" value="{{ $order->user->cpf }}" data-required="minlength"
+                       data-minlength="11">
+                <span class="alert hidden"></span>
+            </label>
+        </div>
+        <div class="colbox-3">
+            <label>
+                <span>Data de nascimento</span>
+                <input type="date" pattern="format:DD/MM/YYYY" name="DataNascimento" value="{{ $order->user->birth }}"
+                       data-required="notnull">
+                <span class="alert hidden"></span>
+            </label>
+        </div>
+        <div class="colbox-3">
+            <label>
+                <span>Parcelas</span>
+                <select name="Parcelas" id="plots">
+                    <option selected disabled><i class="fa fa-spin fa-spinner"></i></option>
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="clear-both"></div>
+    <div class="checkbox-container padding10" style="position:relative;">
+        <span>Instituição:</span>
+        <div class="checkboxies txt-center">
+            <label class="radio txt-center" style="border: none;">
+                <span><i class="flag flag-visa"></i> <br> <span class="fa fa-circle-o"></span></span>
+                {!! Form::radio('Instituicao','Visa') !!}
+            </label>
+            <label class="radio txt-center" style="border: none;">
+                <span><i class="flag flag-mastercard"></i><br><span class="fa fa-circle-o"></span></span>
+                {!! Form::radio('Instituicao','MasterCard') !!}
+            </label>
+            <label class="radio txt-center" style="border: none;">
+                <span><i class="flag flag-hipercard"></i><br><span class="fa fa-circle-o"></span> </span>
+                {!! Form::radio('Instituicao','Hipercard') !!}
+            </label>
+            <label class="radio txt-center" style="border: none;">
+                <span><i class="flag flag-hiper"></i> <br><span class="fa fa-circle-o"></span> </span>
+                {!! Form::radio('Instituicao','Hiper') !!}
+            </label>
+            <label class="radio txt-center" style="border: none;">
+                <span><i class="flag flag-dinersclub"></i> <br><span class="fa fa-circle-o"></span> </span>
+                {!! Form::radio('Instituicao','Dinners Club') !!}
+            </label>
+            <label class="radio txt-center" style="border: none;">
+                <span><i class="flag flag-americanexpress"></i> <br><span class="fa fa-circle-o"></span> </span>
+                {!! Form::radio('Instituicao','American Express') !!}
+            </label>
+            <label class="radio txt-center" style="border: none;">
+                <span><i class="flag flag-elo"></i> <br><span class="fa fa-circle-o"></span> </span>
+                {!! Form::radio('Instituicao','Elo') !!}
+            </label>
+        </div>
+        <div class="credcard-info dp-none">
+            <div class="colbox">
+                <div class="colbox-3">
+                    <label>
+                        <span>Número do cartão</span>
+                        <input type="text" name="Numero" value="" data-required="minlength" data-minlength="13">
+                        <span class="alert hidden"></span>
+                    </label>
+                </div>
+                <div class="colbox-3">
+                    <label>
+                        <span>Código CVV</span>
+                        <input type="text" name="CodigoSeguranca" value="" data-required="minlength" data-minlength="3">
+                        <span class="alert hidden"></span>
+                    </label>
+                </div>
+                <div class="colbox-3">
+                    <label>
+                        <span>Data de expiração</span><br>
+                        <select name="month" style="display: inline-block;width: 100px;">
+                            <option disabled selected>Mês</option>
+                            @for($i = 1; $i<13; $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
+                        <select name="year" style="display: inline-block;width: 100px;">
+                            <option disabled selected>Ano</option>
+                            @for($i = date("y"); $i <= (date("Y") + 20); $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="clear-both"></div>
+        </div>
+        <br>
+        <div class="txt-center">
+            <button type="submit" class="btn btn-popmartin">Confirmar pagamento</button>
+        </div>
+    </div>
+</form>
+<div id="payBoletoMessage" class="txt-center dp-none padding20 fontem-14" style="margin-top: -30px;">
+    Essa compra está sendo efetuada somente nesta loja. Caso haja produtos de outra loja em seu carrinho, não esqueça de finaliza-las também<br>
+    {{--<a href="/carrinho" class="btn btn-small btn-popmartin-trans">carrinho de compras</a>--}}
+    <a class="btn btn-small btn-popmartin" href="https://desenvolvedor.moip.com.br/sandbox/Instrucao.do?token={{ $tokenmoip }}" target="_blank" onClick="PrintIframe(billetMoip);return false;">Imprimir boleto</a>
+</div>
 @section('script')
     <script
             type='text/javascript'
@@ -10,49 +124,145 @@
             charset='ISO-8859-1'>
     </script>
     <script type="text/javascript">
-        var moipSuccess = function(response){
+        var InfoCards = [];
+        $(document).on("submit", "#formCredences", function () {
+            var serialize = $(this).serializeArray();
+            $.each(serialize, function (key, value) {
+                if (value.name == 'DataNascimento') {
+                    var data = value.value;
+                    var dataBr = data.split("-");
+                    var myData = dataBr[2] + '/' + dataBr[1] + '/' + dataBr[0];
+                    value.value = myData;
+                } else if (value.name == 'Telefone') {
+                    value.value = value.value.replace(" ", "");
+                }
+
+                InfoCards[value.name] = value.value;
+            });
+
+            console.log(InfoCards);
+
+            payCredCart();
+            return false;
+        });
+        alertify.genericDialog || alertify.dialog('genericDialog', function () {
+            return {
+                main: function (content) {
+                    this.setContent(content);
+                },
+                setup: function () {
+                    return {
+                        focus: {
+                            element: function () {
+                                return this.elements.body.querySelector(this.get('selector'));
+                            },
+                            select: true
+                        },
+                        options: {
+                            basic: true,
+                            maximizable: false,
+                            resizable: false,
+                            padding: false
+                        }
+                    };
+                },
+                settings: {
+                    selector: undefined
+                }
+            };
+        });
+
+
+        var moipSuccess = function (response) {
+
+            console.log(response);
+
             var token = "{!! csrf_token() !!}";
             var data = {
                 "response": response,
                 "_token": token
             }
-            $.post('/carrinho/checkout/updateorder', data, function(){
-                loaderAjaxScreen(true, 'finalizando...');
-                if(response.Codigo === 0){
+            $.post('/carrinho/checkout/updateorder', data, function () {
+                loaderAjaxScreen(false, null);
+                console.log(response.Status);
+                if (response.Status == undefined) {
                     $('#billetMoip').attr('src', response.url);
-                    MessageScreen('default', ' ' +
-                        'Essa compra está sendo efetuada somente nesta loja. Caso haja produtos de outra loja em seu carrinho, não esqueça de finaliza-las também<br>' +
-                        '<a href="/carrinho" class="btn btn-small btn-popmartin-trans">carrinho de compras</a> ' +
-                        '<a href=""> <a class="btn btn-small btn-popmartin" href="https://desenvolvedor.moip.com.br/sandbox/Instrucao.do?token={{ $tokenmoip }}" target="_blank" onClick="PrintIframe(billetMoip);return false;">Imprimir boleto</a>');
-                }else{
-                    window.location.replace("/carrinho/checkout/status/success");
+                    $('#payBoletoMessage').show();
+                    alertify.genericDialog($('#payBoletoMessage')[0]);
                 }
             });
+            if(response.Status == 'Autorizado'){
+                alertify.success("Pagamento realizado com sucesso. Obrigado!");
+            }else if(response.Status == 'Concluido'){
+                alertify.success("Pagamento realizado com sucesso. Obrigado!");
+            }else if(response.Status == 'EmAnalise'){
+                alertify.success("Pagamento encontra-se em análise. Verifique o status de seu pedido!");
+            }
 
+            $("#formCredences").find('button').html('Confirmar pagamento').css({color: '#B40004'});
+//            window.location.replace("/carrinho/checkout/status/success");
         };
 
-        var moipError = function(response) {
+        var moipError = function (response) {
             alertify.error(response.Mensagem);
+            $("#formCredences").find('button').html('Confirmar pagamento').css({background: '#B40004'});
+
         };
 
-        payBillet = function() {
+        payBillet = function () {
             loaderAjaxScreen(true, 'processando...');
             var settings = {
                 "Forma": "BoletoBancario"
             }
             MoipWidget(settings);
         }
-        payCredCart = function() {
+        payCredCart = function () {
+            console.log(InfoCards);
             var settings = {
                 "Forma": "CartaoCredito",
-                "Instituicao": "Visa",
-                "Parcelas": "1",
+                "Instituicao": InfoCards['Instituicao'],
+                "Parcelas": InfoCards['Parcelas'],
                 "CartaoCredito": {
-                    "Cofre": "0b2118bc-fdca-4a57-9886-366326a8a647",
-                    "CodigoSeguranca": "123"
+                    "Numero": InfoCards['Numero'],
+                    "Expiracao": InfoCards['month'] + "/" + InfoCards['year'],
+                    "CodigoSeguranca": InfoCards['CodigoSeguranca'],
+                    "Portador": {
+                        "Nome": InfoCards['Nome'],
+                        "DataNascimento": InfoCards['DataNascimento'],
+                        "Telefone": InfoCards['Telefone'],
+                        "Identidade": InfoCards['Identidade']
+                    }
                 }
             }
             MoipWidget(settings);
         }
+
+        calculatePlots = function () {
+            var settings = {
+                cofre: "",
+                instituicao: "Visa",
+                callback: "returnCalculatePlots"
+            };
+
+            MoipUtil.calcularParcela(settings);
+        }
+        returnCalculatePlots = function (data) {
+            var options = '';
+            $.each(data.parcelas, function (key, value) {
+                options += '<option value="' + value.quantidade + '">' + value.quantidade + 'x R$ ' + value.valor + '</option>';
+            });
+
+            $('#plots').html(options);
+        };
+
+        addCredencies = function () {
+            $("#formCredences").show();
+            calculatePlots();
+            alertify.genericDialog($('#formCredences')[0]);
+        }
+
+        $("#formCredences").find('.checkboxies').find('input').on('click', function(){
+            $('.credcard-info').slideDown();
+        });
     </script>
 @endsection

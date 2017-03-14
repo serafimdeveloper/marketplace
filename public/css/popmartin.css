@@ -248,6 +248,17 @@ input{padding: 5px;width: 100%;}
 .pop-footer-info .colbox-2{margin: 10px 0;}
 
 
+.flag{width: 50px; height: 29px; display: inline-block;background-size: 100%;background-repeat: no-repeat;background-position: center center;background-color: #9d9d9d;
+    border-radius: 5px;
+}
+.flag.flag-visa{background-image: url('../image/icons/flag-visa.png');}
+.flag.flag-mastercard{background-image: url('../image/icons/flag-mastercard.png');}
+.flag.flag-hipercard{background-image: url('../image/icons/flag-hipercard.png');}
+.flag.flag-hiper{background-image: url('../image/icons/flag-hiper.png');}
+.flag.flag-dinersclub{background-image: url('../image/icons/flag-dinersclub.png');}
+.flag.flag-americanexpress{background-image: url('../image/icons/flag-americanexpress.png');}
+.flag.flag-elo{background-image: url('../image/icons/flag-elo.png');}
+
 /**
     Reescrita terceira
  */
@@ -295,6 +306,9 @@ input{padding: 5px;width: 100%;}
 
 
 /** CUSTOM ALERTIFY */
+
+.ajs-dialog{width: 98% !important;min-width: 300px !important;max-width: 800px !important;}
+
 .ajs-message{border: 1px solid #EF5350;border-left: 8px solid #EF5350;font-weight: 400; font-size: 1.2em;}
 .ajs-message.ajs-error{border-color: #EF5350 !important;border-left-width: 9px;background: rgba(239,83,80,0.7) !important;}
 .ajs-message.ajs-success{border-color: #1B5E20 !important;border-left-width: 8px;background: rgba(27,94,32,0.7) !important;}
