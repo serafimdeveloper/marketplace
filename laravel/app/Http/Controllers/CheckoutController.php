@@ -122,7 +122,7 @@ class CheckoutController extends Controller{
         $order = $this->repo->order($this->with,$order_key);
         if(!isset($order->moip[0]->token)){
             $payment = new PaymentMoip($order);
-            $payment->send();
+            dd($payment->send());
             $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
         }
 
