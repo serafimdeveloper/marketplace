@@ -120,13 +120,12 @@ class CheckoutController extends Controller{
 
     public function order($order_key){
         $order = $this->repo->order($this->with,$order_key);
-        if(!isset($order->moip[0]->token)){
+        if(!$order->moip){
             $payment = new PaymentMoip($order);
-            dd($payment->send());
             $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
         }
 
-        $tokenmoip = $order->moip[0]->token;
+        $tokenmoip = $order->moip->token;
 
 //        $payment = new PaymentMoip($order);
 
@@ -153,7 +152,7 @@ class CheckoutController extends Controller{
     public function notification(){
     }
 
-    public function updateOrder(){
-
+    public function updateOrder(Request $request){
+        dd($request->all());
     }
 }

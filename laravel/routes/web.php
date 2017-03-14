@@ -21,9 +21,9 @@ Route::get('/contato', function () {
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
-Route::get('/notification/moip/nasp', 'Accont\PaymentMoip@notification')->name('notification_moip');
+//Route::get('/notification/moip/nasp', 'Accont\PaymentMoip@notification')->name('notification_moip');
 Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){
-    Route::get('/payment/callback', 'PaymentMoip@callback')->name('payment_callback');
+    // Route::get('/payment/callback', 'PaymentMoip@callback')->name('payment_callback');
 
     /** Clientes */
     Route::get('/', 'Clients\HomeController@index')->name('home');
@@ -33,7 +33,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     Route::get('/requests','Clients\RequestsController@index')->name('requests');
     Route::get('/requests/{id}','Clients\RequestsController@show')->name('request_info');
-    Route::post('/request/comments/{id}','Clients/RequestsController@comments')->name('request.comments');
+    Route::post('/request/comments/{id}','Clients\RequestsController@comments')->name('request.comments');
     Route::post('/request/shop_valuations/{id}','ShopValuationsController@store')->name('request.shop_valuations');
 
     Route::get('/searchstore', 'StoresController@search')->name('searchstore');
@@ -54,7 +54,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         Route::get('stores/block', 'StoresController@blocked')->name('stores.blocked');
 
         Route::resource('products', 'Salesmans\ProductsController');
-        Route::get('products/change/{product}','Salesman\ProductsController@desactive')->name('producta.desactive');
+        Route::get('products/change/{product}','Salesmans\ProductsController@desactive')->name('producta.desactive');
         Route::get('products/remove/image/{image}','Salesmans\ProductsController@removeImage')->name('products.image.remove');
 
         Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
