@@ -207,10 +207,10 @@ class Cart
          * @var  $products
          */
         foreach ($this->stores as $id => $store) {
-            $volume = 0;
-            $weight = 0;
             $freights = Freight::where('code', '!=', null)->get();
             foreach ($freights as $freight) {
+                $volume = 0;
+                $weight = 0;
                 /** definir tipo para minusculo para comparar com biblioteca vendor de cálculo de frete */
                 $df['tipo'] = trim(strtolower($freight->name));
 

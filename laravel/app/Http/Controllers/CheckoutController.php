@@ -120,12 +120,13 @@ class CheckoutController extends Controller{
 
     public function order($order_key){
         $order = $this->repo->order($this->with,$order_key);
-        if(!$order->moip){
+        if($moip = $order->moip){
+            $tokenmoip = $moip->token;
+        }else{
             $payment = new PaymentMoip($order);
-            $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
+            $moip = $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
+            $tokenmoip = $moip->token;
         }
-
-        $tokenmoip = $order->moip->token;
 
 //        $payment = new PaymentMoip($order);
 
@@ -135,7 +136,6 @@ class CheckoutController extends Controller{
     public function boleto($order_key){
         $order = $this->repo->order($this->with,$order_key);
         $payment = new PaymentMoip($order);
-        $payment->send();
 
         return view('pages.cart_checkout_boleto');
     }
