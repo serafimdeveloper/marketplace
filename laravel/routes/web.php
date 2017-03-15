@@ -156,8 +156,8 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::post('/update_qtd', 'CartController@update_qtd')->name('cart.update_qtd');
     Route::get('/remove_product/{id}', 'CartController@remove_product')->name('cart.remove_product');
     Route::post('/observation', 'CartController@add_obs')->name('cart.observation');
-    Route::post('/add_address', 'cartController@add_address')->name('cart.add_address');
-    Route::post('/type_freight', 'cartController@type_freight')->name('cart.type_freight');
+    Route::post('/add_address', 'CartController@add_address')->name('cart.add_address');
+    Route::post('/type_freight', 'CartController@type_freight')->name('cart.type_freight');
 
     Route::group(['prefix' => 'checkout', 'middleware' => 'auth'], function(){
 
