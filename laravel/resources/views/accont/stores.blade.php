@@ -67,7 +67,7 @@
 
                                 <label>
                                     <span>CPF</span>
-                                    {!! Form::text('cpf',$salesman->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF', 'data-required' => 'notnull', 'readonly'=>'readonly']) !!}
+                                    {!! Form::text('cpf',Auth::user()->cpf, ['class' => 'masked_cpf', 'placeholder' => 'CPF', 'data-required' => 'notnull', 'readonly'=>'readonly']) !!}
                                     <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>                        </label>
                             </div>
                             @if(isset($store))

@@ -35,7 +35,7 @@ class CheckoutController extends Controller{
                     if($cart->address['id']){
                         $address = $this->repo_address->get($cart->address['id']);
                     }else{
-                        $address = (object)Correios::cep($cart->address['zip_code'])[0];
+                        $address = (object) Correios::cep($cart->address['zip_code'])[0];
                     }
                     return view('pages.cart_address', compact('address', 'sha1', 'user'));
                 }
@@ -49,7 +49,7 @@ class CheckoutController extends Controller{
         $user = Auth::user();
         if(Session::has('cart')){
             $cart = Session::get('cart');
-            foreach($cart->stores as $key => $values){
+            foreach($cart->stores as $key => $store){
                 if( $sha1 === strtoupper(sha1($key))){
                     $user = Auth::user();
                     if($model_address = $user->addresses->where('name',$req->name)->first()){
@@ -59,36 +59,27 @@ class CheckoutController extends Controller{
                         $address = $user->addresses()->create($req->all());
                     }
                     $cart->add_address(['id' =>$address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
-                    foreach($cart->stores as $key_store => $store){
-                        $dados = [
-                            'user_id' => $user->id, 'adress_id' => $address->id,'freight_id' => $store['type_freight']['id'], 'request_status_id' => 2, 'key'=> generate_key(),
-                            'freight_price' => $store['freight'][$store['type_freight']['name']]['val'], 'amount' =>$store['amount'],
-                            'note' => $store['obs']
-                        ];
-                        $model_store = $this->repo_stores->get($key_store);
-                        if(isset($store['request'])){
-                            $model_request = $model_store->requests->find($store['request'])->fill($dados);
-                            $request = $model_store->requests()->save($model_request);
-                        }else{
-                            $request =  $model_store->requests()->create($dados);
-                        }
-                        $cart->add_request($key_store, $request->id);
-                        $request->products()->sync($this->products($store));
-                        if($user->phone != $req->phone){
-                            $user->phone = $req->phone;
-                            $user->save();
-                        }
+                    $dados = [
+                        'user_id' => $user->id, 'adress_id' => $address->id,'freight_id' => $store['type_freight']['id'], 'request_status_id' => 2, 'key'=> generate_key(),
+                        'freight_price' => $store['freight'][$store['type_freight']['name']]['val'], 'amount' =>$store['amount'],
+                        'note' => $store['obs']
+                    ];
+                    $model_store = $this->repo_stores->get($key);
+                    $request =  $model_store->requests()->create($dados);
+//                    if(isset($store['request'])){
+//                        $model_request = $model_store->requests->find($store['request'])->fill($dados);
+//                        $request = $model_store->requests()->save($model_request);
+//                    }else{
+//                        $request =  $model_store->requests()->create($dados);
+//                    }
+                    $cart->add_request($key, $request->id);
+                    $request->products()->sync($this->products($store));
+                    if($user->phone != $req->phone){
+                        $user->phone = $req->phone;
+                        $user->save();
                     }
                     Session::put('cart', $cart);
                     return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
-
-
-//                    $payment = new PaymentMoip(CartServices::getStores($sha1), $cart->address);
-//                    if($endpoint = $payment->getEndpoint()){
-//                        return view('pages.cart_address', compact('address', 'sha1', 'endpoint'));
-//                    }
-//                    flash('Ocorreu um erro não será possível continuar esse procedimento, Contate nos e tente novamente mais tarde!','error');
-//                    return redirect()->back();
                 }
             }
         }
@@ -120,39 +111,40 @@ class CheckoutController extends Controller{
 
     public function order($order_key){
         $order = $this->repo->order($this->with,$order_key);
-        if($moip = $order->moip){
-            $tokenmoip = $moip->token;
-        }else{
-            $payment = new PaymentMoip($order);
-            $moip = $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
-            $tokenmoip = $moip->token;
+        if($order){
+            if($moip = $order->moip){
+                $tokenmoip = $moip->token;
+            }else{
+                $payment = new PaymentMoip($order);
+                $moip = $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
+                $tokenmoip = $moip->token;
+            }
+            return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key'));
         }
 
-//        $payment = new PaymentMoip($order);
-
-        return view('pages.cart_checkout', compact('order', 'tokenmoip'));
-    }
-
-    public function boleto($order_key){
-        $order = $this->repo->order($this->with,$order_key);
-        $payment = new PaymentMoip($order);
-
-        return view('pages.cart_checkout_boleto');
-    }
-
-    public function payment(){
-
-    }
-
-    public function callback(){
-
-        return view('accont.payment_callback');
-    }
-
-    public function notification(){
+        return redirect()->route('pages.cart');
     }
 
     public function updateOrder(Request $request){
-        dd($request->all());
+        $order = \App\Model\Request::where('key', '=', $request->order)->first();
+        if(!isset($request->response['Status'])){
+            $order->fill(['request_status_id' => 1, 'payment_reference' => 'boleto'])->save();
+            $order->moip->fill(['url' => $request->response['url']])->save();
+        }else{
+            if($request->response['Status'] == 'Autorizado'){
+                $order->fill(['request_status_id' => 3, 'payment_reference' => 'cartão'])->save();
+                $order->products->each(function($product){
+                    $product->decrement('quantity', $product->requests->pivot->quantity);
+                });
+            }elseif($request->response['Status'] == 'Cancelado'){
+                $order->fill(['request_status_id' => 8, 'payment_reference' => 'cartão'])->save();
+            }else{
+                $order->fill(['request_status_id' => 1, 'payment_reference' => 'cartão'])->save();
+            }
+            $order->moip->fill(['codeMoip' => $request->response['CodigoMoIP'], 'codeReturn' => $request->response['CodigoRetorno']])->save();
+        }
+    }
+
+    public function notification(){
     }
 }

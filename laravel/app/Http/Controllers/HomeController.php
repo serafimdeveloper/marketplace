@@ -24,19 +24,18 @@ class HomeController extends Controller {
 
     public function index(){
         $features = $this->product->getHighlights($this->with_product);
-        $news = $this->product->all($this->columns, $this->with_product,[],['created_at'=>'DESC'],20,1);
+        $news = $this->product->getNews($this->with_product)->shuffle()->all();
         $favorites = $this->favorite->getProductsFavorites();
         $categories_masters = $this->category->all($this->columns, $this->with_category);
         return view('pages.homepage', compact('features','news','categories_masters','favorites'));
     }
 
     public function single_page($store, $category, $prod){
-        if($user = Auth::user()){
-            $auth = $user->id;
+        if($product = $this->product->single_page($this->with_product, $store, $category, $prod)){
+            $type = ['type' => 'product', 'id' => $product->id];
+            return view('pages.product', compact('product','type'));
         }
-        $product = $this->product->single_page($this->with_product, $store, $category, $prod);
-        $type = ['type' => 'product', 'id' => $product->id];
-        return view('pages.product', compact('product','type', 'auth'));
+       return view('errors.404');
     }
 
     public function category($search){

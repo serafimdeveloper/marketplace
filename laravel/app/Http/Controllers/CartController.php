@@ -29,8 +29,10 @@ class CartController extends Controller
         $cart = [];
         if(Session::has('cart')){
             $cart = $this->cart_service->setCart(Session::get('cart'))->check_cart()->getCart();
+
             $address = isset($cart->address['zip_code']) ? Correios::cep($cart->address['zip_code']) : [];
         }
+
         return view('pages.cart', compact('cart', 'addresses', 'freight', 'address'));
     }
 
@@ -79,10 +81,14 @@ class CartController extends Controller
             $zip_code = $request->zip_code;
             $address = null;
         }
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->add_address(['id' => $address, 'zip_code' => $zip_code]);
-        $request->session()->put('cart', $cart);
+        if(count(Correios::cep($request->zip_code))){
+            $oldCart = Session::has('cart') ? Session::get('cart') : null;
+            $cart = new Cart($oldCart);
+            $cart->add_address(['id' => $address, 'zip_code' => $zip_code]);
+            $request->session()->put('cart', $cart);
+        }else{
+            flash('Cep inválido!', 'error');
+        }
         return redirect()->route('pages.cart');
     }
 
