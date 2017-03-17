@@ -25,7 +25,7 @@
 	            'zip_code'=>'required|regex:/^\d{5}-?\d{3}$/',
 	            'state'=>'required|string|min:2|max:2',
 	            'city'=>'required|min:3|max:100',
-	            'public_place'=>'required|min:3|max:50',
+	            'public_place'=>'required|min:3|max:100',
 	            'neighborhood'=>'required|string|max:30',
 	            'number'=>'required|numeric',
 	            'complements'=>'string|max:30'

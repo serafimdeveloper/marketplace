@@ -42,7 +42,6 @@ class ProductsUpdateRequest extends Request
             ],
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
-            'price_out_discount' => 'numeric',
             'deadline' => 'required|numeric',
             'minimum_stock'=>'required|numeric',
             'details'=>'required|string|max:500',
@@ -50,8 +49,7 @@ class ProductsUpdateRequest extends Request
             'length_cm' => 'required|numeric|min:16|max:105',
             'width_cm' => 'required|numeric|min:11|max:105',
             'height_cm' => 'required|numeric|min:2|max:105',
-            'weight_gr' => 'required|numeric|min:1|max:30000',
-            'diameter_cm' => 'required|numeric|min:5|max:91',
+            'weight_gr' => 'required|numeric|min:1|max:30000'
         ];
     }
 }

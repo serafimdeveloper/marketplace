@@ -390,7 +390,12 @@ function objectLength(obj) {
     return size;
 }
 
-
+/**
+ * Fechar Trigger de informação de mensagem
+ */
+function closeTrigger() {
+    $(this).parent('.trigger-box').slideUp();
+}
 /*
  * EFEITO ACCORDION INPLEMENTAÇÂO
  * */
@@ -416,12 +421,14 @@ $(document).on('change', "form input[type='file']", function () {
     }
     previewImg(this);
 });
+$(document).ready(function(){$('.trigger-box').append('<span class="trigger-close">x</span>');});
 $(document).on('keyup', '.limiter-textarea', limiter);
 $(document).on("keyup", ".masksInt", masks.int);
 $(document).on("keypress", ".masksMoney", masks.money);
 $(document).on("click", ".form-modern .checkbox input[type=checkbox]", checkBox);
 $(document).on("click", ".form-modern .radio input[type=radio]", radiobox);
 $(document).on("click", ".alertbox-close", function () {$(this).parents(".alertbox").hide(600);});
+$(document).on('click', '.trigger-close', closeTrigger);
 
 
 

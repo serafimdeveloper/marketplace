@@ -96,6 +96,8 @@ ul{list-style: none;}a{text-decoration: none;}a img{border: 0;}img{max-width: 10
 .scroll::-webkit-scrollbar-thumb{border-radius:5px; background:#FE6530;}
 
 /**** TRIGGER *****/
+.trigger-box{position: relative;}
+.trigger-box .trigger-close{cursor: pointer;position: absolute; top: 5px; right: 40px;color: #252525;font-size: 1.6em;font-weight: 100;}
 .trigger{width:95%;margin:5px 2.5% !important;padding:5px;padding-left: 10px;font-weight: 500;}
 .trigger .ajax_close{position:absolute; cursor:pointer;}
 .trigger.accept{border-bottom:3px solid #1E820E; color: #1E820E;}

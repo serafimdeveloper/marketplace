@@ -29,7 +29,7 @@
                                     <a class="vertical-middle" href="/carrinho">
                                         <i class="fa fa-shopping-cart c-green-avocadodark vertical-middle"></i>
                                         <div class="dp-inblock fontem-07 txt-center" id="amount-cart">
-                                            <span class="c-green fontw-500">R$ {{number_format(Session::has('cart') ? Session::get('cart')->amount : 0.00,2,',','.')}}</span>
+                                            <span class="c-green fontw-500">{{amount_cart()}}</span>
                                         </div>
                                     </a>
                                 </div>

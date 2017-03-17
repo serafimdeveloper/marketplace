@@ -1,20 +1,14 @@
 <?php
 namespace App\Services;
 use App\Model\Cart;
-use App\Repositories\Accont\ProductsRepository;
-use App\Repositories\Accont\RequestsRepository;
+use App\Model\Product;
+use App\Model\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CartServices
 {
-    protected $cart, $repo_product, $repo_request;
-
-    public function __construct(ProductsRepository $repo_product, RequestsRepository $repo_request)
-    {
-        $this->repo_product = $repo_product;
-        $this->repo_request = $repo_request;
-    }
+    protected $cart;
 
     public function setCart($cart){
         $this->cart = $cart;
@@ -32,7 +26,7 @@ class CartServices
     public function check_cart(){
         foreach($this->cart->stores as $key_store => $store){
             foreach ($store['products'] as $key_product =>  $product){
-                if($prod = $this->repo_product->get($key_product)){
+                if($prod = Product::find($key_product)){
                     if($prod->quantity < $product['qtd']){
                         unset($store['products'][$key_product]);
                     }
@@ -52,7 +46,7 @@ class CartServices
     public function requests(array $with){
         $requests = [];
         foreach ($this->cart->stores as $store){
-            $requests[] = $this->repo_request->get($store['request'],['*'],$with);
+            $requests[] = Request::with($with)->find($store['request']);
         }
         return $requests;
     }

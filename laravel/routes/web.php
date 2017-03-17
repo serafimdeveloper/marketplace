@@ -160,17 +160,10 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::post('/type_freight', 'CartController@type_freight')->name('cart.type_freight');
 
     Route::group(['prefix' => 'checkout', 'middleware' => 'auth'], function(){
-
         Route::get('/order/{order_key}', 'CheckoutController@order')->name('cart.cart_order');
-        Route::get('/order/{order_key}/boleto', 'CheckoutController@boleto')->name('cart.cart_order_payment_boleto');
-        Route::get('/order/{order_key}/boleto/print', 'CheckoutController@boleto')->name('cart.cart_order_payment_boleto');
-        Route::get('/order/{order_key}/credcard', 'CheckoutController@credcard')->name('cart.cart_order_payment_credcard');
         Route::get('/payment/{token}', 'CheckoutController@payment')->name('cart.cart_order_payment_payment');
         Route::post('/status/{status}', 'CheckoutController@status')->name('cart.cart_order_payment_status');
-
-
         Route::post('/updateorder', 'CheckoutController@updateOrder')->name('cart.cart_update_order');
-
         Route::get('/confirmaddress/{sha1}', 'CheckoutController@confirmAddress')->name('cart.cart_address');
         Route::post('/confirmaddress/{sha1}', 'CheckoutController@confirmPostAddress')->name('cart.cart_address.post');
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');

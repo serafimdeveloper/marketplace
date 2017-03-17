@@ -3,6 +3,7 @@ use App\Model\CountOrder;
 use App\Model\Freight;
 use App\Model\Product;
 use App\Model\Store;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
@@ -82,6 +83,20 @@ if(!function_exists('real')){
     function real($value)
     {
         return 'R$ ' . number_format($value, 2, ',', '.');
+    }
+}
+
+if(!function_exists('amount_cart')){
+    function amount_cart(){
+        if(Session::has('cart') || isset(Auth::user()->cartsession->stores)){
+            $cart_service = new \App\Services\CartServices();
+            $cartDB = isset(Auth::user()->cartsession) ? Auth::user()->cartsession : null;
+            $cartModelDB = ($cartDB) ? $cart_service->dbCart(json_decode($cartDB->address, true), json_decode($cartDB->stores, true))->getCart() : null;
+            $oldCart = (Session::has('cart')) ?  Session::get('cart') : $cartModelDB;
+            $cart = $cart_service->setCart($oldCart)->check_cart()->getCart();
+            return real($cart->amount);
+        }
+        return real(0);
     }
 }
 
