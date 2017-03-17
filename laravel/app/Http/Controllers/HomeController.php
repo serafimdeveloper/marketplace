@@ -7,19 +7,21 @@ use App\Repositories\Accont\ProductsRepository;
 use App\Repositories\Accont\CategoriesRepository;
 use App\Repositories\Accont\StoresRepository;
 use App\Repositories\FavoritesRepository;
+use App\Repositories\VisitProductsRepository;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller {
 
-    protected $category, $store, $product, $favorite;
+    protected $category, $store, $product, $favorite, $visit_products;
     protected $with_product = ['galeries','store','category'],$with_category = [], $with_store = ['products','adress'] ;
     protected $columns = ['*'];
 
-    public function __construct(ProductsRepository $product, CategoriesRepository $category, StoresRepository $store, FavoritesRepository $favorite){
+    public function __construct(ProductsRepository $product, CategoriesRepository $category,VisitProductsRepository $visit_products, StoresRepository $store, FavoritesRepository $favorite){
         $this->product = $product;
         $this->category = $category;
         $this->store = $store;
         $this->favorite = $favorite;
+        $this->visit_products = $visit_products;
     }
 
     public function index(){
@@ -33,6 +35,7 @@ class HomeController extends Controller {
     public function single_page($store, $category, $prod){
         if($product = $this->product->single_page($this->with_product, $store, $category, $prod)){
             $type = ['type' => 'product', 'id' => $product->id];
+            $this->visit_products->add_visit_product($product);
             return view('pages.product', compact('product','type'));
         }
         return view('errors.404');
