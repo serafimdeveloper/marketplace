@@ -20,7 +20,7 @@ class Cart
     /** Metodo construtor instancia o objeto
      *  @param $oldcart
      */
-    public function __construct($oldcart){
+    public function __construct($oldcart = null){
         if($oldcart){
             $this->address = $oldcart->address;
             $this->stores  = $oldcart->stores;

@@ -9,6 +9,9 @@
         <meta property="og:title"         content="Pop martin um brasil de compras" />
         <meta property="og:description"   content="Your description" />
         <meta property="og:image"         content="{{url('imagem/popmartin/popmartin.jpg')}}" />
+        <meta property="og:image:type"    content="image/jpeg">
+        <meta property="og:image:width"   content="800">
+        <meta property="og:image:height"  content="600">
         <meta property="fb:app_id"        content="1645780162393141" />
         <title>PopMartin</title>
         <link href="{{asset('frontend/css/bootstrap.css')}}" rel="stylesheet">

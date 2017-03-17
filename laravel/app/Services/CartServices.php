@@ -3,6 +3,7 @@ namespace App\Services;
 use App\Model\Cart;
 use App\Repositories\Accont\ProductsRepository;
 use App\Repositories\Accont\RequestsRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CartServices
@@ -44,7 +45,7 @@ class CartServices
             }
         }
         $this->cart->calc_freight();
-        Session::put('cart', $this->cart);
+        $this->saveCart();
         return $this;
     }
 
@@ -61,6 +62,41 @@ class CartServices
             if(strtoupper(sha1($key)) === $hash){
                 return Session::get('cart')->stores[$key];
             }
+        }
+    }
+
+    public function deleteRequestCart($store){
+        if(array_key_exists($store, $this->cart->stores)){
+            unset($this->cart->stores[$store]);
+            if(count($this->cart->stores) < 1){
+                Session::forget('cart');
+            }
+        }
+        return $this;
+    }
+
+    public function dbCart($address, $stores){
+        $this->cart = new Cart();
+        $this->cart->address = $address;
+        $this->cart->stores  = $stores;
+        return $this;
+    }
+
+    public function saveCart(){
+        if(Auth::check()){
+            $user = Auth::user();
+            if($this->cart->stores){
+                if($session = $user->cartsession){
+                    $session->fill(['address' => json_encode($this->cart->address), 'stores' => json_encode($this->cart->stores)])->save();
+                }else{
+                    $user->cartsession()->create(['address' => json_encode($this->cart->address), 'stores' => json_encode($this->cart->stores)]);
+                }
+                Session::put('cart', $this->cart);
+            } else if($session = $user->cartsession){
+              $session->delete();
+            }
+        }else{
+            Session::put('cart', $this->cart);
         }
     }
 }

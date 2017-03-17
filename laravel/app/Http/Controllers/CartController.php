@@ -27,10 +27,14 @@ class CartController extends Controller
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
         $address = [];
         $cart = [];
-        if(Session::has('cart')){
-            $cart = $this->cart_service->setCart(Session::get('cart'))->check_cart()->getCart();
+        if(Session::has('cart') || isset(Auth::user()->cartsession->stores)){
+            $cartDB = isset(Auth::user()->cartsession) ? Auth::user()->cartsession : null;
+            $cartModelDB = ($cartDB) ? $this->cart_service->dbCart(json_decode($cartDB->address, true), json_decode($cartDB->stores, true))->getCart() : null;
+            $oldCart = (Session::has('cart')) ?  Session::get('cart') : $cartModelDB;
+            $cart = $this->cart_service->setCart($oldCart)->check_cart()->getCart();
             $address = isset($cart->address['zip_code']) ? Correios::cep($cart->address['zip_code']) : [];
         }
+
         return view('pages.cart', compact('cart', 'addresses', 'freight', 'address'));
     }
 
@@ -79,10 +83,14 @@ class CartController extends Controller
             $zip_code = $request->zip_code;
             $address = null;
         }
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->add_address(['id' => $address, 'zip_code' => $zip_code]);
-        $request->session()->put('cart', $cart);
+        if(count(Correios::cep($request->zip_code))){
+            $oldCart = Session::has('cart') ? Session::get('cart') : null;
+            $cart = new Cart($oldCart);
+            $cart->add_address(['id' => $address, 'zip_code' => $zip_code]);
+            $request->session()->put('cart', $cart);
+        }else{
+            flash('Cep inválido!', 'error');
+        }
         return redirect()->route('pages.cart');
     }
 

@@ -22,6 +22,7 @@ class ProductsRepository extends BaseRepository
     public function single_page(array $with, $store, $category, $product) {
         $model = $this->model
             ->with($with)
+            ->select('products.*')
             ->join('stores', function ($join) use ($store) {
                 $join->on('stores.id', '=', 'products.store_id')
                     ->where('stores.slug', $store);
@@ -30,9 +31,7 @@ class ProductsRepository extends BaseRepository
                 $join->on('categories.id', '=', 'products.category_id')
                     ->where('categories.slug', $category);
             })
-            ->select('products.*')
-            ->where('products.slug', $product)->where('products.quantity','>',0)->where('products.active',1)
-            ->get();
+            ->where('products.slug', $product)->where('products.quantity','>',0)->where('products.active',1);
         return $model->first();
     }
 
@@ -59,7 +58,9 @@ class ProductsRepository extends BaseRepository
     public function getBestSellers(array $with){
         $model = $this->model->with($with)->select('products.*', DB::raw('SUM(product_request.quantity) AS qtd_product_request'))
             ->leftJoin('product_request', 'products.id','=','product_request.product_id')
+            ->join('stores', 'products.store_id','=','stores.id')
             ->where('products.quantity','>',0)->where('products.active',1)
+            ->where('stores.active',1)->where('stores.blocked',0)
             ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
             'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr', 'diameter_cm',
             'active', 'created_at', 'updated_at')
@@ -74,7 +75,9 @@ class ProductsRepository extends BaseRepository
         $model = $this->model->with($with)
             ->select('products.*', DB::raw('SUM(visit_products.count) AS qtd_product_visit'))
             ->leftJoin('visit_products', 'products.id','=','visit_products.product_id')
+            ->join('stores', 'products.store_id','=','stores.id')
             ->where('products.quantity','>',0)->where('products.active',1)
+            ->where('stores.active',1)->where('stores.blocked',0)
             ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
                 'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr', 'diameter_cm',
                 'active', 'created_at', 'updated_at')
@@ -87,18 +90,28 @@ class ProductsRepository extends BaseRepository
     public function getHighlights(array $with){
         $collection = $this->getBestSellers($with);
         $all = $collection->merge($this->getMostVisited($with));
-        if($all->count() >= 20){
-            $all = $all->random(20);
-        }else if($total = $all->count()){
-            $all = $all->random($total);
-        }
-        return $all;
+        $shuffle = $all->shuffle();
+        return $shuffle->all();
     }
 
     public function getCategory( array $with, $category){
         $model = $this->model->with($with)->distinct()
             ->select('products.*')->where('category_id', $category)
+            ->join('stores', 'products.store_id','=','stores.id')
             ->where('products.quantity','>',0)->where('products.active',1)
+            ->where('stores.active',1)->where('stores.blocked',0)
+            ->get();
+        return $model;
+    }
+
+    public function getNews(array $with){
+        $model = $this->model->with($with)->distinct()
+            ->select('products.*')
+            ->join('stores', 'products.store_id','=','stores.id')
+            ->where('products.quantity','>',0)->where('products.active',1)
+            ->where('stores.active',1)->where('stores.blocked',0)
+            ->orderBy('products.created_at', 'desc')
+            ->limit(20)
             ->get();
         return $model;
     }
@@ -106,12 +119,15 @@ class ProductsRepository extends BaseRepository
     public function getSubCategory(array $with, $category, $subcategory = null){
         $model = $this->model->with($with)->distinct()
             ->select('products.*')
+            ->join('stores', 'products.store_id','=','stores.id')
             ->whereIn('category_id', function($query) use($category, $subcategory){
                 $query->select('id')->from('categories')->where('category_id', $category);
                 if($subcategory){
                     $query->where('category.slug', $subcategory);
                 }
             })
+            ->where('products.quantity','>',0)->where('products.active',1)
+            ->where('stores.active',1)->where('stores.blocked',0)
             ->where('products.quantity','>',0)->where('products.active',1)
             ->get();
         return $model;
@@ -125,7 +141,11 @@ class ProductsRepository extends BaseRepository
     }
 
     public function searchProducts(array $with, $search){
-        $model = $this->model->Search($search, $with)->get();
+        $model = $this->model->Search($search, $with)
+            ->join('stores', 'products.store_id','=','stores.id')
+            ->where('products.quantity','>',0)->where('products.active',1)
+            ->where('stores.active',1)->where('stores.blocked',0)
+            ->get();
         return $model;
     }
 
