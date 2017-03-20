@@ -21,7 +21,6 @@ class VisitProductsRepository extends BaseRepository
     }
 
     public function add_visit_product($product){
-        $product = $this->model->product()->where('slug',$product)->first();
         if(Auth::check()){
             $user = Auth::user();
             if($visitproduct = $user->visitproducts->where('product_id',$product->id)->first()){
@@ -30,7 +29,7 @@ class VisitProductsRepository extends BaseRepository
                $user->visitproducts()->create(['product_id'=>$product->id,'count'=>1]);
             }
         }else{
-            if($visitproduct = $this->model->where('product_id', $product->id)->whereNull('user_id')->first()){
+            if($visitproduct = $this->model->where('product_id', $product->id)->whereNotNull('user_id')->first()){
                 $visitproduct->increment('count');
             }else{
                 $this->store(['product_id' => $product->id,'count' => 1]);

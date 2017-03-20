@@ -11,11 +11,20 @@ namespace App\Repositories\Accont;
 
 use App\Model\ShopValuation;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 class ShopValuationsRepository extends BaseRepository
 {
     public function model(){
         return ShopValuation::class;
+    }
+
+    public function getNotes($product){
+        $model = $this->model->select('shop_valuations.*', DB::raw('avg(note_term) as medium_product, avg(note_service) as medium_attendance'))->distinct()
+            ->where('store_id',$product->store_id)
+            ->groupBy('id','user_id','store_id','request_id','note_term','note_service','note_store','comment','active','created_at','updated_at')
+            ->get();
+        return $model;
     }
 
 }

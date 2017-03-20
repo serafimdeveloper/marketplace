@@ -149,6 +149,8 @@ class ProductsRepository extends BaseRepository
         return $model;
     }
 
-
+    public function countRequests($product){
+        $requests = $product->requests
+    }
 
 }
