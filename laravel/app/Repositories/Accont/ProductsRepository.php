@@ -151,6 +151,10 @@ class ProductsRepository extends BaseRepository
 
     public function countRequests($product){
         $requests = $product->requests
+            ->sum(function($request){
+               return  count($request->pivot->quantity);
+            });
+        return $requests;
     }
 
 }
