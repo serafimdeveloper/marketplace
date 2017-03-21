@@ -125,10 +125,8 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
     Route::post('adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
 });
-Route::get('/info/{page}', function ($title) {
-    $data['title'] = $title;
-    return view('pages.dinamic', $data);
-})->name('pages.dinamic');
+
+Route::get('/pagina/{page}', 'PageController@with_pay')->name('pagina');
 
 Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
 
