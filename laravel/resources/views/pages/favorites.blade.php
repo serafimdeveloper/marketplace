@@ -5,6 +5,7 @@
         <header class="pop-title">
             <h1>Meus produtos favoritos</h1>
         </header>
+        {!! Form::open(['route' => ['pages.favorites.cart'], 'method'=>'POST']) !!}
         @forelse($favorites as $key_store => $store)
             <article class="pop-cart pop-favrities">
                 <h1>{{$store['store']->name}}</h1>
@@ -26,7 +27,7 @@
                                             <div class="checkboxies">
                                                 <label class="checkbox" style="border: none;padding: 0;">
                                                     <span><span class="fa fa-square-o"></span></span>
-                                                    {!! Form::checkbox('status',$product->id) !!}
+                                                    {!! Form::checkbox('favorites[]',$product->id) !!}
                                                 </label>
                                             </div>
                                             <span class="alert hidden"></span>
@@ -61,7 +62,8 @@
             </article>
         @empty
         @endforelse
-        <a href="javascript:void(0)" class="btn btn-popmartin">adicionar ao carrinho</a>
+        <button type="submit" class="btn btn-popmartin">adicionar ao carrinho</button>
+        {!! Form::close() !!}
     </section>
-    <div class="bs-dialog radius-small" title="Enviar observação para LOJA DO JUCA"></div>
+    <!--<div class="bs-dialog radius-small" title="Enviar observação para LOJA DO JUCA"></div>-->
 @endsection

@@ -150,9 +150,9 @@ class ProductsRepository extends BaseRepository
     }
 
     public function countRequests($product){
-        $requests = $product->requests
+        $requests = $product->requests->where('request_status_id',6)
             ->sum(function($request){
-               return  count($request->pivot->quantity);
+               return  $request->pivot->quantity;
             });
         return $requests;
     }
