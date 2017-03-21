@@ -17,7 +17,7 @@
                         @else
                             <li><a href="javascript:void(0)" class="jq-auth"  data-message=" para adicionar ao seus favoritos!"><i class="fa fa-heart"></i></a></li>
                         @endif
-                        <li><a href="{{route('pages.product',['store'=>$product->store->slug,'category'=> $product->category->slug, 'product' => $product->slug])}}" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'facebook-share-dialog','width=626,height=436');return false;">
+                        <li><a href="{{route('pages.product',['store'=>$product->store->slug,'category'=> $product->category->slug, 'product' => $product->slug])}}" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{route('pages.product',['store'=>$product->store->slug,'category'=> $product->category->slug, 'product' => $product->slug])}}'),'facebook-share-dialog','width=626,height=436');return false;">
                                 <i class="fa fa-facebook-official"></i>
                             </a>
                         </li>
