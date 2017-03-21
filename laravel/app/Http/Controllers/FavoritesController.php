@@ -9,8 +9,11 @@
 namespace App\Http\Controllers;
 
 
+use App\Model\Cart;
 use App\Repositories\FavoritesRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class FavoritesController extends AbstractController
 {
@@ -46,7 +49,15 @@ class FavoritesController extends AbstractController
         return response()->json(['msg' => 'Erro ao remover o produto do seu favorito'],500);
 
     }
-    public function cart(){
 
-    }
+    public function add_cart(Request $request){
+        $this->validate($request, ['favorites' => 'required']);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        foreach($request->favorites as $favorite){
+            $cart->add_cart($favorite);
+        }
+        $request->session()->put('cart', $cart);
+        flash('Produto(s) adicionado no carrinho com sucesso','accept');
+        return redirect()->route('pages.cart');    }
 }

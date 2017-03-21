@@ -145,7 +145,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/favoritos', 'FavoritesController@index')->name('pages.favorites');
     Route::get('/favoritos/{product}/adicionar', 'FavoritesController@store')->name('pages.favorites.add');
     Route::get('/favoritos/{product}/deletar', 'FavoritesController@destroy')->name('pages.favorites.delete');
-    Route::post('/favoritos/adicionar/carrinho', 'FavoritesController@cart')->name('pages.favorites.cart');
+    Route::post('/favoritos/adicionar/carrinho', 'FavoritesController@add_cart')->name('pages.favorites.cart');
 });
 
 Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){

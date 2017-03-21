@@ -93,7 +93,7 @@
                                 </div>
                                 <div>
                                     Vendas:
-                                    <div style="color: #B71C1C">652</div>
+                                    <div style="color: #B71C1C">{{$count}}</div>
                                 </div>
                             </div>
                         </div>
