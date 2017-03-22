@@ -13,20 +13,21 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller {
 
-    protected $category, $store, $product;
+    protected $category, $store, $product, $favorite;
     protected $with_product = ['galeries','store','category'],$with_category = [], $with_store = ['products','adress'] ;
     protected $columns = ['*'];
 
-    public function __construct(ProductsRepository $product, CategoriesRepository $category, StoresRepository $store){
+    public function __construct(ProductsRepository $product, CategoriesRepository $category, StoresRepository $store, FavoritesRepository $favorite){
         $this->product = $product;
         $this->category = $category;
         $this->store = $store;
+        $this->favorite = $favorite;
     }
 
-    public function index(FavoritesRepository $favorite){
+    public function index(){
         $features = $this->product->getHighlights($this->with_product);
         $news = $this->product->getNews($this->with_product)->shuffle()->all();
-        $favorites = $favorite->getProductsFavorites();
+        $favorites = $this->favorite->getProductsFavorites();
         $categories_masters = $this->category->all($this->columns, $this->with_category);
         return view('pages.homepage', compact('features','news','categories_masters','favorites'));
     }

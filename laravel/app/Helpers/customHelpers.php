@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
+if(!function_exists('banner_ads')){
+    function banner_ads(){
 
+    }
+}
 
 if(!function_exists('image_type')){
     function image_type($image){

@@ -63,8 +63,10 @@
                 <section>
                     <div class="colbox" style="margin: 30px 0;">
                         <div class="colbox-2 txt-center">
-                            <span class="price">de R${{number_format($product->price,2,',','.')}}</span>
-                            <p class="price-descont">R${{number_format($product->price_out_discount,2,',','.')}}</p>
+                            @if(isset($product->price_out_discount))
+                                <span class="price">de {{ real($product->price) }}</span>
+                            @endif
+                            <p class="price-descont">{{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}</p>
                             @if($product->free_shipping)
                                 <span class="frete frete-gratis">FRETE GRÁTIS</span>
                             @else
