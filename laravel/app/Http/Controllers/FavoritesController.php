@@ -59,5 +59,6 @@ class FavoritesController extends AbstractController
         }
         $request->session()->put('cart', $cart);
         flash('Produto(s) adicionado no carrinho com sucesso','accept');
-        return redirect()->route('pages.cart');    }
+        return redirect()->route('pages.cart');
+    }
 }
