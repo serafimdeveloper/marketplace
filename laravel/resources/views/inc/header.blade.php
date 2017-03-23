@@ -62,18 +62,16 @@
                 @if (Request::segment(1) != 'accont')
                     <div class="content-ads">
                         <div class="pop-ads owl-carousel">
-                            @for($i = 0; $i < 5; $i++)
-                                {{ banner_ads() }}
+                            @foreach(banner_ads() as $ad)
                             <div class="vertical-flex">
-                                <img src="{{ url('imagem/popmartin/img-exemple.jpg?w=100&h=100&fit=crop') }}" title="" alt="[]">
-                                <p>nome da loja <br> <span>frase de impactação</span></p>
-                                <a href=""></a>
+                                <img src="{{ $ad['image'] }}" title="" alt="[]">
+                                <p>{{ $ad['name'] }} <br> <span>{{ $ad['description'] }}</span></p>
+                                <a href="{{ $ad['url'] }}"></a>
                             </div>
-                            @endfor
+                            @endforeach
                         </div>
                         <div class="clear-both"></div>
                     </div>
-
                     <div class="pop-nav-main">
                         <div class="pop-nav-content">
                             <div class="navicon-mobile c-white" style="float: left;margin-left: 15px;"><i

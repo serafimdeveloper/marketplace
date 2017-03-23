@@ -1,9 +1,9 @@
 <?php
+use App\Ad;
 use App\Model\CountOrder;
 use App\Model\Freight;
 use App\Model\Product;
 use App\Model\Store;
-use App\Repositories\AdRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -11,17 +11,19 @@ use Illuminate\Support\Facades\Session;
 
 if(!function_exists('banner_ads')){
     function banner_ads(){
-        $ads = new AdRepository;
-        $date = date('Y-m-d H:i:s');
-        $ad = $ads->all(
-            ['*'],
-            ['stores'],
-            [
-                ['date_start', '>' , $date],
-                ['date_end', '<' , $date]
-            ]
-        );
-        dd($ad);
+        $date = date('Y-m-d');
+        $ads = Ad::whereDate('date_start', '<=' , $date)
+            ->whereDate('date_end', '>=' , $date)
+            ->get();
+        foreach($ads as $ad){
+            $adData[] = [
+                'image' => url('/imagem/loja/' . $ad->store->logo_file . '?w=100&h=100&fit=crop'),
+                'name' => $ad->store->name,
+                'description' => $ad->description,
+                'url' => url('/' . $ad->store->slug)
+            ];
+        }
+        return $adData;
     }
 }
 

@@ -10,27 +10,26 @@
         <div class="colbox">
             <div class="colbox-2">
                 <label>
-                    <span>E-mail</span>
-                    {!! Form::text('email',null, ['placeholder' => 'Email de contato']) !!}
+                    <span>Nome</span>
+                    {!! Form::text('name',null, ['placeholder' => 'Seu nome', 'data-required' => 'minlength', 'data-minlength' => 3]) !!}
                     <span class="alert hidden"></span>
                 </label>
                 <label>
-                    <span>Nome</span>
-                    {!! Form::text('name',null, ['placeholder' => 'Seu nome']) !!}
+                    <span>E-mail</span>
+                    {!! Form::text('email',null, ['placeholder' => 'Email de contato', 'data-required' => 'email']) !!}
                     <span class="alert hidden"></span>
                 </label>
                 <label>
                     <span>Setor</span>
                     <select name="setor">
-                        <option value="comercial">Comercial</option>
-                        <option value="administrativo">Administrativo</option>
+                        <option value="comercial">SAC</option>
                     </select>
                 </label>
             </div>
             <div class="colbox-2">
                 <label>
                     <span>Mensagem</span>
-                    {!! Form::textarea('message',null, ['rows' => '9']) !!}
+                    {!! Form::textarea('message',null, ['rows' => '9', 'data-required' => 'minlength', 'data-minlength' => 20]) !!}
                     <span class="alert hidden"></span>
                 </label>
             </div>
