@@ -3,12 +3,27 @@ use App\Model\CountOrder;
 use App\Model\Freight;
 use App\Model\Product;
 use App\Model\Store;
+use App\Repositories\AdRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
-
+if(!function_exists('banner_ads')){
+    function banner_ads(){
+        $ads = new AdRepository;
+        $date = date('Y-m-d H:i:s');
+        $ad = $ads->all(
+            ['*'],
+            ['stores'],
+            [
+                ['date_start', '>' , $date],
+                ['date_end', '<' , $date]
+            ]
+        );
+        dd($ad);
+    }
+}
 
 if(!function_exists('image_type')){
     function image_type($image){

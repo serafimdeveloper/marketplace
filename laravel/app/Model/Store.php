@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Ad;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -59,5 +60,9 @@ class Store extends Model
 
     public function scopeSearch($query, $name, $with) {
         return $query->where('name', 'LIKE', '%'.$name.'%')->with($with);
+    }
+
+    public function ad(){
+        return $this->hasOne(Ad::class);
     }
 }
