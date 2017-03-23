@@ -63,6 +63,7 @@
                     <div class="content-ads">
                         <div class="pop-ads owl-carousel">
                             @for($i = 0; $i < 5; $i++)
+                                {{ banner_ads() }}
                             <div class="vertical-flex">
                                 <img src="{{ url('imagem/popmartin/img-exemple.jpg?w=100&h=100&fit=crop') }}" title="" alt="[]">
                                 <p>nome da loja <br> <span>frase de impactação</span></p>

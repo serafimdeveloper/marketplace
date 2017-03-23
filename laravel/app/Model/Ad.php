@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ad extends Model{
 
-    public $fillable = ['description', 'date_star','date_end'];
+    public $fillable = ['description', 'date_start','date_end'];
 
     public function store(){
         return $this->belongsTo(Store::class);
