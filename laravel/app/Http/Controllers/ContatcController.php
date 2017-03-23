@@ -6,9 +6,12 @@
  * Time: 14:48
  */
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Mail;
+
 class ContatcController extends Controller{
 
     public function indexGet(){
+
         return view('pages.contact');
     }
 
