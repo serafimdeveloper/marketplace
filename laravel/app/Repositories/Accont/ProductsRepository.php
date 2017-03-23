@@ -140,6 +140,16 @@ class ProductsRepository extends BaseRepository
         return $all;
     }
 
+    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+        $model =  $this->model->Search($name, $with);
+        foreach ($orders as $column => $order) {
+            $model = $model->orderBy($column, $order);
+        }
+        $model = $model->paginate($limit, $columns, 'page', $page);
+
+        return $model;
+    }
+
     public function searchProducts(array $with, $search){
         $model = $this->model->Search($search, $with)
             ->join('stores', 'products.store_id','=','stores.id')

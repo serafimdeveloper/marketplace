@@ -27,7 +27,7 @@ class CategoriesController extends AbstractController
     }
 
     public function store(Request $request){
-        $this->validate($request, ['name'=>'required|unique:categories']);
+        $this->validate($request, ['name'=>'required|unique:categories'], ['name.required' => 'O nome é obrigatório', 'name.unique' => 'O nome é único']);
         $dados = $request->except('_token','id');
         $dados['category_id'] = ($dados['category_id'] === "") ? null : $dados['category_id'];
         if($category = $this->repo->store($dados)){
@@ -49,7 +49,7 @@ class CategoriesController extends AbstractController
     }
 
     public function update(Request $request, $id){
-        $this->validate($request, ['name'=>'required|unique:categories,name,'.$id]);
+        $this->validate($request, ['name'=>'required|unique:categories,name,'.$id], ['name.required' => 'O nome é obrigatório', 'name.unique' => 'O nome é único']);
         $dados = $request->all();
         if($category = $this->repo->update($dados,$id)){
             return response()->json(['status'=>true, 'category'=>$category],201);

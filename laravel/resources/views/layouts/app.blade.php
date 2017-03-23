@@ -4,15 +4,18 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:url"           content="{{url('/')}}" />
-        <meta property="og:type"          content="website" />
-        <meta property="og:title"         content="Pop martin um brasil de compras" />
-        <meta property="og:description"   content="Your description" />
-        <meta property="og:image"         content="{{url('imagem/popmartin/popmartin.jpg?w=800&h=600')}}" />
-        <meta property="og:image:type"    content="image/jpeg">
-        <meta property="og:image:width"   content="800">
-        <meta property="og:image:height"  content="600"> 
-        <meta property="fb:app_id"        content="1645780162393141" />
+        <meta name="url" content="{{ Request::url() }}">
+        <meta name="rating" content="General">
+        <meta name="revisit-after" content="7 days">
+        <meta name="Revisit-After" content="1 days">
+        <meta name="geo.placename" content="Brasil">
+        <meta name="geo.position" content="Rio de Janeiro">
+        <meta name="Robots" content="index, follow">
+        <link rel="canonical" href="{{ url('/') }}">
+        <link rel="shortlink" href="{{ Request::url() }}">
+
+        @yield('meta_facebook')
+
         <title>PopMartin</title>
         <link href="{{asset('frontend/css/bootstrap.css')}}" rel="stylesheet">
         <link href="{{asset('frontend/lib/owlcarousel/owl.carousel.min.css')}}" rel="stylesheet">

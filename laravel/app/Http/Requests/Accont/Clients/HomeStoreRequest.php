@@ -29,7 +29,21 @@ class HomeStoreRequest extends Request
             'name'=>'required',
             'cpf'=>'required|cpf_mascara|unique:users,cpf,'.$user->id,
             'birth'=>'required|date',
-            'genre'=>'required'
+            'genre'=>'required',
+            'phone'=>'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'O nome é obrigatório',
+            'cpf.required' => 'O cpf é obrigatório',
+            'cpf.cpf_mascara' => 'O cpf é inválido',
+            'cpf.unique' => 'Esse cpf já está cadastrado no sistema',
+            'birth.required' => 'A data de nascimento é obrigatório',
+            'birth.date' => 'A data é inválida',
+            'phone.required' => 'O telefone é obrigatório'
         ];
     }
 }

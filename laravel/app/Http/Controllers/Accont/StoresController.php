@@ -56,7 +56,14 @@ class StoresController extends AbstractController
             $validate['social_name'] = 'required';
             $validate['fantasy_name'] = 'required';
         }
-        $this->validate($request, $validate);
+        $this->validate($request, $validate, ['name.required' => 'O nome é obrigatório', 'name.unique' => 'Esse nome de loja já está sendo utilizado',
+            'type_salesman.required' => 'O tipo de pessoa é obrigatório', 'logo_file.required' => 'A arquivo de logo é obrigatório',
+            'logo_file.image' => 'O arquivo de logo não é do tipo imagem', 'logo_file.mimes' => 'Tipo de imagem inválido (PNG, JPG, JPEG).',
+            'about.required' => 'O sobre a loja é obrigatório', 'about.max' => 'O máximo de 500 caracteres', 'exchange_policy.required' => 'A política de troca é obrigatório',
+            'exchange_policy.max' => 'O máximo de 500 caracteres', 'freight_policy.max' => 'O máximo de 500 caracteres',
+            'cnpj.required' => 'O cnpj é obrigatório', 'cnpj.cnpj_mascara' => 'CNPJ inválido', 'cnpj.unique' => 'CNPJ já utilizado',
+            'social_name.required' => 'A Razão Social é obrigatório', 'fantasy_name.required' => 'Nome à Fantasia é obrigatório']);
+
         $dados = $request->except('logo_file');
         $user = Auth::user();
         $dados['salesman_id'] = $user->salesman->id;
@@ -84,14 +91,20 @@ class StoresController extends AbstractController
             'about' => 'required|max:500',
             'exchange_policy' => 'required|max:500',
             'freight_policy' => 'max:500'
-
         ];
         if($request->type_salesman === 'J'){
             $validate['cnpj'] = 'required|cnpj_mascara|unique:stores,cnpj,'.$store->id;
             $validate['social_name'] = 'required';
             $validate['fantasy_name'] = 'required';
         }
-        $this->validate($request, $validate);
+        $this->validate($request, $validate, ['name.required' => 'O nome é obrigatório', 'name.unique' => 'Esse nome de loja já está sendo utilizado',
+            'type_salesman.required' => 'O tipo de pessoa é obrigatório', 'logo_file.required' => 'A arquivo de logo é obrigatório',
+            'logo_file.image' => 'O arquivo de logo não é do tipo imagem', 'logo_file.mimes' => 'Tipo de imagem inválido (PNG, JPG, JPEG).',
+            'about.required' => 'O sobre a loja é obrigatório', 'about.max' => 'O máximo de 500 caracteres', 'exchange_policy.required' => 'A política de troca é obrigatório',
+            'exchange_policy.max' => 'O máximo de 500 caracteres', 'freight_policy.max' => 'O máximo de 500 caracteres',
+            'cnpj.required' => 'O cnpj é obrigatório', 'cnpj.cnpj_mascara' => 'CNPJ inválido', 'cnpj.unique' => 'CNPJ já utilizado',
+            'social_name.required' => 'A Razão Social é obrigatório', 'fantasy_name.required' => 'Nome à Fantasia é obrigatório']);
+
         $dados = $request->except('logo_file');
         $dados['cpf'] = isset($request->cpf) ? $request->cpf : '';
         if($request->hasFile('logo_file')){

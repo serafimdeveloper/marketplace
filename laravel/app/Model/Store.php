@@ -57,7 +57,7 @@ class Store extends Model
         return $this->hasMany(ShopValuation::class);
     }
 
-    public function scopeSearch($query, $name) {
-        return $query->where('name', 'LIKE', '%'.$name.'%')->with('salesman');
+    public function scopeSearch($query, $name, $with) {
+        return $query->where('name', 'LIKE', '%'.$name.'%')->with($with);
     }
 }

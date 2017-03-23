@@ -19,6 +19,20 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
+    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+        $model =  $this->model->search($name);
+        if (!empty($with)) {
+            $model = $model->with($with);
+        }
+
+        foreach ($orders as $column => $order) {
+            $model = $model->orderBy($column, $order);
+        }
+
+        $model = $model->paginate($limit, $columns, 'page', $page);
+
+        return $model;
+    }
 
 
 }

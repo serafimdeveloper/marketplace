@@ -26,7 +26,7 @@ class TypeMovementsStocksController extends AbstractController
 
     public function show($id){
         $typemovementsstock = $this->repo->get($id);
-        return response()->json(compact('$typemovementsstock'));
+        return response()->json(compact('typemovementsstock'));
     }
 
     public function create(){
@@ -34,14 +34,14 @@ class TypeMovementsStocksController extends AbstractController
     }
 
     public function store(Request $request){
-        $dados = $request->all();
-        $this->validate($dados,[
+        $this->validate($request,[
             'name' => 'required|unique:typemovementstocks',
             'description' => 'required',
             'active'=>'required'
-        ]);
-        if($typemovementsstock = $this->repo->store($dados)){
-            return response()->json(compact('$typemovementsstock'),201);
+        ],['name.required' => 'O nome é obrigatório', 'name.unique' => 'Nome já ultilizado', 'description.required' => 'A descrição é obrigatório',
+           'active.required' => 'O campo ativado é obrigatório']);
+        if($typemovementsstock = $this->repo->store($request->all())){
+            return response()->json(compact('typemovementsstock'),201);
         }
         return response()->json(['erro'=>'erro ao gravar'],500);
     }
@@ -52,13 +52,13 @@ class TypeMovementsStocksController extends AbstractController
     }
 
     public function update(Request $request, $id){
-        $dados = $request->all();
-        $this->validate($dados,[
+        $this->validate($request,[
             'name' => 'required|unique:typemovementstocks,'.$id,
             'description' => 'required',
             'active'=>'required'
-        ]);
-        if($typemovementsstock = $this->repo->update($dados,$id)){
+        ],['name.required' => 'O nome é obrigatório', 'name.unique' => 'Nome já ultilizado', 'description.required' => 'A descrição é obrigatório',
+            'active.required' => 'O campo ativado é obrigatório']);
+        if($typemovementsstock = $this->repo->update($request->all(),$id)){
             return response()->json(compact('$typemovementsstock'),200);
         }
         return response()->json(['erro'=>'erro ao gravar'],500);

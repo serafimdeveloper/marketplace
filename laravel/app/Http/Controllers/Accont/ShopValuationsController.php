@@ -34,7 +34,8 @@ class ShopValuationsController extends AbstractController
     }
 
     public function store(Request $request, $id){
-        $this->validate($request,['comment'=>'required|min:4|max:500']);
+        $this->validate($request,['comment'=>'required|min:5|max:500'],['comment.required' => 'A comentários é obrigatório','comment.min' => 'A quantidade mínima de caracteres é 5',
+            'comment.max' => 'A quantidade máxima é de 500 caracteres']);
         $data = $request->all();
         $data['request_id'] = $id;
         if($this->repo->store($data)){

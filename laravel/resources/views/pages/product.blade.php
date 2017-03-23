@@ -1,5 +1,18 @@
 @extends('layouts.app')
+@section('meta_facebook')
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="{{ Request::url() }}">
+    <meta property="og:title" content="{{ $product->name }}">
+    <meta property="og:site_name" content="Pop Martin">
+    <meta property="og:description" content="{{ substr($product->details, 0, 220) }}">
+    <meta property="og:image" content="{!! url('imagem/produto/'. $product->galeries->first()->image . '?w=500&h=500&fit=crop') !!}">
+    <meta property="og:image:type" content="image/{{ image_type($product->galeries->first()->image) }}">
 
+    <meta property="article:author" content="{{$product->store->name}}">
+    <meta property="article:section" content="{{ substr($product->details, 0, 220) }}">
+    <meta property="article:published_time" content="{{ $product->created_at }}">
+    <meta property="fb:app_id" content="1645780162393141">
+@endsection
 @section('content')
     <div class="content">
         {{--<ul class="segment-menu">--}}

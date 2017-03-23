@@ -9,10 +9,10 @@
         <form class="form-modern pop-form searh_store" action="javascript:void(0)">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <label>
-                <input type="search" class="jq-input-search" name="user_name" placeholder="Pesquisar vendedor por e-mail">
+                <input type="search" class="jq-input-search" name="user_name" placeholder="Pesquisar usuário por e-mail">
             </label>
         </form>
-
+        @include('accont.report.presearch')
     </section>
     <div class="clear-both"></div>
     @include('layouts.parties.alert_user_info')

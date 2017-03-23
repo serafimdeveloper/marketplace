@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
+
+
+if(!function_exists('image_type')){
+    function image_type($image){
+        $img = explode(".", $image);
+        return end($img);
+    }
+}
+
 if(!function_exists('discont_percent')){
     function discont_percent($price, $discont){
         $r = ($discont * 100) / $price;

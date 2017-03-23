@@ -73,9 +73,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /** Administrador */
-    Route::get('/report/users', function(){
-        return view('accont.report.users');
-    })->name('report.users');
+    Route::get('/report/users', 'Admin\AdminController@list_users')->name('report.users');
 
     Route::get('/report/salesmans', function(){
         return view('accont.report.salesman');
@@ -125,10 +123,8 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
     Route::post('adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
 });
-Route::get('/info/{page}', function ($title) {
-    $data['title'] = $title;
-    return view('pages.dinamic', $data);
-})->name('pages.dinamic');
+
+Route::get('/pagina/{page}', 'PageController@with_pay')->name('pagina');
 
 Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
 
@@ -145,9 +141,9 @@ Route::get('/pesquisa/{search}', 'HomeController@search')->name('pages.products.
 
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/favoritos', 'FavoritesController@index')->name('pages.favorites');
+    Route::post('/favoritos/adicionar/carrinho', 'FavoritesController@add_cart')->name('pages.favorites.cart');
     Route::get('/favoritos/{product}/adicionar', 'FavoritesController@store')->name('pages.favorites.add');
     Route::get('/favoritos/{product}/deletar', 'FavoritesController@destroy')->name('pages.favorites.delete');
-    Route::post('/favoritos/adicionar/carrinho', 'FavoritesController@add_cart')->name('pages.favorites.cart');
 });
 
 Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
