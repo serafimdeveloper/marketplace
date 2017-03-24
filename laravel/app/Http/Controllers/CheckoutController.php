@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Correios;
+use Mail;
 use App\Repositories\Accont\AdressesRepository;
 
 class CheckoutController extends Controller{
@@ -46,7 +47,6 @@ class CheckoutController extends Controller{
     }
 
     public function confirmPostAddress(AdressesStoreRequest $req, $sha1){
-        $user = Auth::user();
         if(Session::has('cart')){
             $cart = Session::get('cart');
             foreach($cart->stores as $key => $store){
@@ -79,6 +79,9 @@ class CheckoutController extends Controller{
                         $user->save();
                     }
                     $this->service->setCart($cart)->deleteRequestCart($key)->saveCart();
+                    Mail::send('emails.received_request', ['data' => $dados], function($mail) use($dados) {
+                        $mail->to($dados['email'])->subject('Confirmação de sua conta');
+                    });
                     return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
                 }
             }

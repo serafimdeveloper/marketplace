@@ -18,6 +18,7 @@
                     </p>
                 </div>
                 <div class="colbox-2">
+                    @if($request->request_status_id === 3)
                     {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
                         <label>
                             <span>Código de rastreio dos correios</span>
@@ -27,6 +28,13 @@
                         </label>
                         <button type="submit" class="btn btn-small btn-popmartin">enviar</button>
                     {!! Form::close() !!}
+                    @elseif($request->request_status_id > 3)
+                        <span style="margin-bottom: 10px">
+                            <p style="margin-bottom: 0">Status: <strong>{{$rastreamento[0]['status']}}</strong></p>
+                            <p style="margin-bottom: 0">Data: {{$rastreamento[0]['data']}} -  Local: {{$rastreamento[0]['local']}}</p>
+                            <p style="margin-bottom: 0">{{isset($rastreamento[0]['encaminhado']) ? $rastreamento[0]['encaminhado'] : ''}}</p>
+                        </span>
+                    @endif
                 </div>
             </div>
             <div class="clear-both"></div>
@@ -83,12 +91,14 @@
             <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-green fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span></p>
             <div class="clear-both"></div>
         </div>
-        <div class="content">
-            <h4>Anotações do cliente</h4>
-            <p class="padding20-40 bg-graylightextreme">
-                {{ $request->note }}
-            </p>
-        </div>
+        @if($request->note)
+            <div class="content">
+                <h4>Anotações do cliente</h4>
+                <p class="padding20-40 bg-graylightextreme">
+                    {{ $request->note }}
+                </p>
+            </div>
+        @endif
         <div class="txt-center">
             <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
         </div>

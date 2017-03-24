@@ -31,7 +31,7 @@
                     <tr>
                         <td>{{ $order->key }}</td>
                         <td>{{ $order->created_at->diffForHumans() }}</td>
-                        <td>R$ {{ $order->amount }}</td>
+                        <td>{{ real($order->amount) }}</td>
                         <td>{{ $order->store->name }}</td>
                         <td class="t-status t-{{ $order->requeststatus->trigger }}">{{ $order->requeststatus->description }}</td>
                         <td class="txt-center"><a href="/accont/requests/{{ $order->id }}"

@@ -17,9 +17,8 @@ class PaymentMoip
         $this->address = $order->adress;
         $this->store = $order->store;
         $this->moip = new Moip;
-        $this->moip->setEnvironment('test');
-        $this->moip->setCredential(['key' => 'XYO36IZJGAC7SYZURZ8A4SAGMJ6TTKTU0FG4V5NN', 'token' => 'DS60UI87KBYA9QW7HPLZLVNFSQ2KSDZA']);
-
+        $this->moip->setEnvironment(env('MOIP_ENVIRONMENT'));
+        $this->moip->setCredential(['key' => env('MOIP_KEY'), 'token' => env('MOIP_TOKEN')]);
         $this->mount();
     }
 
@@ -27,8 +26,7 @@ class PaymentMoip
     function mount(){
         $user = Auth::user();
 
-        $this->moip->setUniqueID($this->order->key)->setValue($this->order->amount)->setAdds($this->order->freight_price);
-
+        $this->moip->setUniqueID($this->order->key)->setValue($this->order->amount);
         $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT) $this->address->zip_code, 'phone' => $user->phone]]);
         $this->moip->setReason('Compra de produtos efetuada na plataforma Pop Martin');
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
@@ -36,7 +34,7 @@ class PaymentMoip
         $this->moip->addMessage('Produtos sendo comprados: ' . $this->getStringProducts());
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('accont/order/notification'));
-        $this->moip->addComission('Comissão de venda Pop Matin', 'dev@asiw.com.br', ($this->store->comission ? $this->store->comission : 12), true, false);
+        $this->moip->addComission('Comissão de venda Pop Matin', env('MOIP_COMISSION'), ($this->store->comission ? $this->store->comission : 12), true, false);
         $this->moip->setReceiver($this->store->salesman->moip);
         $this->moip->addParcel('1', '6', null, true);
         $this->moip->validate('Identification');
