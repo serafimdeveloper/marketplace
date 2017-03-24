@@ -51,7 +51,6 @@ class FavoritesController extends AbstractController
     }
 
     public function add_cart(Request $request){
-
         $this->validate($request, ['favorites' => 'required']);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
@@ -59,7 +58,7 @@ class FavoritesController extends AbstractController
             $cart->add_cart($favorite);
         }
         $request->session()->put('cart', $cart);
-        flash('Produto(s) adicionado no carrinho','accept');
+        flash('Produto(s) adicionado no carrinho com sucesso','accept');
         return redirect()->route('pages.cart');
     }
 }

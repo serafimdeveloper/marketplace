@@ -51,4 +51,46 @@ class ProductsStoreRequest extends Request
             'diameter_cm' => 'numeric|min:5|max:91',
         ];
     }
+
+    public function messages() {
+        return [
+            'name.required' => 'O nome do produto é obrigatório',
+            'name.unique' => 'Já contém um produto com esse nome',
+            'name.max' => 'A quantidade máxima de caracteres é 50',
+            'name.min' => 'A quantidade mínima de caracteres é 3',
+            'category_id.required' => 'A categória é obrigatório',
+            'category_id.numeric' => 'A categória dever ser um número',
+            'price.required' => 'O preço é obrigatório',
+            'price.numeric' => 'O preço deve ser um número',
+            'deadline.required' => 'O prazo é obrigatório',
+            'deadline.numeric' => 'O prazo deve ser um número',
+            'minimum_stock.required' => 'O número de estoque mínimo obrigatório',
+            'minimum_stock.numeric' => 'O estoque mínimo deve ser um número',
+            'details.required' => 'O detalhe do produto é obrigatório',
+            'details.string' => 'O detalhe do produto deve ser um texto',
+            'details.max' => 'A quantidade máxima de caracteres é de 500',
+            'image_1.required' => 'A imagem é obrigatório',
+            'image.*.mimes' => 'O tipo de imagem é inválido (PNG, JPG, JPEG, PDF)',
+            'image.*.max' => 'O tamanho de imagem excedido',
+            'length_cm.required' => 'O comprimento é obrigatório',
+            'length_cm.numeric' => 'O comprimento deve ser um número',
+            'length_cm.min' => 'O valor mínimo é de 16cm',
+            'length_cm.max' => 'O valor máximo é de 105cm',
+            'width_cm.required' => 'A largura é obrigatório',
+            'width_cm.numeric' => 'A largura deve ser um número',
+            'width_cm.min' => 'O valor mínimo é de 10cm',
+            'width_cm.max' => 'O valor máximo é de 105cm',
+            'height_cm.required' => 'A altura é obrigatório',
+            'height_cm.numeric' => 'A altura deve ser um número',
+            'height_cm.min' => 'O valor mínimo é de 2cm',
+            'height_cm.max' => 'O valor máximo é de 105cm',
+            'weight_gr.required' => 'A peso é obrigatório',
+            'weight_gr.numeric' => 'A peso deve ser um número',
+            'weight_gr.min' => 'O valor mínimo é de 1 grama',
+            'weight_gr.max' => 'O valor máximo é de 30000 gramas',
+            'diameter_cm.numeric' => 'O diametro deve ser um número',
+            'diameter_cm.min' => 'O valor mínimo é de 5cm',
+            'diameter_cm.max' => 'O valor máximo é de 91cm'
+        ];
+    }
 }

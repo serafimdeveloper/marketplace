@@ -71,7 +71,7 @@ class SalesController extends AbstractController
     public function tracking_code(Request $req, $id){
         $this->validate($req,[
             'tracking_code' => 'required'
-        ]);
+        ],['tracking_code.required' => 'O código de rastreio é obrigatório']);
 
         $rastreamento = Correios::rastrear($req->tracking_code);
         dd($rastreamento);

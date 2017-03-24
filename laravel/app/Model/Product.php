@@ -66,6 +66,6 @@ class Product extends Model
     }
 
     public function scopeSearch($query, $name, $with) {
-        return $query->where('name', 'LIKE', $name.'%')->with($with);
+        return $query->where('name', 'LIKE', '%'.$name.'%')->with($with);
     }
 }

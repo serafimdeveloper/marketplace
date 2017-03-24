@@ -77,4 +77,8 @@ class User extends Authenticatable
     public function cartsession(){
         return $this->hasOne(CartSession::class);
     }
+
+    public function scopeSearch($query, $name, $with) {
+        return $query->where('name', 'LIKE', '%'.$name.'%')->with($with);
+    }
 }

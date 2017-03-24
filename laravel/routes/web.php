@@ -72,9 +72,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /** Administrador */
-    Route::get('/report/users', function(){
-        return view('accont.report.users');
-    })->name('report.users');
+    Route::get('/report/users', 'Admin\AdminController@list_users')->name('report.users');
 
     Route::get('/report/salesmans', function(){
         return view('accont.report.salesman');

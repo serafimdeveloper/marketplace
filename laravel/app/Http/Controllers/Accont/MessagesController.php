@@ -72,7 +72,8 @@ class MessagesController extends AbstractController
     public function comments(Request $request, $type, $id){
         $this->validate($request, [
             'message'=>'required|min:5:max:500'
-        ]);
+        ], ['message.required' => 'A messagem é obrigatório','message.min' => 'A quantidade mínima de caracteres é 5',
+            'message.max' => 'A quantidade máxima é de 500 caracteres']);
         $user = Auth::user();
         $dados = ['sender_id' => $user->id, 'sender_type' => get_class($user), 'content'=>$request->message];
         if($type === "request"){
@@ -102,7 +103,8 @@ class MessagesController extends AbstractController
     public function answer(Request $request, $id){
         $this->validate($request, [
             'message'=>'required|min:5:max:500'
-        ]);
+        ], ['message.required' => 'A messagem é obrigatório','message.min' => 'A quantidade mínima de caracteres é 5',
+            'message.max' => 'A quantidade máxima é de 500 caracteres']);
 
 
         if($model = $this->repo->get($id,$this->columns,$this->with)){

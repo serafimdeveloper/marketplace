@@ -34,7 +34,17 @@ class SalesmanStoreRequest extends Request
     public function messages()
     {
         return [
-            'cpf_mascara' => 'O :attribute é inválido',
+            'phone.required' => 'O telefone é obrigatório',
+            'cellphone.required' => 'O celular é obrigatório',
+            'photo_document.required' => 'A foto do documento é obrigatório',
+            'photo_document.image' => 'A foto do documento tem que ser do tipo imagem',
+            'photo_document.mimes' => 'O tipo de imagem é inválido',
+            'photo_document.max' => 'O tamanho máximo da foto do documento é de 10Mb',
+            'proof_adress.required' => 'O comprovante de endereço é obrigatório',
+            'proof_adress.file' => 'O comprovante de endereço é do tipo inválido',
+            'proof_adress.mimes' => 'O tipo de arquivo é inválido',
+            'proof_adress.max' => 'O tamanho máximo da foto do compravante de endereço é de 10Mb',
+            'moip.required' => 'O login do moip é obrigatório'
         ];
     }
 
