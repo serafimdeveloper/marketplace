@@ -7,7 +7,7 @@
     <label>
         <span>Nome do titular do cartão:</span>
         <input type="text" name="Nome" value="{{ $order->user->name }} {{ $order->user->last_name }}"
-               data-required="fullname">
+               data-required="minlength" data-minlength="3">
         <span class="alert hidden"></span>
     </label>
     <input type="hidden" name="Telefone" value="{{ $order->user->phone }}">
@@ -113,9 +113,12 @@
     </div>
 </form>
 <div id="payBoletoMessage" class="txt-center dp-none padding20 fontem-14" style="margin-top: -30px;">
-    Essa compra está sendo efetuada somente nesta loja. Caso haja produtos de outra loja em seu carrinho, não esqueça de finaliza-las também<br>
+    Essa compra está sendo efetuada somente nesta loja. Caso haja produtos de outra loja em seu carrinho, não esqueça de
+    finaliza-las também<br>
     {{--<a href="/carrinho" class="btn btn-small btn-popmartin-trans">carrinho de compras</a>--}}
-    <a class="btn btn-small btn-popmartin" href="https://desenvolvedor.moip.com.br/sandbox/Instrucao.do?token={{ $tokenmoip }}" target="_blank" onClick="PrintIframe(billetMoip);return false;">Imprimir boleto</a>
+    <a class="btn btn-small btn-popmartin"
+       href="https://desenvolvedor.moip.com.br/sandbox/Instrucao.do?token={{ $tokenmoip }}" target="_blank"
+       onClick="PrintIframe(billetMoip);return false;">Imprimir boleto</a>
 </div>
 @section('script')
     <script
@@ -172,41 +175,49 @@
             };
         });
 
-
         var moipSuccess = function (response) {
-
-            console.log(response);
-
+            loaderAjaxScreen(true, 'finalizando...');
             var token = "{!! csrf_token() !!}";
+            var order = "{{ $order_key }}";
             var data = {
                 "response": response,
+                "order": order,
                 "_token": token
-            }
+            }, type, trg, msg, url;
             $.post('/carrinho/checkout/updateorder', data, function () {
-                loaderAjaxScreen(false, null);
-                console.log(response.Status);
                 if (response.Status == undefined) {
-                    $('#billetMoip').attr('src', response.url);
-                    $('#payBoletoMessage').show();
-                    alertify.genericDialog($('#payBoletoMessage')[0]);
+                    type = 'boleto';
+                    trg = 'accept';
+                    msg = 'Compra iniciada. Estamos aguardando o pagamento do boleto';
+                    url = response.url;
+                }else{
+                    if (response.Status == 'Autorizado') {
+                        type = 'credcard';
+                        trg = 'accept';
+                        msg = 'Compra efetuada com sucesso. Agradecemos sua preferência';
+                    } else if (response.Status == 'EmAnalise') {
+                        type = 'credcard';
+                        trg = 'notice';
+                        msg = 'Compra em análise! Aguardando resposta de pagamento da instituição do cartão';
+                        url = '{{ route('accont.request_info', ['id' => $order->id]) }}';
+                    } else if (response.Status == 'Iniciado') {
+                        type = 'credcard';
+                        trg = 'accept';
+                        msg = 'Compra iniciada! Aguardando conclusão de pagamento da instituição do cartão';
+                        url = '{{ route('accont.request_info', ['id' => $order->id]) }}';
+                    } else {
+                        type = 'credcard';
+                        trg = 'error';
+                        msg = 'Compra cancelada!';
+                    }
                 }
+                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
             });
-            if(response.Status == 'Autorizado'){
-                alertify.success("Pagamento realizado com sucesso. Obrigado!");
-            }else if(response.Status == 'Concluido'){
-                alertify.success("Pagamento realizado com sucesso. Obrigado!");
-            }else if(response.Status == 'EmAnalise'){
-                alertify.success("Pagamento encontra-se em análise. Verifique o status de seu pedido!");
-            }
-
-            $("#formCredences").find('button').html('Confirmar pagamento').css({color: '#B40004'});
-//            window.location.replace("/carrinho/checkout/status/success");
         };
 
         var moipError = function (response) {
             alertify.error(response.Mensagem);
             $("#formCredences").find('button').html('Confirmar pagamento').css({background: '#B40004'});
-
         };
 
         payBillet = function () {
@@ -261,8 +272,18 @@
             alertify.genericDialog($('#formCredences')[0]);
         }
 
-        $("#formCredences").find('.checkboxies').find('input').on('click', function(){
+        $("#formCredences").find('.checkboxies').find('input').on('click', function () {
             $('.credcard-info').slideDown();
         });
+
+        function setMessage(trigger, msg) {
+            var fa = trigger == 'accept' ? 'fa-check' : (trigger == 'error' ? 'fa-times' : 'fa-warning');
+            $("#formCredences").html('<div class="txt-center">' +
+                '<p class="trigger ' + trigger + '"><i class="fa ' + fa + '"></i> ' + msg + '</p>' +
+                    @if(Session::has('cart'))
+                        '<p class="fontem-14">Você possui mais produtos no carrinho. Continue comprando!<br> <a href="{{ route('pages.cart') }}" class="btn btn-small btn-popmartin">Voltar para o carrinho</a></p>' +
+                    @endif
+                        '</div>');
+        }
     </script>
 @endsection

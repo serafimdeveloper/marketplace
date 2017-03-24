@@ -1,19 +1,32 @@
 @extends('layouts.app')
-
 @section('content')
     <section class="content">
+            <header class="pop-title">
+                <h1><span id="jq-count-product">{{isset($cart->count) ? $cart->count : 0 }}</span> item no meu carrinho</h1>
+            </header>
+            @if(Request::input('type'))
+            <div class="trigger-box">
+                <div class="trigger {{ Request::input('trg') }}">
+                    {{ Request::input('msg') }}
+                    @if(Request::input('type') == 'boleto')
+                        <a class="btn btn-small btn-popmartin" href="{{ Request::input('redirectURL') }}" target="_blank">imprimir boleto</a>
+                    @endif
+                </div>
+                @if(isset($cart->stores))
+                    <p class="padding10 txt-center">continue com suas compras <i class="fa fa-hand-o-down"></i></p>
+                @endif
+            </div>
+            @endif
         @if(!Session::has('cart') || !(count($cart->stores)))
             <div class="trigger warning">
-                <p class="fontem-20">Carrinho vazio</p>
-                <a href="/" class="btn btn-small btn-popmartin">
-                    <i class="fa fa-shopping-cart"></i>
-                    adicionar produto
+                <span class="fontem-36"><i class="fa fa-frown-o" aria-hidden="true"></i></span><br>
+                <span class="fontem-18">Carrinho vazio</span><br><br>
+                <a href="/" class="btn btn-small btn-popmartin-trans">
+                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                    adicionar produtos
                 </a>
             </div>
         @else
-            <header class="pop-title">
-                <h1><span id="jq-count-product">{{$cart->count}}</span> item no meu carrinho</h1>
-            </header>
             @foreach($cart->stores as $key_store => $store )
                 <article class="pop-cart">
                     <h1>{{$store['name']}}</h1>
