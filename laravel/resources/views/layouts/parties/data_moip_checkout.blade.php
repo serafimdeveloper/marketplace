@@ -116,14 +116,12 @@
     Essa compra está sendo efetuada somente nesta loja. Caso haja produtos de outra loja em seu carrinho, não esqueça de
     finaliza-las também<br>
     {{--<a href="/carrinho" class="btn btn-small btn-popmartin-trans">carrinho de compras</a>--}}
-    <a class="btn btn-small btn-popmartin"
-       href="https://desenvolvedor.moip.com.br/sandbox/Instrucao.do?token={{ $tokenmoip }}" target="_blank"
-       onClick="PrintIframe(billetMoip);return false;">Imprimir boleto</a>
+    <a class="btn btn-small btn-popmartin" href="{{env('MOIP_URL')}}/Instrucao.do?token={{ $tokenmoip }}" target="_blank">Imprimir boleto</a>
 </div>
 @section('script')
     <script
             type='text/javascript'
-            src='https://desenvolvedor.moip.com.br/sandbox/transparente/MoipWidget-v2.js'
+            src='{{env('MOIP_URL')}}/transparente/MoipWidget-v2.js'
             charset='ISO-8859-1'>
     </script>
     <script type="text/javascript">

@@ -26,7 +26,7 @@
                     <tr>
                         <td>#{{$request->key}}</td>
                         <td>{{$request->created_at->diffForHumans()}}</td>
-                        <td>R${{number_format($request->amount,'2',',','.')}}</td>
+                        <td>{{real($request->amount)}}</td>
                         <td>{{$request->user->name}}</td>
                         <td class="t-status t-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</td>
                         <td class="txt-center"><a href="{{route('accont.salesman.sale_info',$request->id)}}"

@@ -18,12 +18,16 @@ class ContactController extends Controller {
     }
 
     public function sendMail(Request $request){
-        $data['view'] = ;
+        $data['view'] = '';
         $data['from'] = $request->email;
         $data['name'] = $request->name;
         $data['message'] = $request->setor;
 
         Mail::to()->send(new OrderContact($data));
         return redirect()->route('pages.contact');
+
+        Mail::send('emails.received_request', ['data' => $dados], function($mail) use($dados) {
+            $mail->to($dados['email'])->subject('Confirmação de sua conta');
+        });
     }
 }

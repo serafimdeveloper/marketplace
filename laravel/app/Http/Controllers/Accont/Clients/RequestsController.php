@@ -5,6 +5,7 @@ use App\Http\Controllers\AbstractController;
 use App\Http\Requests\Request;
 use App\Repositories\Accont\RequestsRepository;
 use Auth;
+use Correios;
 use Illuminate\Support\Facades\Gate;
 
 class RequestsController extends AbstractController
@@ -43,7 +44,8 @@ class RequestsController extends AbstractController
                 if (!$request) {
                     return redirect()->route('accont.home');
                 } else {
-                    return view('accont.request_info', compact('request', 'user', 'type'));
+                    $rastreamento = Correios::rastrear($request->tracking_code);
+                    return view('accont.request_info', compact('request', 'user', 'type', 'rastreamento'));
                 }
             }
         }

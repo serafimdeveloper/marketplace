@@ -19,16 +19,13 @@ class PaymentMoip
         $this->moip = new Moip;
         $this->moip->setEnvironment(env('MOIP_ENVIRONMENT'));
         $this->moip->setCredential(['key' => env('MOIP_KEY'), 'token' => env('MOIP_TOKEN')]);
-
         $this->mount();
     }
-
 
     function mount(){
         $user = Auth::user();
 
         $this->moip->setUniqueID($this->order->key)->setValue($this->order->amount);
-
         $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT) $this->address->zip_code, 'phone' => $user->phone]]);
         $this->moip->setReason('Compra de produtos efetuada na plataforma Pop Martin');
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');

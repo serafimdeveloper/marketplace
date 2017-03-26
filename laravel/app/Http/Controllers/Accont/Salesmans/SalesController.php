@@ -73,17 +73,15 @@ class SalesController extends AbstractController
             'tracking_code' => 'required'
         ],['tracking_code.required' => 'O código de rastreio é obrigatório']);
 
-        $rastreamento = Correios::rastrear($req->tracking_code);
-        dd($rastreamento);
-
-        $element = $this->repo->get($id);
-        $st = ($element->request_status_id < 6 ? 4 : $element->request_status_id);
-
-       if($request = $this->repo->update(['tracking_code'=>$req->tracking_code, 'request_status_id' => $st],$id)){
-           flash('Código de rastreamento do correio salvo', 'accept');
-           return redirect()->route('accont.salesman.sale_info', ['id' => $id]);
-       }
-        flash('Erro ao salvar o código do correio', 'error');
+        if(count(Correios::rastrear($req->tracking_code))){
+            if($request = $this->repo->update(['tracking_code'=>$req->tracking_code, 'request_status_id' => 4],$id)){
+                flash('Código de rastreamento do correio salvo', 'accept');
+                return redirect()->route('accont.salesman.sale_info', ['id' => $id]);
+            }
+            flash('Erro ao salvar o código do correio', 'error');
+            return redirect()->route('accont.salesman.sale_info', ['id' => $id]);
+        }
+        flash('Código de rastreio inválido', 'error');
         return redirect()->route('accont.salesman.sale_info', ['id' => $id]);
     }
 
