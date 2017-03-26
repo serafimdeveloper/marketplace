@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="content">
-    <div class="destinatario">
+    <div class="destinatario" style="font-size: 14px !important;">
         <table>
             <tr>
                 <td class="th">Destinatário:</td>
@@ -49,7 +49,7 @@
     </div>
 
     <p class="tesoura"><span class="fa fa-scissors"></span> </p>
-    <div class="destinatario">
+    <div class="destinatario" style="font-size: 10px !important;">
         <table>
             <tr>
                 <td class="th">Remetente:</td>

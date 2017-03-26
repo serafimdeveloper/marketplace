@@ -137,6 +137,7 @@ class ProductsRepository extends BaseRepository
         $model_cat = Category::where('slug', $category)->first();
         $categories = $this->getCategory($with, $model_cat->id);
         $all = $categories->merge($this->getSubCategory($with, $model_cat->id, $subcategory));
+//        dd($all);
         return $all;
     }
 
@@ -152,10 +153,12 @@ class ProductsRepository extends BaseRepository
 
     public function searchProducts(array $with, $search){
         $model = $this->model->Search($search, $with)
+            ->select('products.*')
             ->join('stores', 'products.store_id','=','stores.id')
             ->where('products.quantity','>',0)->where('products.active',1)
             ->where('stores.active',1)->where('stores.blocked',0)
             ->get();
+//        dd($model);
         return $model;
     }
 

@@ -18,16 +18,21 @@ class ContactController extends Controller {
     }
 
     public function sendMail(Request $request){
-        $data['view'] = '';
         $data['from'] = $request->email;
         $data['name'] = $request->name;
-        $data['message'] = $request->setor;
+        $data['message'] = $request->message;
+//        $data['sector'] = ($request->sector == 'sac' ? 'saq@popmartin.com.br' : '');
+        $data['sector'] = ($request->sector == 'sac' ? 'contato@brunosite.com' : '');
 
-        Mail::to()->send(new OrderContact($data));
+        if($data['sector']){
+            Mail::send('emails.received_contact',['data' => $data], function ($message)use($data){
+                $message->from($data['from'], $data['name'])
+                    ->to($data['sector'], mb_strtoupper($data['sector']))
+                    ->subject('Mensagem para o setor de ');
+            });
+
+            flash('Mensagem enviada com sucesso!', 'accept');
+        }
         return redirect()->route('pages.contact');
-
-        Mail::send('emails.received_request', ['data' => $dados], function($mail) use($dados) {
-            $mail->to($dados['email'])->subject('Confirmação de sua conta');
-        });
     }
 }

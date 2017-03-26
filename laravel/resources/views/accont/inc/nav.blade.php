@@ -85,5 +85,6 @@
     </div>
 </nav>
 @section('script')
+    <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="{{ url('/js/panel.js') }}"></script>
 @endsection

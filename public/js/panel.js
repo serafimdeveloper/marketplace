@@ -29,6 +29,15 @@ $(function(){
         }
     });
 
+    tinymce.init({
+        selector: 'textarea',
+        toolbar: "bold italic underline",
+        menu : {},
+        plugins: "link",
+        link_list: [{title: 'Custumer', value: 'http://www.mywebsite.com.br'}],
+        target_list: [{title: 'Mesma Página', value: '_self'},{title: 'Nova Aba', value: '_blank'}]
+    });
+
     /** Menu mobile do painel de controle */
     $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
     $('.panel-icon-mobile').click(function () {
@@ -84,7 +93,7 @@ $(function(){
                 type: 'GET',
                 dataType: 'json',
                 beforeSend: function () {
-                    $('.' + loader).show();
+                    $("." + loader).show();
                 },
                 error: function (response) {
                     alertify.error(response.responseJSON.msg);
@@ -98,7 +107,7 @@ $(function(){
                     } else {
                         $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');
                     }
-                    $('.' + loader).hide();
+                    $("." + loader).hide();
                 }
             });
         } else {

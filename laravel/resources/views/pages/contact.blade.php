@@ -21,8 +21,8 @@
                 </label>
                 <label>
                     <span>Setor</span>
-                    <select name="setor">
-                        <option value="saq@popmartin.com.br">SAC</option>
+                    <select name="sector">
+                        <option value="sac">SAC</option>
                     </select>
                 </label>
             </div>

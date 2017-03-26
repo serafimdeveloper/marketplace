@@ -52,6 +52,7 @@ class HomeController extends Controller {
     public function search($search){
         $products = $this->product->searchProducts($this->with_product, $search);
         $favorites = $this->favorite->getProductsFavorites();
+
         return view('pages.products', compact('products','search','favorites'));
     }
 
