@@ -1,9 +1,6 @@
 <?php
 use App\Ad;
 use App\Model\CountOrder;
-use App\Model\Freight;
-use App\Model\Product;
-use App\Model\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -15,6 +12,7 @@ if(!function_exists('banner_ads')){
         $ads = Ad::whereDate('date_start', '<=' , $date)
             ->whereDate('date_end', '>=' , $date)
             ->get();
+        $adData = [];
         foreach($ads as $ad){
             $adData[] = [
                 'image' => url('/imagem/loja/' . $ad->store->logo_file . '?w=100&h=100&fit=crop'),
@@ -47,7 +45,7 @@ if(!function_exists('notification_sales')){
     {
         if(Gate::allows('vendedor')){
             if($store = Auth::user()->salesman->store){
-                return count(DB::table('requests')->where('visualized', '=', $visualized)->where('store_id', '=', $store->id)->get());
+                return count(DB::table('requests')->where('visualized', $visualized)->where('store_id',$store->id)->get());
             }
         }
         return 0;
@@ -136,7 +134,7 @@ if(!function_exists('generate_key')){
     }
 }
 
-if(!function_exists('get_categories()')){
+if(!function_exists('get_categories')){
     function get_categories($principal = null){
         $categories = DB::table('categories')->whereNull('category_id')->where('active','=',1);
         if(isset($principal)){
@@ -145,5 +143,13 @@ if(!function_exists('get_categories()')){
             $categories = $categories->limit(25);
         }
         return $categories->get();
+    }
+}
+
+if(!function_exists('send_mail')){
+    function send_mail($template, $data, $subject){
+        Mail::send( $template, $data, function($mail) use($data, $subject) {
+            $mail->to($data['email'])->subject($subject);
+        });
     }
 }

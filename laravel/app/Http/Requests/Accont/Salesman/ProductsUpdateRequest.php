@@ -42,7 +42,7 @@ class ProductsUpdateRequest extends Request
             ],
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
-            'deadline' => 'required|numeric',
+            'deadline' => 'required|numeric|max:15',
             'minimum_stock'=>'required|numeric',
             'details'=>'required|string|max:500',
             'image.*' => 'mimes:png,jpg,jpeg,pdf|max:10000',

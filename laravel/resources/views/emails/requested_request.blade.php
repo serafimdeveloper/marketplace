@@ -1,8 +1,8 @@
 <div style="text-align: justify; font-size: 14px; font-family: Arial,Helvetica,Sans-Serif">
-    <a href="{{route('/')}}" style="color: #336699; line-height: 50px" target="_blank">
+    <a href="{{route('homepage')}}" style="color: #336699; line-height: 50px" target="_blank">
         <img alt="Pop Martin" src="{{url('imagem/popmartin/popmartin.jpg')}}" border="0" />
     </a>
-    <p style="font-size: 16px; font-weight: bold; color: #800000">Olá {{$user->name}},</p>
+    <p style="font-size: 16px; font-weight: bold; color: #800000">Olá {{$name}},</p>
 
     <p>
         Você realizou uma compra.<br />
@@ -28,7 +28,7 @@
         </tr>
         </tbody>
     </table>
-    {{$request->store->name}}
+    {{$store->name}}
     <table style="font-size: 14px">
         <thead>
         <tr>
@@ -40,10 +40,10 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($request->products as $product)
+        @foreach($products as $product)
             <tr>
                 <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image) }}"></td>
-                <td><a href="{{route('pages.product',[$request->store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
+                <td><a href="{{route('pages.product',[$store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                 <td>{{ $product->pivot->quantity }}</td>
                 <td><span class="fontem-12">{{ real($product->pivot->unit_price)}}</span></td>
                 <td class="bold"><span class="fontem-12">{{ real($product->pivot->amount) }}</span></td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Accont\AdressesStoreRequest;
+use App\Repositories\Accont\AdressesRepository;
 use App\Repositories\Accont\RequestsRepository;
 use App\Repositories\Accont\StoresRepository;
 use App\Services\CartServices;
@@ -11,8 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Correios;
-use Mail;
-use App\Repositories\Accont\AdressesRepository;
+
 
 class CheckoutController extends Controller {
     private $moip, $address;
@@ -54,9 +54,8 @@ class CheckoutController extends Controller {
             foreach($cart->stores as $key => $store){
                 if($sha1 === strtoupper(sha1($key))){
                     $user = Auth::user();
-                    if($model_address = $user->addresses->where('name', $req->name)->first()){
-                        $model_address->fill($req->all());
-                        $address = $user->addresses()->save($model_address);
+                    if($address = $user->addresses->where('name', $req->name)->first()){
+                        $address->fill($req->all())->save();
                     }else{
                         $address = $user->addresses()->create($req->all());
                     }
@@ -71,10 +70,9 @@ class CheckoutController extends Controller {
                         $user->save();
                     }
                     $this->service->setCart($cart)->deleteRequestCart($key)->saveCart();
-
-                    Mail::send('emails.received_request', ['data' => $dados], function($mail) use($dados) {
-                        $mail->to($dados['email'])->subject('Confirmação de sua conta');
-                    });
+                    $data = ['user'=> $user, 'store' => $request->store, 'address' => $address, 'products' => $request->products, 'request' => $request];
+                    $this->send_email('client','emails.requested_request',$data,'Você enviou um pedido para a loja '.$store['name']);
+                    $this->send_email('store','emails.received_request',$data,'Você recebeu um pedido do cliente '.$user->name);
                     return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
                 }
             }
@@ -82,27 +80,11 @@ class CheckoutController extends Controller {
         redirect()->route('pages.cart');
     }
 
-    public function checkout(){
-        if(Session::has('cart')){
-            $cart = Session::get('cart');
-            if(isset($cart->address['id'])){
-                $requests = $this->service->setCart($cart)->requests($this->with);
-
-                return view('pages.cart_checkout', compact('cart', 'requests'));
-            }
-            flash('Você não tem o endereço confirmado', 'error');
-            redirect()->route('pages.cart.cart_address');
-        }
-        flash('Você não tem carrinho definido', 'error');
-        redirect()->route('pages.cart');
-    }
-
     private function products($store){
         $products = [];
-        foreach($store['products'] as $key_product => $product){
-            $products[ $key_product ] = ['quantity' => $product['qtd'], 'unit_price' => $product['price_unit'], 'amount' => $product['subtotal']];
+        foreach($store['products'] as $key_product => $product) {
+            $products[$key_product] = ['quantity' => $product['qtd'], 'unit_price' => $product['price_unit'], 'amount' => $product['subtotal']];
         }
-
         return $products;
     }
 
@@ -144,5 +126,11 @@ class CheckoutController extends Controller {
     }
 
     public function notification(){
+    }
+
+    private function send_email($type, $template, $data, $subject){
+        $data['email'] = ($type === 'client') ? $data['user']->email : $data['store']->salesman->user->email;
+        $data['name'] = ($type === 'client') ? $data['user']->name : $data['store']->salesman->user->name;
+        send_mail($template, $data, $subject);
     }
 }
