@@ -30,3 +30,6 @@
         Allow from all
     </LimitExcept>
 </IfModule>
+#<DirectoryMatch "/home/popmartin.com.br">
+#    php_admin_value open_basedir "/home/popmartin.com.br/:/tmp/:/"
+#</DirectoryMatch>

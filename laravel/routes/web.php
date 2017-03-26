@@ -15,9 +15,8 @@ Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback
 
 Route::get('/calculatefreight', 'FreightController@toCalculate')->name('calculatefreight');
 
-Route::get('/contato', function () {
-    return view('pages.contact');
-})->name('pages.contact');
+Route::get('/contato', 'ContactController@indexGet')->name('pages.contact');
+Route::post('/contato', 'ContactController@indexPost')->name('pages.contact');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 

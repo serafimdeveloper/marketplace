@@ -175,7 +175,6 @@
             };
         });
 
-
         var moipSuccess = function (response) {
             loaderAjaxScreen(true, 'finalizando...');
             var token = "{!! csrf_token() !!}";
