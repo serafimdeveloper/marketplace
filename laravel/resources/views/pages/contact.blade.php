@@ -6,7 +6,7 @@
             <h1>Fale conosco</h1>
         </header>
         <p class="trigger warning"><i class="fa fa-warning"></i> ATENÇÃO: Este canal não deve ser usado para tirar dúvidas sobre produtos.</p>
-        {!!Form::model('user',['route'=>['pages.contact'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
+        {!!Form::model('user',['route'=>['pages.sendmail'],'method'=>'POST','class'=>'form-modern pop-form'])!!}
         <div class="colbox">
             <div class="colbox-2">
                 <label>
@@ -22,7 +22,7 @@
                 <label>
                     <span>Setor</span>
                     <select name="setor">
-                        <option value="comercial">SAC</option>
+                        <option value="saq@popmartin.com.br">SAC</option>
                     </select>
                 </label>
             </div>

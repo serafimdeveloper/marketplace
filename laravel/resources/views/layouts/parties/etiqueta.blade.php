@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ url('/frontend/css/bootstrap.css') }}">
     <style>
         .destinatario{position: relative;}
-        .destinatario img{width: 15%;position: absolute; right: 50px; bottom: 30px;}
+        .destinatario img{width: 15%;position: absolute; right: 50px; top: 20px;}
         table{width: 100%;border: 1px solid #888888;font-size: 1.2em;padding: 10px;text-align: left;}
         table tr .th{width: 16%;text-align: right;}
         table td{padding: 7px 5px;}
