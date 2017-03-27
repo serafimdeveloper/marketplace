@@ -59,6 +59,9 @@ class SalesController extends AbstractController
             $rastreamento = [];
             if(isset($request->tracking_code)){
                 $rastreamento = Correios::rastrear($request->tracking_code);
+                if($rastreamento[0]['status'] === 'Entrega Efetuada'){
+                    $request->fill(['request_status_id' => 5])->save();
+                }
             }
             if($request->visualized === 0){
                 $request->fill(['visualized' =>1])->save();
