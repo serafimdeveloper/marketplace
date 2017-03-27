@@ -1,8 +1,7 @@
 <div style="text-align: justify; font-size: 14px; font-family: Arial,Helvetica,Sans-Serif">
     <a href="{{route('/')}}" style="color: #336699; line-height: 50px" target="_blank">
         <!--logo-popmartin-msg.png-->
-        <img alt="Pop Martin" src="{{url('imagem/popmartin/popmartin.jpg')}}" border="0" />
-    </a>
+        <img alt="Pop Martin" src="{{url('imagem/popmartin/logo-popmartin-msg.png')}}" border="0" />    </a>
     <p style="font-size: 16px; font-weight: bold; color: #800000">Olá {{$request->store->name}},</p>
     <p>
         Parabéns! Confirmamos o pagamento do pedido {{$request->key}}. Você já pode enviar seu produto.<br>
@@ -47,7 +46,7 @@
         <tbody>
         @foreach($request->products as $product)
             <tr>
-                <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image) }}"></td>
+                <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image.'?w=40') }}"></td>
                 <td><a href="{{route('pages.product',[$request->store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                 <td>{{ $product->pivot->quantity }}</td>
                 <td><span class="fontem-12">{{ real($product->pivot->unit_price)}}</span></td>

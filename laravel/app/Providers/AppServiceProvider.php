@@ -4,6 +4,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Faker\Generator as FakerGenerator;
 use Faker\Factory as FakerFactory;
+use App;
+use URL;
 
 class AppServiceProvider extends ServiceProvider
 
@@ -16,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \Carbon\Carbon::setLocale($this->app->getLocale());
+
+        if (!\App::environment('local')) {
+            \URL::forceSchema('https');
+        }
 
     }
 

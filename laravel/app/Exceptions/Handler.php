@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if (config('app.debug') && config('app.env') == 'local') {
+        if (config('app.debug')) {
             return $this->renderExceptionWithWhoops($request, $exception);
         }
         return parent::render($request, $exception);

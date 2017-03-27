@@ -7,7 +7,7 @@
             <h1>Detalhes da venda</h1>
         </header>
         <div class="padding10-20">
-            <div class="colbox">
+            <div class="colbox" style="margin-bottom: 10px">
                 <div class="colbox-2">
                     <p>
                         <span class="fontw-500">Status:</span><span class="fontw-600 c-{{ $request->requeststatus->trigger }}"> {{ $request->requeststatus->description }} </span><br>
@@ -31,6 +31,7 @@
                     @elseif($request->request_status_id > 3)
                         <span style="margin-bottom: 10px">
                             <p style="margin-bottom: 0">Status: <strong>{{$rastreamento[0]['status']}}</strong></p>
+                            <p style="margin-bottom: 0">Código de rastreio: {{$request->tracking_code}}</p>
                             <p style="margin-bottom: 0">Data: {{$rastreamento[0]['data']}} -  Local: {{$rastreamento[0]['local']}}</p>
                             <p style="margin-bottom: 0">{{isset($rastreamento[0]['encaminhado']) ? $rastreamento[0]['encaminhado'] : ''}}</p>
                         </span>
@@ -99,9 +100,11 @@
                 </p>
             </div>
         @endif
-        <div class="txt-center">
-            <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
-        </div>
+        @if($request->request_status_id === 3)
+            <div class="txt-center">
+                <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
+            </div>
+        @endif
         <div class="padding20"></div>
     </section>
     <div class="clear-both"></div>

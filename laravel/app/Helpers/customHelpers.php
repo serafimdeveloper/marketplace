@@ -149,7 +149,9 @@ if(!function_exists('get_categories')){
 if(!function_exists('send_mail')){
     function send_mail($template, $data, $subject){
         Mail::send( $template, $data, function($mail) use($data, $subject) {
-            $mail->to($data['email'])->subject($subject);
+            $mail->to($data['email'])
+                ->from('sac@popmartin.com.br')
+                ->subject($subject);
         });
     }
 }

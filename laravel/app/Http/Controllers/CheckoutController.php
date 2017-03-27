@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Correios;
+use DB;
 
 
 class CheckoutController extends Controller {
@@ -54,26 +55,33 @@ class CheckoutController extends Controller {
             foreach($cart->stores as $key => $store){
                 if($sha1 === strtoupper(sha1($key))){
                     $user = Auth::user();
-                    if($address = $user->addresses->where('name', $req->name)->first()){
-                        $address->fill($req->all())->save();
-                    }else{
-                        $address = $user->addresses()->create($req->all());
+                    DB::beginTransaction();
+                    try{
+                        if($address = $user->addresses->where('name', $req->name)->first()){
+                            $address->fill($req->all())->save();
+                        }else{
+                            $address = $user->addresses()->create($req->all());
+                        }
+                        $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
+                        $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'], 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'], 'amount' => $store['amount'], 'note' => $store['obs']];
+                        $model_store = $this->repo_stores->get($key);
+                        $request = $model_store->requests()->create($dados);
+                        $cart->add_request($key, $request->id);
+                        $request->products()->sync($this->products($store));
+                        if($user->phone != $req->phone){
+                            $user->fill(['phone'=> $req->phone])->save();
+                        }
+                        $this->service->setCart($cart)->deleteRequestCart($key)->saveCart();
+                        $data = ['user'=> $user, 'store' => $request->store, 'address' => $address, 'products' => $request->products, 'request' => $request];
+                        $this->send_email('client','emails.requested_request',$data,'Você enviou um pedido para a loja '.$store['name']);
+                        $this->send_email('store','emails.received_request',$data,'Você recebeu um pedido do cliente '.$user->name);
+                        DB::commit();
+                        return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
+                    }catch (\Exception $e){
+                        DB::rollback();
+                        flash('Ocorreu um erro ao confirmar o endereço','error');
+                        redirect()->route('cart.cart_address');
                     }
-                    $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
-                    $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'], 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'], 'amount' => $store['amount'], 'note' => $store['obs']];
-                    $model_store = $this->repo_stores->get($key);
-                    $request = $model_store->requests()->create($dados);
-                    $cart->add_request($key, $request->id);
-                    $request->products()->sync($this->products($store));
-                    if($user->phone != $req->phone){
-                        $user->phone = $req->phone;
-                        $user->save();
-                    }
-                    $this->service->setCart($cart)->deleteRequestCart($key)->saveCart();
-                    $data = ['user'=> $user, 'store' => $request->store, 'address' => $address, 'products' => $request->products, 'request' => $request];
-                    $this->send_email('client','emails.requested_request',$data,'Você enviou um pedido para a loja '.$store['name']);
-                    $this->send_email('store','emails.received_request',$data,'Você recebeu um pedido do cliente '.$user->name);
-                    return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
                 }
             }
         }

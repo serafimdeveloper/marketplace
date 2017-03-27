@@ -45,6 +45,7 @@ class RequestsController extends AbstractController
                     return redirect()->route('accont.home');
                 } else {
                     $rastreamento = Correios::rastrear($request->tracking_code);
+
                     return view('accont.request_info', compact('request', 'user', 'type', 'rastreamento'));
                 }
             }

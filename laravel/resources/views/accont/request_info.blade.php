@@ -7,7 +7,7 @@
             <h1>Detalhe do pedido</h1>
         </header>
         <div class="padding10-20">
-            <div class="coltable pop-header-request">
+            <div class="coltable pop-header-request" style="margin-bottom: 10px">
                 <div class="coltable-6">
                     <p>
                         <span class="fontw-500">Status:</span> <span class="fontw-500 c-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</span><br>
@@ -39,6 +39,7 @@
                         @if($request->request_status_id > 3)
                             <span style="margin-bottom: 10px" class="txt-left">
                                 <p style="margin-bottom: 0">Status: <strong>{{$rastreamento[0]['status']}}</strong></p>
+                                <p style="margin-bottom: 0">Código de rastreio: {{$request->tracking_code}}</p>
                                 <p style="margin-bottom: 0">Data: {{$rastreamento[0]['data']}} -  Local: {{$rastreamento[0]['local']}}</p>
                                 <p style="margin-bottom: 0">{{isset($rastreamento[0]['encaminhado']) ? $rastreamento[0]['encaminhado'] : ''}}</p>
                             </span>
