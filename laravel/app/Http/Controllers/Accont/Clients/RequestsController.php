@@ -45,7 +45,9 @@ class RequestsController extends AbstractController
                     return redirect()->route('accont.home');
                 } else {
                     $rastreamento = Correios::rastrear($request->tracking_code);
-
+                    if($rastreamento[0]['status'] === 'Entrega Efetuada'){
+                        $request->fill(['request_status_id' => 5])->save();
+                    }
                     return view('accont.request_info', compact('request', 'user', 'type', 'rastreamento'));
                 }
             }

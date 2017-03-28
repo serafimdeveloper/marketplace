@@ -49,7 +49,7 @@
                     <tr id="{{$awnser->id}}">
                         <td>{{ ($awnser->sender->name == $eu ? 'Eu' : $awnser->sender->name) }}<br><span>{{ $awnser->created_at->format('d/m/Y H:i:s') }}</span>
                         </td>
-                        <td>{{ $awnser->content }}</td>
+                        <td>{!! $awnser->content !!}</td>
                     </tr>
              @endforeach
              {{--{!! $messages->links() !!}--}}
