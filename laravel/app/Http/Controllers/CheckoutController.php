@@ -133,7 +133,9 @@ class CheckoutController extends Controller {
         }
     }
 
-    public function notification(){
+    public function notification(Request $request){
+        $r_moip = $request->all();
+        dd($r_moip);
     }
 
     private function send_email($type, $template, $data, $subject){

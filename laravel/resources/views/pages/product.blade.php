@@ -4,12 +4,12 @@
     <meta property="og:url" content="{{ Request::url() }}">
     <meta property="og:title" content="{{ $product->name }}">
     <meta property="og:site_name" content="Pop Martin">
-    <meta property="og:description" content="{{ substr($product->details, 0, 220) }}">
+    <meta property="og:description" content="{{ strip_tags(substr($product->details, 0, 220)) }}">
     <meta property="og:image" content="{!! url('imagem/produto/'. $product->galeries->first()->image . '?w=500&h=500&fit=crop') !!}">
     <meta property="og:image:type" content="image/{{ image_type($product->galeries->first()->image) }}">
 
     <meta property="article:author" content="{{$product->store->name}}">
-    <meta property="article:section" content="{{ substr($product->details, 0, 220) }}">
+    <meta property="article:section" content="{{ strip_tags(substr($product->details, 0, 220)) }}">
     <meta property="article:published_time" content="{{ $product->created_at }}">
     <meta property="fb:app_id" content="1645780162393141">
 @endsection
@@ -110,13 +110,13 @@
                             </div>
                             <div class="wt-container">
                                 <div class="wt-content wt-selected wt-visible">
-                                   {{$product->details}}
+                                   {!! $product->details !!}
                                 </div>
                                 <div class="wt-content">
-                                    {{$product->store->exchange_policy}}
+                                    {!! $product->store->exchange_policy !!}
                                 </div>
                                 <div class="wt-content">
-                                    {{$product->store->freight_policy}}
+                                    {!! $product->store->freight_policy !!}
                                 </div>
                             </div>
                         </div>

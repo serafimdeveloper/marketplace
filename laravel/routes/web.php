@@ -20,7 +20,7 @@ Route::post('/contact/sendmail', 'ContactController@sendMail')->name('pages.send
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
-//Route::get('/notification/moip/nasp', 'Accont\PaymentMoip@notification')->name('notification_moip');
+Route::any('/notification/moip/nasp', 'CheckoutController@notification')->name('notification_moip');
 Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){
     // Route::get('/payment/callback', 'PaymentMoip@callback')->name('payment_callback');
 
