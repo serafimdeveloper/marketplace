@@ -39,7 +39,6 @@ if(!function_exists('discont_percent')){
     }
 }
 
-
 if(!function_exists('notification_sales')){
     function notification_sales($visualized)
     {

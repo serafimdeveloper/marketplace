@@ -31,6 +31,7 @@ class SalesController extends AbstractController
     public function index(){
         $page = Input::get('page');
         if($store = Auth::user()->salesman->store){
+            $this->status_request();
             $requests = $this->repo->all($this->columns,$this->with,['store_id' => $store->id],[],10,$page);
             return view('accont.sales', compact('requests'));
         }
@@ -99,5 +100,17 @@ class SalesController extends AbstractController
             return $pdf->download($request->key.'.pdf');
         }
 
+    }
+
+    private function status_request(){
+        $store = Auth::user()->salesman->store;
+        $req_freights = $store->requests->where('request_status_id',4);
+        $req_freights->each(function($request){
+            $status_freigth = Correios::rastrear($request->zip_code);
+            if($status_freigth[0]['status'] === 'Entrega Efetuada'){
+                $request->fill(['request_status_id' => 5])->save();
+            }
+            return $request;
+        });
     }
 }

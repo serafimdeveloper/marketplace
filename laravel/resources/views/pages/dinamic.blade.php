@@ -13,7 +13,7 @@
                 <h1>{{ $page->title }}</h1>
             </header>
             <article>
-                {{ $page->content }}
+                {!!  $page->content !!}
             </article>
         @endif()
     </section>

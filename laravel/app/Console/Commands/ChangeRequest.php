@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Model\Request;
 use Illuminate\Console\Command;
+use Correios;
 
 class ChangeRequest extends Command
 {
@@ -47,6 +48,7 @@ class ChangeRequest extends Command
             if($status_freigth[0]['status'] === 'Entrega Efetuada'){
                 $request->fill(['request_status_id' => 5])->save();
             }
+            sleep(5000);
         });
     }
 }
