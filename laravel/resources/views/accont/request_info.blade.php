@@ -15,24 +15,24 @@
                         <span class="fontw-500">Data:</span> {{ $request->created_at->format('d/m/Y H:i:s') }}<br>
                         <span class="fontw-500">Loja:</span> {{ $request->store->name }}</br>
                         <span class="fontw-500">Forma de pagamento:</span> {{ $request->payment_reference }}
-                        @if($request->requeststatus->id == 2)
+                        @if($request->request_status_id == 2)
                             <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
-                        @elseif($request->requeststatus->id == 1)
+                        @elseif($request->request_status_id == 1)
                             @if($request->payment_reference == 'boleto')
                                 | <a href="{{ $request->moip->url }}" class="c-pop fontem-08" target="_blank"><i class="fa fa-print"></i> imprimir 2° via</a>
                             @else
                                 <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
                             @endif
-                        @elseif($request->requeststatus->id == 3)
+                        @elseif($request->request_status_id == 3)
                                 <span class="c-green"><i class="fa fa-check"></i> pago</span>
-                        @elseif($request->requeststatus->id == 6)
+                        @elseif($request->request_status_id == 6)
                                 <span class="c-red"><i class="fa fa-close"></i> cancelado</span>
                             <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
                         @endif
                     </p>
                 </div>
                 <div class="coltable-6 txt-right">
-                    @if($request->requeststatus_id == 5 || $request->requeststatus_id > 6)
+                    @if($request->request_status_id > 4)
                         <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i class="fa fa-star"></i> {{ (isset($request->shopvaluation) ? 'avaliado' : 'avaliar') }}</a>
                     @endif
                     <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar o vendedor</a>

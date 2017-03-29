@@ -22,11 +22,7 @@ class StoresRepository extends BaseRepository
     }
 
     public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
-        $stores =  $this->model->search($name);
-        if (!empty($with)) {
-            $stores = $stores->with($with);
-        }
-
+        $stores =  $this->model->search($name,$with)->where('blocked',0)->where('active',1);
         foreach ($orders as $column => $order) {
             $stores = $stores->orderBy($column, $order);
         }

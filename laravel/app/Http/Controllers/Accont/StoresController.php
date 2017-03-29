@@ -69,6 +69,8 @@ class StoresController extends AbstractController
         $dados['salesman_id'] = $user->salesman->id;
         if($store = $this->repo->store($dados)){
             $dados['logo_file'] = $this->upload($request->logo_file,'img/loja','L'.$store->id.'V'.$dados['salesman_id'].'U'.$user->id);
+            $address = $user->addresses->where('master',1)->first();
+            $address->fill(['store_id' => $store->id])->save();
             $this->repo->update($dados,$store->id);
             flash('Loja criada com sucesso!', 'accept');
             return redirect()->route('accont.salesman.stores');

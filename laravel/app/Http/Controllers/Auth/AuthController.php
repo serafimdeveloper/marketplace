@@ -39,7 +39,7 @@ class AuthController extends Controller
     public function handleProviderCallback()
     {
         $user_social = Socialite::driver('facebook')->user();
-        $name = explode(" ",$user_social->name);
+        /*$name = explode(" ",$user_social->name);
 
         if(Auth::attempt(['email' => $user_social->email, 'password' => $user_social->id])){
             return redirect()->intended();
@@ -48,7 +48,7 @@ class AuthController extends Controller
             'active'=> 1])) {
             Auth::login($user);
             return redirect()->intended();
-        }
+        }*/
     }
 
 }
