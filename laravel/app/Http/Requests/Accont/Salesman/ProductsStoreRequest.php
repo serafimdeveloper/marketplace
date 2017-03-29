@@ -42,13 +42,12 @@ class ProductsStoreRequest extends Request
             'deadline' => 'required|numeric|max:15',
             'minimum_stock'=>'required|numeric',
             'details'=>'required|string|max:500',
-            'image_1' => 'required',
+            'image_0' => 'required',
             'image.*' => 'mimes:png,jpg,jpeg,pdf|max:10000',
             'length_cm' => 'required|numeric|min:16|max:105',
             'width_cm' => 'required|numeric|min:11|max:105',
             'height_cm' => 'required|numeric|min:2|max:105',
-            'weight_gr' => 'required|numeric|min:1|max:30000',
-            'diameter_cm' => 'numeric|min:5|max:91',
+            'weight_gr' => 'required|numeric|min:300|max:30000',
         ];
     }
 
@@ -69,7 +68,7 @@ class ProductsStoreRequest extends Request
             'details.required' => 'O detalhe do produto é obrigatório',
             'details.string' => 'O detalhe do produto deve ser um texto',
             'details.max' => 'A quantidade máxima de caracteres é de 500',
-            'image_1.required' => 'A imagem é obrigatório',
+            'image_0.required' => 'A imagem é obrigatório',
             'image.*.mimes' => 'O tipo de imagem é inválido (PNG, JPG, JPEG, PDF)',
             'image.*.max' => 'O tamanho de imagem excedido',
             'length_cm.required' => 'O comprimento é obrigatório',
@@ -87,10 +86,7 @@ class ProductsStoreRequest extends Request
             'weight_gr.required' => 'A peso é obrigatório',
             'weight_gr.numeric' => 'A peso deve ser um número',
             'weight_gr.min' => 'O valor mínimo é de 1 grama',
-            'weight_gr.max' => 'O valor máximo é de 30000 gramas',
-            'diameter_cm.numeric' => 'O diametro deve ser um número',
-            'diameter_cm.min' => 'O valor mínimo é de 5cm',
-            'diameter_cm.max' => 'O valor máximo é de 91cm'
+            'weight_gr.max' => 'O valor máximo é de 30000 gramas'
         ];
     }
 }

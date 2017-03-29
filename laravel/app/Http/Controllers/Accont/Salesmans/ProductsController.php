@@ -51,7 +51,7 @@ class ProductsController extends AbstractController
 
     public function create()
     {
-        $categories = $this->category->whereNull('category_id')->pluck('name', 'id');
+        $categories = $this->category->whereNull('category_id')->orderBy('name','ASC')->pluck('name', 'id');
         return view('accont.product_info', compact('categories'));
     }
 
@@ -81,12 +81,10 @@ class ProductsController extends AbstractController
 
     public function edit( TypeMovementStock $typeMovementStock, $id)
     {
-        $categories = $this->category->whereNull('category_id')->pluck('name', 'id');
+        $categories = $this->category->whereNull('category_id')->orderBy('name','ASC')->pluck('name', 'id');
         $product = $this->repo->get($id, $this->columns, $this->with);
-        $subcategories = [];
-        if(isset($product->category->category_id)){
-            $subcategories = $this->category->where('category_id',$product->category->category_id)->pluck('name','id');
-        }
+        $category_id = isset($product->category->category_id) ? $product->category->category_id : $product->category->id;
+        $subcategories = $this->category->where('category_id',$category_id)->orderBy('name','ASC')->pluck('name','id');
         $galeries = $product->galeries->toArray();
         $typemovements = $typeMovementStock->pluck('name','slug');
         return view('accont.product_info', compact('categories', 'product', 'galeries','typemovements','subcategories'));

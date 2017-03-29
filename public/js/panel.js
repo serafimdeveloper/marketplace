@@ -96,13 +96,13 @@ $(function(){
                     $("." + loader).show();
                 },
                 error: function (response) {
-                    alertify.error(response.responseJSON.msg);
+                    alertify.error(response.responseJSON);
                 },
                 success: function (response) {
                     if (Object.keys(response.subcategories).length > 0) {
                         $('.subcat_info').html('<option selected >Selecione uma Subcategoria</option>');
-                        $.each(response.subcategories, function (i, e) {
-                            $('.subcat_info').append('<option value="' + i + '">' + e + '</option>');
+                        $.each(response.subcategories, function (i) {
+                            $('.subcat_info').append('<option value="' + response.subcategories[i].id  + '">' + response.subcategories[i].name + '</option>');
                         });
                     } else {
                         $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');

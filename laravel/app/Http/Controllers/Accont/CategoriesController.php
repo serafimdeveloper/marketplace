@@ -44,7 +44,7 @@ class CategoriesController extends AbstractController
     }
 
     public function subcategories($category){
-        $subcategories = $this->repo->subcategories($category)->pluck('name','id');
+        $subcategories = $this->repo->subcategories($category);
         return response()->json(compact('subcategories'));
     }
 

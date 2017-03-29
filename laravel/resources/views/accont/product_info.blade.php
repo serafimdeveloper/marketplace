@@ -173,7 +173,7 @@
         <br>
             <p class="c-pop fontw-500">Dados do correio <sup class="c-red fontem-06">obrigatório</sup></p>
             <div class="colbox">
-                <div class="colbox-5">
+                <div class="colbox-4">
                     <label>
                         <span>Comprimento (cm)</span>
                         {!! Form::number('length_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5, 'data-required' => 'notzero']) !!}
@@ -181,21 +181,14 @@
 
                     </label>
                 </div>
-                <div class="colbox-5">
+                <div class="colbox-4">
                     <label>
                         <span>Largura (cm)</span>
                         {!! Form::text('width_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5, 'data-required' => 'notzero']) !!}
                         <span class="alert{{ $errors->has('width_cm') ? '' : ' hidden' }}">{{ $errors->first('width_cm') }}</span>
                     </label>
                 </div>
-                <div class="colbox-5">
-                    <label>
-                        <span>Diametro (cm)</span>
-                        {!! Form::text('diameter_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5]) !!}
-                        <span class="alert{{ $errors->has('diameter_cm') ? '' : ' hidden' }}">{{ $errors->first('diameter_cm') }}</span>
-                    </label>
-                </div>
-                <div class="colbox-5">
+                <div class="colbox-4">
                     <label>
                         <span>Altura (cm)</span>
                         {!! Form::text('height_cm', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 5, 'data-required' => 'notzero']) !!}
@@ -203,7 +196,7 @@
 
                     </label>
                 </div>
-                <div class="colbox-5">
+                <div class="colbox-4">
                     <label>
                         <span>Peso (gramas)</span>
                         {!! Form::text('weight_gr', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 6, 'data-required' => 'notzero']) !!}
