@@ -10,6 +10,7 @@ use App\Services\CartServices;
 use App\Services\PaymentMoip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Correios;
 use DB;
@@ -133,9 +134,18 @@ class CheckoutController extends Controller {
         }
     }
 
-    public function notification(Request $request){
-        $r_moip = $request->all();
-        dd($r_moip);
+    public function notification(Request $request, RequestsRepository $rp){
+        $order = $rp->order(['moip', 'user'], $request->id_transacao);
+        $amount = number_format($order->amount, 2, '', '');
+        $st = $order->request_status_id;
+        if(($request->valor == $amount) && ($order->user->email == $request->email_consumidor)){
+            if($request->status_pagamento == 4){
+                $st = 3;
+            }elseif($request->status_pagamento == 5){
+                $st = 6;
+            }
+        }
+        $rp->update(['request_status_id' => $st], $order->id);
     }
 
     private function send_email($type, $template, $data, $subject){
