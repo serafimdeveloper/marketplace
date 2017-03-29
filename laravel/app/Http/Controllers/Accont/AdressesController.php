@@ -67,11 +67,15 @@
             $user = Auth::user();
             $dados = $request->except('master');
             if($action === 'user'){
-                if(isset($request->master)){
-                    $this->change_master($user->addresses);
-                    $dados['master'] = 1;
+                if(count($user->addresses)){
+                    if(isset($request->master)){
+                        $this->change_master($user->addresses);
+                        $dados['master'] = 1;
+                    }else{
+                        $dados['master'] = 0;
+                    }
                 }else{
-                    $dados['master'] = 0;
+                   $dados['master'] = 1;
                 }
                 $dados['user_id'] = $user->id;
             }else{

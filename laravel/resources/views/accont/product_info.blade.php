@@ -13,7 +13,7 @@
             @endif
             <label>
                 <span>Nome do produto <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
-                {!! Form::text('name',null, ['placeholder' => 'Nome do produto', 'data-required' => 'name']) !!}
+                {!! Form::text('name',null, ['placeholder' => 'Nome do produto']) !!}
                 <span class="alert{{ $errors->has('name') ? '' : ' hidden' }}">{{ $errors->first('name') }}</span>
             </label>
             <div class="coltable">

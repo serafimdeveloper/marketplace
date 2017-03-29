@@ -6,7 +6,7 @@
                 <div class="pop-top-header">
                     @endif
                     <div class="content">
-                        <div class="pop-logo"><a href="/" title="página inicial"></a></div>
+                        <div class="pop-logo"><a href="{{route('homepage')}}" title="página inicial"></a></div>
                         <div class="navicon-mobile"><i class="fa fa-navicon c-popdark"></i></div>
                         <div class="nav-mobile pop-top-nav">
                             <div class="header-search">
@@ -62,13 +62,21 @@
                 @if (Request::segment(1) != 'accont')
                     <div class="content-ads">
                         <div class="pop-ads owl-carousel">
-                            @foreach(banner_ads() as $ad)
+                            @forelse(banner_ads() as $ad)
                             <div class="vertical-flex">
                                 <img src="{{ $ad['image'] }}" title="" alt="[]">
                                 <p>{{ $ad['name'] }} <br> <span>{{ $ad['description'] }}</span></p>
                                 <a href="{{ $ad['url'] }}"></a>
                             </div>
-                            @endforeach
+                            @empty
+                                @for($i=0;$i<5;$i++)
+                                    <div class="vertical-flex">
+                                        <img src="{{ url('imagem/popmartin/img-exemple.jpg?w=100&h=100&fit=crop') }}" title="" alt="[]">
+                                        <p>sua loja aqui <br> <span>acesso rápido e maior visibilidade</span></p>
+                                        <a href="#"></a>
+                                    </div>
+                                @endfor
+                            @endforelse
                         </div>
                         <div class="clear-both"></div>
                     </div>

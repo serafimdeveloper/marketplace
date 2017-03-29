@@ -10,6 +10,7 @@ use App\Repositories\Accont\StoresRepository;
 use App\Repositories\FavoritesRepository;
 use App\Repositories\VisitProductsRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class HomeController extends Controller {
 
@@ -61,6 +62,13 @@ class HomeController extends Controller {
             if(!(!$store->active || $store->blocked)){
                 $favorites = $this->favorite->getProductsFavorites();
                 return view('pages.store', compact('store','favorites'));
+            }else{
+                if(Auth::check()){
+                    if(Gate::allows('store_access',$store)){
+                        return view('pages.store', compact('store','favorites'));
+                    }
+                }
+                return view('errors.404');
             }
         }
 

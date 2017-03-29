@@ -39,23 +39,33 @@ if(!function_exists('discont_percent')){
     }
 }
 
-
 if(!function_exists('notification_sales')){
     function notification_sales($visualized)
     {
         if(Gate::allows('vendedor')){
             if($store = Auth::user()->salesman->store){
-                return count(DB::table('requests')->where('visualized', $visualized)->where('store_id',$store->id)->get());
+                return count(DB::table('requests')->where('visualized_store', $visualized)->where('store_id',$store->id)->get());
             }
         }
         return 0;
     }
 }
+
+if(!function_exists('notification_request')){
+    function notification_request($visualized)
+    {
+        if($user = Auth::user()){
+            return count(DB::table('requests')->where('visualized_user', $visualized)->where('user_id',$user->id)->get());
+        }
+        return 0;
+    }
+}
+
 if(!function_exists('notification_message_client')){
     function notification_message_client($visualized = 'received')
     {
         if($user = Auth::user()){
-            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $user->id)->where('recipient_type', '=', get_class($user))->where('desactive', '=', 0)->get();
+            $messages = DB::table('messages')->where('status_user', '=', $visualized)->where('recipient_id', '=', $user->id)->where('recipient_type', '=', get_class($user))->where('desactive', '=', 0)->get();
             return count($messages);
         }
         return 0;
@@ -65,7 +75,7 @@ if(!function_exists('notification_message_salesman')){
     function notification_message_salesman($visualized = 'received')
     {
         if($store = Auth::user()->salesman->store){
-            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->where('desactive', '=', 0)->get();
+            $messages = DB::table('messages')->where('status_store', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->where('desactive', '=', 0)->get();
             return count($messages);
         }
         return 0;

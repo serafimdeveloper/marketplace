@@ -73,9 +73,9 @@ class CheckoutController extends Controller {
                             $user->fill(['phone'=> $req->phone])->save();
                         }
                         $this->service->setCart($cart)->deleteRequestCart($key)->saveCart();
-                        #$data = ['user'=> $user, 'store' => $request->store, 'address' => $address, 'products' => $request->products, 'request' => $request];
-                        #$this->send_email('client','emails.requested_request',$data,'Você enviou um pedido para a loja '.$store['name']);
-                        #$this->send_email('store','emails.received_request',$data,'Você recebeu um pedido do cliente '.$user->name);
+                        $data = ['user'=> $user, 'store' => $request->store, 'address' => $address, 'products' => $request->products, 'request' => $request];
+                        $this->send_email('client','emails.requested_request',$data,'Você enviou um pedido para a loja '.$store['name']);
+                        $this->send_email('store','emails.received_request',$data,'Você recebeu um pedido do cliente '.$user->name);
                         DB::commit();
                         return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
                     }catch (\Exception $e){

@@ -20,9 +20,9 @@ class RequestsController extends AbstractController
     public function index()
     {
         $user = Auth::User();
+        $this->status_request();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $requests = $this->repo->all($this->columns, $this->with, ['user_id' => $user->id], ['id' => 'DESC'], 5, $page);
-        $requests = ($requests->first() ? $requests : false);
         return view('accont.requests', compact('requests'));
     }
 
@@ -53,5 +53,17 @@ class RequestsController extends AbstractController
             }
         }
         return redirect()->route('accont.home');
+    }
+
+    private function status_request(){
+        $user = Auth::user();
+        $req_freights = $user->requests->where('request_status_id',4);
+        $req_freights->each(function($request){
+            $status_freigth = Correios::rastrear($request->zip_code);
+            if($status_freigth[0]['status'] === 'Entrega Efetuada'){
+                $request->fill(['request_status_id' => 5])->save();
+            }
+            return $request;
+        });
     }
 }
