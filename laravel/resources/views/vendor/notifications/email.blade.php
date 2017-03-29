@@ -71,7 +71,7 @@ $style = [
                     <tr>
                         <td style="{{ $style['email-masthead'] }}">
                             <a style="{{ $fontFamily }} {{ $style['email-masthead_name'] }}" href="{{ url('/') }}" target="_blank">
-                                {{ config('app.name') }}
+                                Pop Martin
                             </a>
                         </td>
                     </tr>
@@ -88,18 +88,16 @@ $style = [
                                                 {{ $greeting }}
                                             @else
                                                 @if ($level == 'error')
-                                                    Whoops!
+                                                    Ops!
                                                 @else
-                                                    Hello!
+                                                    Olá!
                                                 @endif
                                             @endif
                                         </h1>
 
                                         <!-- Intro -->
                                         @foreach ($introLines as $line)
-                                            <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
-                                            </p>
+                                            Você está recebendo este e-mail porque recebemos um pedido de redefinição de senha para sua conta.
                                         @endforeach
 
                                         <!-- Action Button -->
@@ -124,23 +122,18 @@ $style = [
                                                             style="{{ $fontFamily }} {{ $style['button'] }} {{ $style[$actionColor] }}"
                                                             class="button"
                                                             target="_blank">
-                                                            {{ $actionText }}
+                                                            Trocar senha
                                                         </a>
                                                     </td>
                                                 </tr>
                                             </table>
                                         @endif
 
-                                        <!-- Outro -->
-                                        @foreach ($outroLines as $line)
-                                            <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
-                                            </p>
-                                        @endforeach
-
+                                        Se você não solicitou uma redefinição de senha, nenhuma ação adicional é necessária.
+                                        <br>
                                         <!-- Salutation -->
                                         <p style="{{ $style['paragraph'] }}">
-                                            Regards,<br>{{ config('app.name') }}
+                                            Saudações,<br> Pop Martin
                                         </p>
 
                                         <!-- Sub Copy -->
@@ -149,8 +142,8 @@ $style = [
                                                 <tr>
                                                     <td style="{{ $fontFamily }}">
                                                         <p style="{{ $style['paragraph-sub'] }}">
-                                                            If you’re having trouble clicking the "{{ $actionText }}" button,
-                                                            copy and paste the URL below into your web browser:
+                                                            Se tiver problemas ao clicar no botão "{{ $actionText }}"
+                                                             Copie e cole o URL abaixo em seu navegador da Web:
                                                         </p>
 
                                                         <p style="{{ $style['paragraph-sub'] }}">
@@ -176,8 +169,8 @@ $style = [
                                     <td style="{{ $fontFamily }} {{ $style['email-footer_cell'] }}">
                                         <p style="{{ $style['paragraph-sub'] }}">
                                             &copy; {{ date('Y') }}
-                                            <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">{{ config('app.name') }}</a>.
-                                            All rights reserved.
+                                            <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">Pop Martin</a>.
+                                            Todos os direitos reservados.
                                         </p>
                                     </td>
                                 </tr>

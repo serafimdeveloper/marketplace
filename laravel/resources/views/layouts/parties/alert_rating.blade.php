@@ -63,7 +63,7 @@
     </div>
 </div>
 @section('script')
-    <script src="/frontend/lib/rater/rater.min.js"></script>
+    <script src="{{ asset('frontend/lib/rater/rater.min.js') }}"></script>
     <script>
         $(function () {
             var rating = [];

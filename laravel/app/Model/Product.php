@@ -60,4 +60,12 @@ class Product extends Model
     public function visitproduct(){
         return $this->hasMany(VisitProduct::class);
     }
+
+    public function favorites(){
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function scopeSearch($query, $name, $with) {
+        return $query->where('products.name', 'LIKE', '%'.$name.'%')->with($with);
+    }
 }

@@ -19,4 +19,8 @@ class Salesman extends Model
     public function store(){
         return $this->hasOne(Store::class);
     }
+
+    public function connect(){
+        return $this->hasOne(ConnectSallesman::class);
+    }
 }

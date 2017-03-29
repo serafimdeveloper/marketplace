@@ -61,10 +61,10 @@
     </div>
 </div>
 @section('css')
-    <link href="/frontend/lib/datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="/public/frontend/lib/datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet">
 @endsection
 @section('script')
-    <script src="/frontend/lib/datetimepicker/jquery.datetimepicker.full.min.js"></script>
+    <script src="/public/frontend/lib/datetimepicker/jquery.datetimepicker.full.min.js"></script>
     <script>
         $.datetimepicker.setLocale('pt-BR');
         $('.datetimepicker_datetime').datetimepicker();

@@ -2,46 +2,31 @@
 
 <!-- Main Content -->
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    <section class="content">
+        <header class="pop-title">
+            <h1>Recuperar acesso</h1>
+        </header>
+        @if (session('status'))
+            <div class="trigger accept">
+                {{ session('status') }}
             </div>
+        @endif
+        <br>
+        <div style="max-width: 400px; margin: 0 auto;">
+            <p class="txt-center">
+                Informe seu e-mail de cadastro no Pop Martin.
+                Um email contendo um link será enviado para que possa redefinir sua senha
+            </p>
+            <form class="form-modern pop-form" method="POST" action="{{ url('/password/email') }}">
+                {{ csrf_field() }}
+                <label>
+                    <input type="email" name="email" value="{{ old('email') }} " placeholder="e-mail de cadastro" data-required="email" required>
+                    <span class="alert {{ $errors->has('email') ? '' : 'hidden' }}"></span>
+                </label>
+                <div class="txt-center">
+                    <button type="submit" class="btn btn-popmartin">Enviar link</button>
+                </div>
+            </form>
         </div>
-    </div>
-</div>
+    </section>
 @endsection

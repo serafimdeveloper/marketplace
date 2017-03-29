@@ -32,7 +32,9 @@ class SalesmanUpdateRequest extends Request
     public function messages()
     {
         return [
-            'cpf_mascara' => 'O :attribute é inválido',
+            'phone.required' => 'O telefone é obrigatório',
+            'cellphone.required' => 'O celular é obrigatório',
+            'moip.required' => 'O login do moip é obrigatório'
         ];
     }
 

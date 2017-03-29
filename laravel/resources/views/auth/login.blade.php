@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <section class="pop-forms content">
     <div class="colbox">
@@ -8,7 +7,7 @@
                 <h1>Já sou usuário do Pop Martin</h1>
             </header>
             <div class="txt-center">
-                <a class="modal modal-blueface" href="">
+                <a class="modal modal-blueface" href="{{route('auth.facebook')}}">
                     <span><i class="fa fa-facebook-f"></i> | conecte-se usando o facebook</span>
                 </a>
             </div>
@@ -37,7 +36,7 @@
             </header>
 
             <div class="txt-center">
-                <a class="modal modal-blueface" href="">
+                <a class="modal modal-blueface" href="{{route('auth.facebook')}}">
                     <span><i class="fa fa-facebook-f"></i> | cadastre-se usando o facebook</span>
                 </a>
             </div>

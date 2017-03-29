@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ url('/frontend/css/bootstrap.css') }}">
     <style>
         .destinatario{position: relative;}
-        .destinatario img{width: 15%;position: absolute; right: 50px; bottom: 30px;}
+        .destinatario img{width: 15%;position: absolute; right: 50px; top: 20px;}
         table{width: 100%;border: 1px solid #888888;font-size: 1.2em;padding: 10px;text-align: left;}
         table tr .th{width: 16%;text-align: right;}
         table td{padding: 7px 5px;}
@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="content">
-    <div class="destinatario">
+    <div class="destinatario" style="font-size: 14px !important;">
         <table>
             <tr>
                 <td class="th">Destinatário:</td>
@@ -49,7 +49,7 @@
     </div>
 
     <p class="tesoura"><span class="fa fa-scissors"></span> </p>
-    <div class="destinatario">
+    <div class="destinatario" style="font-size: 10px !important;">
         <table>
             <tr>
                 <td class="th">Remetente:</td>

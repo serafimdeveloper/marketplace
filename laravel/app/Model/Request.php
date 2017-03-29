@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Request extends Model
 {
     use SoftDeletes;
-    protected $fillable =['user_id','adress_id','freight_id','settlement_date','cancellation_date','send_date','payment_id',
+    protected $fillable =['user_id','adress_id','store_id','key','freight_id','settlement_date','cancellation_date','send_date','payment_id',
         'number_installments','tracking_code','freight_price','payment_reference','note','request_status_id','amount','visualized'];
 
     protected  $dates = ['create_at','update_at','deleted_at','cancellation_date','send_date','settlement_date'];
 
-    protected $casts = ['settlement_date' => 'date','cancellation_date'=>'datetime','send_date'=>'datetime',
-        'number_installments'=>'integer','freight_price'=>'double','amount'=>'double'];
+    protected $casts = ['number_installments'=>'integer','freight_price'=>'double','amount'=>'double'];
 
 
 
@@ -57,5 +56,9 @@ class Request extends Model
 
     public function movementstocks(){
         return $this->hasMany(MovementStock::class);
+    }
+
+    public function moip(){
+        return $this->hasOne(Moip::class);
     }
 }

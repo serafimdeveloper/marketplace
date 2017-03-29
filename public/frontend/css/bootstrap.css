@@ -96,6 +96,8 @@ ul{list-style: none;}a{text-decoration: none;}a img{border: 0;}img{max-width: 10
 .scroll::-webkit-scrollbar-thumb{border-radius:5px; background:#FE6530;}
 
 /**** TRIGGER *****/
+.trigger-box{position: relative;}
+.trigger-box .trigger-close{cursor: pointer;position: absolute; top: 5px; right: 40px;color: #252525;font-size: 1.6em;font-weight: 100;}
 .trigger{width:95%;margin:5px 2.5% !important;padding:5px;padding-left: 10px;font-weight: 500;}
 .trigger .ajax_close{position:absolute; cursor:pointer;}
 .trigger.accept{border-bottom:3px solid #1E820E; color: #1E820E;}
@@ -454,9 +456,11 @@ label.btn{position:relative; display: inline-block !important;width: auto !impor
 .pagination .active{background-color: #9d9d9d;color: #FFFFFF;}
 .pagination .disabled{color: #9E9E9E;display: none;}
 
-.screen-loader{display: none;position: fixed;top:0;left:0;width:100%;height:100%;z-index:999;background-color: rgba(255,255,255,0.6);}
-.screen-loader div{font-size: 1em;width: 200px;margin: 20% auto;margin-top: - 100px;text-align: center;background-color: #FFF; border: 1px solid #9d9d9d;padding: 10px 10px;  }
+.screen-loader{display: none;position: fixed;top:0;left:0;width:100%;height:100%;z-index:999;background-color: rgba(255,255,255,0.6);text-align: center;}
+.screen-loader div{font-size: 1em;display: inline-block; max-width: 600px;margin: 20% auto;margin: 15% auto;text-align: center;background-color: #FFF; border: 1px solid #9d9d9d;padding: 10px 10px;  }
 .screen-loader i{font-size: 1.2em;vertical-align: middle;}
+
+.screen-loader.success div{background-color: #2ab27b;padding: 15px 20px;font-weight: bold;font-size: 1.2em;color: #FFF;}
 
 /**** PADRONIZAÇÃO DESIGN RESPONSIVO ******************************
     aAplicação de media query responsivas

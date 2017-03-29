@@ -7,21 +7,45 @@
             <h1>Detalhe do pedido</h1>
         </header>
         <div class="padding10-20">
-            <div class="coltable pop-header-request">
-                <div class="coltable-8">
+            <div class="coltable pop-header-request" style="margin-bottom: 10px">
+                <div class="coltable-6">
                     <p>
                         <span class="fontw-500">Status:</span> <span class="fontw-500 c-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</span><br>
                         <span class="fontw-500">Pedido:</span> {{ $request->key }}<br>
                         <span class="fontw-500">Data:</span> {{ $request->created_at->format('d/m/Y H:i:s') }}<br>
-                        <span class="fontw-500">Loja:</span> {{ $request->store->name }}
+                        <span class="fontw-500">Loja:</span> {{ $request->store->name }}</br>
+                        <span class="fontw-500">Forma de pagamento:</span> {{ $request->payment_reference }}
+                        @if($request->requeststatus->id == 2)
+                            <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
+                        @elseif($request->requeststatus->id == 1)
+                            @if($request->payment_reference == 'boleto')
+                                | <a href="{{ $request->moip->url }}" class="c-pop fontem-08" target="_blank"><i class="fa fa-print"></i> imprimir 2° via</a>
+                            @else
+                                <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
+                            @endif
+                        @elseif($request->requeststatus->id == 3)
+                                <span class="c-green"><i class="fa fa-check"></i> pago</span>
+                        @elseif($request->requeststatus->id == 6)
+                                <span class="c-red"><i class="fa fa-close"></i> cancelado</span>
+                            <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
+                        @endif
                     </p>
                 </div>
-                <div class="coltable-4 txt-right">
-                    <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i class="fa fa-star"></i> {{ (isset($request->shopvaluation) ? 'avaliado' : 'avaliar') }}</a>
+                <div class="coltable-6 txt-right">
+                    @if($request->requeststatus_id == 5 || $request->requeststatus_id > 6)
+                        <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i class="fa fa-star"></i> {{ (isset($request->shopvaluation) ? 'avaliado' : 'avaliar') }}</a>
+                    @endif
                     <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar o vendedor</a>
+                        @if($request->request_status_id > 3)
+                            <span style="margin-bottom: 10px" class="txt-left">
+                                <p style="margin-bottom: 0">Status: <strong>{{$rastreamento[0]['status']}}</strong></p>
+                                <p style="margin-bottom: 0">Código de rastreio: {{$request->tracking_code}}</p>
+                                <p style="margin-bottom: 0">Data: {{$rastreamento[0]['data']}} -  Local: {{$rastreamento[0]['local']}}</p>
+                                <p style="margin-bottom: 0">{{isset($rastreamento[0]['encaminhado']) ? $rastreamento[0]['encaminhado'] : ''}}</p>
+                            </span>
+                        @endif
                 </div>
             </div>
-
 
             <table class="table table-action">
                 <thead>
@@ -38,15 +62,15 @@
                 @foreach($request->products as $product)
                     <tr>
                         <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image) }}"></td>
-                        <td><a href="/loja/nome/categoria/produto" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
+                        <td><a href="{{route('pages.product',[$request->store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                         <td>{{ $product->pivot->quantity }}</td>
-                        <td><span class="fontem-12">R${{ number_format($product->pivot->unit_price, 2, ',', '')}}</span></td>
-                        <td class="bold"><span class="fontem-12">R${{ number_format($product->pivot->amount, 2, ',', '') }}</span></td>
+                        <td><span class="fontem-12">{{ real($product->pivot->unit_price)}}</span></td>
+                        <td class="bold"><span class="fontem-12">{{ real($product->pivot->amount) }}</span></td>
                     </tr>
                 @endforeach
                 <tr>
                     <td>Total</td>
-                    <td class="bold" colspan="4" style="text-align: right;"><span class="fontem-18 fontw-800">R${{number_format(amount_products($request->products),2,',','.')}}</span></td>
+                    <td class="bold" colspan="4" style="text-align: right;"><span class="fontem-18 fontw-800">{{real(amount_products($request->products))}}</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -76,12 +100,14 @@
             <hr>
             <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-pop fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span></p>
             <div class="padding10"></div>
-            <div class="content">
-                <h4>Anotações enviada junto ao pedido</h4>
-                <p class="padding20-40 bg-graylightextreme">
-                    {{ $request->note }}
-                </p>
-            </div>
+            @if($request->note)
+                <div class="content">
+                    <h4>Anotações enviada junto ao pedido</h4>
+                    <p class="padding20-40 bg-graylightextreme">
+                        {{ $request->note }}
+                    </p>
+                </div>
+            @endif
         </div>
     </section>
     <div class="clear-both"></div>

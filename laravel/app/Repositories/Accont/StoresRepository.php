@@ -36,7 +36,7 @@ class StoresRepository extends BaseRepository
         return $stores;
     }
 
-    public function bySlug($slug){
-        return $this->model->where(['slug'=> $slug])->first();
+    public function getStoreSlug(array $with, $slug){
+        return $this->model->with($with)->where(['slug'=> $slug])->first();
     }
 }

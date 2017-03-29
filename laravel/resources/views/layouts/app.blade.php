@@ -4,18 +4,27 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="url" content="{{ Request::url() }}">
+        <meta name="rating" content="General">
+        <meta name="revisit-after" content="7 days">
+        <meta name="Revisit-After" content="1 days">
+        <meta name="geo.placename" content="Brasil">
+        <meta name="geo.position" content="Rio de Janeiro">
+        <meta name="Robots" content="index, follow">
+        <link rel="canonical" href="{{ url('/') }}">
+        <link rel="shortlink" href="{{ Request::url() }}">
+
+        @yield('meta_facebook')
+
         <title>PopMartin</title>
-
-        <link href="/frontend/css/bootstrap.css" rel="stylesheet">
-        <link href="/frontend/lib/owlcarousel/owl.carousel.min.css" rel="stylesheet">
-        <link href="/frontend/lib/owlcarousel/theme/owl.theme.default.min.css" rel="stylesheet">
-        <link href="/frontend/lib/tooltipster/css/tooltipster.bundle.min.css" rel="stylesheet">
-        <link href="/frontend/lib/alertfy/css/alertify.min.css" rel="stylesheet">
-        <link href="/frontend/lib/alertfy/css/themes/semantic.rtl.min.css" rel="stylesheet">
+        <link href="{{asset('frontend/css/bootstrap.css')}}" rel="stylesheet">
+        <link href="{{asset('frontend/lib/owlcarousel/owl.carousel.min.css')}}" rel="stylesheet">
+        <link href="{{asset('frontend/lib/owlcarousel/theme/owl.theme.default.min.css')}}" rel="stylesheet">
+        <link href="{{asset('frontend/lib/tooltipster/css/tooltipster.bundle.min.css')}}" rel="stylesheet">
+        <link href="{{asset('frontend/lib/alertfy/css/alertify.min.css')}}" rel="stylesheet">
+        <link href="{{asset('frontend/lib/alertfy/css/themes/semantic.rtl.min.css')}}" rel="stylesheet">
         @yield('css')
-        <link href="/css/popmartin.css" rel="stylesheet">
-
-
+        <link href="{{asset('css/popmartin.css')}}" rel="stylesheet">
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -27,21 +36,30 @@
             @yield('content')
             @include('inc.footer')
         </main>
-        <script src="/frontend/js/jquery1.js"></script>
-        <script src="/frontend/lib/jqueryui/jquery-ui.min.js"></script>
-        <script src="/frontend/lib/maskinput/jquery.mask.min.js"></script>
-        <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="/frontend/lib/tooltipster/js/tooltipster.bundle.min.js"></script>
-        <script src="/frontend/lib/alertfy/alertify.min.js"></script>
+        <div id="fb-root"></div>
+        <script>
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.8&appId=1645780162393141";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script src="{{asset('frontend/js/jquery1.js')}}"></script>
+        <script src="{{asset('frontend/lib/jqueryui/jquery-ui.min.js')}}"></script>
+        <script src="{{asset('frontend/lib/maskinput/jquery.mask.min.js')}}"></script>
+        <script src="{{asset('frontend/lib/owlcarousel/owl.carousel.min.js')}}"></script>
+        <script src="{{asset('frontend/lib/tooltipster/js/tooltipster.bundle.min.js')}}"></script>
+        <script src="{{asset('frontend/lib/alertfy/alertify.min.js')}}"></script>
         {{--<script src="/frontend/lib/twbsPagination/jquery.twbsPagination.min.js"></script>--}}
-        <script src="/frontend/js/bootstrap.js"></script>
-        <script src="{{ url('/js/popmartin.js') }}"></script>
+        <script src="{{asset('frontend/js/bootstrap.js')}}"></script>
+        <script src="{{asset('/js/popmartin.js') }}"></script>
         @yield('script')
         @if (session()->has('flash_notification.message'))
             <script>
                 var alert = '{{ session('flash_notification.level') }}';
                 var message = '{!! session('flash_notification.message') !!}';
-                console.log(alert);
                 if(alert == 'accept'){
                     alertify.success(message);
                 }else{

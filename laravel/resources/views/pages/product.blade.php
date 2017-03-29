@@ -1,5 +1,18 @@
 @extends('layouts.app')
+@section('meta_facebook')
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="{{ Request::url() }}">
+    <meta property="og:title" content="{{ $product->name }}">
+    <meta property="og:site_name" content="Pop Martin">
+    <meta property="og:description" content="{{ strip_tags(substr($product->details, 0, 220)) }}">
+    <meta property="og:image" content="{!! url('imagem/produto/'. $product->galeries->first()->image . '?w=500&h=500&fit=crop') !!}">
+    <meta property="og:image:type" content="image/{{ image_type($product->galeries->first()->image) }}">
 
+    <meta property="article:author" content="{{$product->store->name}}">
+    <meta property="article:section" content="{{ strip_tags(substr($product->details, 0, 220)) }}">
+    <meta property="article:published_time" content="{{ $product->created_at }}">
+    <meta property="fb:app_id" content="1645780162393141">
+@endsection
 @section('content')
     <div class="content">
         {{--<ul class="segment-menu">--}}
@@ -31,7 +44,7 @@
                             <p>{{$product->store->name}}</p>
                         </div>
                         <div class="fl-right">
-                            <a class="btn btn-popmartin-trans {{ isset($auth) ? 'jq-new-message' : 'jq-auth' }}">
+                            <a class="btn btn-popmartin-trans {{ Auth::check() ? 'jq-new-message' : 'jq-auth' }}" data-message="para contatar o vendedor!">
                                 <i class="fa fa-comments-o"></i> contatar o vendedor
                             </a>
                         </div>
@@ -43,14 +56,17 @@
                     <h1>{{$product->name}}</h1>
                 </header>
                 <div class="padding05">
-                    <a href="" class="btn btn-small btn-facebook"><i class="fa fa-facebook"></i> compartilhar</a>
-                    <a href="" class="btn btn-small btn-facebook"><i class="fa fa-facebook"></i> curtir</a>
+                    <div class="fb-like" data-href="{{route('pages.product',
+                    ['store'=>$product->store->slug,'category'=> $product->category->slug, 'product' => $product->slug])}}"
+                         data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
                 </div>
                 <section>
                     <div class="colbox" style="margin: 30px 0;">
                         <div class="colbox-2 txt-center">
-                            <span class="price">de R${{number_format($product->price,2,',','.')}}</span>
-                            <p class="price-descont">R${{number_format($product->price_out_discount,2,',','.')}}</p>
+                            @if(isset($product->price_out_discount))
+                                <span class="price">de {{ real($product->price) }}</span>
+                            @endif
+                            <p class="price-descont">{{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}</p>
                             @if($product->free_shipping)
                                 <span class="frete frete-gratis">FRETE GRÁTIS</span>
                             @else
@@ -70,16 +86,16 @@
                             <div class="pop-rate">
                                 <p>Avaliação do vendedor</p>
                                 <div>
-                                    Qualidade do produto:
-                                    <div class="rating" data-rate-value=3></div>
+                                    Qualidade dos produtos:
+                                    <div class="rating" data-rate-value="{{isset($notes->medium_product) ? $notes->medium_product : 0}}"></div>
                                 </div>
                                 <div>
                                     Atendimento:
-                                    <div class="rating" data-rate-value="4"></div>
+                                    <div class="rating" data-rate-value="{{isset($notes->medium_attendance) ? $notes->medium_attendance : 0}}"></div>
                                 </div>
                                 <div>
                                     Vendas:
-                                    <div style="color: #B71C1C">652</div>
+                                    <div style="color: #B71C1C">{{$count}}</div>
                                 </div>
                             </div>
                         </div>
@@ -94,13 +110,13 @@
                             </div>
                             <div class="wt-container">
                                 <div class="wt-content wt-selected wt-visible">
-                                   {{$product->details}}
+                                   {!! $product->details !!}
                                 </div>
                                 <div class="wt-content">
-                                    {{$product->store->exchange_policy}}
+                                    {!! $product->store->exchange_policy !!}
                                 </div>
                                 <div class="wt-content">
-                                    {{$product->store->freight_policy}}
+                                    {!! $product->store->freight_policy !!}
                                 </div>
                             </div>
                         </div>
@@ -125,7 +141,7 @@
     @include('layouts.parties.alert_message')
 @endsection
 @section('script')
-    <script src="/frontend/lib/rater/rater.min.js"></script>
+    <script src="{{ asset('frontend/lib/rater/rater.min.js') }}"></script>
     <script>
         var rateOptions = {
             max_value: 5,

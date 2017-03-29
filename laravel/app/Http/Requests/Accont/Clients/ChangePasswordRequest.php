@@ -28,4 +28,15 @@ class ChangePasswordRequest extends Request
             'newpassword'=>'required|min:6|confirmed'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'password.required' => 'A senha é obrigatório',
+            'password.min' => 'A quantidade minima é de 6 caracteres',
+            'newpassword.required' => 'A confirmação é obrigatório',
+            'newpassword.min' => 'A quantidade mínima é de 6 caracteres',
+            'newpassword.confirmed' => 'As senhas não conferem'
+        ];
+    }
 }

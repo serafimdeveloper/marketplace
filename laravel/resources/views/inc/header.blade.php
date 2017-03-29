@@ -12,24 +12,24 @@
                             <div class="header-search">
                                 <form class="form pop-search" action="/pesquisa" method="get">
                                     <div class="input-group">
-                                        <input type="text" name="search" placeholder="o que procura?">
+                                        <input type="text" name="search" placeholder="o que procura?" value="{{isset($search) ? $search : ''}}">
                                         <button type="submit"><i class="fa fa-search"></i></button>
                                     </div>
                                 </form>
                             </div>
                             <div class="header-menu">
                                 <div class="facebook">
-                                    <a class="" href=""><i
+                                    <a class="" href="https://www.facebook.com/popmartinbrasil/" target="_blank"><i
                                                 class="fa fa-facebook-official c-facebook vertical-middle"></i> </a>
                                 </div>
                                 <div class="favorite">
-                                    <a class="" href="/favoritos"><i class="fa fa-heart c-reddark vertical-middle"></i> </a>
+                                    <a class="{{ Auth::check() ? '' : 'jq-auth' }}" data-message=" para visualizar seus favoritos!" href="/favoritos"><i class="fa fa-heart c-reddark vertical-middle"></i> </a>
                                 </div>
                                 <div class="cart">
                                     <a class="vertical-middle" href="/carrinho">
                                         <i class="fa fa-shopping-cart c-green-avocadodark vertical-middle"></i>
-                                        <div class="dp-inblock fontem-07 txt-center">
-                                            <span class="c-green fontw-500" id="amount-cart">R$ {{number_format(Session::has('cart') ? Session::get('cart')->amount : 0.00,2,',','.')}}</span>
+                                        <div class="dp-inblock fontem-07 txt-center" id="amount-cart">
+                                            <span class="c-green fontw-500">{{amount_cart()}}</span>
                                         </div>
                                     </a>
                                 </div>
@@ -62,17 +62,16 @@
                 @if (Request::segment(1) != 'accont')
                     <div class="content-ads">
                         <div class="pop-ads owl-carousel">
-                            @for($i = 0; $i < 5; $i++)
+                            @foreach(banner_ads() as $ad)
                             <div class="vertical-flex">
-                                <img src="{{ url('imagem/loja/loja.jpg?w=100&h=100&fit=crop') }}" title="" alt="[]">
-                                <p>nome da loja <br> <span>frase de impactação</span></p>
-                                <a href=""></a>
+                                <img src="{{ $ad['image'] }}" title="" alt="[]">
+                                <p>{{ $ad['name'] }} <br> <span>{{ $ad['description'] }}</span></p>
+                                <a href="{{ $ad['url'] }}"></a>
                             </div>
-                            @endfor
+                            @endforeach
                         </div>
                         <div class="clear-both"></div>
                     </div>
-
                     <div class="pop-nav-main">
                         <div class="pop-nav-content">
                             <div class="navicon-mobile c-white" style="float: left;margin-left: 15px;"><i
@@ -80,14 +79,13 @@
                                         class="fontem-06" style="vertical-align: middle;">categorias</span></div>
                             <div class="clear-both"></div>
                             <ul class="nav nav-mobile">
-                                <li><a href="">menu 1</a></li>
-                                <li><a href="">menu 2</a></li>
-                                <li><a href="">menu 3</a></li>
-                                <li><a href="">menu 4</a></li>
-                                <li><a href="">menu 5</a></li>
-                                <li><a href="">menu 6</a></li>
-                                <li><a href="">menu 7</a></li>
-                                <li><a href="">menu 8</a></li>
+                                @forelse(get_categories(1) as $category)
+                                    <li><a href="{{route('pages.products.categoria',['category'=>$category->slug])}}">{{$category->name}}</a></li>
+                                @empty
+                                    @for($i=1;$i<9;$i++)
+                                        <li><a href="">menu {{$i}}</a></li>
+                                    @endfor
+                                @endforelse
                             </ul>
                         </div>
                     </div>

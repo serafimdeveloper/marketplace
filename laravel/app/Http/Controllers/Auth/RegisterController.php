@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Model\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -36,7 +37,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->redirectTo = (Session::has('oldUrl')) ? (Session::get('oldUrl')) : 'accont';
+        $this->redirectTo = (Session::has('oldUrl')) ? redirect()->intended() : 'accont';
         $this->middleware('guest');
     }
 

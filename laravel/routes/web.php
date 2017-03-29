@@ -10,16 +10,19 @@ Route::get('/progress/log', function(){
 /**---------------------------------------------------------------------------------------*/
 
 Auth::routes();
+Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider')->name('auth.facebook');
+Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback')->name('auth.facebook.callback');
 
 Route::get('/calculatefreight', 'FreightController@toCalculate')->name('calculatefreight');
 
-Route::get('/contato', function () {
-    return view('pages.contact');
-})->name('pages.contact');
+Route::get('/contato', 'ContactController@indexGet')->name('pages.contact');
+Route::post('/contact/sendmail', 'ContactController@sendMail')->name('pages.sendmail');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
+Route::any('/notification/moip/nasp', 'CheckoutController@notification')->name('notification_moip');
 Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){
+    // Route::get('/payment/callback', 'PaymentMoip@callback')->name('payment_callback');
 
     /** Clientes */
     Route::get('/', 'Clients\HomeController@index')->name('home');
@@ -29,13 +32,14 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     Route::get('/requests','Clients\RequestsController@index')->name('requests');
     Route::get('/requests/{id}','Clients\RequestsController@show')->name('request_info');
-    Route::post('/request/comments/{id}','Clients/RequestsController@comments')->name('request.comments');
+    Route::post('/request/comments/{id}','Clients\RequestsController@comments')->name('request.comments');
     Route::post('/request/shop_valuations/{id}','ShopValuationsController@store')->name('request.shop_valuations');
 
     Route::get('/searchstore', 'StoresController@search')->name('searchstore');
    // Route::post('/searchstore', 'StoresController@search')->name('search.store');
 
     /** Vendedores */
+    Route::get('/appmoip/connect', 'ConnectAppMoipController@show')->name('appmoip_connect');
     Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){
 
         Route::get('create','Salesmans\SalesmanController@create')->name('create');
@@ -49,7 +53,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         Route::get('stores/block', 'StoresController@blocked')->name('stores.blocked');
 
         Route::resource('products', 'Salesmans\ProductsController');
-        Route::get('products/change/{product}','Salesman\ProductsController@desactive')->name('producta.desactive');
+        Route::get('products/change/{product}','Salesmans\ProductsController@desactive')->name('producta.desactive');
         Route::get('products/remove/image/{image}','Salesmans\ProductsController@removeImage')->name('products.image.remove');
 
         Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
@@ -68,9 +72,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /** Administrador */
-    Route::get('/report/users', function(){
-        return view('accont.report.users');
-    })->name('report.users');
+    Route::get('/report/users', 'Admin\AdminController@list_users')->name('report.users');
 
     Route::get('/report/salesmans', function(){
         return view('accont.report.salesman');
@@ -120,10 +122,8 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
     Route::post('adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
 });
-Route::get('/info/{page}', function ($title) {
-    $data['title'] = $title;
-    return view('pages.dinamic', $data);
-})->name('pages.dinamic');
+
+Route::get('/pagina/{page}', 'PageController@with_pay')->name('pagina');
 
 Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
 
@@ -138,16 +138,33 @@ Route::get('/categoria/{category}', 'HomeController@category')->name('pages.prod
 
 Route::get('/pesquisa/{search}', 'HomeController@search')->name('pages.products.pesquisa');
 
-Route::get('/favoritos', 'HomeController@favorites')->name('pages.favorites');
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/favoritos', 'FavoritesController@index')->name('pages.favorites');
+    Route::post('/favoritos/adicionar/carrinho', 'FavoritesController@add_cart')->name('pages.favorites.cart');
+    Route::get('/favoritos/{product}/adicionar', 'FavoritesController@store')->name('pages.favorites.add');
+    Route::get('/favoritos/{product}/deletar', 'FavoritesController@destroy')->name('pages.favorites.delete');
+});
 
-Route::get('/carrinho', 'CartController@index')->name('pages.cart');
-Route::get('/carrinho/add_product/{id}', 'CartController@add_product')->name('pages.cart.add_product');
-Route::post('/carrinho/update_qtd', 'CartController@update_qtd')->name('pages.cart.update_qtd');
-Route::get('/carrinho/remove_product/{id}', 'CartController@remove_product')->name('pages.cart.remove_product');
-Route::post('/carrinho/observation', 'CartController@add_obs')->name('pages.cart.observation');
-Route::post('/carrinho/add_address', 'cartController@add_address')->name('pages.cart.add_address');
-Route::post('/carrinho/type_freight', 'cartController@type_freight')->name('pages.cart.type_freight');
+Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
+    Route::get('/', 'CartController@index')->name('cart');
+    Route::get('/add_product/{id}', 'CartController@add_product')->name('cart.add_product');
+    Route::post('/update_qtd', 'CartController@update_qtd')->name('cart.update_qtd');
+    Route::get('/remove_product/{id}', 'CartController@remove_product')->name('cart.remove_product');
+    Route::post('/observation', 'CartController@add_obs')->name('cart.observation');
+    Route::post('/add_address', 'CartController@add_address')->name('cart.add_address');
+    Route::post('/type_freight', 'CartController@type_freight')->name('cart.type_freight');
 
+    Route::group(['prefix' => 'checkout', 'middleware' => 'auth'], function(){
+        Route::get('/order/{order_key}', 'CheckoutController@order')->name('cart.cart_order');
+        Route::get('/payment/{token}', 'CheckoutController@payment')->name('cart.cart_order_payment_payment');
+        Route::post('/status/{status}', 'CheckoutController@status')->name('cart.cart_order_payment_status');
+        Route::post('/updateorder', 'CheckoutController@updateOrder')->name('cart.cart_update_order');
+        Route::get('/confirmaddress/{sha1}', 'CheckoutController@confirmAddress')->name('cart.cart_address');
+        Route::post('/confirmaddress/{sha1}', 'CheckoutController@confirmPostAddress')->name('cart.cart_address.post');
+        Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
+    });
+});
+Route::get('/appmoip/connect', 'Accont\ConnectAppMoipController@show')->name('appmoip_connect');
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 
 Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');

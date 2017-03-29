@@ -59,9 +59,10 @@ class ProductsController extends AbstractController
     {
         $store = Auth::user()->salesman->store;
         $dados = $request->all();
-        $dados['price_out_discount'] = isset($request->price_out_discount) ? $request->price_out_discount : 'null';
+        $dados['price_out_discount'] = ($request->price_out_discount) ? $request->price_out_discount : null;
+        $dados['diameter_cm'] = ($request->diameter_cm) ? $request->diameter_cm : 0;
         $dados['store_id'] = $store->id;
-        $dados['category_id'] = isset($request->subcategory_id) ? $request->subcategory_id : $request->category_id;
+        $dados['category_id'] = ($request->subcategory_id) ? $request->subcategory_id : $request->category_id;
         if ($product = $this->repo->store($dados)) {
             $value = 1;
             for ($i = 0; $i < 5; $i++) {
@@ -94,8 +95,9 @@ class ProductsController extends AbstractController
     public function update(ProductsUpdateRequest $request, $id)
     {
         $dados = $request->except('type_operation_stock');
-        $dados['price_out_discount'] = isset($request->price_out_discount) ? $request->price_out_discount : 'null';
-        $dados['category_id'] = isset($request->subcategory_id) ? $request->subcategory_id : $request->category_id;
+        $dados['price_out_discount'] = ($request->price_out_discount) ? $request->price_out_discount : null;
+        $dados['diameter_cm'] = ($request->diameter_cm) ? $request->diameter_cm : null;
+        $dados['category_id'] = ($request->subcategory_id) ? $request->subcategory_id : $request->category_id;
         if($product = $this->repo->update($dados,$id)){
             $value = 1;
             for ($i = 0; $i < 5; $i++) {

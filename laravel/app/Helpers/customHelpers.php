@@ -1,17 +1,50 @@
 <?php
-use App\Model\Freight;
-use App\Model\Product;
-use App\Model\Store;
+use App\Ad;
+use App\Model\CountOrder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
+
+if(!function_exists('banner_ads')){
+    function banner_ads(){
+        $date = date('Y-m-d');
+        $ads = Ad::whereDate('date_start', '<=' , $date)
+            ->whereDate('date_end', '>=' , $date)
+            ->get();
+        $adData = [];
+        foreach($ads as $ad){
+            $adData[] = [
+                'image' => url('/imagem/loja/' . $ad->store->logo_file . '?w=100&h=100&fit=crop'),
+                'name' => $ad->store->name,
+                'description' => $ad->description,
+                'url' => url('/' . $ad->store->slug)
+            ];
+        }
+        return $adData;
+    }
+}
+
+if(!function_exists('image_type')){
+    function image_type($image){
+        $img = explode(".", $image);
+        return end($img);
+    }
+}
+
+if(!function_exists('discont_percent')){
+    function discont_percent($price, $discont){
+        $r = ($discont * 100) / $price;
+        return (round(100 - $r, 0) < 10 ? '0' . round(100 - $r, 0) : round(100 - $r, 0));
+    }
+}
 
 if(!function_exists('notification_sales')){
     function notification_sales($visualized)
     {
         if(Gate::allows('vendedor')){
             if($store = Auth::user()->salesman->store){
-                return count(DB::table('requests')->where('visualized', '=', $visualized)->where('store_id', '=', $store->id)->get());
+                return count(DB::table('requests')->where('visualized', $visualized)->where('store_id',$store->id)->get());
             }
         }
         return 0;
@@ -55,105 +88,69 @@ if(!function_exists('amount_products_final')){
         return $amount_final;
     }
 }
+
+if(!function_exists('is_favorite')){
+    function is_favorite(array $store, $id, $product_id){
+        if(isset($store[$id])){
+            foreach($store[$id]['products'] as $product){
+                if($product->id === $product_id){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
 if(!function_exists('real')){
     function real($value)
     {
         return 'R$ ' . number_format($value, 2, ',', '.');
     }
 }
-if(!function_exists('buscar_address')){
-    function buscar_address($adress)
-    {
 
+if(!function_exists('amount_cart')){
+    function amount_cart(){
+        if(Session::has('cart') || isset(Auth::user()->cartsession->stores)){
+            $cart_service = new \App\Services\CartServices();
+            $cartDB = isset(Auth::user()->cartsession) ? Auth::user()->cartsession : null;
+            $cartModelDB = ($cartDB) ? $cart_service->dbCart(json_decode($cartDB->address, true), json_decode($cartDB->stores, true))->getCart() : null;
+            $oldCart = (Session::has('cart')) ?  Session::get('cart') : $cartModelDB;
+            $cart = $cart_service->setCart($oldCart)->check_cart()->getCart();
+            return real($cart->amount);
+        }
+        return real(0);
     }
 }
-if(!function_exists('calculate_freight')){
-    function calculate_freight($cart)
-    {
-        $data = array();
-//        if ($ses = Session::get('cart')) {
-            $volume = 0;
-            $weight = 0;
-            /** Variávei de dados a serem passados para o cáculo de frete */
-            $df['formato'] = 'caixa';
-            $df['diametro'] = 0;
-            $df['cep_destino'] = preg_replace("/-/", '', $cart->address);
 
-            /* Opicionais */
-            //      $df['empresa'] = '';
-            //      $df['senha'] = '';
-            //      $df['mao_propria'] = '';
-            //      $df['valor_declarado'] = '';
-            //      $df['aviso_recebimento'] = '';
-
-                /**
-                 * Desmontar sessão para pegar informações do carrinho
-                 * Montar um array contendo informações básicas para o cálculo de frete
-                 * @var  $id
-                 * @var  $products
-                 */
-                foreach ($cart->stores as $id => $products) {
-                    $volume = 0;
-                    $weight = 0;
-                    $freights = Freight::where('code', '!=', null)->get();
-                    foreach ($freights as $freight) {
-                    /** definir tipo para minusculo para comparar com biblioteca vendor de cálculo de frete */
-                    $df['tipo'] = trim(strtolower($freight->name));
-                    /**
-                     * Pegar cada produto para somar seu volume e obter peso total
-                     * @var  $product_id
-                     * @var  $product
-                     */
-                    foreach($products['products'] as $product_id => $product){
-                        $product_data = Product::find($product_id);
-                        /** Verifica se algum produto esta marcado como frete grátis, então zera seu valor */
-                        if(!$product_data->free_shipping || $freight->code != '41106'){
-                            $volume += $product_data->width_cm * $product_data->length_cm * $product_data->height_cm * $product['qtd'];
-                            $weight += $product_data->weight_gr * $product['qtd'];
-                        }
-                    }
-                    /** @var  $volume - Arredondar para cima o valor do volume */
-                    $volume = ceil($volume);
-                    /** @var  $weight - transformar para Kilos */
-                    $weight = $weight / 1000;
-                    /** @var  $loop - Inicialização de loop caso para divição de pacotes caso as regras de cálculo de frete não se aplique */
-                    $loop = 1;
-                    /** @var  $r3 - raíz Cúbica do volume total */
-                    $r3 = ceil(pow($volume, 1 / 3));
-                    /** Enquanto a soma da altura, largura e comprimento for maior que 200, divide o pacote em 2 */
-                    while($r3 * 3 >= 200){
-                        $r3 = $r3 / 2;
-                        $weight = $weight / 2;
-                        $loop++;
-                    }
-                    $df['cep_origem'] = preg_replace("/-/", '', Store::find($id)->adress['zip_code']);
-                    $df['comprimento'] = $r3;
-                    $df['altura'] = $r3;
-                    $df['largura'] = $r3;
-                    $df['peso'] = $weight;
-                    /** @var  $i - Calcula o frete separadamente de acordo com a separação de pacotes */
-                    for($i = 0; $i < $loop; $i++){
-                        /** Armazena cada cálculo */
-                        $return[$id][$freight->name][] = Correios::frete($df);
-                    }
-                    /**
-                     * Monta o array com informações a serem retornadas separadas pelo Id de cada loja
-                     * @var  $key
-                     * @var  $value
-                     */
-//                    dd($return);
-                    foreach($return as $key => $value){
-                        $data[$key][$freight->name]['val'] = 0;
-                        for($i = 0; $i < count($value[$freight->name]); $i++){
-                            $data[$key][$freight->name]['val'] += $value[$freight->name][$i]['valor'];
-                            $data[$key][$freight->name]['deadline'] = $value[$freight->name][$i]['prazo'];
-                        }
-                    }
-                }
-            }
-//             dd($data);
-            return $data;
-        }
-   // }
+if(!function_exists('generate_key')){
+    function generate_key(){
+        $count = CountOrder::first();
+        $value = $count->count + 1;
+        $key = substr(date('M'), 0, 1) .  date('Y') . date('d') . $value;
+        $count->update(['count' => $value]);
+        return $key;
+    }
 }
 
+if(!function_exists('get_categories')){
+    function get_categories($principal = null){
+        $categories = DB::table('categories')->whereNull('category_id')->where('active','=',1);
+        if(isset($principal)){
+            $categories = $categories->where('menu','=',1)->limit(10);
+        }else{
+            $categories = $categories->limit(25);
+        }
+        return $categories->get();
+    }
+}
+
+if(!function_exists('send_mail')){
+    function send_mail($template, $data, $subject){
+        Mail::send( $template, $data, function($mail) use($data, $subject) {
+            $mail->to($data['email'])
+                ->from('sac@popmartin.com.br')
+                ->subject($subject);
+        });
+    }
+}

@@ -69,4 +69,16 @@ class User extends Authenticatable
     public function owner_recipient(){
         return $this->morphOne(Message::class,'recipient' );
     }
+
+    public function favorites(){
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function cartsession(){
+        return $this->hasOne(CartSession::class);
+    }
+
+    public function scopeSearch($query, $name, $with) {
+        return $query->where('name', 'LIKE', '%'.$name.'%')->with($with);
+    }
 }

@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 use App\Model\Cart;
 use App\Model\Freight;
+use App\Services\CartServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -16,11 +17,24 @@ use Correios;
 
 class CartController extends Controller
 {
+    protected $cart_service;
+    public function __construct(CartServices $cart_service){
+        $this->cart_service = $cart_service;
+    }
+
     public function index(){
-        $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','zip_code') : null);
+        $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','id') : null);
         $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
-        $cart = Session::has('cart') ? Session::get('cart') : null;
-        $address = isset($cart->address) ? Correios::cep($cart->address) : [];
+        $address = [];
+        $cart = [];
+        if(Session::has('cart') || isset(Auth::user()->cartsession->stores)){
+            $cartDB = isset(Auth::user()->cartsession) ? Auth::user()->cartsession : null;
+            $cartModelDB = ($cartDB) ? $this->cart_service->dbCart(json_decode($cartDB->address, true), json_decode($cartDB->stores, true))->getCart() : null;
+            $oldCart = (Session::has('cart')) ?  Session::get('cart') : $cartModelDB;
+            $cart = $this->cart_service->setCart($oldCart)->check_cart()->getCart();
+            $address = isset($cart->address['zip_code']) ? Correios::cep($cart->address['zip_code']) : [];
+        }
+
         return view('pages.cart', compact('cart', 'addresses', 'freight', 'address'));
     }
 
@@ -62,18 +76,28 @@ class CartController extends Controller
     }
 
     public function add_address(Request $request){
-        $this->validate($request,['address'=>'required|regex:/^\d{5}-?\d{3}$/']);
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->add_address($request->address);
-        $request->session()->put('cart', $cart);
+        if($address = $request->address){
+            $zip_code = Auth::user()->addresses->find($address)->zip_code;
+        }else {
+            $this->validate($request,['zip_code'=>'required|regex:/^\d{5}-?\d{3}$/']);
+            $zip_code = $request->zip_code;
+            $address = null;
+        }
+        if(count(Correios::cep($zip_code))){
+            $oldCart = Session::has('cart') ? Session::get('cart') : null;
+            $cart = new Cart($oldCart);
+            $cart->add_address(['id' => $address, 'zip_code' => $zip_code]);
+            $request->session()->put('cart', $cart);
+        }else{
+            flash('Cep inválido!', 'error');
+        }
         return redirect()->route('pages.cart');
     }
 
     public function type_freight(Request $request){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->change_type_freight($request->store, $request->type_freight);
+        $cart->change_type_freight($request->store, ['name' => $request->type_freight, 'id' => $request->id]);
         $request->session()->put('cart', $cart);
         return response()->json(['msg' => 'Tipo de Frete alterado!'],200);
     }

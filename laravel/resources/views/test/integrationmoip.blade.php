@@ -4,7 +4,7 @@
     <meta name="author" content="Moip Pagamentos S/A" />
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
-    <link href="/frontend/css/bootstrap.css" rel="stylesheet">
+    <link href="/public/frontend/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
     <div class="content">

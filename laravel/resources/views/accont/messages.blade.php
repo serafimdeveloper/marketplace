@@ -50,7 +50,7 @@
                             </div>
                         </td>
                         <td>{{ $box === 'received' ?  $msg->sender->name : $msg->recipient->name}}</td>
-                        <td><a href="{{ route('accont.message.info', ['type' => $box, 'id' => $msg->id]) }}">{{ substr($msg->content, 0, 60) }}...</a></td>
+                        <td><a href="{{ route('accont.message.info', ['type' => $box, 'id' => $msg->id]) }}">{!!  substr($msg->content, 0, 60) !!}...</a></td>
                         <td>{{ $msg->created_at->format("d/m/Y H:i:s") }}</td>
                     </tr>
                 @endforeach
