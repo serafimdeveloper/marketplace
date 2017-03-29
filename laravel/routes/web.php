@@ -19,6 +19,7 @@ Route::get('/contato', 'ContactController@indexGet')->name('pages.contact');
 Route::post('/contact/sendmail', 'ContactController@sendMail')->name('pages.sendmail');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
+Route::get('/user/confirmation/{email}/confirm_token/{confirm_token}','Auth\LoginController@confirm')->name('auth.confirm');
 
 Route::any('/notification/moip/nasp', 'CheckoutController@notification')->name('notification_moip');
 Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){
