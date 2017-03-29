@@ -36,7 +36,11 @@
 
                 <tbody>
                 @foreach($messages as $msg)
-                    <tr {!! $msg->status == "received" && $box === 'received' ? 'class="t-unread"' : '' !!}>
+                    @if($type === 'user')
+                        <tr {!! $msg->status == "received_user" && $box === 'received' ? 'class="t-unread"' : '' !!}>
+                    @else
+                        <tr {!! $msg->status == "received_store" && $box === 'received' ? 'class="t-unread"' : '' !!}>
+                    @endif
                         <td>
                             <div class="form-modern">
                                 <div class="checkbox-container">
