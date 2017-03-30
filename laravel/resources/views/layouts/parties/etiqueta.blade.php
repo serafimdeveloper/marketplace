@@ -10,6 +10,7 @@
         table td{padding: 7px 5px;}
         .tesoura{padding: 10px 0;border-bottom: 1px dashed #555555;position: relative;}
         .tesoura span{position: absolute; left: 0;bottom: -11px;font-size: 1.4em;color:#555555;}
+        .fontw-500{font-weight: bold;}
     </style>
 </head>
 <body>
@@ -18,7 +19,7 @@
         <table>
             <tr>
                 <td class="th">Destinatário:</td>
-                <td class="fontw-500">{{$request->user->name.' '.$request->user->last_name}}</td>
+                <td style="font-weight: 900 !important;"><strong>{{ mb_strtoupper($request->user->name.' '.$request->user->last_name)}}</strong></td>
             </tr>
             <tr>
                 <td class="th">Rua:</td>
@@ -27,6 +28,10 @@
             <tr>
                 <td class="th">Número:</td>
                 <td>{{$request->adress->number}}</td>
+            </tr>
+            <tr>
+                <td class="th">Complemento:</td>
+                <td>{{$request->adress->complements}}</td>
             </tr>
             <tr>
                 <td class="th">Bairro:</td>
@@ -53,7 +58,7 @@
         <table>
             <tr>
                 <td class="th">Remetente:</td>
-                <td class="fontw-500">{{$store->name}}</td>
+                <td class="fontw-500" colspan="3">{{$store->salesman->user->name}} {{$store->salesman->user->last_name}} ({{$store->name}})</td>
                 <td colspan="4"></td>
             </tr>
             <tr>
@@ -61,7 +66,8 @@
                 <td>{{$store->adress->public_place}}</td>
                 <td class="th">Número:</td>
                 <td>{{$store->adress->number}}</td>
-                <td colspan="2"></td>
+                <td>Complemento:</td>
+                <td>{{$store->adress->complements}}</td>
             </tr>
             <tr>
                 <td class="th">Bairro:</td>

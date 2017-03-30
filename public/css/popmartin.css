@@ -75,7 +75,7 @@ input{padding: 5px;width: 100%;}
 .pop-title h1{display: inline-block;padding: 4px 0;font-size: 1.2em; font-weight: 900;color: #B40004;}
 .pop-title .pop-tile-menu{display: inline-block; float: right;}
 .pop-tile-menu .btn-small{margin-top: -5px;}
-.modal-product{position: relative;padding: 0;margin: 10px 0;}
+.modal-product{position: relative;padding: 0;margin: 10px 0;min-height: 300px;}
 .modal-product ul{display: none;background-color: rgba(255,255,255,0.8);position: absolute;z-index: 3;width: 100%;top: 0; left: 0;z-index: 1;padding: 5px;}
 .modal-product:hover ul{display: block !important;z-index: 99 !important;}
 .modal-product ul li{display: inline-block;width: 31.5%;}

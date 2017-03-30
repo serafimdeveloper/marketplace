@@ -21,8 +21,7 @@ class ContactController extends Controller {
         $data['from'] = $request->email;
         $data['name'] = $request->name;
         $data['message'] = $request->message;
-//        $data['sector'] = ($request->sector == 'sac' ? 'saq@popmartin.com.br' : '');
-        $data['sector'] = ($request->sector == 'sac' ? 'contato@brunosite.com' : '');
+        $data['sector'] = ($request->sector == 'sac' ? 'sac@popmartin.com.br' : '');
 
         if($data['sector']){
             Mail::send('emails.received_contact',['data' => $data], function ($message)use($data){
@@ -30,7 +29,6 @@ class ContactController extends Controller {
                     ->to($data['sector'], mb_strtoupper($data['sector']))
                     ->subject('Mensagem para o setor de ');
             });
-
             flash('Mensagem enviada com sucesso!', 'accept');
         }
         return redirect()->route('pages.contact');

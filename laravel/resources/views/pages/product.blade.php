@@ -79,7 +79,9 @@
                                 <a class="btn btn-popmartin" href="{{route('pages.cart.add_product',['id'=>$product->id])}}" title="">COMPRAR</a>
                                 <br>
                                 <br>
-                                <span>{{$product->quantity}} peça(s) disponível(veis)Prazo de {{$product->deadline}} dias para envio</span>
+                                <span>{{$product->quantity}} peça(s) disponível(veis)<br>
+                                    Prazo de {{$product->deadline}} dias para envio
+                                </span>
                             </div>
                             <br>
                             <br>

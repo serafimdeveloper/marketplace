@@ -5,7 +5,6 @@
         <header class="pop-title">
             <h1>Buscando "{{$search}}"</h1>
         </header>
-        <div class="">
         <div class="colbox">
             @forelse($products as $product)
                 <div class="colbox-5">

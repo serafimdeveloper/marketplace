@@ -35,6 +35,7 @@
             @include('inc.header')
             @yield('content')
             @include('inc.footer')
+            @yield('parties')
         </main>
         <div id="fb-root"></div>
         <script>
@@ -55,7 +56,9 @@
         {{--<script src="/frontend/lib/twbsPagination/jquery.twbsPagination.min.js"></script>--}}
         <script src="{{asset('frontend/js/bootstrap.js')}}"></script>
         <script src="{{asset('/js/popmartin.js') }}"></script>
+
         @yield('script')
+
         @if (session()->has('flash_notification.message'))
             <script>
                 var alert = '{{ session('flash_notification.level') }}';

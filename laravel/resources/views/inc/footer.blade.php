@@ -1,3 +1,10 @@
+<br>
+<div class="container bg-graylightextreme">
+    <div class="content txt-center">
+        <img src="{{ url('imagem/popmartin/SiteSeguroPopMartin.png') }}?w=200" alt="[Site seguro. Compra protegida]" title="Site seguro. Compra protegida">
+    </div>
+</div>
+<div class="clear-both"></div>
 <footer class="footer">
     <div class="content">
         <h1 class="font-0">Mais informações sobre PopMartin</h1>
@@ -37,7 +44,6 @@
                     <span class="popicon moip"></span>
                 </div>
             </div>
-
             <div class="colbox-2">
                 <ul class="nav-footer-last">
                     <li><a href="/login">monte sua loja</a></li>
