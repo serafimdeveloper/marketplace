@@ -24,11 +24,17 @@ class StoresController extends AbstractController
     }
 
     public function index(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $stores = $this->repo->all();
         return view('stores.index', compact('stores'));
     }
 
     public function create(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if(Gate::denies('vendedor')){
             return  redirect()->route('accont.home');
         }

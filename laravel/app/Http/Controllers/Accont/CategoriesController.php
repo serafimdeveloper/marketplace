@@ -16,6 +16,9 @@ class CategoriesController extends AbstractController
     }
 
     public function index(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $page = Input::get('page');
         $categories = $this->repo->all($this->columns,$this->with,[],['name'=>'ASC'],10,$page);
         return view('accont.categories', compact('categories'));
@@ -38,6 +41,7 @@ class CategoriesController extends AbstractController
     }
 
     public function edit($id){
+
         $category = $this->repo->get($id);
         $categories = Category::pluck('name','id');
         return response()->json(compact('categories','category'));

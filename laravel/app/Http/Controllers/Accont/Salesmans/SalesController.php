@@ -15,6 +15,7 @@ use App\Repositories\Accont\RequestsRepository;
 use App\Model\Category;
 use App\Http\Requests\Accont\Salesman\ProductsStoreRequest;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 use PDF;
 use Correios;
 use Illuminate\Http\Request;
@@ -29,6 +30,9 @@ class SalesController extends AbstractController
     }
 
     public function index(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $page = Input::get('page');
         if($store = Auth::user()->salesman->store){
             $this->status_request();
@@ -41,6 +45,9 @@ class SalesController extends AbstractController
     }
 
     public function create(Category $category){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $categories = $category->pluck('name','id');
         return view('accont.product_info', compact('categories'));
     }
@@ -55,6 +62,9 @@ class SalesController extends AbstractController
     }
 
     public function edit($id){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $request = $this->repo->get($id,$this->columns,$this->with);
         if($request->store->id == Auth::user()->salesman->store->id){
             $rastreamento = [];
@@ -94,6 +104,9 @@ class SalesController extends AbstractController
     }
 
     public function tag($id){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($request = $this->repo->get($id,$this->columns,$this->with)){
             $store = Store::with(['adress'])->find($request->store->id);
             $pdf = PDF::loadView('layouts.parties.etiqueta',['request' => $request,'store'=> $store]);

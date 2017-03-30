@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        Gate::define('is_active', function(User $user){
+        Gate::define('is_active', function($user){
             return !!$user->active;
         });
 

@@ -34,5 +34,12 @@ class UserRepository extends BaseRepository
         return $model;
     }
 
+    public function getUser(array $with, $wheres){
+        $model = $this->model->with($with);
+        foreach($wheres as $key => $value){
+            $model = $model->where($key,$value);
+        }
+        return $model->first();
+    }
 
 }

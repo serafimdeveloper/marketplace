@@ -1,5 +1,8 @@
 <?php
 
+
+
+
 /*******************************************************
  * ROTAS DE TESTES
  ******************************************************/
@@ -19,9 +22,7 @@ Route::get('/contato', 'ContactController@indexGet')->name('pages.contact');
 Route::post('/contact/sendmail', 'ContactController@sendMail')->name('pages.sendmail');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
-Route::get('/user/confirmation/{email}/confirm_token/{confirm_token}','Auth\LoginController@confirm')->name('auth.confirm');
 
-Route::any('/notification/moip/nasp', 'CheckoutController@notification')->name('notification_moip');
 Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){
     // Route::get('/payment/callback', 'PaymentMoip@callback')->name('payment_callback');
 
@@ -144,6 +145,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/favoritos/adicionar/carrinho', 'FavoritesController@add_cart')->name('pages.favorites.cart');
     Route::get('/favoritos/{product}/adicionar', 'FavoritesController@store')->name('pages.favorites.add');
     Route::get('/favoritos/{product}/deletar', 'FavoritesController@destroy')->name('pages.favorites.delete');
+    Route::get('/user/confirmation/{email}/confirm_token/{confirm_token}','Auth\ConfirmAccontController@confirm')->name('auth.confirm');
+    Route::get('/user/confirmation/accont','Auth\ConfirmAccontController@confirm_page')->name('page.confirm_accont');
+    Route::get('/user/confirmation/send_email','Auth\ConfirmAccontController@send_email')->name('confirm.send_email');
 });
 
 Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
