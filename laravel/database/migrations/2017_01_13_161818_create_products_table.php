@@ -32,7 +32,6 @@ class CreateProductsTable extends Migration
             $table->float('width_cm');
             $table->float('height_cm');
             $table->float('weight_gr',10,3);
-            $table->float('diameter_cm');
             $table->boolean('active')->default(0);
             $table->timestamps();
         });

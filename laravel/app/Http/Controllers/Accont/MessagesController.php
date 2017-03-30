@@ -31,6 +31,9 @@ class MessagesController extends AbstractController
 
     public function index($type, $box = 'received')
     {
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($box !== 'received' && $box !== 'send'){
             return redirect()->route('accont.home');
         }
@@ -50,6 +53,9 @@ class MessagesController extends AbstractController
 
     public function show($box, $id)
     {
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $user = Auth::user();
         if($message = $this->repo->get($id)){
             if($message->message_id){

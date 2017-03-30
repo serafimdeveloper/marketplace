@@ -102,9 +102,8 @@ $(function(){
                     var subcatResponse = response.subcategories;
                     if (Object.keys(subcatResponse).length > 0) {
                         $('.subcat_info').html('<option selected >Selecione uma Subcategoria</option>');
-                        $.each(subcatResponse, function (i, e) {
-                            // console.log(i);
-                            $('.subcat_info').append('<option value="' + i.id + '">' +  i.name + '</option>');
+                        $.each(response.subcategories, function (i) {
+                            $('.subcat_info').append('<option value="' + response.subcategories[i].id  + '">' + response.subcategories[i].name + '</option>');
                         });
                     } else {
                         $('.subcat_info').html('<option selected disabled>Nenhuma Subcategória</option>');

@@ -19,6 +19,9 @@ class RequestsController extends AbstractController
 
     public function index()
     {
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $user = Auth::User();
         $this->status_request();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
@@ -28,6 +31,9 @@ class RequestsController extends AbstractController
 
     public function show($id)
     {
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if ($request = $this->repo->get($id, $this->columns, $this->with)) {
             $user = Auth::User();
             if (Gate::allows('vendedor', $user)) {

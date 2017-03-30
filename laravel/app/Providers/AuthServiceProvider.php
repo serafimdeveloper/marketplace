@@ -38,6 +38,11 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
+        Gate::define('is_active', function($user){
+            return !!$user->active;
+        });
+
+
         Gate::define('orders', function(User $user, Request $order){
             if($user->salesman->store->id === $order->store->id){
                 return true;

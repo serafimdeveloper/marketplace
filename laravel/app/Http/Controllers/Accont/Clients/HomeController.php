@@ -5,11 +5,15 @@
 	use Auth;
  	use App\Http\Requests\Accont\Clients\HomeStoreRequest;
 	use App\Http\Requests\Accont\Clients\ChangePasswordRequest;
+    use Illuminate\Support\Facades\Gate;
 
-	class HomeController extends Controller
+    class HomeController extends Controller
 	{
 
 		public function index(){
+		    if(Gate::denies('is_active')){
+		        return redirect()->route('page.confirm_accont');
+            }
 			$user = Auth::User();
 			$collection = $user->addresses->sortByDesc(function($adress, $key){
 				return $adress->master;

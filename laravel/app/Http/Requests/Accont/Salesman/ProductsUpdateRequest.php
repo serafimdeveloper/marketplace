@@ -89,9 +89,7 @@ class ProductsUpdateRequest extends Request
             'weight_gr.numeric' => 'A peso deve ser um número',
             'weight_gr.min' => 'O valor mínimo é de 1 grama',
             'weight_gr.max' => 'O valor máximo é de 30000 gramas',
-            'diameter_cm.numeric' => 'O diametro deve ser um número',
-            'diameter_cm.min' => 'O valor mínimo é de 5cm',
-            'diameter_cm.max' => 'O valor máximo é de 91cm'
+
         ];
     }
 }

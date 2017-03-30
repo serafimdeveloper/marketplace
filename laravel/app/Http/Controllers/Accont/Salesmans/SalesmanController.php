@@ -23,6 +23,9 @@ class SalesmanController extends AbstractController
     }
 
     public function create(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         return view('accont.salesman');
     }
 
@@ -49,6 +52,9 @@ class SalesmanController extends AbstractController
 
 
     public function edit(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if ($user = Auth::user()) {
             if(!$user->cpf){
                 flash('É necessário cadastrar seu cpf para se tornar um vendedor', 'warning');

@@ -62,7 +62,7 @@ class ProductsRepository extends BaseRepository
             ->where('products.quantity','>',0)->where('products.active',1)
             ->where('stores.active',1)->where('stores.blocked',0)
             ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
-            'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr', 'diameter_cm',
+            'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr',
             'active', 'created_at', 'updated_at')
             ->orderBy('qtd_product_request','desc')
             ->limit(15)
@@ -79,7 +79,7 @@ class ProductsRepository extends BaseRepository
             ->where('products.quantity','>',0)->where('products.active',1)
             ->where('stores.active',1)->where('stores.blocked',0)
             ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
-                'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr', 'diameter_cm',
+                'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr',
                 'active', 'created_at', 'updated_at')
             ->orderBy('qtd_product_visit', 'desc')
             ->limit(15)

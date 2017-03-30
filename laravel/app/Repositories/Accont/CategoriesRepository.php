@@ -21,7 +21,7 @@ class CategoriesRepository extends BaseRepository
 
 
     public function subcategories($category){
-        $subcategories = $this->model->where('category_id', $category)->get();
+        $subcategories = $this->model->select('id', 'name')->where('category_id', $category)->orderBy('name','ASC')->get();
         return $subcategories;
     }
 }
