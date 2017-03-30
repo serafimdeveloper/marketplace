@@ -1,5 +1,5 @@
 <?php
-use App\Ad;
+use App\Model\Ad;
 use App\Model\CountOrder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
