@@ -19,6 +19,7 @@ use App\Model\Category;
 use App\Http\Requests\Accont\Salesman\ProductsStoreRequest;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends AbstractController

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Container\Container as App;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SalesmanController extends AbstractController
 {

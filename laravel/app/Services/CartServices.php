@@ -62,7 +62,7 @@ class CartServices
     public function deleteRequestCart($store){
         if(array_key_exists($store, $this->cart->stores)){
             unset($this->cart->stores[$store]);
-            if(count($this->cart->stores) < 1){
+            if(count($this->cart->stores)){
                 Session::forget('cart');
             }
         }
@@ -86,8 +86,10 @@ class CartServices
                     $user->cartsession()->create(['address' => json_encode($this->cart->address), 'stores' => json_encode($this->cart->stores)]);
                 }
                 Session::put('cart', $this->cart);
-            } else if($session = $user->cartsession){
-              $session->delete();
+            } else{
+                if($session = $user->cartsession){
+                    $session->delete();
+                }
             }
         }else{
             Session::put('cart', $this->cart);

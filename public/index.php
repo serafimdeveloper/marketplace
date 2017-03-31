@@ -19,8 +19,8 @@
 |
 */
 
-//require __DIR__ . '/../laravel/bootstrap/autoload.php';
-require __DIR__ . '/laravel/bootstrap/autoload.php';
+require __DIR__ . '/../laravel/bootstrap/autoload.php';
+//require __DIR__ . '/laravel/bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -34,8 +34,8 @@ require __DIR__ . '/laravel/bootstrap/autoload.php';
 |
 */
 
-//$app = require_once __DIR__ . '/../laravel/bootstrap/app.php';
-$app = require_once __DIR__ . '/laravel/bootstrap/app.php';
+$app = require_once __DIR__ . '/../laravel/bootstrap/app.php';
+//$app = require_once __DIR__ . '/laravel/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------

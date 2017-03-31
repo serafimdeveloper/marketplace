@@ -58,10 +58,7 @@ class MessagesController extends AbstractController
         }
         $user = Auth::user();
         if($message = $this->repo->get($id)){
-            if($message->message_id){
-                $message = $this->repo->get($message->message_id);
-            }
-            if(Gate::allows('read_message', [$message, $box])){
+            if(Gate::allows('read_message', [$message])){
                 $this->read_type($user,$message);
                 $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC']);
                 $eu = $user->name;
@@ -111,36 +108,15 @@ class MessagesController extends AbstractController
 
 
         if($model = $this->repo->get($id,$this->columns,$this->with)){
-            if($model->message_id){
-                $model = $this->repo->get($model->message_id,$this->columns,$this->with);
-            }
-
-            $cU = ($model->sender_type == 'App\Model\User');
-            $cS = ($model->sender_type == 'App\Model\Store');
-
-
-            $sender_id = ($cS ? Auth::user()->id : ($cU ? Auth::user()->salesman->store->id : Auth::user()->admin->id));
-            $sender_type = ($cS ? get_class(Auth::user()) : ($cU ? get_class(Auth::user()->salesman->store) : get_class(Auth::user()->admin)));
-
-            $recipient_id = $model->sender_id;
-            $recipient_type = get_class($model->sender);
-
-
-            if($model->sender_id == Auth::user()->id){
-                $sender_id = Auth::user()->id;
-                $sender_type = get_class(Auth::user());
-                $recipient_id = $model->recipient_id;
-                $recipient_type = $model->recipient_type;
-            }
             $dados = [
-                'sender_id' => $sender_id,
-                'sender_type' => $sender_type,
-                'recipient_id' => $recipient_id,
-                'recipient_type' => $recipient_type,
+                'sender_id' => $model->recipient_id,
+                'sender_type' => get_class($model->recipient),
+                'recipient_id' => $model->sender_id,
+                'recipient_type' => get_class($model->sender),
                 'message_type_id' => $model->message_type_id,
                 'request_id' => $model->request_id,
                 'product_id' => $model->product_id,
-                'message_id' => $model->id,
+                'message_id' => $model->message_id,
                 'title' => $model->title,
                 'content' => $request->message
             ];
