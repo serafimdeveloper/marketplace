@@ -145,10 +145,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/favoritos/adicionar/carrinho', 'FavoritesController@add_cart')->name('pages.favorites.cart');
     Route::get('/favoritos/{product}/adicionar', 'FavoritesController@store')->name('pages.favorites.add');
     Route::get('/favoritos/{product}/deletar', 'FavoritesController@destroy')->name('pages.favorites.delete');
-    Route::get('/user/confirmation/{email}/confirm_token/{confirm_token}','Auth\ConfirmAccontController@confirm')->name('auth.confirm');
     Route::get('/user/confirmation/accont','Auth\ConfirmAccontController@confirm_page')->name('page.confirm_accont');
     Route::get('/user/confirmation/send_email','Auth\ConfirmAccontController@send_email')->name('confirm.send_email');
 });
+Route::get('/user/confirmation/{email}/confirm_token/{confirm_token}','Auth\ConfirmAccontController@confirm')->name('auth.confirm');
 
 Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::get('/', 'CartController@index')->name('cart');

@@ -52,22 +52,20 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        Gate::define('read_message', function($user, $message, $box = 'received'){
+        Gate::define('read_message', function($user, $message){
             $recipient = app($message->recipient_type);
-            $send = app($message->sender_type);
-
-            if($recipient instanceof User || $send instanceof User){
-                if($message->sender_id === $user->id || $message->recipient_id === $user->id){
+            if($recipient instanceof User){
+                if($message->recipient_id === $user->id){
                     return true;
                 }
             }
-            if($recipient instanceof Admin || $send instanceof Admin){
-                if($message->sender_id === $user->admin->id || $message->recipient_id === $user->admin->id){
+            if($recipient instanceof Admin){
+                if($user->admin->id){
                     return true;
                 }
             }
-            if($recipient instanceof Store || $send instanceof Store){
-                if($message->sender_id === $user->salesman->store->id || $message->recipient_id === $user->salesman->store->id){
+            if($recipient instanceof Store){
+                if($message->recipient_id === $user->salesman->store->id){
                     return true;
                 }
             }
