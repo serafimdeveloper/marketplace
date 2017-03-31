@@ -40,7 +40,6 @@ class CheckoutController extends Controller {
                     }else{
                         $address = (object)Correios::cep($cart->address['zip_code'])[0];
                     }
-
                     return view('pages.cart_address', compact('address', 'sha1', 'user'));
                 }
             }
@@ -107,10 +106,8 @@ class CheckoutController extends Controller {
                 $moip = $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
                 $tokenmoip = $moip->token;
             }
-
             return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key'));
         }
-
         return redirect()->route('pages.cart');
     }
 

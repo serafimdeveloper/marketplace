@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accont\Salesmans;
 
 use App\Http\Controllers\AbstractController;
+use App\Package\Moip\lib\MoIPClient;
 use App\Repositories\Accont\SalemanRepository;
 use App\Http\Requests\Accont\Salesman\SalesmanStoreRequest;
 use App\Http\Requests\Accont\Salesman\SalesmanUpdateRequest;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Container\Container as App;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SalesmanController extends AbstractController
 {
@@ -38,13 +40,30 @@ class SalesmanController extends AbstractController
         $user =  Auth::user();
         $dados = $request->except('photo_document','proof_adress');
         $dados['user_id'] = $user->id;
-        if($salesman = $this->repo->store($dados)){
-            $dados['photo_document'] = $this->upload($request->photo_document,'img/vendedor','D1V'.$salesman->id);
-            $dados['proof_adress'] = $this->upload($request->proof_adress,'img/vendedor','D2V'.$salesman->id);
-            $this->repo->update($dados,$salesman->id);
-            $user->fill(['type_user'=>'salesman'])->save();
-            flash('Vendedor salvo com sucesso!', 'accept');
+
+        $moipClient = new MoIPClient();
+        $result = $moipClient->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL_CONSULT_LOGIN') . "rendaok@live.com");
+        $xml = simplexml_load_string($result->xml);
+        $xmlData = $xml->RespostaVerificarConta;
+
+        if($xmlData->Status == 'Inexistente'){
+            flash('Login moip inexistente!', 'error');
             return redirect()->route('accont.salesman.info');
+        }else if($xmlData->Status == 'Criado'){
+            flash('É necessário uma conta vericada no Moip para se torar vendedor!', 'error');
+            return redirect()->route('accont.salesman.info');
+        }else if($xmlData->Descricao == 'Pessoal'){
+            flash('É necessário uma conta de Negócios no moip para se tornar vendedor!', 'error');
+            return redirect()->route('accont.salesman.info');
+        }else{
+            if($salesman = $this->repo->store($dados)){
+                $dados['photo_document'] = $this->upload($request->photo_document,'img/vendedor','D1V'.$salesman->id);
+                $dados['proof_adress'] = $this->upload($request->proof_adress,'img/vendedor','D2V'.$salesman->id);
+                $this->repo->update($dados,$salesman->id);
+                $user->fill(['type_user'=>'salesman'])->save();
+                flash('Vendedor salvo com sucesso!', 'accept');
+                return redirect()->route('accont.salesman.info');
+            }
         }
         flash('Ocorreu um erro!', 'error');
         return view('accont.salesman');

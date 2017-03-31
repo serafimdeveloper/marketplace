@@ -62,7 +62,7 @@ class CartServices
     public function deleteRequestCart($store){
         if(array_key_exists($store, $this->cart->stores)){
             unset($this->cart->stores[$store]);
-            if(count($this->cart->stores) < 1){
+            if(!count($this->cart->stores)){
                 Session::forget('cart');
             }
         }

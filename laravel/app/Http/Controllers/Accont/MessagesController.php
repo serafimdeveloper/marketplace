@@ -58,9 +58,6 @@ class MessagesController extends AbstractController
         }
         $user = Auth::user();
         if($message = $this->repo->get($id)){
-            if($message->message_id){
-                $message = $this->repo->get($message->message_id);
-            }
             if(Gate::allows('read_message', [$message, $box])){
                 $this->read_type($user,$message);
                 $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC']);
@@ -115,12 +112,11 @@ class MessagesController extends AbstractController
                 $model = $this->repo->get($model->message_id,$this->columns,$this->with);
             }
 
-            $cU = ($model->sender_type == 'App\Model\User');
-            $cS = ($model->sender_type == 'App\Model\Store');
+            $cU = ($model->sender instanceof User);
+            $cS = ($model->sender instanceof Store);
 
-
-            $sender_id = ($cS ? Auth::user()->id : ($cU ? Auth::user()->salesman->store->id : Auth::user()->admin->id));
-            $sender_type = ($cS ? get_class(Auth::user()) : ($cU ? get_class(Auth::user()->salesman->store) : get_class(Auth::user()->admin)));
+            $sender_id = ($cS ? Auth::user()->salesman->store->id : ($cU ?  Auth::user()->id : Auth::user()->admin->id));
+            $sender_type = ($cS ? get_class(Auth::user()->salesman->store) : ($cU ? get_class(Auth::user()) : get_class(Auth::user()->admin)));
 
             $recipient_id = $model->sender_id;
             $recipient_type = get_class($model->sender);
