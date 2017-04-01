@@ -377,6 +377,7 @@ $(function(){
                 implementTr.html('<tr><td colspan="2"><i class="fa fa-spin fa-spinner"></i></td></tr>');
             },
             error: function (response) {
+                implementTr.html('');
                 alertify.error(response.responseJSON.msg);
             },
             success: function (response) {

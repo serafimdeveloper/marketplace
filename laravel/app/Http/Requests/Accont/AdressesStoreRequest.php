@@ -27,7 +27,7 @@
 	            'city'=>'required|min:3|max:100',
 	            'public_place'=>'required|min:3|max:100',
 	            'neighborhood'=>'required|string|max:50',
-	            'number'=>'required|numeric',
+	            'number'=>'required',
 	            'complements'=>'string|max:30'
 	        ];
 	    }

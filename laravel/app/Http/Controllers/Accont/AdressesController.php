@@ -52,7 +52,11 @@
 		}
 
 		public function search_cep($cep){
-			return  response()->json(Correios::cep($cep));
+		    $zip_code = Correios::cep($cep);
+		    if(count($zip_code)){
+                return  response()->json($zip_code);
+            }
+            return response()->json(['msg'=>'Cep Inválido'],404);
 		}
 
 		private function change_master($collection){
