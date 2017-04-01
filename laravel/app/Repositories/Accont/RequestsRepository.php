@@ -22,4 +22,14 @@ class RequestsRepository extends BaseRepository
     public function order(array $with, $order_key){
        return $this->model->with($with)->where('key', '=', $order_key)->first();
     }
+
+    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+        $model =  $this->model->search($name, $with);
+        foreach ($orders as $column => $order) {
+            $model = $model->orderBy($column, $order);
+        }
+        $model = $model->paginate($limit, $columns, 'page', $page);
+
+        return $model;
+    }
 }

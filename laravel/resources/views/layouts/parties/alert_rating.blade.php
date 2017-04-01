@@ -32,7 +32,7 @@
                 <div class="colbox">
                     <div class="colbox-2">
                         <div class="pop-rating">
-                            <h3>Qualidade do produtos</h3>
+                            <h3>Qualidade do produto(s)</h3>
                             <div class="rating"
                                  data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_term : 5}} data-item="product"></div>
                         </div>

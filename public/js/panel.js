@@ -529,7 +529,7 @@ $(function(){
  * @param page
  * @param data
  */
-function getData(page, data){
+function getData(page, data, url){
     $.ajax({
         url: '/accont/searchstore?page='+page,
         type: "get",

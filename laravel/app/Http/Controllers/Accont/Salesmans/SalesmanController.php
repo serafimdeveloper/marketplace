@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Accont\Salesmans;
 
 use App\Http\Controllers\AbstractController;
 use App\Package\Moip\lib\MoIPClient;
-use App\Repositories\Accont\SalemanRepository;
 use App\Http\Requests\Accont\Salesman\SalesmanStoreRequest;
 use App\Http\Requests\Accont\Salesman\SalesmanUpdateRequest;
+use App\Repositories\Accont\SalesmanRepository;
 use Illuminate\Http\Request;
 
 use Illuminate\Container\Container as App;
@@ -21,7 +21,7 @@ class SalesmanController extends AbstractController
     }
 
     public function repo(){
-        return SalemanRepository::class;
+        return SalesmanRepository::class;
     }
 
     public function create(){
