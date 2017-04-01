@@ -56,8 +56,6 @@
                                                    target="_blank"><span
                                                             class="c-pop fontem-12 fontw-400">{{$product['name']}}</span></a>
                                                 <br>
-                                                <span>Código: 0gos8d4</span>
-                                                <br>
                                                 <br>
                                                 <a class="pop-remove-product-cart c-pop" href="javascript:void(0)"
                                                    data-product="{{$key_product}}">

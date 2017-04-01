@@ -58,8 +58,8 @@ class MessagesController extends AbstractController
         }
         $user = Auth::user();
         if($message = $this->repo->get($id)){
-            if(Gate::allows('read_message', [$message])){
-                $this->read_type($user,$message);
+            if(Gate::allows('read_message', [$message, $box])){
+                $this->read_type($user,$message,$box);
                 $messages = $this->repo->getMessages($message,$this->with,['created_at' => 'ASC']);
                 $eu = $user->name;
                 return view('accont.message_info', compact('messages','message', 'box', 'eu'));
@@ -150,16 +150,17 @@ class MessagesController extends AbstractController
         return $messages;
     }
 
-    private function read_type($user, $message){
-        $recipient = app($message->recipient_type);
-        if($recipient instanceof User){
-            if($message->recipient_id === $user->id){
-                $message->fill(['status_user'=>'readed'])->save();
-            }
-        }
-        if($recipient instanceof Store){
-            if($message->recipient_id === $user->salesman->store->id){
-                $message->fill(['status_store'=>'readed'])->save();
+    private function read_type($user, $message, $box){
+        if($box === 'received'){
+            $recipient = app($message->recipient_type);
+            if($recipient instanceof User){
+                if($message->recipient_id === $user->id){
+                    $message->fill(['status'=>'readed'])->save();
+                }
+            }else if($recipient instanceof Store){
+                if($message->recipient_id === $user->salesman->store->id){
+                    $message->fill(['status'=>'readed'])->save();
+                }
             }
         }
     }

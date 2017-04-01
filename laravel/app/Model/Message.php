@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $fillable = ['sender_id','sender_type','recipient_id','recipient_type','request_id','product_id','message_id','title',
-        'content','desactive','status_user','status_store'];
+        'content','desactive','status'];
 
     public function sender(){
         return $this->morphTo();

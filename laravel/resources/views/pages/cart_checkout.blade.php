@@ -35,7 +35,7 @@
                     <div class="colbox-full">
                         <span><span class="fontw-500 c-graydark">Forma de envio: </span>{{$order->freight->name}}</span>
                         <br>
-                        <span><span class="fontw-500 c-graydark">Prazo de postagem:</span> {{$order->stores}}</span>
+                        <span><span class="fontw-500 c-graydark">Prazo de postagem:</span> {{$deadline}} dias úteis</span>
                         <br>
                         <span class="fontw-500 c-graydark">Prazo de entrega:</span> prazo de postagem da loja + {{$order->deadline}} dias
                         <br>

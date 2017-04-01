@@ -63,7 +63,9 @@ class CheckoutController extends Controller {
                             $address = $user->addresses()->create($req->all());
                         }
                         $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
-                        $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'], 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'], 'amount' => $store['amount'], 'note' => $store['obs']];
+                        $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'],
+                            'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'],
+                            'deadline' => $store['freight'][ $store['type_freight']['name'] ]['deadline'] ,'amount' => $store['amount'], 'note' => $store['obs']];
                         $model_store = $this->repo_stores->get($key);
                         $request = $model_store->requests()->create($dados);
                         $cart->add_request($key, $request->id);
@@ -106,7 +108,9 @@ class CheckoutController extends Controller {
                 $moip = $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
                 $tokenmoip = $moip->token;
             }
-            return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key'));
+            $deadline = $this->max_deadline($order->products);
+
+            return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key','deadline'));
         }
         return redirect()->route('pages.cart');
     }
@@ -149,5 +153,12 @@ class CheckoutController extends Controller {
         $data['email'] = ($type === 'client') ? $data['user']->email : $data['store']->salesman->user->email;
         $data['name'] = ($type === 'client') ? $data['user']->name : $data['store']->salesman->user->name;
         send_mail($template, $data, $subject);
+    }
+
+    private function max_deadline($products){
+       $products = $products->map(function($product){
+            return $product->deadline;
+       });
+       return $products->max();
     }
 }

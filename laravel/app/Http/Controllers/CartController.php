@@ -31,10 +31,9 @@ class CartController extends Controller
             $cartDB = isset(Auth::user()->cartsession) ? Auth::user()->cartsession : null;
             $cartModelDB = ($cartDB) ? $this->cart_service->dbCart(json_decode($cartDB->address, true), json_decode($cartDB->stores, true))->getCart() : null;
             $oldCart = (Session::has('cart')) ?  Session::get('cart') : $cartModelDB;
-            $cart = $this->cart_service->setCart($oldCart)->check_cart()->getCart();
+            $cart = $this->cart_service->setCart($oldCart)->getCart();
             $address = isset($cart->address['zip_code']) ? Correios::cep($cart->address['zip_code']) : [];
         }
-
         return view('pages.cart', compact('cart', 'addresses', 'freight', 'address'));
     }
 
@@ -44,7 +43,7 @@ class CartController extends Controller
         $cart->add_cart($id);
         $request->session()->put('cart', $cart);
         if($request->ajax()){
-            return response()->json(['msg' => 'Produto adicionado com sucesso!', 'cart' => $cart->amount], 201);
+            return response()->json(['msg' => 'Produto adicionado no carrinho com sucesso!', 'cart' => $cart->amount], 201);
         }
         return redirect()->route('pages.cart');
     }
@@ -54,7 +53,7 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->remove_product($id);
         $request->session()->put('cart', $cart);
-        return response()->json(['msg'=>'Produto removido com sucesso!'], 200);
+        return response()->json(['msg'=>'Produto removido do carrinho com sucesso!'], 200);
     }
 
     public function update_qtd(Request $request){
@@ -64,7 +63,7 @@ class CartController extends Controller
             $request->session()->put('cart', $cart);
             return response()->json(['msg' => 'Quantidade de produtos no carrinho atualizado com sucesso!'],200);
         }
-        return response()->json(['msg' => 'Quantidade de produtos insuficiente!'],422);
+        return response()->json(['msg' => 'Quantidade de produtos insuficiente em estoque!'],422);
     }
 
     public function add_obs(Request $request){

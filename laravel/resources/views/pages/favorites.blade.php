@@ -43,9 +43,6 @@
                                         </div>
                                         <div class="coltable-10 product-cart-info">
                                             <p><a href="{{route('pages.product',['store' => $store['store']->slug, 'category' => $product->category->slug, 'product' => $product->slug])}}" class="c-pop fontem-12 fontw-400">{{$product->name}}</a></p>.
-                                            <span>Código: 0gos8d4</span>
-                                            <br>
-                                            <br>
                                             <a class="pop-remove-product-favorite c-pop" data-product="{{$product->id}}" href="javascript:void(0)"><i
                                                         class="fa fa-trash"></i> remover</a>
                                         </div>
