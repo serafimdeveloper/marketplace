@@ -7,6 +7,7 @@ use App\Http\Controllers\AbstractController;
 use Illuminate\Http\Request;
 use App\Model\Category;
 use App\Repositories\Accont\CategoriesRepository;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Input;
 
 class CategoriesController extends AbstractController

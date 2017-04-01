@@ -20,4 +20,14 @@ class AdRepository extends BaseRepository
         return Ad::class;
     }
 
+    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+        $model =  $this->model->search($name, $with);
+        foreach ($orders as $column => $order) {
+            $model = $model->orderBy($column, $order);
+        }
+        $model = $model->paginate($limit, $columns, 'page', $page);
+
+        return $model;
+    }
+
 }

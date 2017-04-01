@@ -17,9 +17,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','confirm_token','last_name','cpf','document','birth','genre','phone','type_user','active'
+        'name', 'email', 'password','confirm_token','last_name','cpf','document','birth','genre','phone','type_user',
+        'last_access','active'
     ];
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at','last_access'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -79,6 +80,6 @@ class User extends Authenticatable
     }
 
     public function scopeSearch($query, $name, $with) {
-        return $query->where('name', 'LIKE', '%'.$name.'%')->with($with);
+        return $query->where('name', 'LIKE', '%'.$name.'%')->orWhere('email','LIKE','%'.$name.'%')->with($with);
     }
 }

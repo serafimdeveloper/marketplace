@@ -11,17 +11,21 @@
         </thead>
 
         <tbody>
-        @for($i = 0;$i < 3; $i++)
+        @forelse($result as $user)
             <tr>
-                <td>Maria Luíza da Silva</td>
-                <td>marialuiza@hotmail.com</td>
-                <td>ontem às 18:65:25</td>
-                <td>0</td>
+                <td>{{$user->name.' '.$user->last_name}}</td>
+                <td>{{$user->email}}</td>
+                <td>{{$user->last_access->format('d/m/Y H:i:s')}}</td>
+                <td>{{$user->requests->count()}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-user" data-user="{{$i}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-user" data-user="{{$user->id}}">detalhes</a>
                 </td>
             </tr>
-        @endfor
+        @empty
+            <tr>
+                <td colspan="5"><h3>Nenhum usuário encontrado!</h3></td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 @endif
@@ -42,20 +46,24 @@
         </thead>
 
         <tbody>
-        @for($i = 0;$i < 3; $i++)
+        @forelse($result as $salesman)
             <tr>
-                <td>Maria Luíza da Silva</td>
-                <td>Da Juca</td>
-                <td>Volta Redonda/RJ</td>
-                <td>5</td>
-                <td>DonaMaria</td>
-                <td>ativo</td>
-                <td>12,00%</td>
+                <td>{{$salesman->user->name}}</td>
+                <td>{{isset($salesman->store) ? $salesman->store->name : '-'}}</td>
+                <td>{{isset($salesman->store) ? $salesman->store->address->city.'/'.$salesman->store->address->state : '-'}}</td>
+                <td>{{isset($salesman->store) ? $salesman->store->products->count() : '-'}}</td>
+                <td>{{$salesman->moip}}</td>
+                <td>{{($salesman->status) ? 'habilitado' :'desabilitado'}}</td>
+                <td>{{number_format($salesman->comission,2,',')}}%</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-user" data-user="{{$i}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-user" data-user="{{$salesman->id}}">detalhes</a>
                 </td>
             </tr>
-        @endfor
+        @empty
+            <tr colspan="8">
+                <td> Nenhum vendedor encontrado!</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 @endif
@@ -74,18 +82,22 @@
         </thead>
 
         <tbody>
-        @for ($i = 0; $i < 5; $i++)
+        @forelse($result as $product)
             <tr>
-                <td><img src="{{ url('image/img-exemple.jpg') }}" alt="[]" title=""></td>
-                <td>Produto X</td>
-                <td>nome do vendedor<br> <a href="/juca" style="color: #B71C1C">loja</a></td>
-                <td class="txt-center">5</td>
-                <td class="t-draft txt-center">não</td>
+                <td><img src="{{ url('imagem/products/'.$product->galeries->first()->image) }}" alt="{{$product->name}}" title="{{$product->name}}"></td>
+                <td>{{$product->name}}</td>
+                <td>{{$product->salesman->user->name.' '.$product->salesman->user->last_name}}<br> <a href="{{route('pages.store',[$product->store->slug])}}" style="color: #B71C1C">{{$product->store->name}}</a></td>
+                <td class="txt-center">{{$product->quantity}}</td>
+                <td class="t-draft txt-center">{{($product->active) ? 'sim':'não'}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-product">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-product" data-product="{{$product->id}}">detalhes</a>
                 </td>
             </tr>
-        @endfor
+        @empty
+            <tr colspan="7">
+                <td><h3>Nenhum produto encontrado!</h3></td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 @endif

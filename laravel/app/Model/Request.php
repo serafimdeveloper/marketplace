@@ -50,7 +50,6 @@ class Request extends Model
         return $this->belongsTo(Store::class);
     }
 
-
     public function shopvaluation(){
         return $this->hasOne(ShopValuation::class);
     }
@@ -61,5 +60,9 @@ class Request extends Model
 
     public function moip(){
         return $this->hasOne(Moip::class);
+    }
+
+    public function scopeSearch($query, $name, $with) {
+        return $query->where('key', 'LIKE', '%'.$name.'%')->with($with);
     }
 }
