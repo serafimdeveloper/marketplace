@@ -34,7 +34,7 @@ $(function(){
         toolbar: "bold italic underline",
         menu : {},
         plugins: "link",
-        link_list: [{title: 'Custumer', value: 'http://www.mywebsite.com.br'}],
+        link_list: [{title: 'Popmartin', value: 'https://popmartin.com.br'}],
         target_list: [{title: 'Mesma Página', value: '_self'},{title: 'Nova Aba', value: '_blank'}]
     });
 
