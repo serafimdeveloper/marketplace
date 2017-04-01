@@ -34,10 +34,26 @@ class ShopValuationsController extends AbstractController
     }
 
     public function store(Request $request, $id){
-        $this->validate($request,['comment'=>'required|min:5|max:500'],['comment.required' => 'A comentários é obrigatório','comment.min' => 'A quantidade mínima de caracteres é 5',
-            'comment.max' => 'A quantidade máxima é de 500 caracteres']);
+        $this->validate($request,
+            [
+                'comment'=>'required|min:5|max:500',
+                'note_products' => 'required',
+                'note_attendance'=>'required',
+                'request_status'=>'required'
+            ],
+            [
+                'comment.required' => 'A comentários é obrigatório',
+                'comment.min' => 'A quantidade mínima de caracteres é 4',
+                'comment.max' => 'A quantidade máxima é de 500 caracteres',
+                'note_products.required' => 'Avaliáção de produtos é obrigatória',
+                'note_attendance.required' => 'Avaliáção de atendimento obrigatória',
+                'request_status.required' => 'O status do pedido deve ser informado!'
+            ]
+        );
+
         $data = $request->all();
         $data['request_id'] = $id;
+
         if($this->repo->store($data)){
             return response()->json(['status'=>true],201);
         }

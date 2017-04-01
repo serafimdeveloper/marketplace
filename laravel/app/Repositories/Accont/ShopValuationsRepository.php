@@ -20,9 +20,9 @@ class ShopValuationsRepository extends BaseRepository
     }
 
     public function getNotes($product){
-        $model = $this->model->select('shop_valuations.*', DB::raw('avg(note_term) as medium_product, avg(note_service) as medium_attendance'))->distinct()
+        $model = $this->model->select('shop_valuations.*', DB::raw('avg(note_products) as medium_product, avg(note_attendance) as medium_attendance'))->distinct()
             ->where('store_id',$product->store_id)
-            ->groupBy('id','user_id','store_id','request_id','note_term','note_service','comment','active','created_at','updated_at')
+            ->groupBy('id','user_id','store_id','request_id','note_products','note_attendance','comment','active','created_at','updated_at')
             ->get();
         return $model;
     }

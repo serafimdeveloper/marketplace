@@ -32,7 +32,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             #\App\Http\Middleware\HttpsProtocol::class,
             #\App\Http\Middleware\ForceSSL::class,
-
         ],
 
         'api' => [

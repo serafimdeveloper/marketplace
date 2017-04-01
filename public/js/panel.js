@@ -30,7 +30,7 @@ $(function(){
     });
 
     tinymce.init({
-        selector: 'textarea',
+        selector: '.textarea_tiny',
         toolbar: "bold italic underline",
         menu : {},
         plugins: "link",

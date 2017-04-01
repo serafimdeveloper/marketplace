@@ -29,13 +29,14 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <script src="{{asset('frontend/js/jquery1.js')}}"></script>
+        <script src="{{asset('frontend/lib/jqueryui/jquery-ui.min.js')}}"></script>
     </head>
     <body>
         <main class="container">
             @include('inc.header')
             @yield('content')
             @include('inc.footer')
-            @yield('parties')
         </main>
         <div id="fb-root"></div>
         <script>
@@ -47,8 +48,6 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         </script>
-        <script src="{{asset('frontend/js/jquery1.js')}}"></script>
-        <script src="{{asset('frontend/lib/jqueryui/jquery-ui.min.js')}}"></script>
         <script src="{{asset('frontend/lib/maskinput/jquery.mask.min.js')}}"></script>
         <script src="{{asset('frontend/lib/owlcarousel/owl.carousel.min.js')}}"></script>
         <script src="{{asset('frontend/lib/tooltipster/js/tooltipster.bundle.min.js')}}"></script>
