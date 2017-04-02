@@ -173,6 +173,7 @@
                             {!! Form::text('zip_code',(isset($cart->address['zip_code']) ? $cart->address['zip_code'] : null), ['class' => 'getCepAddressCart', 'onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP', 'data-minlength' => 8]) !!}
                             <!--<span class="alert {{ $errors->has('zip_code') ? '' : ' hidden' }}">{{ $errors->first('zip_code') }}</span>-->
                         </label>
+
                     @else
                         <span>Informe o Cep</span>
                         {!! Form::text('zip_code', (isset($cart->address['zip_code']) ? $cart->address['zip_code'] : null), ['onkeyup' => 'maskInt(this)', 'placeholder' => 'CEP']) !!}

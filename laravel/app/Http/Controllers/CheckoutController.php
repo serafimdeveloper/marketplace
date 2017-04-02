@@ -132,8 +132,10 @@ class CheckoutController extends Controller {
         $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/ConsultarInstrucao/' . $order->moip->token);
         $xml = simplexml_load_string($consult_result->xml);
         $infoMoip = $xml->RespostaConsultar;
-
-        $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $infoMoip];
+        $moip['valueTodalRementente'] = ($infoMoip->Autorizacao->Pagamento->ValorLiquido - $infoMoip->Autorizacao->Pagamento->Comissao->Valor);
+        $moip['comission'] = $infoMoip->Autorizacao->Pagamento->Comissao->Valor;
+        dd($moip);
+        $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
         $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
         $this->send_email('store', 'emails.received_request', $data, 'Você recebeu um pedido do cliente ' . Auth::user()->name);
     }

@@ -88,7 +88,7 @@
                 <tr>
                     <td>{{ $request->freight->name }}</td>
                     <td>
-                        <span>{{ $request->user->name }} {{ $request->user->last_name }}</span><br>
+                        <span>{{ $request->adress->name }}</span><br>
                         <span>{{ $request->adress->zip_code }} ({{ $request->adress->state }})</span><br>
                     </td>
                     <td class="bold"><span class="fontem-12">R${{ number_format($request->freight_price, 2, ',', '') }}</span></td>

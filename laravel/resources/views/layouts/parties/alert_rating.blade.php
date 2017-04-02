@@ -24,10 +24,9 @@
                                 </label>
                                 <label class="radio" style="border: none;">
                                     <span><span class="fa fa-circle-o"></span> produto devolvido</span>
-                                    {!! Form::radio('aval','devolvido', ['class' => 'jq-avalSelect']) !!}
+                                    {!! Form::radio('aval','devolvido') !!}
                                 </label>
                             </div>
-                            <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                         </div>
                     </div>
                     @else
@@ -36,7 +35,7 @@
                 <div class="form-modern jq-aval-devolvido dp-none" style="margin-top: -15px;">
                     <span>Motivo da devolução:</span>
                     <select name="return_reason" class="return_reason">
-                        <option value="" disabled selected="true">motivo</option>
+                        <option value="" disabled selected="true">selecione</option>
                         <option value="produto diferente do comprado">produto diferente do comprado</option>
                         <option value="produto com defeito">produto com defeito</option>
                         <option value="não gostei do produto">não gostei do produto</option>
@@ -133,7 +132,8 @@
                         e.find('button[type=submit]').text('enviando...').css({background: '#EB9292'});
                     },
                     error: function (response) {
-//                      alertify.error(response.responseJSON.msg);
+                        console.log(response.responseJSON);
+                      alertify.error(response.responseJSON.msg);
                         backBtnForm(e);
                     },
                     success: function (response) {

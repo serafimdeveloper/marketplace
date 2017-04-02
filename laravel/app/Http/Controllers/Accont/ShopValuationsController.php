@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Accont;
 
 
 use App\Http\Controllers\AbstractController;
+use App\Repositories\Accont\RequestsRepository;
 use App\Repositories\Accont\ShopValuationsRepository;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,7 @@ class ShopValuationsController extends AbstractController
 
     }
 
-    public function store(Request $request, $id){
+    public function store(Request $request, RequestsRepository $order, $id){
         $this->validate($request,
             [
                 'comment'=>'required|min:5|max:500',
@@ -54,7 +55,15 @@ class ShopValuationsController extends AbstractController
         $data = $request->all();
         $data['request_id'] = $id;
 
+        if($data['request_status'] == 'devolvido' && !$data['return_reason']){
+            return response()->json(['msg'=>'Informe o motivo da devolução'],404);
+        }
         if($this->repo->store($data)){
+            if($data['request_status'] == 'devolvido'){
+                $order->update(['request_status_id' => 7], $id);
+            }else{
+                $order->update(['request_status_id' => 8], $id);
+            }
             return response()->json(['status'=>true],201);
         }
         return response()->json(['msg'=>'Erro ao avaliar'],500);

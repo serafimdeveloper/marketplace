@@ -68,11 +68,11 @@
         </tr>
         <tr>
             <td>Comissão Pop Martin / MoIP:</td>
-            <td class="bold" colspan="4" style="text-align: right;">-{9}</td>
+            <td class="bold" colspan="4" style="text-align: right;">{{ real($moip['comission']) }}</td>
         </tr>
         <tr>
             <td>Valor a receber:</td>
-            <td class="bold" colspan="4" style="text-align: right;">{10}</td>
+            <td class="bold" colspan="4" style="text-align: right;">{{ real($moip['valueTodalRementente'])}}</td>
         </tr>
         </tbody>
     </table>
