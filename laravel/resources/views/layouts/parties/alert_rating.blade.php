@@ -20,6 +20,7 @@
                                     {{--<span><span class="fa {{ ($user->genre === 'M') ? 'fa-check-circle-o c-green':''}}"></span> masculino</span>--}}
                                     <span><span class="fa fa-circle-o"></span> produto recebido</span>
                                     {!! Form::radio('aval','recebido') !!}
+
                                 </label>
                                 <label class="radio" style="border: none;">
                                     <span><span class="fa fa-circle-o"></span> produto devolvido</span>
@@ -32,9 +33,10 @@
                     @else
                     <p class="txt-center">Produto {{ $request->shopvaluation->request_status }}</p>
                 @endif
-                <div class="form-modern jq-aval-devolvido" style="margin-top: -15px;">
+                <div class="form-modern jq-aval-devolvido dp-none" style="margin-top: -15px;">
                     <span>Motivo da devolução:</span>
-                    <select name="return_reason">
+                    <select name="return_reason" class="return_reason">
+                        <option value="" disabled selected="true">motivo</option>
                         <option value="produto diferente do comprado">produto diferente do comprado</option>
                         <option value="produto com defeito">produto com defeito</option>
                         <option value="não gostei do produto">não gostei do produto</option>
@@ -86,20 +88,16 @@
 <script src="{{ asset('frontend/lib/rater/rater.min.js') }}"></script>
 <script>
     $(function () {
-        $('.jq-avalSelect').click(function () {
-            $('.')
-        });
-
-
         var rating = [];
         $(".rating").rate();
         $(".rating").on("change", function (ev, data) {
-            var e = $(this)
+            var e = $(this);
             rating[e.data('item')] = data.to;
         });
 
         $('.sendRating').on('submit', function () {
             var e = $(this);
+            var reason = $('.return_reason').val();
             var comment = e.find('textarea').val();
             var id = '{{$request->id}}';
             var data = {
@@ -108,6 +106,7 @@
                 'note_products': rating['product'],
                 'note_attendance': rating['attendance'],
                 'request_status': statusRating(),
+                'return_reason': reason,
                 'comment': comment,
                 '_token': '{{ csrf_token() }}'
             };
@@ -115,6 +114,9 @@
             if (!statusRating()) {
                 backBtnForm(e);
                 alertify.error("Marque 'produto recebido' se ocorreu tudo certo com sua compra!");
+            }else if(statusRating() == 'devolvido' && !reason){
+                backBtnForm(e);
+                alertify.error('Informe o motivo da devolução');
             } else if (objectLength(rating) < 2) {
                 backBtnForm(e);
                 alertify.error("Você precisa avaliar as 2 característica deste vendedor");

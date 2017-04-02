@@ -38,6 +38,16 @@ $(function(){
         target_list: [{title: 'Mesma Página', value: '_self'},{title: 'Nova Aba', value: '_blank'}]
     });
 
+    $('.jq-check-aval').find('input').each(function (e) {
+        $(this).on('click', function(){
+            if($(this).val() == 'devolvido'){
+                $('.jq-aval-devolvido').show();
+            }else{
+                $('.jq-aval-devolvido').hide();
+            }
+        })
+    })
+
     /** Menu mobile do painel de controle */
     $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
     $('.panel-icon-mobile').click(function () {
