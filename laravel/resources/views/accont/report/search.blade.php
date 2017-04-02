@@ -14,7 +14,6 @@
         </form>
         <div id="result">
             @include('accont.report.presearch')
-            {!! $result->render() !!}
         </div>
     </section>
     <div class="clear-both"></div>
@@ -28,5 +27,17 @@
         @include('layouts.parties.alert_banner')
     @endif
 
+@endsection
+@section('scripts_int')
+    <script>
+        $(document).on('click', '.pagination a', function (event) {
+            $('li').removeClass('active');
+            $(this).parent('li').addClass('active');
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            var data = 'name=' + $(".jq-input-search").val();
+            getData(page, data);
+        });
+    </script>
 @endsection
 

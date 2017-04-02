@@ -84,6 +84,7 @@
         </div>
     </div>
 </div>
+@section('scripts_int')
 <script src="{{ asset('frontend/lib/rater/rater.min.js') }}"></script>
 <script>
     $(function () {
@@ -171,3 +172,4 @@
         return status
     }
 </script>
+@endsection

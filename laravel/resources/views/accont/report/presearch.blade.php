@@ -28,9 +28,8 @@
         @endforelse
         </tbody>
     </table>
-@endif
 
-@if($type === 'sallesmans')
+@elseif($type === 'sallesmans')
     <table id="jq-search-table-result" class="table table-action">
         <thead>
         <tr>
@@ -66,9 +65,8 @@
         @endforelse
         </tbody>
     </table>
-@endif
 
-@if($type === 'products')
+@elseif($type === 'products')
     <table id="jq-search-table-result" class="table table-action">
         <thead>
         <tr>
@@ -100,8 +98,8 @@
         @endforelse
         </tbody>
     </table>
-@endif
-@if($type === 'sales')
+
+@elseif($type === 'sales')
     <table id="jq-search-table-result" class="table table-action">
         <thead>
         <tr>
@@ -135,8 +133,8 @@
         @endforelse
         </tbody>
     </table>
-@endif
-@if($type === 'banners')
+
+@elseif($type === 'banners')
     <table id="jq-search-table-result" class="table table-action">
         <thead>
         <tr>
@@ -171,15 +169,4 @@
         </tbody>
     </table>
 @endif
-@section('script')
-<script>
-    $(document).on('click', '.pagination a', function (event) {
-        $('li').removeClass('active');
-        $(this).parent('li').addClass('active');
-        event.preventDefault();
-        var page = $(this).attr('href').split('page=')[1];
-        var data = 'name=' + $(".jq-input-search").val();
-        getData(page, data);
-    });
-</script>
-@endsection
+{!! $result->render() !!}

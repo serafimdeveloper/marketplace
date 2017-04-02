@@ -24,7 +24,7 @@ class AdminController extends Controller
     protected $columns = ['*'];
     protected $ordy = [];
     protected $title = '';
-    protected $limit = 10;
+    protected $limit = 3;
 
     public function list_users(Request $request, UserRepository $repo){
         $this->with  = ['addresses','requests'];
@@ -37,6 +37,13 @@ class AdminController extends Controller
         return view('accont.report.search', $data);
     }
 
+    public function get_user_id(UserRepository $repo, $id){
+        if($result = $this->getByRepoId($repo, $id)){
+            return response()->json(compact('result'));
+        }
+        return response()->json(['msg' => 'Erro ao encontrar o usuário'],404);
+    }
+
     public function list_sallesmans(Request $request, SalesmanRepository $repo){
         $this->ordy = ['name' => 'ASC'];
         $this->title = 'Vendedores cadastrado na loja';
@@ -45,6 +52,13 @@ class AdminController extends Controller
             return view('accont.report.presearch', $data);
         }
         return view('accont.report.search', $data);
+    }
+
+    public function get_sallesmans_id(SalesmanRepository $repo, $id){
+        if($result = $this->getByRepoId($repo, $id)){
+            return response()->json(compact('result'));
+        }
+        return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
     }
 
     public function list_products(Request $request, ProductsRepository $repo){
@@ -83,9 +97,17 @@ class AdminController extends Controller
 
     private function search($request, $type, $repo){
         $page = Input::get('page') ? Input::get('page') : 1 ;
-        $result = $repo->search($request->name, $this->columns, $this->with, $this->ordy, $this->limit = 10, $page);
+        $result = $repo->search($request->name, $this->columns, $this->with, $this->ordy, $this->limit, $page);
         return ['type' => $type, 'result' => $result, 'title' => $this->title];
 
     }
+
+    private function getByRepoId($repo, $id){
+        if($result = $repo->get($id,$this->columns,$this->with)){
+            return $result;
+        }
+        return false;
+    }
+
 
 }

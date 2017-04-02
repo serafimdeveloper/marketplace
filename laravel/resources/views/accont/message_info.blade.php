@@ -74,7 +74,7 @@
     <div class="clear-both"></div>
 @endsection
 
-@section('script')
+@section('scripts_int')
     <script>
         $(document).ready(function(){
             var url_atual = window.location.href;

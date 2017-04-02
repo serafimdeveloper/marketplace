@@ -23,7 +23,7 @@
     </section>
     <div class="clear-both"></div>
 @endsection
-@section('script')
+@section('scripts_int')
     <script src="/public/frontend/lib/tinymce/tinymce.min.js"></script>
     <script>
         tinymce.init({
