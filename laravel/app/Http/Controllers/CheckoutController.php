@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Accont\AdressesStoreRequest;
+use App\Package\Moip\lib\MoIPClient;
 use App\Repositories\Accont\AdressesRepository;
 use App\Repositories\Accont\RequestsRepository;
 use App\Repositories\Accont\StoresRepository;
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Correios;
 use DB;
-
 
 class CheckoutController extends Controller {
     private $moip, $address;
@@ -40,6 +40,7 @@ class CheckoutController extends Controller {
                     }else{
                         $address = (object)Correios::cep($cart->address['zip_code'])[0];
                     }
+
                     return view('pages.cart_address', compact('address', 'sha1', 'user'));
                 }
             }
@@ -57,31 +58,23 @@ class CheckoutController extends Controller {
                     $user = Auth::user();
                     DB::beginTransaction();
                     try{
-                        if($address = $user->addresses->where('name', $req->name)->first()){
-                            $address->fill($req->all())->save();
-                        }else{
+                        $address = $user->addresses->where('name', $req->name)->where('zip_code', $req->zip_code)->first();
+                        if(!$address){
                             $address = $user->addresses()->create($req->all());
                         }
                         $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
-                        $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'],
-                            'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'],
-                            'deadline' => $store['freight'][ $store['type_freight']['name'] ]['deadline'] ,'amount' => $store['amount'], 'note' => $store['obs']];
+                        $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'], 'phone' => $req->phone, 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'], 'deadline' => $store['freight'][ $store['type_freight']['name'] ]['deadline'], 'amount' => $store['amount'], 'note' => $store['obs']];
                         $model_store = $this->repo_stores->get($key);
                         $request = $model_store->requests()->create($dados);
                         $cart->add_request($key, $request->id);
                         $request->products()->sync($this->products($store));
-                        if($user->phone != $req->phone){
-                            $user->fill(['phone'=> $req->phone])->save();
-                        }
                         $this->service->setCart($cart)->deleteRequestCart($key)->saveCart();
-                        $data = ['user'=> $user, 'store' => $request->store, 'address' => $address, 'products' => $request->products, 'request' => $request];
-                        $this->send_email('client','emails.requested_request',$data,'Você enviou um pedido para a loja '.$store['name']);
-                        $this->send_email('store','emails.received_request',$data,'Você recebeu um pedido do cliente '.$user->name);
                         DB::commit();
+
                         return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
-                    }catch (\Exception $e){
+                    }catch(\Exception $e){
                         DB::rollback();
-                        flash('Ocorreu um erro ao confirmar o endereço','error');
+                        flash('Ocorreu um erro ao confirmar o endereço', 'error');
                         redirect()->route('cart.cart_address');
                     }
                 }
@@ -92,9 +85,10 @@ class CheckoutController extends Controller {
 
     private function products($store){
         $products = [];
-        foreach($store['products'] as $key_product => $product) {
-            $products[$key_product] = ['quantity' => $product['qtd'], 'unit_price' => $product['price_unit'], 'amount' => $product['subtotal']];
+        foreach($store['products'] as $key_product => $product){
+            $products[ $key_product ] = ['quantity' => $product['qtd'], 'unit_price' => $product['price_unit'], 'amount' => $product['subtotal']];
         }
+
         return $products;
     }
 
@@ -110,8 +104,9 @@ class CheckoutController extends Controller {
             }
             $deadline = $this->max_deadline($order->products);
 
-            return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key','deadline'));
+            return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key', 'deadline'));
         }
+
         return redirect()->route('pages.cart');
     }
 
@@ -133,6 +128,14 @@ class CheckoutController extends Controller {
             }
             $order->moip->fill(['codeMoip' => $request->response['CodigoMoIP'], 'codeReturn' => $request->response['CodigoRetorno']])->save();
         }
+        $order_moip = new MoIPClient;
+        $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/ConsultarInstrucao/' . $order->moip->token);
+        $xml = simplexml_load_string($consult_result->xml);
+        $infoMoip = $xml->RespostaConsultar;
+
+        $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $infoMoip];
+        $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
+        $this->send_email('store', 'emails.received_request', $data, 'Você recebeu um pedido do cliente ' . Auth::user()->name);
     }
 
     public function notification(Request $request, RequestsRepository $rp){
@@ -156,9 +159,10 @@ class CheckoutController extends Controller {
     }
 
     private function max_deadline($products){
-       $products = $products->map(function($product){
+        $products = $products->map(function($product){
             return $product->deadline;
-       });
-       return $products->max();
+        });
+
+        return $products->max();
     }
 }

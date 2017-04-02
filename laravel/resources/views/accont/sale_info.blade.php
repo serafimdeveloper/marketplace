@@ -18,23 +18,23 @@
                     </p>
                 </div>
                 <div class="colbox-2">
-                    @if($request->request_status_id === 3)
+                    @if($request->request_status_id >= 3)
                     {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
                         <label>
                             <span>Código de rastreio dos correios</span>
-                            {!! Form::text('tracking_code', null, ['placeholder' => 'código']) !!}
+                            {!! Form::text('tracking_code', null, ['placeholder' => 'código', 'maxlength' => 13, 'minlength' => 13]) !!}
                             <span class="alert hidden"></span>
                             <span class="fa fa-spinner fa-spin jq-loader dp-none loader-2"></span>
                         </label>
                         <button type="submit" class="btn btn-small btn-popmartin">enviar</button>
                     {!! Form::close() !!}
-                    @elseif($request->request_status_id > 3)
-                        <span style="margin-bottom: 10px">
-                            <p style="margin-bottom: 0">Status: <strong>{{$rastreamento[0]['status']}}</strong></p>
-                            <p style="margin-bottom: 0">Código de rastreio: {{$request->tracking_code}}</p>
-                            <p style="margin-bottom: 0">Data: {{$rastreamento[0]['data']}} -  Local: {{$rastreamento[0]['local']}}</p>
-                            <p style="margin-bottom: 0">{{isset($rastreamento[0]['encaminhado']) ? $rastreamento[0]['encaminhado'] : ''}}</p>
-                        </span>
+                        @if(!$rastreamento['message'])
+                            <div style="padding: 0 17px;margin-top: -10px;">
+                                <p style="margin-bottom: 0">Status: <strong>{{$rastreamento['current']['status']}}</strong></p>
+                                <p style="margin-bottom: 0">Data: {{$rastreamento['current']['data']}} -  Local: {{$rastreamento['current']['local']}}
+                                <p style="margin-bottom: 0">{{isset($rastreamento['current']['encaminhado']) ? $rastreamento['current']['encaminhado'] : ''}}</p>
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>

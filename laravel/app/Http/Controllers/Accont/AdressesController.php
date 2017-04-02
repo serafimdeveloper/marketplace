@@ -2,7 +2,8 @@
 	namespace App\Http\Controllers\Accont;
 
 	use App\Http\Controllers\AbstractController;
-	use Auth;
+    use App\Http\Requests\Request;
+    use Auth;
 	use Correios;
 	use App\Repositories\Accont\AdressesRepository;
 	use App\Http\Requests\Accont\AdressesStoreRequest;
@@ -86,6 +87,14 @@
                 $dados['store_id'] = $user->salesman->store->id;
             }
             return $dados;
+        }
+
+        public function get_mycep(Request $request){
+            if($address = $request->address){
+                $zip_code = Auth::user()->addresses->find($address)->zip_code;
+                return  response()->json($zip_code);
+            }
+            return response()->json(['msg'=>'Endereço inválido'],404);
         }
 
     }

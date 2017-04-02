@@ -209,7 +209,7 @@
                         msg = 'Compra cancelada!';
                     }
                 }
-                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
+//                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
             });
         };
 
@@ -256,6 +256,7 @@
             MoipUtil.calcularParcela(settings);
         }
         returnCalculatePlots = function (data) {
+            console.log(data);
             var options = '';
             $.each(data.parcelas, function (key, value) {
                 options += '<option value="' + value.quantidade + '">' + value.quantidade + 'x R$ ' + value.valor + '</option>';

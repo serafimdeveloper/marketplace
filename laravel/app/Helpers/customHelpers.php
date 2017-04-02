@@ -1,10 +1,34 @@
 <?php
 use App\Model\Ad;
 use App\Model\CountOrder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
+use Correios;
+
+if(!function_exists('track_object')){
+    function track_object($code, $id){
+        $local = false;
+        $order = \App\Model\Request::find($id);
+        $st = ($order->tracking_code == $code ? 4 : 3);
+        if($order->requeststatus->id >= $st){
+            $tracking = Correios::rastrear($code);
+            if($tracking){
+                $local['message'] = false;
+                $local['current'] = current($tracking);
+                $local['posted'] = end($tracking);
+                if($local['current']['status'] == 'Entrega Efetuada'){
+                    $order->fill(['request_status_id' => 5])->save();
+                }
+            }else{
+                $local['message'] = 'Objeto não encontrado ou não atualizado pelo correio';
+            }
+        }
+        return $local;
+    }
+}
 
 if(!function_exists('banner_ads')){
     function banner_ads(){

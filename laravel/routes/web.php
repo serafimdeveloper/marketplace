@@ -123,6 +123,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('adresses/{action}','AdressesController@store')->name('adress.store');
     Route::get('adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
     Route::post('adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
+    Route::get('adresses/getmycep/{myidcep}','AdressesController@get_mycep')->name('adress.getmycep');
 });
 
 Route::get('/pagina/{page}', 'PageController@with_pay')->name('pagina');

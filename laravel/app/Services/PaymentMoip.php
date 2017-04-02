@@ -59,4 +59,10 @@ class PaymentMoip
         }
         return $string;
     }
+
+    private function send_email($type, $template, $data, $subject){
+        $data['email'] = ($type === 'client') ? $data['user']->email : $data['store']->salesman->user->email;
+        $data['name'] = ($type === 'client') ? $data['user']->name : $data['store']->salesman->user->name;
+        send_mail($template, $data, $subject);
+    }
 }

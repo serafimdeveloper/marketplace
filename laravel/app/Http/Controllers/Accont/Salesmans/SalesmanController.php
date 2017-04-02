@@ -42,7 +42,7 @@ class SalesmanController extends AbstractController
         $dados['user_id'] = $user->id;
 
         $moipClient = new MoIPClient();
-        $result = $moipClient->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL_CONSULT_LOGIN') . "rendaok@live.com");
+        $result = $moipClient->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/VerificarConta/' . $dados->moip);
         $xml = simplexml_load_string($result->xml);
         $xmlData = $xml->RespostaVerificarConta;
 

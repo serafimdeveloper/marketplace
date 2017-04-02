@@ -69,10 +69,7 @@ class SalesController extends AbstractController
         if($request->store->id == Auth::user()->salesman->store->id){
             $rastreamento = [];
             if(isset($request->tracking_code)){
-                $rastreamento = Correios::rastrear($request->tracking_code);
-                if($rastreamento[0]['status'] === 'Entrega Efetuada'){
-                    $request->fill(['request_status_id' => 5])->save();
-                }
+                $rastreamento = track_object($request->tracking_code, $id);
             }
             if($request->visualized === 0){
                 $request->fill(['visualized' =>1])->save();
@@ -83,15 +80,17 @@ class SalesController extends AbstractController
     }
 
     public function tracking_code(Request $req, $id){
+
         $this->validate($req,[
             'tracking_code' => 'required'
         ],['tracking_code.required' => 'O código de rastreio é obrigatório']);
 
-        if(count(Correios::rastrear($req->tracking_code))){
+        if(!track_object($req->tracking_code, $id)['message']){
             if($request = $this->repo->update(['tracking_code'=>$req->tracking_code, 'request_status_id' => 4],$id)){
                 flash('Código de rastreamento do correio salvo', 'accept');
                 return redirect()->route('accont.salesman.sale_info', ['id' => $id]);
             }
+
             flash('Erro ao salvar o código do correio', 'error');
             return redirect()->route('accont.salesman.sale_info', ['id' => $id]);
         }

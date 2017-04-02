@@ -12,36 +12,49 @@
                         Pedido já avaliado. <b>Obrigado!</b>
                     @endif
                 </p>
-
-                <div class="form-modern">
-                    <div class="checkbox-container padding10" style="position:relative;">
-                        <div class="checkboxies txt-center jq-check-aval">
-                            <label class="radio" style="border: none;">
-                                {{--<span><span class="fa {{ ($user->genre === 'M') ? 'fa-check-circle-o c-green':''}}"></span> masculino</span>--}}
-                                <span><span class="fa fa-circle-o"></span> produto recebido</span>
-                                {!! Form::radio('aval','recebido') !!}
-                            </label>
-                            <label class="radio" style="border: none;">
-                                <span><span class="fa fa-circle-o"></span> produto devolvido</span>
-                                {!! Form::radio('aval','devolvido') !!}
-                            </label>
+                @if(!$request->shopvaluation)
+                    <div class="form-modern">
+                        <div class="checkbox-container padding10" style="position:relative;">
+                            <div class="checkboxies txt-center jq-check-aval">
+                                <label class="radio" style="border: none;">
+                                    {{--<span><span class="fa {{ ($user->genre === 'M') ? 'fa-check-circle-o c-green':''}}"></span> masculino</span>--}}
+                                    <span><span class="fa fa-circle-o"></span> produto recebido</span>
+                                    {!! Form::radio('aval','recebido') !!}
+                                </label>
+                                <label class="radio" style="border: none;">
+                                    <span><span class="fa fa-circle-o"></span> produto devolvido</span>
+                                    {!! Form::radio('aval','devolvido', ['class' => 'jq-avalSelect']) !!}
+                                </label>
+                            </div>
+                            <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                         </div>
-                        <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                     </div>
+                    @else
+                    <p class="txt-center">Produto {{ $request->shopvaluation->request_status }}</p>
+                @endif
+                <div class="form-modern jq-aval-devolvido" style="margin-top: -15px;">
+                    <span>Motivo da devolução:</span>
+                    <select name="return_reason">
+                        <option value="produto diferente do comprado">produto diferente do comprado</option>
+                        <option value="produto com defeito">produto com defeito</option>
+                        <option value="não gostei do produto">não gostei do produto</option>
+                    </select>
                 </div>
+                {{--{{ dd($request->shopvaluation) }}--}}
+                <br>
                 <div class="colbox">
                     <div class="colbox-2">
                         <div class="pop-rating">
-                            <h3>Qualidade do produto(s)</h3>
+                            <h3>Qualidade do(s) produto(s)</h3>
                             <div class="rating"
-                                 data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_term : 5}} data-item="product"></div>
+                                 data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_products : 5}} data-item="product"></div>
                         </div>
                     </div>
                     <div class="colbox-2">
                         <div class="pop-rating">
                             <h3>Atendimento</h3>
                             <div class="rating"
-                                 data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_service : 5}} data-item="attendance"></div>
+                                 data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_attendance : 5}} data-item="attendance"></div>
                         </div>
                     </div>
                 </div>
@@ -73,6 +86,11 @@
 <script src="{{ asset('frontend/lib/rater/rater.min.js') }}"></script>
 <script>
     $(function () {
+        $('.jq-avalSelect').click(function () {
+            $('.')
+        });
+
+
         var rating = [];
         $(".rating").rate();
         $(".rating").on("change", function (ev, data) {
@@ -87,8 +105,8 @@
             var data = {
                 'user_id': '{{ $user->id }}',
                 'store_id': '{{ $request->store->id }}',
-                'note_products': rating.product,
-                'note_attendance': rating.attendance,
+                'note_products': rating['product'],
+                'note_attendance': rating['attendance'],
                 'request_status': statusRating(),
                 'comment': comment,
                 '_token': '{{ csrf_token() }}'

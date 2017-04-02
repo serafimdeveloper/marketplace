@@ -37,10 +37,10 @@
                     <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar o vendedor</a>
                         @if($request->request_status_id > 3)
                             <span style="margin-bottom: 10px" class="txt-left">
-                                <p style="margin-bottom: 0">Status: <strong>{{$rastreamento[0]['status']}}</strong></p>
+                                <p style="margin-bottom: 0">Status: <strong>{{$rastreamento['current']['status']}}</strong></p>
                                 <p style="margin-bottom: 0">Código de rastreio: {{$request->tracking_code}}</p>
-                                <p style="margin-bottom: 0">Data: {{$rastreamento[0]['data']}} -  Local: {{$rastreamento[0]['local']}}</p>
-                                <p style="margin-bottom: 0">{{isset($rastreamento[0]['encaminhado']) ? $rastreamento[0]['encaminhado'] : ''}}</p>
+                                <p style="margin-bottom: 0">Data: {{$rastreamento['current']['data']}} -  Local: {{$rastreamento['current']['local']}}</p>
+                                <p style="margin-bottom: 0">{{ isset($rastreamento['current']['encaminhado']) ? $rastreamento['current']['encaminhado'] : '' }}</p>
                             </span>
                         @endif
                 </div>
