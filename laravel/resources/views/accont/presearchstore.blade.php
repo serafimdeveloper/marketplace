@@ -25,7 +25,8 @@
             event.preventDefault();
             var page = $(this).attr('href').split('page=')[1];
             var data = 'name=' + $(".jq-input-search").val();
-            getData(page, data);
+            var url = '{{ request()->url() }}';
+            getData(page, data, url, 5);
         });
     </script>
 @endsection
