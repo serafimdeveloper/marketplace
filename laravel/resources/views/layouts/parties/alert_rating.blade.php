@@ -32,16 +32,14 @@
                 <div class="colbox">
                     <div class="colbox-2">
                         <div class="pop-rating">
-                            <h3>Qualidade do produto(s)</h3>
-                            <div class="rating"
-                                 data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_term : 5}} data-item="product"></div>
+                            <h3>Qualidade do(s) produto(s)</h3>
+                            <div class="rating" data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_term : 5}} data-item="product"></div>
                         </div>
                     </div>
                     <div class="colbox-2">
                         <div class="pop-rating">
                             <h3>Atendimento</h3>
-                            <div class="rating"
-                                 data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_service : 5}} data-item="attendance"></div>
+                            <div class="rating" data-rate-value={{$request->shopvaluation ? $request->shopvaluation->note_service : 5}} data-item="attendance"></div>
                         </div>
                     </div>
                 </div>
@@ -70,6 +68,7 @@
         </div>
     </div>
 </div>
+@section('scripts_int')
 <script src="{{ asset('frontend/lib/rater/rater.min.js') }}"></script>
 <script>
     $(function () {
@@ -151,3 +150,4 @@
         return status
     }
 </script>
+@endsection

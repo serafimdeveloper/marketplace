@@ -44,6 +44,8 @@
         </table>
     </section>
     <div class="clear-both"></div>
-    <script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'textarea' });</script>
+    @section('scripts_int')
+        <script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>
+        <script>tinymce.init({ selector:'textarea' });</script>
+    @endsection
 @endsection

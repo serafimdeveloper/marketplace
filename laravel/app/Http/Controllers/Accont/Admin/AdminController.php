@@ -24,7 +24,7 @@ class AdminController extends Controller
     protected $columns = ['*'];
     protected $ordy = [];
     protected $title = '';
-    protected $limit = 10;
+    protected $limit = 3;
 
     public function list_users(Request $request, UserRepository $repo){
         $this->with  = ['addresses','requests'];
@@ -83,7 +83,7 @@ class AdminController extends Controller
 
     private function search($request, $type, $repo){
         $page = Input::get('page') ? Input::get('page') : 1 ;
-        $result = $repo->search($request->name, $this->columns, $this->with, $this->ordy, $this->limit = 10, $page);
+        $result = $repo->search($request->name, $this->columns, $this->with, $this->ordy, $this->limit, $page);
         return ['type' => $type, 'result' => $result, 'title' => $this->title];
 
     }

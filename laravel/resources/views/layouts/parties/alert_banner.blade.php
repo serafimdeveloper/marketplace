@@ -63,11 +63,11 @@
 @section('css')
     <link href="/public/frontend/lib/datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet">
 @endsection
-@section('script')
+@section('scripts_int')
     <script src="/public/frontend/lib/datetimepicker/jquery.datetimepicker.full.min.js"></script>
     <script>
         $.datetimepicker.setLocale('pt-BR');
         $('.datetimepicker_datetime').datetimepicker();
 
     </script>
-    @endsection
+@endsection

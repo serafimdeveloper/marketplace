@@ -56,7 +56,8 @@
         <script src="{{asset('frontend/js/bootstrap.js')}}"></script>
         <script src="{{asset('/js/popmartin.js') }}"></script>
 
-        @yield('script')
+        @yield('scripts')
+        @yield('scripts_int')
 
         @if (session()->has('flash_notification.message'))
             <script>

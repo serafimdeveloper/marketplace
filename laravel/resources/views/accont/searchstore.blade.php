@@ -18,3 +18,15 @@
     </section>
     <div class="clear-both"></div>
 @endsection
+@section('scripts_int')
+    <script>
+        $(document).on('click', '.pagination a', function (event) {
+            $('li').removeClass('active');
+            $(this).parent('li').addClass('active');
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            var data = 'name=' + $(".jq-input-search").val();
+            getData(page, data);
+        });
+    </script>
+@endsection

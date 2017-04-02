@@ -17,16 +17,4 @@
     </tbody>
 </table>
 {!! $result->render() !!}
-@section('script')
-    <script>
-        $(document).on('click', '.pagination a', function (event) {
-            $('li').removeClass('active');
-            $(this).parent('li').addClass('active');
-            event.preventDefault();
-            var page = $(this).attr('href').split('page=')[1];
-            var data = 'name=' + $(".jq-input-search").val();
-            var url = '{{ request()->url() }}';
-            getData(page, data, url, 5);
-        });
-    </script>
-@endsection
+

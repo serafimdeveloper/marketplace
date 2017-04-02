@@ -118,7 +118,7 @@
     {{--<a href="/carrinho" class="btn btn-small btn-popmartin-trans">carrinho de compras</a>--}}
     <a class="btn btn-small btn-popmartin" href="{{env('MOIP_URL')}}/Instrucao.do?token={{ $tokenmoip }}" target="_blank">Imprimir boleto</a>
 </div>
-@section('script')
+@section('scripts_int')
     <script
             type='text/javascript'
             src='{{env('MOIP_URL')}}/transparente/MoipWidget-v2.js'
