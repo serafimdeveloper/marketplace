@@ -209,7 +209,7 @@
                         msg = 'Compra cancelada!';
                     }
                 }
-                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
+//                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
             });
         };
 
