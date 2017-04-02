@@ -529,14 +529,15 @@ $(function(){
  * @param page
  * @param data
  */
-function getData(page, data, url){
+function getData(page, data){
+    var url = window.location.href;
     $.ajax({
-        url: '/accont/searchstore?page='+page,
+        url: url+'?page='+page,
         type: "get",
         data: data,
         datatype: "html",
         beforeSend: function(){
-            $('#jq-search-table-result tbody').html("<tr><td colspan=\"2\"><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>");
+            $('#jq-search-table-result tbody').html("<tr><td><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>");
         }
     }).done(function(data){
         $("#result").empty().html(data);

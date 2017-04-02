@@ -76,22 +76,18 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     /** Administrador */
     Route::get('/report/users', 'Admin\AdminController@list_users')->name('report.users');
 
-    Route::get('/report/salesmans', function(){
-        return view('accont.report.salesman');
-    })->name('report.salesman');
+    Route::get('/report/salesmans', 'Admin\AdminController@list_sallesmans')->name('report.salesman');
 
-    Route::get('/report/products', function(){
-        return view('accont.report.products');
-    })->name('report.products');
+    Route::get('/report/products', 'Admin\AdminController@list_products')->name('report.products');
 
     Route::resource('categories', 'CategoriesController');
     Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
     Route::resource('type_movements','TypeMovementsStocksController');
     Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
 
-    Route::get('/report/sales', function(){
-        return view('accont.report.sales');
-    })->name('report.sales');
+    Route::get('/report/sales', 'Admin\AdminController@list_sales')->name('report.sales');
+
+    Route::get('/banners', 'Admin\AdminController@list_banners')->name('banners');
 
     Route::get('/report/notifications', function(){
         return view('accont.report.notifications');
@@ -109,9 +105,6 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         return view('accont.page');
     })->name('page.update');
 
-    Route::get('/banners', function(){
-        return view('accont.banners');
-    })->name('banners');
 
     /**
      * PROCESSO DE REQUISIÇÕES VIA AJAX DO SISTEMA

@@ -49,6 +49,7 @@ class AdminController extends Controller
 
     public function list_products(Request $request, ProductsRepository $repo){
         $this->ordy = ['name' => 'ASC'];
+        $this->with = ['store','galeries'];
         $this->title = 'Lista de Todos os Produtos';
         $data = $this->search($request, 'products', $repo);
         if($request->ajax()){
@@ -58,8 +59,9 @@ class AdminController extends Controller
     }
 
     public function list_sales(Request $request, RequestsRepository $repo){
-        $this->ordy = ['name' => 'ASC'];
+        $this->ordy = ['created_at' => 'DES'];
         $this->title = 'Vendas / Comissões';
+        $this->with = ['store','user','adress','freight','products','requeststatus'];
         $data = $this->search($request, 'sales', $repo);
         if($request->ajax()){
             return view('accont.report.presearch', $data);
@@ -69,6 +71,7 @@ class AdminController extends Controller
 
     public function list_banners(Request $request, AdRepository $repo){
         $this->ordy = ['name' => 'ASC'];
+        $this->with = ['store'];
         $this->title = 'Banners';
         $data = $this->search($request, 'banners', $repo);
         if($request->ajax()){

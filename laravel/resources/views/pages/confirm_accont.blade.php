@@ -10,8 +10,7 @@
                 ATENÇÃO: Para acessar seu painel é necessário que você confirme sua conta de email.
             </p>
             <p style="font-weight: bold; margin-top: 10px">Olá {{$user->name}}</p>
-            <p>
-                A confirmação de conta por email é uma forma de segurança para garantir que ninguém, além de você, utilize o seu email para acessar o Pop Martin.
+            <p>A confirmação de conta por email é uma forma de segurança para garantir que ninguém, além de você, utilize o seu email para acessar o Pop Martin.<br>
                 Para isso, basta acessar o email que você usou para se cadastrar, abrir a nossa mensagem e clicar no link informado.
             </p>
             <br>
