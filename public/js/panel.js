@@ -408,6 +408,7 @@ $(function(){
 
     /** Modal de informações de usuarios */
     $(document).on('click', '.jq-info-user', function () {
+
         $("#jq-info-user").slideDown();
     });
 

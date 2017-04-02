@@ -142,7 +142,7 @@
     </div>
     @include('layouts.parties.alert_message')
 @endsection
-@section('script')
+@section('scripts_int')
     <script src="{{ asset('frontend/lib/rater/rater.min.js') }}"></script>
     <script>
         var rateOptions = {

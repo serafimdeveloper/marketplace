@@ -1,4 +1,4 @@
-@section('script')
+@section('script_int')
     <script>var nocego;</script>
     @if (session()->has('flash_notification.message'))
         <script>
