@@ -10,8 +10,8 @@
     <p style="font-size: 16px; font-weight: bold; color: #800000">Olá {{$name}},</p>
 
     <p>
-        Uma venda foi iniciada na sua loja.<br />
-        Como o pedido ainda não foi confirmado, pedimos que você aguarde o email de confirmação do pagamento para realizar o envio dos produtos.
+        Você realizou uma compra.<br>
+        O vendedor está aguardando a confirmação da instituição financeira para realizar o envio, respeitando o prazo definido para cada produto.
     </p>
 
     <p><a href="{{route('accont.salesman.sale_info', [$request->id])}}">Envie uma mensagem para o comprador</a></p>
@@ -68,7 +68,7 @@
         </tr>
         <tr>
             <td>Comissão Pop Martin / MoIP:</td>
-            <td class="bold" colspan="4" style="text-align: right;">{{ real($moip['comission']) }}</td>
+            <td class="bold" colspan="4" style="text-align: right;">{{ real($moip['comission']) }} | {{ real($moip['taxamoip']) }}</td>
         </tr>
         <tr>
             <td>Valor a receber:</td>

@@ -97,7 +97,7 @@
                         </select>
                         <select name="year" style="display: inline-block;width: 100px;">
                             <option disabled selected>Ano</option>
-                            @for($i = date("y"); $i <= (date("Y") + 20); $i++)
+                            @for($i = date("y"); $i <= (date("y") + 20); $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
@@ -209,7 +209,7 @@
                         msg = 'Compra cancelada!';
                     }
                 }
-//                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
+                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
             });
         };
 

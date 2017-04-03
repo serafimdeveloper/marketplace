@@ -48,6 +48,11 @@ $(function(){
         })
     })
 
+    /** orderdar tabelas */
+    $(".orderTable").on('change', function(){
+        $(this).submit();
+    });
+
     /** Menu mobile do painel de controle */
     $('.panel-nav').height($(document).height() - $('.footer').height() - $('.pop-top-header').height());
     $('.panel-icon-mobile').click(function () {
