@@ -128,11 +128,15 @@ class CheckoutController extends Controller {
             }
             $order->moip->fill(['codeMoip' => $request->response['CodigoMoIP'], 'codeReturn' => $request->response['CodigoRetorno']])->save();
         }
+        if(isset($request->response['url'])){
+            $gerarBoleto = file_get_contents($request->response['url']);
+        }
+
+
         $order_moip = new MoIPClient;
         $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/ConsultarInstrucao/' . $order->moip->token);
         $xml = simplexml_load_string($consult_result->xml);
         $infoMoip = $xml->RespostaConsultar;
-
         $moip['valueTodalRementente'] = (float) ($infoMoip->Autorizacao->Pagamento->ValorLiquido - $infoMoip->Autorizacao->Pagamento->Comissao->Valor);
         $moip['comission'] = (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor;
         $moip['taxamoip'] = (float) $infoMoip->Autorizacao->Pagamento->TaxaMoIP;
