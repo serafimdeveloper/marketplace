@@ -73,21 +73,28 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/message/comments/{type}/{id}', 'MessagesController@comments')->name('message.comments');
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
-    /** Administrador */
+    /******************************************* Administrador *********************************************************/
+
     Route::get('/report/users', 'Admin\AdminController@list_users')->name('report.users');
+    Route::get('/report/users/{id}', 'Admin\AdminController@get_user_id')->name('report.users.info');
 
     Route::get('/report/salesmans', 'Admin\AdminController@list_sallesmans')->name('report.salesman');
+    Route::get('/report/salesmans/{id}', 'Admin\AdminController@get_sallesman_id')->name('report.sallesman.info');
 
     Route::get('/report/products', 'Admin\AdminController@list_products')->name('report.products');
+    Route::get('/report/products/{id}', 'Admin\AdminController@get_product_id')->name('report.product.info');
 
     Route::resource('categories', 'CategoriesController');
     Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
+
     Route::resource('type_movements','TypeMovementsStocksController');
     Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
 
     Route::get('/report/sales', 'Admin\AdminController@list_sales')->name('report.sales');
+    Route::get('/report/sales/{id}', 'Admin\AdminController@get_sale_id')->name('report.sale.info');
 
     Route::get('/banners', 'Admin\AdminController@list_banners')->name('banners');
+    Route::get('/banners/{id}', 'Admin\AdminController@get_banner_id')->name('banner.info');
 
     Route::get('/report/notifications', function(){
         return view('accont.report.notifications');

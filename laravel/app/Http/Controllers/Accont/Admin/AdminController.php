@@ -54,7 +54,7 @@ class AdminController extends Controller
         return view('accont.report.search', $data);
     }
 
-    public function get_sallesmans_id(SalesmanRepository $repo, $id){
+    public function get_sallesman_id(SalesmanRepository $repo, $id){
         if($result = $this->getByRepoId($repo, $id)){
             return response()->json(compact('result'));
         }
@@ -72,6 +72,13 @@ class AdminController extends Controller
         return view('accont.report.search', $data);
     }
 
+    public function get_product_id(ProductsRepository $repo, $id){
+        if($result = $this->getByRepoId($repo, $id)){
+            return response()->json(compact('result'));
+        }
+        return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
+    }
+
     public function list_sales(Request $request, RequestsRepository $repo){
         $this->ordy = ['created_at' => 'DES'];
         $this->title = 'Vendas / Comissões';
@@ -81,6 +88,13 @@ class AdminController extends Controller
             return view('accont.report.presearch', $data);
         }
         return view('accont.report.search', $data);
+    }
+
+    public function get_sale_id(SalesmanRepository $repo, $id){
+        if($result = $this->getByRepoId($repo, $id)){
+            return response()->json(compact('result'));
+        }
+        return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
     }
 
     public function list_banners(Request $request, AdRepository $repo){
@@ -94,6 +108,12 @@ class AdminController extends Controller
         return view('accont.report.search', $data);
     }
 
+    public function get_banner_id(AdRepository $repo, $id){
+        if($result = $this->getByRepoId($repo, $id)){
+            return response()->json(compact('result'));
+        }
+        return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
+    }
 
     private function search($request, $type, $repo){
         $page = Input::get('page') ? Input::get('page') : 1 ;

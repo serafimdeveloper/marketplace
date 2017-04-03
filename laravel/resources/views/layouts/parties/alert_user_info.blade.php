@@ -14,13 +14,11 @@
                         <div class="accordion-header"><span class="c-pop fontw-500">Dados do usuário:</span> <span
                                     class="fa fa-chevron-right"></span></div>
                         <div class="accordion-content">
-
-
                             <div class="colbox">
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>Nome</p>
-                                        <span>Bruno Moura de jesus</span>
+                                        <span>{{$result->name.' '.$result->last_name}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-3">
