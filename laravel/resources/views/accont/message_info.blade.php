@@ -56,7 +56,7 @@
             </tbody>
         </table>
         <div>
-            {!!Form::open(['route'=>['accont.message.answer', $message->id], 'method'=>'POST','class'=>'form-modern pop-form'])!!}
+            {!!Form::open(['route'=>['accont.message.answer',$box,$message->id], 'method'=>'POST','class'=>'form-modern pop-form'])!!}
                 <p class="c-pop fontw-600 box-marginzero">Responder</p>
                 <label>
                     {!! Form::textarea('message', null, ['id' => 'comments-limit', 'class' => 'limiter-textarea', 'rows' => '4', 'maxlength' => 500]) !!}

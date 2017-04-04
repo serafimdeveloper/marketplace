@@ -132,9 +132,11 @@ class CheckoutController extends Controller {
         $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/ConsultarInstrucao/' . $order->moip->token);
         $xml = simplexml_load_string($consult_result->xml);
         $infoMoip = $xml->RespostaConsultar;
-        $moip['valueTodalRementente'] = ($infoMoip->Autorizacao->Pagamento->ValorLiquido - $infoMoip->Autorizacao->Pagamento->Comissao->Valor);
-        $moip['comission'] = $infoMoip->Autorizacao->Pagamento->Comissao->Valor;
-        dd($moip);
+
+        $moip['valueTodalRementente'] = (float) ($infoMoip->Autorizacao->Pagamento->ValorLiquido - $infoMoip->Autorizacao->Pagamento->Comissao->Valor);
+        $moip['comission'] = (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor;
+        $moip['taxamoip'] = (float) $infoMoip->Autorizacao->Pagamento->TaxaMoIP;
+
         $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
         $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
         $this->send_email('store', 'emails.received_request', $data, 'Você recebeu um pedido do cliente ' . Auth::user()->name);
@@ -147,6 +149,9 @@ class CheckoutController extends Controller {
         if(($request->valor == $amount) && ($order->user->email == $request->email_consumidor)){
             if($request->status_pagamento == 4){
                 $st = 3;
+                $data = ['user' => Auth::user(), 'store' => $order->store, 'products' => $order->products, 'request' => $order];
+                $this->send_email('client', 'emails.customer.confirmation', $data, 'Pagamento efetuado com sucesso ' . $order->store->name);
+                $this->send_email('store', 'emails.merchants.confirmation', $data, 'Pagamento recebido ' . Auth::user()->name);
             }elseif($request->status_pagamento == 5){
                 $st = 6;
             }

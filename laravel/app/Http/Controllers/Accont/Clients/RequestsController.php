@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accont\Clients;
 
 use App\Http\Controllers\AbstractController;
 use App\Http\Requests\Request;
+use App\Model\RequestStatus;
 use App\Repositories\Accont\RequestsRepository;
 use Auth;
 use Correios;
@@ -20,12 +21,13 @@ class RequestsController extends AbstractController {
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
+        $request_status = RequestStatus::pluck('description', 'id');
         $user = Auth::User();
         $this->status_request();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $requests = $this->repo->all($this->columns, $this->with, ['user_id' => $user->id], ['id' => 'DESC'], 5, $page);
 
-        return view('accont.requests', compact('requests'));
+        return view('accont.requests', compact('requests', 'request_status'));
     }
 
     public function show($id){
