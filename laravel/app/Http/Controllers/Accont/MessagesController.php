@@ -38,12 +38,10 @@ class MessagesController extends AbstractController {
         $data = ['type' => $type, 'box' => $box];
         if($type == 'user'){
             $messages = $this->getAllMessages($data);
-
             return view('accont.messages', compact('messages', 'type', 'box'));
         }elseif($type == 'store'){
             if($store = Auth::user()->salesman->store){
                 $messages = $this->getAllMessages($data);
-
                 return view('accont.messages', compact('messages', 'type', 'box'));
             }
         }
@@ -68,7 +66,7 @@ class MessagesController extends AbstractController {
         }
         flash('Mensagem não encontrada', 'error');
 
-        return redirect()->back();
+        return redirect()->intended('accont');
     }
 
     public function comments(Request $request, $type, $id){
