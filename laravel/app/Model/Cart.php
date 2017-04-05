@@ -16,7 +16,6 @@ class Cart
     public $count = 0;
     public $address = [];
     public $stores = [];
-    private $amount_free;
 
 
     /** Metodo construtor instancia o objeto
@@ -179,8 +178,8 @@ class Cart
         if(isset($this->address['zip_code'])){
             foreach($this->calculate_freight() as $store => $value){
                 $this->stores[$store]['freight'] = $value;
-                if($this->amount_free){
-                   unset($this->stores[$store]['freight']['PAC']);
+                if($this->stores[$store]['amount_free']){
+                    unset($this->stores[$store]['freight']['PAC']);
                 }
                 $this->price_freight($store);
             }
@@ -218,10 +217,10 @@ class Cart
                 $weight = 0;
                 /** definir tipo para minusculo para comparar com biblioteca vendor de cálculo de frete */
                 $df['tipo'] = trim(strtolower($freight->name));
-                $this->amount_free = $this->all_free_freigth($store);
-                if($this->amount_free){
-                    $volume = $this->amount_free['volume'];
-                    $weight = $this->amount_free['weight'];
+                $this->stores[$id]['amount_free'] = $this->all_free_freigth($store);
+                if($this->stores[$id]['amount_free']){
+                    $volume = $this->stores[$id]['amount_free']['volume'];
+                    $weight = $this->stores[$id]['amount_free']['weight'];
                 }else{
                     /**
                      * Pegar cada produto para somar seu volume e obter peso total
@@ -276,14 +275,13 @@ class Cart
                     }
                 }
             }
-            if($this->amount_free){
+            if($this->stores[$id]['amount_free']){
                 $data[$id]['FREE']['val'] = 0;
                 $data[$id]['FREE']['deadline'] = $data[$id]['PAC']['deadline'] + 2;
                 $data[$id]['FREE']['id'] = 3;
                 unset($data[$id]['PAC']);
             }
         }
-//             dd($data);
         return $data;
     }
     // }

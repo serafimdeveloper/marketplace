@@ -132,7 +132,7 @@
                                                         <label class="radio" style="float: none; display: block;">
                                                         <span>
                                                             <i class="fa {{ ($key === $store['type_freight']['name']) ? 'fa-check-circle-o c-green':'fa-circle-o'}}"></i>
-                                                            {{(($key === 'FREE')? 'FRETE GRÁTIS': $key). ': '.real($freight['val']).' ('.$freight['deadline'].' dias utéis)'}}
+                                                            {{(($key === 'FREE') ? 'FRETE GRÁTIS': $key). ': '.real($freight['val']).' ('.$freight['deadline'].' dias utéis)'}}
                                                         </span>
                                                             {!! Form::radio('type_freight', $key, ($key === $store['type_freight']['name']), ['class'=>'type-freight', 'data-store' => $key_store, 'data-token' => csrf_token(), 'data-id' => $freight['id'] ] ) !!}
                                                         </label>

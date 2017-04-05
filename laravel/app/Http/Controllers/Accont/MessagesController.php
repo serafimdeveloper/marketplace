@@ -42,6 +42,9 @@ class MessagesController extends AbstractController {
         }elseif($type == 'store'){
             if($store = Auth::user()->salesman->store){
                 $messages = $this->getAllMessages($data);
+                   /* ->groupBy(function($item, $key){
+                    return $item['message_id'];
+                });*/
                 return view('accont.messages', compact('messages', 'type', 'box'));
             }
         }

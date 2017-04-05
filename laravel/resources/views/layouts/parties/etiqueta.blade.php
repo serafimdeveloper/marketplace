@@ -19,7 +19,7 @@
         <table>
             <tr>
                 <td class="th">Destinatário:</td>
-                <td style="font-weight: 900 !important;"><strong>{{ mb_strtoupper($request->user->name.' '.$request->user->last_name)}}</strong></td>
+                <td style="font-weight: 900 !important;"><strong>{{ mb_strtoupper($request->adress->name)}}</strong></td>
             </tr>
             <tr>
                 <td class="th">Rua:</td>
