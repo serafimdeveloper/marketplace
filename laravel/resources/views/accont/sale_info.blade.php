@@ -28,7 +28,7 @@
                         </label>
                         <button type="submit" class="btn btn-small btn-popmartin">enviar</button>
                     {!! Form::close() !!}
-                        @if(!$rastreamento['message'])
+                        @if(isset($rastreamento['message']))
                             <div style="padding: 0 17px;margin-top: -10px;">
                                 <p style="margin-bottom: 0">Status: <strong>{{$rastreamento['current']['status']}}</strong></p>
                                 <p style="margin-bottom: 0">Data: {{$rastreamento['current']['data']}} -  Local: {{$rastreamento['current']['local']}}
@@ -81,7 +81,7 @@
                 <tr>
                     <td>{{$request->freight->name}}</td>
                     <td>
-                        <span>{{$request->user->name.' '.$request->user->last_name}}</span><br>
+                        <span>{{$request->adress->name}}</span><br>
                         <span>{{$request->adress->zip_code}} ({{$request->adress->state}})</span><br>
                     </td>
                     <td class="t-active bold"><span class="fontem-12">R${{number_format($request->freight_price,2,',','.')}}</span></td>

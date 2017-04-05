@@ -38,12 +38,13 @@ class MessagesController extends AbstractController {
         $data = ['type' => $type, 'box' => $box];
         if($type == 'user'){
             $messages = $this->getAllMessages($data);
-
             return view('accont.messages', compact('messages', 'type', 'box'));
         }elseif($type == 'store'){
             if($store = Auth::user()->salesman->store){
                 $messages = $this->getAllMessages($data);
-
+                   /* ->groupBy(function($item, $key){
+                    return $item['message_id'];
+                });*/
                 return view('accont.messages', compact('messages', 'type', 'box'));
             }
         }
@@ -68,7 +69,7 @@ class MessagesController extends AbstractController {
         }
         flash('Mensagem não encontrada', 'error');
 
-        return redirect()->back();
+        return redirect()->intended('accont');
     }
 
     public function comments(Request $request, $type, $id){
@@ -101,22 +102,24 @@ class MessagesController extends AbstractController {
         return redirect()->back();
     }
 
-    public function answer(Request $request, $id){
+    public function answer(Request $request, $box, $id){
         $this->validate($request, ['message' => 'required|min:5:max:500'], ['message.required' => 'A messagem é obrigatório', 'message.min' => 'A quantidade mínima de caracteres é 5', 'message.max' => 'A quantidade máxima é de 500 caracteres']);
         if($model = $this->repo->get($id, $this->columns, $this->with)){
             $dados = ['sender_id' => $model->recipient_id, 'sender_type' => get_class($model->recipient), 'recipient_id' => $model->sender_id, 'recipient_type' => get_class($model->sender), 'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id, 'product_id' => $model->product_id, 'message_id' => $model->message_id, 'title' => $model->title, 'content' => $request->message];
             $this->repo->filter_messages($request->message);
             if($message = $this->repo->store($dados)){
-                if($model->sender instanceof Store){
-                    $data = ['email', $model->sender->salesman->user->email];
-                    send_mail('', $data, 'Mensagem recebida por ');
+                if(($model->sender instanceof Store && $box === 'received') || ($model->recipient instanceof Store && $box === 'send')){
+                    $recipient = ($box === 'received') ? $model->sender : $model->recipient;
+                    $sender    = ($box === 'received') ? $model->recipient : $model->sender;
+                    $data = ['email' => $recipient->salesman->user->email, 'name' => $recipient->name, 'id' => $message->id, 'message_type' => 'store'];
+                    send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$sender->name);
+
                 }
                 flash('Mensagem enviada com sucesso!', 'accept');
                 return redirect()->back();
             }
         }
         flash('Não foi possivel enviar a mensagem', 'error');
-
         return redirect()->back();
     }
 

@@ -423,7 +423,13 @@ $(function(){
 
     /** Modal de informações de usuarios */
     $(document).on('click', '.jq-info-user', function () {
+        var id = $(this).data('user');
+        var form = $('')
+        $.get('/accont/report/users/',{'id':id}, function (response) {
+            inputValue();
+        },'json').fail(function ($response) {
 
+        },'json');
         $("#jq-info-user").slideDown();
     });
 

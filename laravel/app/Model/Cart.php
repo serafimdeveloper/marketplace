@@ -17,6 +17,7 @@ class Cart {
     public $address = [];
     public $stores = [];
 
+
     /** Metodo construtor instancia o objeto
      * @param $oldcart
      */
@@ -43,13 +44,14 @@ class Cart {
         }
         $storedItem['qtd']++;
         $storedItem['subtotal'] = $storedItem['price_unit'] * $storedItem['qtd'];
-        $this->stores[ $store->id ]['name'] = $store->name;
-        $this->stores[ $store->id ]['slug'] = $store->slug;
-        $this->stores[ $store->id ]['type_freight']['id'] = isset($this->stores[ $store->id ]['type_freight']['id']) ? $this->stores[ $store->id ]['type_freight']['id'] : 2;
-        $this->stores[ $store->id ]['type_freight']['name'] = isset($this->stores[ $store->id ]['type_freight']['name']) ? $this->stores[ $store->id ]['type_freight']['name'] : 'PAC';
-        $this->stores[ $store->id ]['price_freight'] = isset($this->stores[ $store->id ]['price_freight']) ? $this->stores[ $store->id ]['price_freight'] : 0;
-        $this->stores[ $store->id ]['obs'] = isset($this->stores[ $store->id ]['obs']) ? $this->stores[ $store->id ]['obs'] : null;
-        $this->stores[ $store->id ]['products'][ $id ] = $storedItem;
+        $this->stores[$store->id]['name'] = $store->name;
+        $this->stores[$store->id]['slug'] = $store->slug;
+        $type_freight_free = ($this->all_free_freigth($this->stores[$store->id])) ? true : false;
+        $this->stores[$store->id]['type_freight']['id'] =  isset($this->stores[$store->id]['type_freight']['id']) ?  $this->stores[$store->id]['type_freight']['id'] :$type_freight_free  ? 3 : 2;
+        $this->stores[$store->id]['type_freight']['name'] =  isset($this->stores[$store->id]['type_freight']['name']) ?  $this->stores[$store->id]['type_freight']['name'] : $type_freight_free ? 'FREE' : 'PAC';
+        $this->stores[$store->id]['price_freight'] = isset($this->stores[$store->id]['price_freight']) ? $this->stores[$store->id]['price_freight'] : 0;
+        $this->stores[$store->id]['obs'] = isset($this->stores[$store->id]['obs']) ? $this->stores[$store->id]['obs'] : null;
+        $this->stores[$store->id]['products'][$id] = $storedItem;
         $this->calc_freight();
     }
 
@@ -158,10 +160,10 @@ class Cart {
      */
     private function price_freight($store){
         if(isset($this->address['zip_code'])){
-            $type_freight = $this->stores[ $store ]['type_freight']['name'];
-            if(!isset($this->stores[ $store ]['freight'][ $type_freight ])){
-                $type_freight = 'PAC';
-                $this->stores[ $store ]['type_freight']['name'] = $type_freight;
+            $type_freight = $this->stores[$store]['type_freight']['name'];
+            if(!isset($this->stores[$store]['freight'][$type_freight])){
+                $type_freight = $this->all_free_freigth($this->stores[$store]) ? 'FREE' : 'PAC';
+                $this->stores[$store]['type_freight']['name'] = $type_freight;
             }
             $this->stores[ $store ]['price_freight'] = $this->stores[ $store ]['freight'][ $type_freight ]['val'];
         }else{
@@ -173,7 +175,10 @@ class Cart {
     public function calc_freight(){
         if(isset($this->address['zip_code'])){
             foreach($this->calculate_freight() as $store => $value){
-                $this->stores[ $store ]['freight'] = $value;
+                $this->stores[$store]['freight'] = $value;
+                if($this->stores[$store]['amount_free']){
+                    unset($this->stores[$store]['freight']['PAC']);
+                }
                 $this->price_freight($store);
             }
         }
@@ -206,9 +211,10 @@ class Cart {
                 $weight = 0;
                 /** definir tipo para minusculo para comparar com biblioteca vendor de cálculo de frete */
                 $df['tipo'] = trim(strtolower($freight->name));
-                if($amount_free = $this->all_free_freigth($store)){
-                    $volume = $amount_free['volume'];
-                    $weight = $amount_free['weight'];
+                $this->stores[$id]['amount_free'] = $this->all_free_freigth($store);
+                if($this->stores[$id]['amount_free']){
+                    $volume = $this->stores[$id]['amount_free']['volume'];
+                    $weight = $this->stores[$id]['amount_free']['weight'];
                 }else{
                     /**
                      * Pegar cada produto para somar seu volume e obter peso total
@@ -263,14 +269,13 @@ class Cart {
                     }
                 }
             }
-            if($this->all_free_freigth($store)){
-                $data[ $id ]['FREE']['val'] = 0;
-                $data[ $id ]['FREE']['deadline'] = $data[ $id ]['PAC']['deadline'] + 2;
-                $data[ $id ]['FREE']['id'] = 3;
+            if($this->stores[$id]['amount_free']){
+                $data[$id]['FREE']['val'] = 0;
+                $data[$id]['FREE']['deadline'] = $data[$id]['PAC']['deadline'] + 2;
+                $data[$id]['FREE']['id'] = 3;
+                unset($data[$id]['PAC']);
             }
         }
-
-//             dd($data);
         return $data;
     }
 
@@ -278,16 +283,18 @@ class Cart {
     public function all_free_freigth($store){
         $volume = 0;
         $weight = 0;
-        foreach($store['products'] as $id => $product){
-            $product_data = Product::find($id);
-            if(!$product_data->free_shipping){
-                return false;
-            }else{
-                $volume += $product_data->width_cm * $product_data->length_cm * $product_data->height_cm * $product['qtd'];
-                $weight += $product_data->weight_gr * $product['qtd'];
+        if(isset($store['products'])){
+            foreach($store['products'] as $id => $product){
+                $product_data = Product::find($id);
+                if(!$product_data->free_shipping){
+                    return false;
+                }else{
+                    $volume += $product_data->width_cm * $product_data->length_cm * $product_data->height_cm * $product['qtd'];
+                    $weight += $product_data->weight_gr * $product['qtd'];
+                }
             }
+            return ['volume' => $volume, 'weight' => $weight];
         }
-
-        return ['volume' => $volume, 'weight' => $weight];
+        return false;
     }
 }

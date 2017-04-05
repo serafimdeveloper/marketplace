@@ -61,7 +61,9 @@ class AuthServiceProvider extends ServiceProvider
                 }
             }
             else if($reader instanceof Store){
-                if($reader_id === $user->salesman->store->id){
+                if(Gate::denies('vendedor',$user)){
+                    return false;
+                }else if($reader_id === $user->salesman->store->id){
                     return true;
                 }
             }
