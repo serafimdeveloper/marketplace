@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://popmartin.dev'),
+    'url' => env('APP_URL', 'https://popmartin.com.br'),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
