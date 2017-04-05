@@ -74,8 +74,8 @@
                     <span class="alert hidden"></span>
                 </label>
                 <div style="border: 1px solid #B0BEC5; padding: 10px;">
-                    <span>Ao clicar em "Cadastrar", você confirma que aceita o <a href="/info/termos-de-uso">Termos de Uso</a> e <a
-                                href="/info/politicas-de-privacidade">Politica de Privacidade</a> .</span>
+                    <span>Ao clicar em "Cadastrar", você confirma que aceita os <a href="/pagina/termos-de-uso" target="_blank">Termos de Uso</a> e <a
+                                href="/pagina/politicas-de-privacidade" target="_blank">Politica de Privacidade</a> .</span>
                 </div>
                 <div class="txt-center" style="padding: 0 30px;margin-top: 20px;">
                     <button class="btn btn-popmartin" type="submit">Cadastrar</button>

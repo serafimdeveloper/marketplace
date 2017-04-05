@@ -148,8 +148,6 @@ function maskInt(t) {
     t.value = num;
 }
 
-
-
 /**
  * Verifica se um determinado elemento está visivel ou não ao manuseal o scroll do navegador
  * @param e
@@ -192,6 +190,9 @@ function previewImg(e) {
  * @type {{money: masks.money}}
  */
 var masks = {
+    uppercase: function(){
+      return $(this).val($(this).val().toUpperCase());
+    },
     int: function(){
         var num = this.value;
 
@@ -424,6 +425,7 @@ $(document).on('change', "form input[type='file']", function () {
 $(document).ready(function(){$('.trigger-box').append('<span class="trigger-close">x</span>');});
 $(document).on('keyup', '.limiter-textarea', limiter);
 $(document).on("keyup", ".masksInt", masks.int);
+$(document).on('keyup', '.uppercase', masks.uppercase);
 $(document).on("keypress", ".masksMoney", masks.money);
 $(document).on("click", ".form-modern .checkbox input[type=checkbox]", checkBox);
 $(document).on("click", ".form-modern .radio input[type=radio]", radiobox);

@@ -13,6 +13,7 @@
         <meta name="Robots" content="index, follow">
         <link rel="canonical" href="{{ url('/') }}">
         <link rel="shortlink" href="{{ Request::url() }}">
+        <link rel="shortcut icon" href="{{ url('/image/icons/ico-popmartin.ico') }}">
 
         @yield('meta_facebook')
 

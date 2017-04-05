@@ -39,6 +39,7 @@ class HomeController extends Controller {
             $visit_products->add_visit_product($product);
             $notes = $shopvaluations->getNotes($product);
             $count = $this->product->countRequests($product);
+
             return view('pages.product', compact('product','type','notes', 'count'));
         }
         return view('errors.404');

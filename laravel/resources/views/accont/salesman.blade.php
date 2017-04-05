@@ -45,7 +45,7 @@
                     @if(!isset($salesman->photo_document) || !isset($salesman->proof_adress))
                         <p>
                             Para que seja autorizado o uso do Pop Martin como vendedor, você precisa
-                            enviar uma cópia digitalizável e legível de um documento seu com foto(RG, CNH)
+                            enviar uma cópia digitalizada e legível de um documento seu com foto(RG, CNH)
                             e de um comprovante de residência que esteja em seu nome.
                         </p>
                     @endif

@@ -89,11 +89,11 @@
                                 <p>Avaliação do vendedor</p>
                                 <div>
                                     Qualidade dos produtos:
-                                    <div class="rating" data-rate-value="{{isset($notes->medium_product) ? $notes->medium_product : 0}}"></div>
+                                    <div class="rating" data-rate-value="{{isset($notes[0]->medium_product) ? $notes[0]->medium_product : 0}}"></div>
                                 </div>
                                 <div>
                                     Atendimento:
-                                    <div class="rating" data-rate-value="{{isset($notes->medium_attendance) ? $notes->medium_attendance : 0}}"></div>
+                                    <div class="rating" data-rate-value="{{isset($notes[0]->medium_attendance) ? $notes[0]->medium_attendance : 0}}"></div>
                                 </div>
                                 <div>
                                     Vendas:

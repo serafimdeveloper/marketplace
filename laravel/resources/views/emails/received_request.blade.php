@@ -10,8 +10,8 @@
     <p style="font-size: 16px; font-weight: bold; color: #800000">Olá {{$name}},</p>
 
     <p>
-        Você realizou uma compra.<br>
-        O vendedor está aguardando a confirmação da instituição financeira para realizar o envio, respeitando o prazo definido para cada produto.
+        Uma venda foi iniciada na sua loja.<br>
+        Como o pedido ainda não foi confirmado, pedimos que você aguarde o email de confirmação do pagamento para realizar o envio dos produtos.
     </p>
 
     <p><a href="{{route('accont.salesman.sale_info', [$request->id])}}">Envie uma mensagem para o comprador</a></p>

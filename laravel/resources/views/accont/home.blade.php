@@ -20,7 +20,7 @@
                         <span class="alert{{ $errors->has('last_name') ? '' : ' hidden' }}">{{ $errors->first('last_name') }}</span>
                     </label>
                     <label>
-                        <span>Cpf</span>
+                        <span>CPF</span>
                         {!! Form::text('cpf',null, ['class'=>'masked_cpf','placeholder' => 'Meu CPF', 'data-required' => 'cpf']) !!}
                        <span class="alert{{ $errors->has('cpf') ? '' : ' hidden' }}">{{ $errors->first('cpf') }}</span>
                     </label>

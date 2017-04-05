@@ -112,12 +112,31 @@ class CheckoutController extends Controller {
 
     public function updateOrder(Request $request){
         $order = \App\Model\Request::where('key', '=', $request->order)->first();
+
+        /** @var  $order_moip - Moip verificação de informações para envio de emails*/
+        $order_moip = new MoIPClient;
+        $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/ConsultarInstrucao/' . $order->moip->token);
+        $xml = simplexml_load_string($consult_result->xml);
+        $infoMoip = $xml->RespostaConsultar;
+        $moip['valueTodalRementente'] = (float) ($infoMoip->Autorizacao->Pagamento->ValorLiquido - $infoMoip->Autorizacao->Pagamento->Comissao->Valor);
+        $moip['taxamoip'] = (float) $infoMoip->Autorizacao->Pagamento->TaxaMoIP;
+        $moip['comission'] = ( (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor - $moip['comission']);
+
+        $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
+        $this->send_email('client', 'requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
+
         if(!isset($request->response['Status'])){
             $order->fill(['request_status_id' => 1, 'payment_reference' => 'boleto'])->save();
             $order->moip->fill(['url' => $request->response['url']])->save();
         }else{
             if($request->response['Status'] == 'Autorizado'){
+                $this->send_email('client', 'emails.customer_confirmation', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
+                $this->send_email('store', 'emails.merchants_confirmation', $data, 'Você recebeu um pedido do cliente ' . Auth::user()->name);
+
+                /** Atualização de banco de dados */
                 $order->fill(['request_status_id' => 3, 'payment_reference' => 'cartão'])->save();
+
+                /** Decrementar a qauntidade de produtos comprado */
                 $order->products->each(function($product){
                     $product->decrement('quantity', $product->requests->pivot->quantity);
                 });
@@ -131,19 +150,6 @@ class CheckoutController extends Controller {
         if(isset($request->response['url'])){
             $gerarBoleto = file_get_contents($request->response['url']);
         }
-
-
-        $order_moip = new MoIPClient;
-        $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/ConsultarInstrucao/' . $order->moip->token);
-        $xml = simplexml_load_string($consult_result->xml);
-        $infoMoip = $xml->RespostaConsultar;
-        $moip['valueTodalRementente'] = (float) ($infoMoip->Autorizacao->Pagamento->ValorLiquido - $infoMoip->Autorizacao->Pagamento->Comissao->Valor);
-        $moip['comission'] = (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor;
-        $moip['taxamoip'] = (float) $infoMoip->Autorizacao->Pagamento->TaxaMoIP;
-
-        $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
-        $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
-        $this->send_email('store', 'emails.received_request', $data, 'Você recebeu um pedido do cliente ' . Auth::user()->name);
     }
 
     public function notification(Request $request, RequestsRepository $rp){

@@ -65,7 +65,7 @@
         </tbody>
     </table>
 
-    <br />
+    <br>
 
     <h3>Endereço de entrega</h3>
     <p>

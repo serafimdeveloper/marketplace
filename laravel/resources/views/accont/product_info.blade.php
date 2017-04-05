@@ -167,7 +167,7 @@
             <div class="clear-both"></div>
             <label>
                 <span>Detalhes do produto <i class="fa fa-info-circle c-blue tooltip" title="Informe aqui detalhes como cores disponíveis, tamanhos e etc. Um produto bem detalhado, pode gerar menor volume de perguntas sobre o produto!"></i> <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
-                {!! Form::textarea('details', null, ['class' => 'required-field', 'placeholder' => 'Informações sobre este produto', 'rows' => 14, 'data-required' => 'minlength', 'data-minlength' => '20']) !!}
+                {!! Form::textarea('details', null, ['class' => 'textarea_tiny required-field', 'placeholder' => 'Informações sobre este produto', 'rows' => 14, 'data-required' => 'minlength', 'data-minlength' => '20']) !!}
                 <span class="alert{{ $errors->has('details') ? '' : ' hidden' }}">{{ $errors->first('details') }}</span>
             </label>
         <br>

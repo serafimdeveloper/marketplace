@@ -10,7 +10,7 @@
                         <div class="colbox-2">
                             <label>
                                 <span>Destinatário: </span>
-                                {!! Form::text('name', null, ['placeholder' => 'Informe um nome', 'data-required' => 'fullname']) !!}
+                                {!! Form::text('name', null, ['placeholder' => 'Informe um nome', 'data-required' => 'notnull']) !!}
                                 <span class="alert hidden"></span>
                             </label>
                         </div>

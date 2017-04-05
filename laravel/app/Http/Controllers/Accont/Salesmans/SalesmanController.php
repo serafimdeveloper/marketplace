@@ -41,16 +41,14 @@ class SalesmanController extends AbstractController
         $dados = $request->except('photo_document','proof_adress');
         $dados['user_id'] = $user->id;
 
-        $moipClient = new MoIPClient();
-        $result = $moipClient->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/VerificarConta/' . $dados->moip);
+        $moipClient = new MoIPClient;
+
+        $result = $moipClient->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . "/ws/alpha/VerificarConta/" . $dados['moip']);
         $xml = simplexml_load_string($result->xml);
         $xmlData = $xml->RespostaVerificarConta;
 
         if($xmlData->Status == 'Inexistente'){
             flash('Login moip inexistente!', 'error');
-            return redirect()->route('accont.salesman.info');
-        }else if($xmlData->Status == 'Criado'){
-            flash('É necessário uma conta vericada no Moip para se torar vendedor!', 'error');
             return redirect()->route('accont.salesman.info');
         }else if($xmlData->Descricao == 'Pessoal'){
             flash('É necessário uma conta de Negócios no moip para se tornar vendedor!', 'error');

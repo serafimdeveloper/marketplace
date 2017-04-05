@@ -22,7 +22,7 @@
                     {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
                         <label>
                             <span>Código de rastreio dos correios</span>
-                            {!! Form::text('tracking_code', null, ['placeholder' => 'código', 'maxlength' => 13, 'minlength' => 13]) !!}
+                            {!! Form::text('tracking_code', null, ['class' => 'uppercase', 'placeholder' => 'código', 'maxlength' => 13, 'minlength' => 13]) !!}
                             <span class="alert hidden"></span>
                             <span class="fa fa-spinner fa-spin jq-loader dp-none loader-2"></span>
                         </label>

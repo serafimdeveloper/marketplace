@@ -116,7 +116,9 @@ class StoresController extends AbstractController
         $dados = $request->except('logo_file');
         $dados['cpf'] = isset($request->cpf) ? $request->cpf : '';
         if($request->hasFile('logo_file')){
-            Storage::delete('img/loja/'.$store->logo_file);
+            if($islogo = file_exists(storage_path() . '/img/loja/'. $store->logo_file)){
+                Storage::delete('img/loja/'.$store->logo_file);
+            }
             $dados['logo_file'] = $this->upload($request->logo_file,'img/loja','L'.$store->id.'V'.$user->salesman->id.'U'.$user->id);
         }
         if($this->repo->update($dados,$store->id)){

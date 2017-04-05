@@ -46,8 +46,7 @@
                 <h3>Área do vendedor</h3>
                 <ul>
                     <li>
-                        <a href="{{route('accont.salesman.info')}}"{!! url()->current() ==  route('accont.salesman.info') ? ' class="current_rout"' :  ''!!}>Torna-se
-                            um Vendedor</a></li>
+                        <a href="{{route('accont.salesman.info')}}"{!! url()->current() ==  route('accont.salesman.info') ? ' class="current_rout"' :  ''!!}>Torne-se um vendedor</a></li>
                 </ul>
             </div>
         @endcannot

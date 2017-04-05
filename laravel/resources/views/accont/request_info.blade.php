@@ -38,7 +38,7 @@
                         @if($request->request_status_id > 3)
                             <span style="margin-bottom: 10px" class="txt-left">
                                 <p style="margin-bottom: 0">Status: <strong>{{$rastreamento['current']['status']}}</strong></p>
-                                <p style="margin-bottom: 0">Código de rastreio: {{$request->tracking_code}}</p>
+                                <p style="margin-bottom: 0">Código de rastreio: {{ mb_strtoupper($request->tracking_code)}}</p>
                                 <p style="margin-bottom: 0">Data: {{$rastreamento['current']['data']}} -  Local: {{$rastreamento['current']['local']}}</p>
                                 <p style="margin-bottom: 0">{{ isset($rastreamento['current']['encaminhado']) ? $rastreamento['current']['encaminhado'] : '' }}</p>
                             </span>
@@ -53,7 +53,7 @@
                     <th>Produto</th>
                     <th class="t-small">Quantidade</th>
                     <th class="t-medium">Valor unitário</th>
-                    <th class="t-small">Valor total</th>
+                    <th class="t-medium">Valor total</th>
                 </tr>
                 </thead>
 
