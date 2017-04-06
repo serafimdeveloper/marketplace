@@ -48,6 +48,7 @@ class RequestsController extends AbstractController {
                 if($request){
                     $type = ['type' => 'request', 'id' => $request->id];
 //                    PN769221969BR
+                    $request->update(['visualized_user'=>1]);
                     $rastreamento = track_object($request->tracking_code, $id);
                     return view('accont.request_info', compact('request', 'user', 'type', 'rastreamento'));
                 }

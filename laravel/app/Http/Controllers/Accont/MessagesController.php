@@ -80,18 +80,28 @@ class MessagesController extends AbstractController {
             if($req = $this->req->find($id)){
                 $dados['request_id'] = $id;
                 $dados['title'] = 'Comentário de ' . $user->name . ' sobre o pedido ' . $req->key;
-                $dados['recipient_id'] = $req->store_id;
-                $dados['recipient_type'] = get_class($req->store);
+                $store = $req->store;
+                $dados['recipient_id'] = $store->id;
+                $dados['recipient_type'] = get_class($store);
+            }else{
+                flash('Não foi possivel enviar a mensagem, porque o pedido não existe!', 'error');
+                return redirect()->back();
             }
         }else{
             if($product = $this->product->find($id)){
                 $dados['product_id'] = $id;
                 $dados['title'] = 'Comentário de ' . $user->name . ' sobre o produto ' . $product->name;
-                $dados['recipient_id'] = $product->store_id;
-                $dados['recipient_type'] = get_class($product->store);
+                $store = $product->store;
+                $dados['recipient_id'] = $store->id;
+                $dados['recipient_type'] = get_class($store);
+            }else{
+                flash('Não foi possivel enviar a mensagem, porque o produto não existe!', 'error');
+                return redirect()->back();
             }
         }
         if($message = $this->repo->store($dados)){
+            $data = ['email' => $store->salesman->user->email, 'name' => $store->name, 'id' => $message->id, 'message_type' => 'store'];
+            send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$user->name);
             $this->repo->update(['message_id' => $message->id], $message->id);
             flash('Mensagem enviada com sucesso!', 'accept');
 
@@ -113,7 +123,6 @@ class MessagesController extends AbstractController {
                     $sender    = ($box === 'received') ? $model->recipient : $model->sender;
                     $data = ['email' => $recipient->salesman->user->email, 'name' => $recipient->name, 'id' => $message->id, 'message_type' => 'store'];
                     send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$sender->name);
-
                 }
                 flash('Mensagem enviada com sucesso!', 'accept');
                 return redirect()->back();

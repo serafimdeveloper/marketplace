@@ -186,7 +186,6 @@ if(!function_exists('send_mail')){
             $mail->to($data['email'])
                 ->from('sac@popmartin.com.br')
                 ->subject($subject);
-            dd($mail);
         });
     }
 }

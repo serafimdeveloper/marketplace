@@ -71,8 +71,8 @@ class SalesController extends AbstractController
             if(isset($request->tracking_code)){
                 $rastreamento = track_object($request->tracking_code, $id);
             }
-            if($request->visualized === 0){
-                $request->fill(['visualized' =>1])->save();
+            if($request->visualized_store === 0){
+                $request->fill(['visualized_store' =>1])->save();
             }
             return view('accont.sale_info', compact('request','rastreamento'));
         }

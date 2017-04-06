@@ -60,7 +60,7 @@
                 <tbody>
                 @foreach($request->products as $product)
                     <tr>
-                        <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image) }}"></td>
+                        <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image.'?w=60&h=60&fit=crop') }}"></td>
                         <td><a href="{{route('pages.product',[$request->store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                         <td>{{ $product->pivot->quantity }}</td>
                         <td><span class="fontem-12">{{ real($product->pivot->unit_price)}}</span></td>
