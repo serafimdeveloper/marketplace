@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Accont\Salesmans;
 
 
 use App\Http\Controllers\AbstractController;
+use App\Model\RequestStatus;
 use App\Model\Store;
 use App\Repositories\Accont\RequestsRepository;
 use App\Model\Category;
@@ -30,14 +31,18 @@ class SalesController extends AbstractController
     }
 
     public function index(){
+        $req = Request::capture();
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
+        $request_status = RequestStatus::pluck('description', 'id');
+        $selected_status = (isset($req->all()['status']) ? (int) $req->all()['status'] : null);
         $page = Input::get('page');
         if($store = Auth::user()->salesman->store){
             $this->status_request();
-            $requests = $this->repo->all($this->columns,$this->with,['store_id' => $store->id],[],10,$page);
-            return view('accont.sales', compact('requests'));
+            $where = ($selected_status ? [['store_id', '=', $store->id], ['request_status_id', '=', $selected_status]] : ['store_id' => $store->id]);
+            $requests = $this->repo->all($this->columns,$this->with,$where,[],10,$page);
+            return view('accont.sales', compact('requests', 'request_status', 'selected_status'));
         }
         flash('Você ainda não possui uma Loja!', 'warning');
         return redirect()->route('accont.salesman.stores');

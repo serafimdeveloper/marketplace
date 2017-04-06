@@ -22,7 +22,7 @@
                 {{ csrf_field() }}
                 <label>
                     <input type="email" name="email" value="{{ old('email') }} " placeholder="e-mail de cadastro" data-required="email" required>
-                    <span class="alert {{ $errors->has('email') ? '' : 'hidden' }}">{{ $errors->has('email') ? $errors->has('email') : '' }}</span>
+                    <span class="alert {{ $errors->has('email') ? '' : 'hidden' }}">{{ $errors->has('email') ? $errors->first('email') : '' }}</span>
                 </label>
                 <div class="txt-center">
                     <button type="submit" class="btn btn-popmartin">Enviar link</button>

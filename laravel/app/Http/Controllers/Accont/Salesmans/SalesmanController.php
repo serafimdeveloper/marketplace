@@ -76,6 +76,9 @@ class SalesmanController extends AbstractController
             if(!$user->cpf){
                 flash('É necessário cadastrar seu cpf para se tornar um vendedor', 'warning');
                 return redirect()->route('accont.home');
+            }elseif(!isset(Auth::user()->addresses[0])){
+                flash('É necessário cadastrar um endereço para continuar', 'warning');
+                return redirect()->route('accont.home');
             }
         }
         $salesman = Auth::user()->salesman;

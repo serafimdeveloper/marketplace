@@ -8,7 +8,7 @@
             <div class="pop-tile-menu">
                 <div class="form-modern">
                     {!! Form::model($request_status, ['class' => 'orderTable', 'route' => 'accont.requests', 'method' => 'get']) !!}
-                    {!! Form::select('request_status', $request_status, (isset($selected_status) ? $selected_status : null), ['placeholder' => 'todos']) !!}
+                    {!! Form::select('status', $request_status, (isset($selected_status) ? $selected_status : null), ['placeholder' => 'todos']) !!}
                     {!! Form::close() !!}
                 </div>
             </div>

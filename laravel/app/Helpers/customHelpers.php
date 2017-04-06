@@ -1,7 +1,9 @@
 <?php
 use App\Model\Ad;
 use App\Model\CountOrder;
+use App\Package\Moip\lib\MoIPClient;
 use Illuminate\Http\Request;
+use App\Model\Request as Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -187,5 +189,12 @@ if(!function_exists('send_mail')){
                 ->from('sac@popmartin.com.br')
                 ->subject($subject);
         });
+    }
+}
+if(!function_exists('send_mail_type')){
+    function send_mail_type($type, $template, $data, $subject){
+        $data['email'] = ($type === 'client') ? $data['user']->email : $data['store']->salesman->user->email;
+        $data['name'] = ($type === 'client') ? $data['user']->name : $data['store']->salesman->user->name;
+        send_mail($template, $data, $subject);
     }
 }

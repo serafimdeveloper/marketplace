@@ -6,6 +6,7 @@ use App\Http\Controllers\AbstractController;
 use App\Http\Requests\Request;
 use App\Model\RequestStatus;
 use App\Repositories\Accont\RequestsRepository;
+use App\Services\MoipServices;
 use Auth;
 use Correios;
 use Illuminate\Support\Facades\Gate;
@@ -18,19 +19,23 @@ class RequestsController extends AbstractController {
     }
 
     public function index(){
+        $req = Request::capture();
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
         $request_status = RequestStatus::pluck('description', 'id');
+        $selected_status = (isset($req->all()['status']) ? (int) $req->all()['status'] : null);
         $user = Auth::User();
         $this->status_request();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
-        $requests = $this->repo->all($this->columns, $this->with, ['user_id' => $user->id], ['id' => 'DESC'], 5, $page);
-
-        return view('accont.requests', compact('requests', 'request_status'));
+        $where = ($selected_status ? [['user_id', '=', $user->id], ['request_status_id', '=', $selected_status]] : ['user_id' => $user->id]);
+        $requests = $this->repo->all($this->columns, $this->with, $where, ['id' => 'DESC'], 10, $page);
+//        dd($selected_status);
+        return view('accont.requests', compact('requests', 'request_status', 'selected_status'));
     }
 
-    public function show($id){
+    public function show($id, MoipServices $moip){
+        $moip->checkStatusInstruction($id);
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }

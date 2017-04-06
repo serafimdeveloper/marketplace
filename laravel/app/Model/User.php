@@ -6,30 +6,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use Notifiable;
     use SoftDeletes;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password','confirm_token','last_name','cpf','document','birth','genre','phone','type_user',
-        'last_access','active'
-    ];
-    protected $dates = ['deleted_at','last_access'];
-
+    protected $fillable = ['name', 'email', 'password', 'confirm_token', 'last_name', 'cpf', 'document', 'birth', 'genre', 'phone', 'type_user', 'last_access', 'active'];
+    protected $dates = ['deleted_at', 'last_access'];
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token',];
 
     public function addresses(){
         return $this->hasMany(Adress::class);
@@ -64,11 +56,11 @@ class User extends Authenticatable
     }
 
     public function owner_sender(){
-        return $this->morphOne(Message::class,'sender' );
+        return $this->morphOne(Message::class, 'sender');
     }
 
     public function owner_recipient(){
-        return $this->morphOne(Message::class,'recipient' );
+        return $this->morphOne(Message::class, 'recipient');
     }
 
     public function favorites(){
@@ -79,7 +71,7 @@ class User extends Authenticatable
         return $this->hasOne(CartSession::class);
     }
 
-    public function scopeSearch($query, $name, $with) {
-        return $query->where('name', 'LIKE', '%'.$name.'%')->orWhere('email','LIKE','%'.$name.'%')->with($with);
+    public function scopeSearch($query, $name, $with){
+        return $query->where('name', 'LIKE', '%' . $name . '%')->orWhere('email', 'LIKE', '%' . $name . '%')->with($with);
     }
 }

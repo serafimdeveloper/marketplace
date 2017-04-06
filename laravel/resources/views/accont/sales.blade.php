@@ -5,6 +5,13 @@
     <section class="panel-content">
         <header class="pop-title">
             <h1>Minhas vendas</h1>
+            <div class="pop-tile-menu">
+                <div class="form-modern">
+                    {!! Form::model($request_status, ['class' => 'orderTable', 'route' => 'accont.salesman.sales', 'method' => 'get']) !!}
+                    {!! Form::select('status', $request_status, (isset($selected_status) ? $selected_status : null), ['placeholder' => 'todos']) !!}
+                    {!! Form::close() !!}
+                </div>
+            </div>
         </header>
         @if(!$requests->first())
             <p class="trigger notice fontem-14">Nenhuma venda foi registrada até o momento!</p>
