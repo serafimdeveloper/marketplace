@@ -114,7 +114,7 @@ class SalesController extends AbstractController
         if($request = $this->repo->get($id,$this->columns,$this->with)){
             $store = Store::with(['adress'])->find($request->store->id);
             $pdf = PDF::loadView('layouts.parties.etiqueta',['request' => $request,'store'=> $store]);
-            return $pdf->download($request->key.'.pdf');
+            return $pdf->inline($request->key.'.pdf');
         }
 
     }

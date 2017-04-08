@@ -6,22 +6,19 @@ use App\Model\Request;
 use Illuminate\Console\Command;
 use Correios;
 
-class ChangeRequest extends Command
-{
+class ChangeRequest extends Command {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
     protected $signature = 'request:change';
-
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Muda o status do pedido';
-
     protected $request;
 
     /**
@@ -29,8 +26,7 @@ class ChangeRequest extends Command
      *
      * @return void
      */
-    public function __construct(Request $request)
-    {
+    public function __construct(Request $request){
         parent::__construct();
         $this->request = $request;
     }
@@ -40,9 +36,8 @@ class ChangeRequest extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
-        $requests = $this->request->where('request_status_id',4)->get();
+    public function handle(){
+        $requests = $this->request->where('request_status_id', 4)->get();
         $requests->each(function($request){
             $status_freigth = Correios::rastrear($request->zip_code);
             if($status_freigth[0]['status'] === 'Entrega Efetuada'){

@@ -170,7 +170,7 @@ return [
         Cagartner\CorreiosConsulta\ServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
         // Artesaos\Moip\Providers\MoipServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         //
@@ -236,7 +236,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Correios' => Cagartner\CorreiosConsulta\Facade::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 

@@ -122,6 +122,8 @@ class CheckoutController extends Controller {
         $moip['taxamoip'] = (float) $infoMoip->Autorizacao->Pagamento->TaxaMoIP;
         $moip['comission'] = ( (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor - $moip['comission']);
 
+//        dd($infoMoip);
+
         $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
         $this->send_email('client', 'requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
 
@@ -153,20 +155,20 @@ class CheckoutController extends Controller {
     }
 
     public function notification(Request $request, RequestsRepository $rp){
-        $order = $rp->order(['moip', 'user'], $request->id_transacao);
-        $amount = number_format($order->amount, 2, '', '');
-        $st = $order->request_status_id;
-        if(($request->valor == $amount) && ($order->user->email == $request->email_consumidor)){
-            if($request->status_pagamento == 4){
-                $st = 3;
-                $data = ['user' => Auth::user(), 'store' => $order->store, 'products' => $order->products, 'request' => $order];
-                $this->send_email('client', 'emails.customer.confirmation', $data, 'Pagamento efetuado com sucesso ' . $order->store->name);
-                $this->send_email('store', 'emails.merchants.confirmation', $data, 'Pagamento recebido ' . Auth::user()->name);
-            }elseif($request->status_pagamento == 5){
-                $st = 6;
-            }
-        }
-        $rp->update(['request_status_id' => $st], $order->id);
+//        $order = $rp->order(['moip', 'user'], $request->id_transacao);
+//        $amount = number_format($order->amount, 2, '', '');
+//        $st = $order->request_status_id;
+//        if(($request->valor == $amount) && ($order->user->email == $request->email_consumidor)){
+//            if($request->status_pagamento == 4){
+//                $st = 3;
+//                $data = ['user' => Auth::user(), 'store' => $order->store, 'products' => $order->products, 'request' => $order];
+//                $this->send_email('client', 'emails.customer.confirmation', $data, 'Pagamento efetuado com sucesso ' . $order->store->name);
+//                $this->send_email('store', 'emails.merchants.confirmation', $data, 'Pagamento recebido ' . Auth::user()->name);
+//            }elseif($request->status_pagamento == 5){
+//                $st = 6;
+//            }
+//        }
+//        $rp->update(['request_status_id' => $st], $order->id);
     }
 
     private function send_email($type, $template, $data, $subject){

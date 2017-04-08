@@ -226,7 +226,6 @@
             MoipWidget(settings);
         }
         payCredCart = function () {
-            console.log(InfoCards);
             var settings = {
                 "Forma": "CartaoCredito",
                 "Instituicao": InfoCards['Instituicao'],
@@ -259,7 +258,7 @@
             console.log(data);
             var options = '';
             $.each(data.parcelas, function (key, value) {
-                options += '<option value="' + value.quantidade + '">' + value.quantidade + 'x R$ ' + value.valor + '</option>';
+                options += '<option value="' + value.quantidade + '">' + value.quantidade + 'x R$' + value.valor + ' =  R$' + value.valor_total + '</span></option>';
             });
 
             $('#plots').html(options);

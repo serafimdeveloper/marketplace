@@ -1,5 +1,6 @@
 <div style="text-align: justify; font-size: 14px; font-family: Arial,Helvetica,Sans-Serif">
-    <a href="{{route('/')}}" style="color: #336699; line-height: 50px" target="_blank">
+    <a href="{{route('homepage')}}" style="color: #336699; line-height: 50px" target="_blank">
+
         <!--logo-popmartin-msg.png-->
         <img alt="Pop Martin" src="{{url('imagem/popmartin/logo-popmartin-msg.png')}}" border="0" />    </a>
     <p style="font-size: 16px; font-weight: bold; color: #800000">Olá {{$request->store->name}},</p>
@@ -7,12 +8,12 @@
         Parabéns! Confirmamos o pagamento do pedido {{$request->key}}. Você já pode enviar seu produto.<br>
         Não se esqueça de informar o código de rastreio (AR) para o seu cliente assim que você enviar o produto.
     </p>
-    <p><a href="{{route('accont.sale_info', [$request->id])}}" target="_blank">Inserir código de rastreio</a></p>
+    <p><a href="{{route('accont.salesman.sale_info', [$request->id])}}" target="_blank">Inserir código de rastreio</a></p>
     <p>
         Não deixe de cumprir o prazo de entrega informado na sua loja.<br>
         Caso queira falar com o comprador agora, clique no link abaixo:
     </p>
-    <p><a href="{{route('accont.sale_info', [$request->id])}}">Envie uma mensagem para o comprador</a></p>
+    <p><a href="{{route('accont.salesman.sale_info', [$request->id])}}">Envie uma mensagem para o comprador</a></p>
     <p>Nunca deixe de seguir o código de defesa do consumidor. Fizemos um pequeno resumo para você ficar atento aos seus direitos e obrigações.</p>
 
     <h3>Detalhes do pedido</h3>

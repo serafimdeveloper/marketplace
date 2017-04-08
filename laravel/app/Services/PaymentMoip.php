@@ -29,16 +29,20 @@ class PaymentMoip
         $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT) $this->address->zip_code, 'phone' => $user->phone]]);
         $this->moip->setReason('Compra efetuada na plataforma PopMartin. Vendedor: ' . $this->store->name);
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
-        $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days",strtotime(date('Y-m-d')))), false, ["Primeira linha", "Segunda linha", "Terceira linha"], url('imagem/pop/logo-popmartin.png'));
+        $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days",strtotime(date('Y-m-d')))), false, ["Popmatin.com.br", env('MAIL_USERNAME'), ""], url('imagem/pop/logo-popmartin.png'));
         $this->moip->addMessage('Produtos sendo comprados: ' . $this->getStringProducts());
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('api/notification/moip/nasp'));
-        $this->moip->addComission('Comissão de venda Pop Matin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : 12), true, true);
+        $this->moip->addComission('Comissão de venda Pop Matin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT')), true, true);
         $this->moip->setReceiver($this->store->salesman->moip);
         $this->moip->addParcel('1', '12', null, true);
         $this->moip->validate('Identification');
         $this->moip->send();
         $this->endpoint = isset($this->moip->getAnswer()->payment_url) ? $this->moip->getAnswer()->payment_url : null;
+    }
+
+    public function getQueryParcel(){
+
     }
 
     public function getEndpoint(){

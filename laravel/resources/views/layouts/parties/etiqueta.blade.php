@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>Etiqueta de pedido para correios</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url('/frontend/css/bootstrap.css') }}">
     <style>
         .destinatario{position: relative;}

@@ -9,7 +9,7 @@
                         cadastro</a></li>
                 <li>
                     <a href="{{route('accont.requests')}}"{!! url()->current() ==  route('accont.requests') ? ' class="current_rout"' :  ''!!}>meus
-                        pedidos {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">'.notification_request(0).'</span>' : '') !!}</a></li>
+                        pedidos {!! (notification_sales(0) < 1 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">'.notification_request(0).'</span>' : '') !!}</a></li>
                 <li>
                     <a href="{{route('accont.searchstore')}}"{!! url()->current() ==  route('accont.searchstore') ? ' class="current_rout"' :  ''!!}>procurar
                         loja</a></li>
