@@ -8,18 +8,21 @@
         </header>
         <br>
         <div>
-            <a href="{{route('accont.messages.box',['type'=> $type, 'box' => 'received'])}}" class="btn btn-small {{ $box === 'received' ? 'btn-popmartin-trans' : 'btn-popmartin'}}">
+            <a href="{{route('accont.messages.box',['type'=> $type, 'box' => 'received'])}}"
+               class="btn btn-small {{ $box === 'received' ? 'btn-popmartin-trans' : 'btn-popmartin'}}">
                 {!! ($box === 'received' ? '<i class="fa fa-angle-down"></i>' : '') !!}
-                 Caixa de entrada
+                Caixa de entrada
 
             </a>
-            <a href="{{route('accont.messages.box',['type'=> $type, 'box' => 'send'])}}" class="btn btn-small {{ $box === 'send' ? 'btn-popmartin-trans' : 'btn-popmartin'}}">
+            <a href="{{route('accont.messages.box',['type'=> $type, 'box' => 'send'])}}"
+               class="btn btn-small {{ $box === 'send' ? 'btn-popmartin-trans' : 'btn-popmartin'}}">
                 {!! ($box === 'send' ? '<i class="fa fa-angle-down"></i>' : '') !!}
                 Caixa de saída</a>
         </div>
 
         @if(!$messages)
-            <p class="trigger notice fontem-14">Nenhuma mensagem {{ ($box === 'received' ? 'recebida' : 'enviada') }}</p>
+            <p class="trigger notice fontem-14">Nenhuma
+                mensagem {{ ($box === 'received' ? 'recebida' : 'enviada') }}</p>
         @else
 
 
@@ -36,34 +39,35 @@
 
                 <tbody>
                 @foreach($messages as $msg)
-                    @if($type === 'user')
-                        <tr {!! $msg->status == "received_user" && $box === 'received' ? 'class="t-unread"' : '' !!}>
-                    @else
-                        <tr {!! $msg->status == "received_store" && $box === 'received' ? 'class="t-unread"' : '' !!}>
-                    @endif
-                        <td>
-                            <div class="form-modern">
-                                <div class="checkbox-container">
-                                    <div class="checkboxies">
-                                        <label class="checkbox" style="border: none;padding: 0;">
-                                            <span><span class="fa fa-square-o"></span></span>
-                                            {!! Form::checkbox('msg', $msg->id, null, ['class' => 'select_msg']) !!}
-                                        </label>
+                    @if($box == 'received')
+                        <tr {!! $msg->status == "received" ? 'class="t-unread"' : '' !!}>
+                            @endif
+                            <td>
+                                <div class="form-modern">
+                                    <div class="checkbox-container">
+                                        <div class="checkboxies">
+                                            <label class="checkbox" style="border: none;padding: 0;">
+                                                <span><span class="fa fa-square-o"></span></span>
+                                                {!! Form::checkbox('msg', $msg->id, null, ['class' => 'select_msg']) !!}
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>{{ $box === 'received' ?  $msg->sender->name : $msg->recipient->name}}</td>
-                        <td><a href="{{ route('accont.message.info', ['type' => $box, 'id' => $msg->id]) }}">{!!  substr($msg->content, 0, 60) !!}...</a></td>
-                        <td>{{ $msg->created_at->format("d/m/Y H:i:s") }}</td>
-                    </tr>
-                @endforeach
+                            </td>
+                            <td>{{ $box === 'received' ?  $msg->sender->name : $msg->recipient->name}}</td>
+                            <td>
+                                <a href="{{ route('accont.message.info', ['type' => $box, 'id' => $msg->id]) }}">{!!  substr($msg->content, 0, 60) !!}
+                                    ...</a></td>
+                            <td>{{ $msg->created_at->format("d/m/Y H:i:s") }}</td>
+                        </tr>
+                        @endforeach
                 </tbody>
             </table>
             <div class="fl-right">{!! $messages->render() !!}</div>
             <div class="clear-both"></div>
             <br>
-            <a href="javascript:void(0)" id="pop-remove-msg" data-token="{{csrf_token()}}" class="btn btn-small btn-gray cursor-nodrop">remover</a>
+            <a href="javascript:void(0)" id="pop-remove-msg" data-token="{{csrf_token()}}"
+               class="btn btn-small btn-gray cursor-nodrop">remover</a>
         @endif
     </section>
     <div class="clear-both"></div>

@@ -41,7 +41,7 @@ class SalesController extends AbstractController
         if($store = Auth::user()->salesman->store){
             $this->status_request();
             $where = ($selected_status ? [['store_id', '=', $store->id], ['request_status_id', '=', $selected_status]] : ['store_id' => $store->id]);
-            $requests = $this->repo->all($this->columns,$this->with,$where,[],10,$page);
+            $requests = $this->repo->all($this->columns,$this->with,$where,['id' => 'DESC'],10,$page);
             return view('accont.sales', compact('requests', 'request_status', 'selected_status'));
         }
         flash('Você ainda não possui uma Loja!', 'warning');

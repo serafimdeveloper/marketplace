@@ -36,7 +36,8 @@
 
                 <tbody>
                 @foreach($requests as $order)
-                    <tr>
+                        <tr {!! !$order->visualized_user ? 'class="t-unread"' : '' !!}>
+
                         <td>{{ $order->key }}</td>
                         <td>{{ $order->created_at->diffForHumans() }}</td>
                         <td>{{ real($order->amount) }}</td>

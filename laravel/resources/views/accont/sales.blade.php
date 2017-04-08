@@ -30,7 +30,7 @@
 
                 <tbody>
                 @forelse($requests as $request)
-                    <tr>
+                        <tr {!! !$request->visualized_store ? 'class="t-unread"' : '' !!}>
                         <td>#{{$request->key}}</td>
                         <td>{{$request->created_at->diffForHumans()}}</td>
                         <td>{{real($request->amount)}}</td>

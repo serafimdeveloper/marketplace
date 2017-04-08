@@ -35,7 +35,7 @@ class RequestsController extends AbstractController {
     }
 
     public function show($id, MoipServices $moip){
-        $moip->checkStatusInstruction($id);
+//        $moip->checkStatusInstruction($id);
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
