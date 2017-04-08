@@ -18,20 +18,20 @@
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>Nome</p>
-                                        <span>{{$result->name.' '.$result->last_name}}</span>
+                                        <span>{{$result->name}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>Tipo</p>
-                                        <span>vendedor</span>
+                                        <span>{{$type}}</span>
                                         {{--<span>consumidor</span>--}}
                                     </div>
                                 </div>
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>CPF</p>
-                                        <span>124.758.7965-86</span>
+                                        <span>{{$result->cpf}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -40,40 +40,44 @@
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Gênero</p>
-                                        <span>masculino</span>
+                                        <span>{{($result->genre === 'M') ? 'Masculino' : 'Feminino'}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
-                                        <p>nascimento</p>
-                                        <span>03/06/1994</span>
+                                        <p>Nascimento</p>
+                                        <span>{{$result->birth->format('d/m/Y')}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Data de cadastro</p>
-                                        <span>03/06/1994</span>
+                                        <span>{{$result->created_at->format('d/m/Y')}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Último acesso</p>
-                                        <span>03/06/1994</span>
+                                        <span>{{$result->last_access->format('d/m/Y H:i:s')}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-full">
                                     <div class="pop-info-user">
                                         <p>Contato</p>
-                                        <span class="dp-inblock">e-mail | </span>
-                                        <span class="dp-inblock">telefone fixo | </span>
-                                        <span class="dp-inblock">telefone celular | </span>
-                                        <span class="dp-inblock"><i class="fa fa-whatsapp c-green"></i> whatsapp</span>
+                                        <span class="dp-inblock">{{$result->email}} | </span>
+                                        <span class="dp-inblock">{{$result->phone}} | </span>
                                     </div>
                                 </div>
                                 <div class="colbox-full">
                                     <div class="pop-info-user">
                                         <p>Endereço</p>
-                                        <span>Rua Miguel Gustavo | 109 | Volta Redonda | RJ | Brasil | 27281-490</span>
+                                        @if($address = $user->addresses->where('master',1)->first())
+                                            <span>{{$address->public_place.' | '.$address->number
+                                            .isset($address->complements) ? ' ('.$address->complements.') |' : '| '
+                                            .$address->neighborhood.' | '.$address->city.' | '.$address->state.' | '
+                                            .$address->zip_code}}</span>
+                                            <span>Rua Miguel Gustavo | 109 | Volta Redonda | RJ | Brasil | 27281-490</span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

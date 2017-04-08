@@ -2,7 +2,7 @@
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
-            <h2 class="alertbox-title c-pop fontw-500">Pedido: #lbcsd769yqob</h2>
+            <h2 class="alertbox-title c-pop fontw-500">Pedido: #{{$result->key}}</h2>
             <table id="jq-search-table-result" class="table table-action">
                 <thead>
                 <tr>
@@ -15,15 +15,15 @@
                 </thead>
 
                 <tbody>
-                @for($i = 0;$i < 2; $i++)
+                @foreach($result->products as $product)
                     <tr>
-                        <td>#SD8N7T3</td>
-                        <td>Nome do Produto</td>
-                        <td>R$ 14,60</td>
-                        <td>2</td>
-                        <td>R$ 29,80</td>
+                        <td>#{{$product->id}}</td>
+                        <td>{{$product->name}}</td>
+                        <td>{{real($product->requests->pivot->unit_price)}}</td>
+                        <td>{{$product->requests->pivot->quantity}}</td>
+                        <td>{{real($product->requests->pivot->amount)}}</td>
                     </tr>
-                @endfor
+                @endforeach
                 </tbody>
             </table>
             <div class="pop-user-info">
