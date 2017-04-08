@@ -17,26 +17,21 @@
         </div>
     </section>
     <div class="clear-both"></div>
-    @if($type === 'users' || $type === 'sallesmans')
-        @include('layouts.parties.alert_user_info')
-    @elseif($type === 'products')
-        @include('layouts.parties.alert_product_info')
-    @elseif($type === 'sales')
-        @include('layouts.parties.alert_sales_info')
-    @elseif($type === 'banners')
-        @include('layouts.parties.alert_banner')
-    @endif
+   <div id="resp_modal"></div>
 
 @endsection
 @section('scripts_int')
     <script>
-        $(document).on('click', '.pagination a', function (event) {
-            $('li').removeClass('active');
-            $(this).parent('li').addClass('active');
-            event.preventDefault();
-            var page = $(this).attr('href').split('page=')[1];
-            var data = 'name=' + $(".jq-input-search").val();
-            getData(page, data);
+        $(function(){
+            $(document).on('click', '.pagination a', function (event) {
+                $('li').removeClass('active');
+                $(this).parent('li').addClass('active');
+                var page = $(this).attr('href').split('page=')[1];
+                var data = 'name=' + $(".jq-input-search").val();
+                console.log(data, page);
+                getData(page, data);
+                event.preventDefault();
+            });
         });
     </script>
 @endsection

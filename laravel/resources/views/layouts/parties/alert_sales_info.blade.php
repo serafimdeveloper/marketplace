@@ -2,7 +2,7 @@
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
-            <h2 class="alertbox-title c-pop fontw-500">Pedido: #lbcsd769yqob</h2>
+            <h2 class="alertbox-title c-pop fontw-500">Pedido: #{{$result->key}}</h2>
             <table id="jq-search-table-result" class="table table-action">
                 <thead>
                 <tr>
@@ -15,15 +15,15 @@
                 </thead>
 
                 <tbody>
-                @for($i = 0;$i < 2; $i++)
+                @foreach($result->products as $product)
                     <tr>
-                        <td>#SD8N7T3</td>
-                        <td>Nome do Produto</td>
-                        <td>R$ 14,60</td>
-                        <td>2</td>
-                        <td>R$ 29,80</td>
+                        <td>#{{$product->id}}</td>
+                        <td>{{$product->name}}</td>
+                        <td>{{real($product->requests->pivot->unit_price)}}</td>
+                        <td>{{$product->requests->pivot->quantity}}</td>
+                        <td>{{real($product->requests->pivot->amount)}}</td>
                     </tr>
-                @endfor
+                @endforeach
                 </tbody>
             </table>
             <div class="pop-user-info">
@@ -31,13 +31,13 @@
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Cliente</p>
-                            <span>Nome do Cliente</span>
+                            <span>{{$result->user->name}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Data do pedido</p>
-                            <span>01/02/2017</span>
+                            <span>{{$result->created_at->format('d/m/Y H:i:s')}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
@@ -51,26 +51,26 @@
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Tipo de frete</p>
-                            <span>PAC</span>
+                            <span>{{$result->freight->name}}</span>
                         </div>
                     </div>
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Valor frete</p>
-                            <span>R$ 14,90</span>
+                            <span>{{real($result->freight_price)}}</span>
                         </div>
                     </div>
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Valor Total</p>
-                            <span>R$ 29,80</span>
+                            <span>{{real($result->amount)}}</span>
                         </div>
                     </div>
 
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Comissão</p>
-                            <span>R$ 3,10</span>
+                            <span>{{$result->commission_amount}}</span>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,10 @@
                     <div class="colbox-full">
                         <div class="pop-info-user">
                             <p>Endereço de entrega</p>
-                            <span>Endereço de entrega</span>
+                            <span>{{$result->adress->public_place.' | '.$result->adress->number
+                            .isset($result->adress->complements) ? ' ('.$request->adress->complements.') |' : '| '
+                            .$request->adress->neighborhood.' | '.$request->adress->city.' | '.$request->adress->state.' | '
+                            .$request->adress->zip_code}}</span>
                         </div>
                     </div>
                 </div>
@@ -89,19 +92,19 @@
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Status</p>
-                            <span>enviado</span>
+                            <span>{{$result->requeststatus->description}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Data de envio</p>
-                            <span>02/02/2017</span>
+                            <span>{{$result->send_date->format('d/m/Y H:i:s')}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Código de Rastreamento</p>
-                            <span>bs78asg8ada0</span>
+                            <span>{{$result->tracking_code}}}</span>
                         </div>
                     </div>
                 </div>

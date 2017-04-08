@@ -552,20 +552,23 @@ $(function(){
  * @param data
  */
 function getData(page, data){
-    var url = window.location.href;
+    var url_cr = window.location.href;
+    var url = url_cr.split('#',1);
     $.ajax({
-        url: url+'?page='+page,
+        url: url[0]+'?page='+page,
         type: "get",
         data: data,
         datatype: "html",
         beforeSend: function(){
             $('#jq-search-table-result tbody').html("<tr><td><i class='fa fa-spin fa-spinner'></i> procurando...</td></tr>");
+        },
+        error: function(response){
+            alertify.error(response.responseJSON.msg);
+        },
+        success: function(response){
+            $("#result").empty().html(response);
+            location.hash = page;
         }
-    }).done(function(data){
-        $("#result").empty().html(data);
-        location.hash = page;
-    }).fail(function(response){
-        alertify.error(response.responseJSON.msg);
     });
 }
 

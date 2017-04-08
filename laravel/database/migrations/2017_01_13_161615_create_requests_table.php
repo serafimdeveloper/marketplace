@@ -32,7 +32,7 @@ class CreateRequestsTable extends Migration
             $table->string('tracking_code',15)->nullable();
             $table->decimal('freight_price',7,2)->nullable();
             $table->decimal('amount',7,2);
-            $table->string('payment_reference',50)->nullable();
+            $table->string('commission_amount',7,2)->nullable();
             $table->text('note')->nullable();
             $table->boolean('visualized')->default(0);
             $table->boolean('finalized')->default(0);
