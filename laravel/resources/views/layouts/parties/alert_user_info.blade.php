@@ -76,7 +76,6 @@
                                             .isset($address->complements) ? ' ('.$address->complements.') |' : '| '
                                             .$address->neighborhood.' | '.$address->city.' | '.$address->state.' | '
                                             .$address->zip_code}}</span>
-                                            <span>Rua Miguel Gustavo | 109 | Volta Redonda | RJ | Brasil | 27281-490</span>
                                         @endif
                                     </div>
                                 </div>
