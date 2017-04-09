@@ -72,10 +72,6 @@ class SalesController extends AbstractController
         }
         $request = $this->repo->get($id,$this->columns,$this->with);
         if($request->store->id == Auth::user()->salesman->store->id){
-            $rastreamento = [];
-            if(isset($request->tracking_code)){
-                $rastreamento = track_object($request->tracking_code, $id);
-            }
             if($request->visualized_store === 0){
                 $request->fill(['visualized_store' =>1])->save();
             }

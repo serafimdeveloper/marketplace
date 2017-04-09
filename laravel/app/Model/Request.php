@@ -65,4 +65,8 @@ class Request extends Model
     public function scopeSearch($query, $name, $with) {
         return $query->where('key', 'LIKE', '%'.$name.'%')->with($with);
     }
+
+    public function object() {
+        return $this->hasOne(ObjectStatus::class);
+    }
 }
