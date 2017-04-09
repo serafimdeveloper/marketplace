@@ -37,14 +37,14 @@ class CorreiosRequest extends Command {
      * @return mixed
      */
     public function handle(){
-        $requests = $this->request->where('request_status_id', 4)->get();
+       /* $requests = $this->request->where('request_status_id', 4)->get();
         $requests->each(function($request){
             $status_freigth = Correios::rastrear($request->zip_code);
             if($status_freigth[0]['status'] === 'Entrega Efetuada'){
                 $request->fill(['request_status_id' => 5])->save();
             }
             sleep(5000);
-        });
+        });*/
         \Log::info('Atualização de pedidos via Correios  em: '.\Carbon\Carbon::now());
     }
 }
