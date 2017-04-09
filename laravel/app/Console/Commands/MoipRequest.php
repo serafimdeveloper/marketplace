@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\MoipServices;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class MoipRequest extends Command {
@@ -19,10 +20,10 @@ class MoipRequest extends Command {
      */
     protected $description = 'Verificar status de pedido em relação ao Moip';
     protected $moipService;
+
     /**
-     * Create a new command instance.
-     *
-     * @return void
+     * MoipRequest constructor.
+     * @param MoipServices $moipServices
      */
     public function __construct(MoipServices $moipServices){
         parent::__construct();
@@ -36,6 +37,6 @@ class MoipRequest extends Command {
      */
     public function handle(){
         $this->moipService->checkStatusInstructions();
-        \Log::info('Atualização do MOIP  em: '.\Carbon\Carbon::now());
+        \Log::info('Atualização do MOIP  em: '. Carbon::now());
     }
 }
