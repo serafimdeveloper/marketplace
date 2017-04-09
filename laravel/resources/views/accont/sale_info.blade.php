@@ -10,7 +10,8 @@
             <div class="colbox" style="margin-bottom: 10px">
                 <div class="colbox-2">
                     <p>
-                        <span class="fontw-500">Status:</span><span class="fontw-600 c-{{ $request->requeststatus->trigger }}"> {{ $request->requeststatus->description }} </span><br>
+                        <span class="fontw-500">Status:</span><span
+                                class="fontw-600 c-{{ $request->requeststatus->trigger }}"> {{ $request->requeststatus->description }} </span><br>
                         {{--{{isset($rastreamento[0]) ? $rastreamento[0]->status :'aguardando envio'}}--}}
                         <span class="fontw-500">Pedido N°:</span> {{$request->key}}<br>
                         <span class="fontw-500">Data:</span> {{$request->created_at->diffForHumans()}}<br>
@@ -19,7 +20,7 @@
                 </div>
                 <div class="colbox-2">
                     @if($request->request_status_id >= 3)
-                    {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
+                        {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
                         <label>
                             <span>Código de rastreio dos correios</span>
                             {!! Form::text('tracking_code', null, ['class' => 'uppercase', 'placeholder' => 'código', 'maxlength' => 13, 'minlength' => 13]) !!}
@@ -27,12 +28,13 @@
                             <span class="fa fa-spinner fa-spin jq-loader dp-none loader-2"></span>
                         </label>
                         <button type="submit" class="btn btn-small btn-popmartin">enviar</button>
-                    {!! Form::close() !!}
-                        @if(isset($rastreamento['message']))
+                        {!! Form::close() !!}
+                        @if($request->object)
                             <div style="padding: 0 17px;margin-top: -10px;">
-                                <p style="margin-bottom: 0">Status: <strong>{{$rastreamento['current']['status']}}</strong></p>
-                                <p style="margin-bottom: 0">Data: {{$rastreamento['current']['data']}} -  Local: {{$rastreamento['current']['local']}}
-                                <p style="margin-bottom: 0">{{isset($rastreamento['current']['encaminhado']) ? $rastreamento['current']['encaminhado'] : ''}}</p>
+                                <p style="margin-bottom: 0">Status: <strong>{{$request->object->status}}</strong></p>
+                                <p style="margin-bottom: 0">Data: {{$request->object->date }} -
+                                    Local: {{$request->object->local}}
+                                <p style="margin-bottom: 0">{{$request->object->encaminhado}}</p>
                             </div>
                         @endif
                     @endif
@@ -53,17 +55,25 @@
                 <tbody>
                 @forelse($request->products as $product)
                     <tr>
-                        <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=60&h=60&fit=crop') }}"></td>
-                        <td><a href="/loja/nome/categoria/produto" class="fontem-12" target="_blank">{{$product->name}}</a></td>
+                        <td>
+                            <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=60&h=60&fit=crop') }}">
+                        </td>
+                        <td><a href="/loja/nome/categoria/produto" class="fontem-12"
+                               target="_blank">{{$product->name}}</a></td>
                         <td>{{$product->pivot->quantity}}</td>
-                        <td><span class="fontem-12">R${{number_format($product->pivot->unit_price,2,',','.')}}</span></td>
-                        <td class="t-active bold"><span class="fontem-12">R${{ number_format($product->pivot->amount,2,',',',') }}</span></td>
+                        <td><span class="fontem-12">R${{number_format($product->pivot->unit_price,2,',','.')}}</span>
+                        </td>
+                        <td class="t-active bold"><span
+                                    class="fontem-12">R${{ number_format($product->pivot->amount,2,',',',') }}</span>
+                        </td>
                     </tr>
                 @empty
                 @endforelse
                 <tr>
                     <td>Total</td>
-                    <td class="t-active bold" colspan="4"><span class="fontem-18 fontw-800">R${{number_format(amount_products($request->products),2,',','.')}}</span></td>
+                    <td class="t-active bold" colspan="4"><span
+                                class="fontem-18 fontw-800">R${{number_format(amount_products($request->products),2,',','.')}}</span>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -84,12 +94,15 @@
                         <span>{{$request->adress->name}}</span><br>
                         <span>{{$request->adress->zip_code}} ({{$request->adress->state}})</span><br>
                     </td>
-                    <td class="t-active bold"><span class="fontem-12">R${{number_format($request->freight_price,2,',','.')}}</span></td>
+                    <td class="t-active bold"><span
+                                class="fontem-12">R${{number_format($request->freight_price,2,',','.')}}</span></td>
                 </tr>
                 </tbody>
             </table>
             <hr>
-            <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-green fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span></p>
+            <p class="fontem-22 fontw-500">Total do pedido <span
+                        class="fl-right c-green fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span>
+            </p>
             <div class="clear-both"></div>
         </div>
         @if($request->note)
@@ -102,7 +115,8 @@
         @endif
         @if($request->request_status_id === 3)
             <div class="txt-center">
-                <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin" target="_blank">Gerar etiqueta</a>
+                <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin"
+                   target="_blank">Gerar etiqueta</a>
             </div>
         @endif
         <div class="padding20"></div>

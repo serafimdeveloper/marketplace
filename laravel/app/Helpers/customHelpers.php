@@ -20,6 +20,13 @@ if(!function_exists('track_object')){
                 $local['posted'] = end($tracking);
                 if($local['current']['status'] == 'Entrega Efetuada'){
                     $order->fill(['request_status_id' => 5])->save();
+                    $order->object()->create([
+                        'code' => $code,
+                        'status' => $local['current']['status'],
+                        'date' => $local['current']['data'],
+                        'local' => $local['current']['local'],
+                        'encaminhado' => $local['current']['encaminhado']
+                    ]);
                 }
             }else{
                 $local['message'] = 'Objeto não encontrado ou não atualizado pelo correio';

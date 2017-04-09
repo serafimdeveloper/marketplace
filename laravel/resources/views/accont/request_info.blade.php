@@ -9,40 +9,49 @@
             <div class="coltable pop-header-request" style="margin-bottom: 10px">
                 <div class="coltable-6">
                     <p>
-                        <span class="fontw-500">Status:</span> <span class="fontw-500 c-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</span><br>
+                        <span class="fontw-500">Status:</span> <span
+                                class="fontw-500 c-{{ $request->requeststatus->trigger }}">{{ $request->requeststatus->description }}</span><br>
                         <span class="fontw-500">Pedido:</span> {{ $request->key }}<br>
                         <span class="fontw-500">Data:</span> {{ $request->created_at->format('d/m/Y H:i:s') }}<br>
                         <span class="fontw-500">Loja:</span> {{ $request->store->name }}</br>
                         <span class="fontw-500">Forma de pagamento:</span> {{ $request->payment_reference }}
                         @if($request->request_status_id == 2)
-                            <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
+                            <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}"
+                               class="btn btn-smallextreme btn-popmartin">pagar</a>
                         @elseif($request->request_status_id == 1)
                             @if($request->payment_reference == 'boleto')
-                                | <a href="{{ $request->moip->url }}" class="c-pop fontem-08" target="_blank"><i class="fa fa-print"></i> imprimir 2° via</a>
+                                | <a href="{{ $request->moip->url }}" class="c-pop fontem-08" target="_blank"><i
+                                            class="fa fa-print"></i> imprimir 2° via</a>
                             @else
-                                <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
+                                <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}"
+                                   class="btn btn-smallextreme btn-popmartin">pagar</a>
                             @endif
                         @elseif($request->request_status_id == 3)
-                                <span class="c-green"><i class="fa fa-check"></i> pago</span>
+                            <span class="c-green"><i class="fa fa-check"></i> pago</span>
                         @elseif($request->request_status_id == 6)
-                                <span class="c-red"><i class="fa fa-close"></i> cancelado</span>
-                            <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}" class="btn btn-smallextreme btn-popmartin">pagar</a>
+                            <span class="c-red"><i class="fa fa-close"></i> cancelado</span>
+                            <a href="{{ route('pages.cart.cart_order', ['order_key' => $request->key]) }}"
+                               class="btn btn-smallextreme btn-popmartin">pagar</a>
                         @endif
                     </p>
                 </div>
                 <div class="coltable-6 txt-right">
                     @if($request->request_status_id > 4)
-                        <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i class="fa fa-star"></i> {{ (isset($request->shopvaluation) ? 'avaliado' : 'avaliar') }}</a>
+                        <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i
+                                    class="fa fa-star"></i> {{ (isset($request->shopvaluation) ? 'avaliado' : 'avaliar') }}
+                        </a>
                     @endif
-                    <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar o vendedor</a>
-                        @if($request->request_status_id > 3)
-                            <span style="margin-bottom: 10px" class="txt-left">
-                                <p style="margin-bottom: 0">Status: <strong>{{$rastreamento['current']['status']}}</strong></p>
+                    <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i
+                                class="fa fa-comments-o"></i> contatar o vendedor</a>
+                    @if($request->request_status_id > 3)
+                        <span style="margin-bottom: 10px" class="txt-left">
+                                <p style="margin-bottom: 0">Status: <strong>{{$request->object->status}}</strong></p>
                                 <p style="margin-bottom: 0">Código de rastreio: {{ mb_strtoupper($request->tracking_code)}}</p>
-                                <p style="margin-bottom: 0">Data: {{$rastreamento['current']['data']}} -  Local: {{$rastreamento['current']['local']}}</p>
-                                <p style="margin-bottom: 0">{{ isset($rastreamento['current']['encaminhado']) ? $rastreamento['current']['encaminhado'] : '' }}</p>
+                                <p style="margin-bottom: 0">Data: {{$request->object->data}}
+                                    -  Local: {{$request->object->local}}</p>
+                                <p style="margin-bottom: 0">{{ $request->object->encaminhado }}</p>
                             </span>
-                        @endif
+                    @endif
                 </div>
             </div>
 
@@ -60,8 +69,12 @@
                 <tbody>
                 @foreach($request->products as $product)
                     <tr>
-                        <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image.'?w=60&h=60&fit=crop') }}"></td>
-                        <td><a href="{{route('pages.product',[$request->store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
+                        <td class="txt-center" style="max-width: 100px;"><img
+                                    src="{{ url('imagem/produto/' . $product->galeries[0]->image.'?w=60&h=60&fit=crop') }}">
+                        </td>
+                        <td>
+                            <a href="{{route('pages.product',[$request->store->slug, $product->category->slug, $product->slug])}}"
+                               class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                         <td>{{ $product->pivot->quantity }}</td>
                         <td><span class="fontem-12">{{ real($product->pivot->unit_price)}}</span></td>
                         <td class="bold"><span class="fontem-12">{{ real($product->pivot->amount) }}</span></td>
@@ -69,7 +82,8 @@
                 @endforeach
                 <tr>
                     <td>Total</td>
-                    <td class="bold" colspan="4" style="text-align: right;"><span class="fontem-18 fontw-800">{{real(amount_products($request->products))}}</span></td>
+                    <td class="bold" colspan="4" style="text-align: right;"><span
+                                class="fontem-18 fontw-800">{{real(amount_products($request->products))}}</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -85,19 +99,23 @@
 
                 <tbody>
                 @if($request->adress)
-                <tr>
-                    <td>{{ $request->freight->name }}</td>
-                    <td>
-                        <span>{{ $request->adress->name }}</span><br>
-                        <span>{{ $request->adress->zip_code }} ({{ $request->adress->state }})</span><br>
-                    </td>
-                    <td class="bold"><span class="fontem-12">R${{ number_format($request->freight_price, 2, ',', '') }}</span></td>
-                </tr>
+                    <tr>
+                        <td>{{ $request->freight->name }}</td>
+                        <td>
+                            <span>{{ $request->adress->name }}</span><br>
+                            <span>{{ $request->adress->zip_code }} ({{ $request->adress->state }})</span><br>
+                        </td>
+                        <td class="bold"><span
+                                    class="fontem-12">R${{ number_format($request->freight_price, 2, ',', '') }}</span>
+                        </td>
+                    </tr>
                 @endif
                 </tbody>
             </table>
             <hr>
-            <p class="fontem-22 fontw-500">Total do pedido <span class="fl-right c-pop fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span></p>
+            <p class="fontem-22 fontw-500">Total do pedido <span
+                        class="fl-right c-pop fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span>
+            </p>
             <div class="padding10"></div>
             @if($request->note)
                 <div class="content">

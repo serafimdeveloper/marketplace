@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Model\Request;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Correios;
 
@@ -22,9 +23,8 @@ class CorreiosRequest extends Command {
     protected $request;
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
+     * CorreiosRequest constructor.
+     * @param Request $request
      */
     public function __construct(Request $request){
         parent::__construct();
@@ -39,12 +39,10 @@ class CorreiosRequest extends Command {
     public function handle(){
        /* $requests = $this->request->where('request_status_id', 4)->get();
         $requests->each(function($request){
-            $status_freigth = Correios::rastrear($request->zip_code);
-            if($status_freigth[0]['status'] === 'Entrega Efetuada'){
-                $request->fill(['request_status_id' => 5])->save();
-            }
+            track_object($request->tracking_code, $request->id);
             sleep(5000);
+<<<<<<< HEAD
         });*/
-        \Log::info('Atualização de pedidos via Correios  em: '.\Carbon\Carbon::now());
+        \Log::info('Atualização de pedidos via Correios  em: ' . Carbon::now());
     }
 }
