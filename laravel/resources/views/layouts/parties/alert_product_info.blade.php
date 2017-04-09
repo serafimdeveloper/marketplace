@@ -2,33 +2,33 @@
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
-            <h2 class="alertbox-title c-pop fontw-500">Nome do produto</h2>
+            <h2 class="alertbox-title c-pop fontw-500">{{$result->name}}</h2>
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
-                    <a class="btn btn-small btn-popmartin fl-right"><i class="fa fa-trash"></i> remover produto</a>
+                    <a class="btn btn-small btn-popmartin fl-right" id="{{$result->id}}"><i class="fa fa-trash"></i> remover produto</a>
                 </div>
                 <div class="clear-both"></div>
                 <p class="c-pop fontw-500">Dados do produto:</p>
                 <div class="colbox">
                     <div class="colbox-3">
                         <div class="pop-info-user">
-                            <p>Nome
-                                <a href="/juca/produto/nome-produto" class="btn btn-smallextreme btn-popmartin fl-right"
+                            <p>{{$result->name}}
+                                <a href="{{route('pages.product',[$result->store->slug, $result->category->slug, $result->slug])}}" class="btn btn-smallextreme btn-popmartin fl-right"
                                    target="_blank">ver produto</a>
                             </p>
-                            <span>Camisa que ruja</span>
+                            <span>{{$result->details}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Loja</p>
-                            <span>nome da loja</span>
+                            <span>{{$result->store->name}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Vendedor</p>
-                            <span>Nome do vendedor</span>
+                            <span>{{$result->store->salesman->user->name}}</span>
                         </div>
                     </div>
                 </div>

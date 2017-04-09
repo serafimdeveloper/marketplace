@@ -1,14 +1,11 @@
 <?php
 use App\Model\Ad;
 use App\Model\CountOrder;
-use App\Package\Moip\lib\MoIPClient;
-use Illuminate\Http\Request;
-use App\Model\Request as Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
-use Correios;
+use Cagartner\CorreiosConsulta\Facade as Correios;
 
 if(!function_exists('track_object')){
     function track_object($code, $id){

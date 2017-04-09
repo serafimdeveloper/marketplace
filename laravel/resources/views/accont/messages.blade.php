@@ -40,25 +40,25 @@
                 <tbody>
                 @foreach($messages as $msg)
                     @if($box == 'received')
-                        <tr {!! $msg->status == "received" ? 'class="t-unread"' : '' !!}>
-                            @endif
+                        <tr {!! $msg->first()->status == "received" ? 'class="t-unread"' : '' !!}>
+                    @endif
                             <td>
                                 <div class="form-modern">
                                     <div class="checkbox-container">
                                         <div class="checkboxies">
                                             <label class="checkbox" style="border: none;padding: 0;">
                                                 <span><span class="fa fa-square-o"></span></span>
-                                                {!! Form::checkbox('msg', $msg->id, null, ['class' => 'select_msg']) !!}
+                                                {!! Form::checkbox('msg', ($box === 'received') ? $msg->first()->id : $msg->id, null, ['class' => 'select_msg']) !!}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td>{{ $box === 'received' ?  $msg->sender->name : $msg->recipient->name}}</td>
+                            <td>{{ ($box === 'received') ?  $msg->first()->sender->name : $msg->recipient->name}}</td>
                             <td>
-                                <a href="{{ route('accont.message.info', ['type' => $box, 'id' => $msg->id]) }}">{!!  substr($msg->content, 0, 60) !!}
+                                <a href="{{ route('accont.message.info', ['type' => $box, 'id' => ($box === 'received') ? $msg->first()->id : $msg->id]) }}">{!!  substr(($box === 'received') ? $msg->first()->content : $msg->content, 0, 60) !!}
                                     ...</a></td>
-                            <td>{{ $msg->created_at->format("d/m/Y H:i:s") }}</td>
+                            <td>{{ ($box === 'received') ? $msg->first()->created_at->format('d/m/Y H:i:s') : $msg->created_at->format("d/m/Y H:i:s") }}</td>
                         </tr>
                         @endforeach
                 </tbody>

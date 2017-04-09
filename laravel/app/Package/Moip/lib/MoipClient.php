@@ -12,7 +12,7 @@ namespace App\Package\Moip\lib;
  */
 class MoIPClient {
 
-    /** 
+    /**
      * Method send()
      *
      * Send the request to API's server

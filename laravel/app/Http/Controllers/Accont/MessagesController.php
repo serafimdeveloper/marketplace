@@ -11,6 +11,8 @@ use App\Repositories\Accont\MessagesRepository;
 use Illuminate\Container\Container as App;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 
 class MessagesController extends AbstractController {
@@ -42,9 +44,6 @@ class MessagesController extends AbstractController {
         }elseif($type == 'store'){
             if($store = Auth::user()->salesman->store){
                 $messages = $this->getAllMessages($data);
-                   /* ->groupBy(function($item, $key){
-                    return $item['message_id'];
-                });*/
                 return view('accont.messages', compact('messages', 'type', 'box'));
             }
         }
@@ -135,9 +134,8 @@ class MessagesController extends AbstractController {
     public function destroy(Request $request){
         if($messages = $this->repo->getByIds($request->ids)){
             $messages->each(function($message){
-                $message->fill(['desactive' => 1])->save();
+                $message->update(['desactive' => 1]);
             });
-
             return json_encode(['status' => true]);
         }
 
@@ -147,8 +145,12 @@ class MessagesController extends AbstractController {
     private function getAllMessages($data){
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $messages = $this->repo->getAllMessages($data, $this->columns, $this->with, ['id' => 'DESC'], 5, $page);
-        $messages = ($messages->first() ? $messages : false);
-
+        if($data['box'] === 'received'){
+            $messages = $messages->groupBy(function($item, $key){
+                return $item['message_id'];
+            });
+            return new LengthAwarePaginator($messages,$messages->count(),5,$page);
+        }
         return $messages;
     }
 
@@ -157,11 +159,11 @@ class MessagesController extends AbstractController {
             $recipient = app($message->recipient_type);
             if($recipient instanceof User){
                 if($message->recipient_id === $user->id){
-                    $message->fill(['status' => 'readed'])->save();
+                    $message->update(['status' => 'readed']);
                 }
             }elseif($recipient instanceof Store){
                 if($message->recipient_id === $user->salesman->store->id){
-                    $message->fill(['status' => 'readed'])->save();
+                    $message->update(['status' => 'readed']);
                 }
             }
         }

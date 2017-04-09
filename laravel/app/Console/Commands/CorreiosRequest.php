@@ -6,19 +6,19 @@ use App\Model\Request;
 use Illuminate\Console\Command;
 use Correios;
 
-class ChangeRequest extends Command {
+class CorreiosRequest extends Command {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'request:change';
+    protected $signature = 'request:correios';
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Muda o status do pedido';
+    protected $description = 'Muda o status do pedido em relação ao correios';
     protected $request;
 
     /**
@@ -45,5 +45,6 @@ class ChangeRequest extends Command {
             }
             sleep(5000);
         });
+        \Log::info('Atualização de pedidos via Correios  em: '.\Carbon\Carbon::now());
     }
 }

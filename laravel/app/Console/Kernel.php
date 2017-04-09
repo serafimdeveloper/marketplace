@@ -2,8 +2,8 @@
 
 namespace App\Console;
 
-use App\Console\Commands\ChangeMoip;
-use App\Console\Commands\ChangeRequest;
+use App\Console\Commands\MoipRequest;
+use App\Console\Commands\CorreiosRequest;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel {
      *
      * @var array
      */
-    protected $commands = [ChangeRequest::class, ChangeMoip::class];
+    protected $commands = [CorreiosRequest::class, MoipRequest::class];
 
     /**
      * Define the application's command schedule.
@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule(Schedule $schedule){
-        $schedule->command('request:change')->everyThirtyMinutes();
+        $schedule->command('request:correios')->everyThirtyMinutes();
         $schedule->command('request:moip')->everyFiveMinutes();
 
     }
