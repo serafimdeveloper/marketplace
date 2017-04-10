@@ -59,8 +59,9 @@ class MessagesController extends AbstractController {
         $user = Auth::user();
         if($message = $this->repo->get($id)){
             if(Gate::allows('read_message', [$message, $box])){
-                $this->read_type($user, $message, $box);
                 $messages = $this->repo->getMessages($message, $this->with, ['created_at' => 'ASC']);
+                $this->read_type($user, $message, $messages, $box);
+
                 $eu = $user->name;
 
                 return view('accont.message_info', compact('messages', 'message', 'box', 'eu'));
@@ -99,7 +100,7 @@ class MessagesController extends AbstractController {
             }
         }
         if($message = $this->repo->store($dados)){
-            $data = ['email' => $store->salesman->user->email, 'name' => $store->name, 'id' => $message->id, 'message_type' => 'store'];
+            $data = ['email' => $store->salesman->user->email, 'name' => $store->name, 'id' => $message->id, 'message_type' => 'received'];
             send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$user->name);
             $this->repo->update(['message_id' => $message->id], $message->id);
             flash('Mensagem enviada com sucesso!', 'accept');
@@ -114,13 +115,13 @@ class MessagesController extends AbstractController {
     public function answer(Request $request, $box, $id){
         $this->validate($request, ['message' => 'required|min:5:max:500'], ['message.required' => 'A messagem é obrigatório', 'message.min' => 'A quantidade mínima de caracteres é 5', 'message.max' => 'A quantidade máxima é de 500 caracteres']);
         if($model = $this->repo->get($id, $this->columns, $this->with)){
-            $dados = ['sender_id' => $model->recipient_id, 'sender_type' => get_class($model->recipient), 'recipient_id' => $model->sender_id, 'recipient_type' => get_class($model->sender), 'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id, 'product_id' => $model->product_id, 'message_id' => $model->message_id, 'title' => $model->title, 'content' => $request->message];
+            $recipient = ($box === 'received') ? $model->sender : $model->recipient;
+            $sender    = ($box === 'received') ? $model->recipient : $model->sender;
+            $dados = ['sender_id' => $sender->id, 'sender_type' => get_class($sender), 'recipient_id' => $recipient->id, 'recipient_type' => get_class($recipient), 'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id, 'product_id' => $model->product_id, 'message_id' => $model->message_id, 'title' => $model->title, 'content' => $request->message];
             $this->repo->filter_messages($request->message);
             if($message = $this->repo->store($dados)){
                 if(($model->sender instanceof Store && $box === 'received') || ($model->recipient instanceof Store && $box === 'send')){
-                    $recipient = ($box === 'received') ? $model->sender : $model->recipient;
-                    $sender    = ($box === 'received') ? $model->recipient : $model->sender;
-                    $data = ['email' => $recipient->salesman->user->email, 'name' => $recipient->name, 'id' => $message->id, 'message_type' => 'store'];
+                    $data = ['email' => $recipient->salesman->user->email, 'name' => $recipient->name, 'id' => $message->id, 'message_type' => 'received'];
                     send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$sender->name);
                 }
                 flash('Mensagem enviada com sucesso!', 'accept');
@@ -154,16 +155,22 @@ class MessagesController extends AbstractController {
         return $messages;
     }
 
-    private function read_type($user, $message, $box){
+    private function read_type($user, $message, $messages, $box){
         if($box === 'received'){
             $recipient = app($message->recipient_type);
             if($recipient instanceof User){
                 if($message->recipient_id === $user->id){
-                    $message->update(['status' => 'readed']);
+                    $messages->where('recipient_id', $user->id)->where('message_id',$message->message_id)
+                        ->where('status','received')->each(function($message){
+                            $message->update(['status' => 'readed']);
+                        });
                 }
             }elseif($recipient instanceof Store){
                 if($message->recipient_id === $user->salesman->store->id){
-                    $message->update(['status' => 'readed']);
+                    $messages->where('recipient_id', $user->salesman->store->id)->where('message_id',$message->message_id)
+                        ->where('status','received')->each(function($message){
+                            $message->update(['status' => 'readed']);
+                        });
                 }
             }
         }

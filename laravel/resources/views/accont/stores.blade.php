@@ -9,9 +9,9 @@
                 <div class="pop-tile-menu">
                     <span class="btn btn-smallextreme btn-popmartin jq-block-store">
                     @if($store->active === 0)
-                            <i class="fa fa-unlock vertical-middle"></i> bloquear loja
+                            <i class="fa fa-unlock vertical-middle"></i> desbloquear loja
                         @else
-                            <i class="fa fa-lock vertical-middle"></i> desbloquear loja
+                            <i class="fa fa-lock vertical-middle"></i> bloquear loja
                         @endif
                 </span>
                     <a href="{{ url('/'. $store->slug) }}" class="btn btn-smallextreme btn-popmartin" target="_blank">

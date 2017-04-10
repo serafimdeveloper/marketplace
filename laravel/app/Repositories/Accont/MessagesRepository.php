@@ -65,7 +65,14 @@ class MessagesRepository extends BaseRepository {
         $messages = $messages->get();
 
         return $messages;
+    }
 
+    public function read_messages($message){
+        $messages = $this->model->where('message_id', $message)
+            ->where('status','received')->where('desactive',0)->get();
+        $messages = $messages->each(function($message){
+            $message->update(['status' => 'readed']);
+        });
     }
 
     public function filter_messages($message){

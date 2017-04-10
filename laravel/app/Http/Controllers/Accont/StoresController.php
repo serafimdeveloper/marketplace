@@ -150,11 +150,11 @@ class StoresController extends AbstractController
         if($store = $user->salesman->store){
             if($store->active === 1){
                 $store->fill(['active' => 0])->save();
-                return response()->json(['status'=>true,'lock'=>true],200);
             }else{
                 $store->fill(['active' => 1])->save();
-                return response()->json(['status'=>true,'lock'=>false],200);
             }
+            return response()->json(['status'=>true,'lock'=>$store->active],200);
+
         }
         return response()->json(['msg'=>'Erro ao bloquear a loja'],500);
     }

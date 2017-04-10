@@ -581,14 +581,17 @@ function blockStore() {
     var msg = (txt == 'bloquear loja' ? 'Tem certeza de que deseja bloquear sua loja?<br> Todos os seus produtos cadastrado serão bloqueados.' : 'Sua loja será desbloqueada e estará visível para todos verem!')
     alertify.confirm(alertfyConfirmTitle, msg,
         function () {
+            var msg_alert;
             $.get('/accont/salesman/stores/block', function (response) {
                 if (response.status) {
                     if (response.lock) {
                         element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear loja');
+                        msg_alert = 'Loja Desbloqueada';
                     } else {
                         element.html('<i class="fa fa-lock vertical-middle"></i> desbloquear loja');
+                        msg_alert = 'Loja Bloqueada';
                     }
-                    alertify.success('Loja Bloqueada');
+                    alertify.success(msg_alert);
                 } else {
                     alertify.error(response.msg);
                 }
