@@ -38,8 +38,10 @@ class AdminController extends Controller
     }
 
     public function get_user_id(UserRepository $repo, $id){
+        $this->with  = ['addresses','requests'];
+        $type = 'usuario';
         if($result = $this->getByRepoId($repo, $id)){
-            return response()->json(compact('result'));
+            return view('layouts.parties.alert_user_info', compact('result','type'));
         }
         return response()->json(['msg' => 'Erro ao encontrar o usuário'],404);
     }
@@ -55,8 +57,10 @@ class AdminController extends Controller
     }
 
     public function get_sallesman_id(SalesmanRepository $repo, $id){
+        $this->with = ['user','store'];
         if($result = $this->getByRepoId($repo, $id)){
-            return response()->json(compact('result'));
+            $type = 'vendedor';
+            return view('layouts.parties.alert_salesman_info', compact('result','type'));
         }
         return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
     }
@@ -74,9 +78,9 @@ class AdminController extends Controller
 
     public function get_product_id(ProductsRepository $repo, $id){
         if($result = $this->getByRepoId($repo, $id)){
-            return response()->json(compact('result'));
+            return view('layouts.parties.alert_product_info', compact('result'));
         }
-        return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
+        return response()->json(['msg' => 'Erro ao encontrar o produto'],404);
     }
 
     public function list_sales(Request $request, RequestsRepository $repo){
@@ -91,8 +95,9 @@ class AdminController extends Controller
     }
 
     public function get_sale_id(SalesmanRepository $repo, $id){
+        $this->with = ['store','user','adress','freight','products','requeststatus'];
         if($result = $this->getByRepoId($repo, $id)){
-            return response()->json(compact('result'));
+            return view('layouts.parties.alert_sales_info', compact('result'));
         }
         return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
     }

@@ -1,4 +1,4 @@
-<div class="alertbox" id="jq-info-product">
+<div  id="jq-info-product">
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
@@ -16,7 +16,6 @@
                                 <a href="{{route('pages.product',[$result->store->slug, $result->category->slug, $result->slug])}}" class="btn btn-smallextreme btn-popmartin fl-right"
                                    target="_blank">ver produto</a>
                             </p>
-                            <span>{{$result->details}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
@@ -99,28 +98,22 @@
                     <div class="colbox-full">
                         <div class="pop-info-user">
                             <p>Descrição</p>
-                            <span>informações sobre o produto</span>
+                            <span>{!! $result->details !!}</span>
                         </div>
                     </div>
                     <div class="colbox-full">
                         <div class="pop-info-user">
                             <p>Galeria</p>
                             <div class="colbox">
+                                @forelse( $result->galeries as $galery)
                                 <div class="colbox-5">
-                                    <img src="s">
+                                    <img src="{{url('imagem/produtos'.$galery->image.'?w=100&h=75&fit=crop')}}">
                                 </div>
-                                <div class="colbox-5">
-                                    <img src="s">
-                                </div>
-                                <div class="colbox-5">
-                                    <img src="d">
-                                </div>
-                                <div class="colbox-5">
-                                    <img src="d">
-                                </div>
-                                <div class="colbox-5">
-                                    <img src="d">
-                                </div>
+                                @empty
+                                    <div class="colbox-5">
+                                        <img src="s">
+                                    </div>
+                                @endforelse
                             </div>
                         </div>
                     </div>

@@ -422,15 +422,13 @@ $(function(){
     });
 
     /** Modal de informações de usuarios */
-    $(document).on('click', '.jq-info-user', function () {
-        var id = $(this).data('user');
-        var form = $('')
-        $.get('/accont/report/users/',{'id':id}, function (response) {
-            inputValue();
-        },'json').fail(function ($response) {
-
-        },'json');
-        $("#jq-info-user").slideDown();
+    $(document).on('click', '.jq-info', function () {
+        var id = $(this).data('id');
+        var type = $(this).data('type');
+        $.get('/accont/report/'+type+'/'+id, function (response) {
+            $("#resp_modal").slideDown();
+            $('#resp_modal').empty().html(response);
+        },'html');
     });
 
     /** Chamada de função para remoção de produtos */

@@ -12,13 +12,13 @@
                 <div class="accordion">
                     <div class="accordion-box">
                         <div class="accordion-header"><span class="c-pop fontw-500">Dados do usuário:</span> <span
-                                    class="fa fa-chevron-right"></span></div>
+                                class="fa fa-chevron-right"></span></div>
                         <div class="accordion-content">
                             <div class="colbox">
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>Nome</p>
-                                        <span>{{$result->name}}</span>
+                                        <span>{{$result->user->name}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-3">
@@ -31,7 +31,7 @@
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>CPF</p>
-                                        <span>{{isset($result->cpf) ? $result->cpf : 'não informado'}}</span>
+                                        <span>{{isset($result->user->cpf) ? $result->user->cpf : 'não informado'}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -40,13 +40,13 @@
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Gênero</p>
-                                        <span>{{($result->genre === 'M') ? 'Masculino' : 'Feminino'}}</span>
+                                        <span>{{($result->user->genre === 'M') ? 'Masculino' : 'Feminino'}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Nascimento</p>
-                                        <span>{{isset($result->birth) ? $result->birth->format('d/m/Y') : 'não informado'}}</span>
+                                        <span>{{isset($result->user->birth) ? $result->user->birth->format('d/m/Y') : 'não informado'}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-4">
@@ -58,22 +58,22 @@
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Último acesso</p>
-                                        <span>{{$result->last_access->format('d/m/Y H:i:s')}}</span>
+                                        <span>{{isset($result->user->last_access) ? $result->user->last_access->format('d/m/Y H:i:s') : 'sem data'}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-full">
                                     <div class="pop-info-user">
                                         <p>Contato</p>
-                                        <span class="dp-inblock">{{$result->email}} | </span>
-                                        <span class="dp-inblock">{{$result->phone}} | </span>
+                                        <span class="dp-inblock">{{$result->user->email}} | </span>
+                                        <span class="dp-inblock">{{$result->user->phone}} | </span>
                                     </div>
                                 </div>
                                 <div class="colbox-full">
                                     <div class="pop-info-user">
                                         <p>Endereço</p>
-                                        @if($address = $result->addresses->where('master',1)->first())
-                                            {{$address}}
-                                            <span>{{$address->public_place.' | '.$address->number
+                                        @if($address = $result->user->addresses->where('master',1)->first())
+                                        {{$address}}
+                                        <span>{{$address->public_place.' | '.$address->number
                                             .isset($address->complements) ? ' ('.$address->complements.') |' : '| '
                                             .$address->neighborhood.' | '.$address->city.' | '.$address->state.' | '
                                             .$address->zip_code}}</span>
@@ -82,6 +82,26 @@
                                 </div>
                             </div>
                             <div class="colbox">
+                                <div class="colbox-4">
+                                    <div class="pop-info-user">
+                                        <p>Moip</p>
+                                        <span>login</span>
+                                    </div>
+                                </div>
+                                <div class="colbox-4">
+                                    <div class="pop-info-user">
+                                        <p>Documento com foto</p>
+                                        <span><a href="" class="btn btn-smallextreme btn-popmartin"
+                                                 target="_blank">ver documento</a></span>
+                                    </div>
+                                </div>
+                                <div class="colbox-4">
+                                    <div class="pop-info-user">
+                                        <p>Comprovante de residência</p>
+                                        <span><a href="" class="btn btn-smallextreme btn-popmartin"
+                                                 target="_blank">ver documento</a></span>
+                                    </div>
+                                </div>
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Status</p>
@@ -114,6 +134,56 @@
                             <div class="clear-both"></div>
                         </div>
                     </div>
+                    @if($type === 'vendedor')
+                    <div class="accordion-box">
+                        <div class="accordion-header"><span class="c-pop fontw-500">Dados da loja:</span> <span
+                                class="fa fa-chevron-right"></span></div>
+                        <div class="accordion-content">
+
+                            <div class="colbox">
+                                <div class="colbox-3">
+                                    <div class="pop-info-user">
+                                        <p>Loja <a href="/loja" class="btn btn-smallextreme btn-popmartin fl-right"
+                                                   target="_blank">ver
+                                                loja</a></p>
+                                        <span>Nome da Loja</span>
+                                    </div>
+                                </div>
+                                <div class="colbox-3">
+                                    <div class="pop-info-user">
+                                        <p>Nome fantasia</p>
+                                        <span>nome</span>
+                                    </div>
+                                </div>
+                                <div class="colbox-3">
+                                    <div class="pop-info-user">
+                                        <p>CNPJ</p>
+                                        <span>não informado</span>
+                                    </div>
+                                </div>
+                                <div class="colbox-full">
+                                    <div class="pop-info-user">
+                                        <p>Razão Social</p>
+                                        <span>nome</span>
+                                    </div>
+                                </div>
+                                <div class="colbox-2">
+                                    <div class="pop-info-user">
+                                        <p>Contato</p>
+                                        <span>telefone | celular</span>
+                                    </div>
+                                </div>
+                                <div class="colbox-full">
+                                    <div class="pop-info-user">
+                                        <p>Endereço</p>
+                                        <span>Rua Miguel Gustavo | 109 | Volta Redonda | RJ | Brasil | 27281-490</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

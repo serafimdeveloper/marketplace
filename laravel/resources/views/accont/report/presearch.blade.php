@@ -18,7 +18,7 @@
                 <td>{{$user->last_access->format('d/m/Y H:i:s')}}</td>
                 <td>{{$user->requests->count()}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-user" data-user="{{$user->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="users" data-id="{{$user->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -55,7 +55,7 @@
                 <td>{{($salesman->status) ? 'habilitado' :'desabilitado'}}</td>
                 <td>{{number_format($salesman->comission,2,',','.')}}%</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-user" data-user="{{$salesman->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="salesmans" data-id="{{$salesman->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -88,7 +88,7 @@
                 <td class="txt-center">{{$product->quantity}}</td>
                 <td class="t-draft txt-center">{{($product->active) ? 'sim':'não'}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-product" data-product="{{$product->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="products" data-id="{{$product->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -123,7 +123,7 @@
                 <td>{{real($sales->amount)}}</td>
                 <td>{{real($sales->amount * ($sales->store->salesman->comission/100))}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info-sales" data-sales="{{$sales->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="sales" data-id="{{$sales->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -157,7 +157,7 @@
                 <td>{{$banner->date_start}}</td>
                 <td>{{$banner->date_end}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-edit jq-new-banner" data-banner="{{$banner->id}}">editar</a>
+                    <a href="javascript:void(0)" class="t-btn t-edit jq-info" data-id="{{$banner->id}}">editar</a>
                     <a href="javascript:void(0)" class="t-btn t-remove">remover</a>
                 </td>
             </tr>
