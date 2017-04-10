@@ -14,13 +14,14 @@ if(!function_exists('track_object')){
         $st = ($order->tracking_code == $code ? 4 : 3);
         if($order->requeststatus->id >= $st){
             $tracking = Correios::rastrear($code);
+//            dd($tracking);
             if($tracking){
                 $local['message'] = false;
                 $local['current'] = current($tracking);
                 $local['posted'] = end($tracking);
                 if($local['current']['status'] == 'Entrega Efetuada'){
                     $order->fill(['request_status_id' => 5])->save();
-                    $order->object()->create(['code' => $code, 'status' => $local['current']['status'], 'date' => $local['current']['data'], 'local' => $local['current']['local'], 'encaminhado' => $local['current']['encaminhado']]);
+                    $order->object()->create(['code' => $code, 'status' => $local['current']['status'], 'date' => $local['current']['data'], 'local' => $local['current']['local'], 'encaminhado' => isset($local['current']['encaminhado']) ? $local['current']['encaminhado'] : 'Entrega Efetuada']);
                 }
             }else{
                 $local['message'] = 'Objeto não encontrado ou não atualizado pelo correio';
