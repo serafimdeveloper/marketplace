@@ -73,7 +73,7 @@
                         <a href="{{route('accont.report.sales')}}"{!! url()->current() ==  route('accont.report.sales') ? ' class="current_rout"' :  ''!!}>vendas
                             e comissões</a></li>
                     <li>
-                        <a href="{{route('accont.report.notifications')}}"{!! url()->current() ==  route('accont.report.notifications') ? ' class="current_rout"' :  ''!!}>notificações {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_sales(0).'</span>' : '') !!}</a>
+                        <a href="{{route('accont.report.notifications')}}"{!! url()->current() ==  route('accont.report.notifications') ? ' class="current_rout"' :  ''!!}>notificações {!! (notification_notify_admin(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray notify-admin" style="margin-top: -5px;">'.notification_notify_admin(0).'</span>' : '') !!}</a>
                     </li>
                     <li>
                         <a href="{{route('accont.pages')}}"{!! url()->current() ==  route('accont.pages') ? ' class="current_rout"' :  ''!!}>páginas</a>

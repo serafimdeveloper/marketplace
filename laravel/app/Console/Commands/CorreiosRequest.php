@@ -6,6 +6,7 @@ use App\Model\Request;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Correios;
+use Illuminate\Support\Facades\Log;
 
 class CorreiosRequest extends Command {
     /**
@@ -40,8 +41,7 @@ class CorreiosRequest extends Command {
         $requests = $this->request->where('request_status_id', 4)->get();
         $requests->each(function($request){
             track_object($request->tracking_code, $request->id);
-            sleep(5000);
         });
-        \Log::info('Atualização de pedidos via Correios  em: ' . Carbon::now());
+        Log::info('Atualização de pedidos via Correios  em: ' . Carbon::now());
     }
 }

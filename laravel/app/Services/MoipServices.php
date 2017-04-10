@@ -10,7 +10,6 @@ namespace App\Services;
 
 use App\Model\Request;
 use App\Package\Moip\lib\MoIPClient;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class MoipServices {
@@ -42,16 +41,15 @@ class MoipServices {
                 if($status == 'Autorizado'){
                     $this->order->fill(['request_status_id' => 3])->save();
                     $this->order->products->each(function($product){
-                        if($product->quantity < $this->order->products->pivot->quantity){
-                            $data = ['email' => $this->order->store->salesman->user->email, 'store' => $this->order->store,'request' => $this->order];
+                        if($product->pivot->quantity > $product->quantity){
+                            $data = ['email' => $this->order->store->salesman->user->email, 'store' => $this->order->store,'order' => $this->order, 'product' => $product];
                             send_mail('emails.merchants_lackofproduct', $data, 'Falta de produto em pedido', $this->order->store->name);
                         }else{
-                            $product->decrement('quantity', $this->order->products->pivot->quantity);
+                            $product->decrement('quantity', $product->pivot->quantity);
                         }
-
                     });
-                    $data = ['email' => $this->order->user->email, 'user' => Auth::user(), 'store' => $this->order->store, 'products' => $this->order->products, 'request' => $this->order];
-                    send_mail('emails.customer_confirmation', $data, 'Pagamento efetuado com sucesso ' . Auth::user()->name);
+                    $data = ['email' => $this->order->user->email, 'user' => $this->order->user, 'store' => $this->order->store, 'products' => $this->order->products, 'request' => $this->order];
+                    send_mail('emails.customer_confirmation', $data, 'Pagamento efetuado com sucesso ' . $this->order->user->name);
                     $data['email'] = $this->order->store->salesman->user->email;
                     send_mail('emails.merchants_confirmation', $data, 'Pagamento recebido ' . $this->order->store->name);
                 }elseif($status == 'Cancelado'){
@@ -59,7 +57,6 @@ class MoipServices {
                 }else if($status == 'Iniciado' || $status = 'EmAnalise' || $status = 'boletoEmpresso'){
                     $this->order->fill(['request_status_id' => 1])->save();
                 }
-
             };
         }
     }
@@ -68,7 +65,6 @@ class MoipServices {
         $order = Request::where('request_status_id', '<', 3)->get();
         $order->each(function($order){
             $this->checkStatusInstruction($order->id);
-            sleep(5000);
         });
     }
 

@@ -8,6 +8,8 @@
 
 namespace App\Repositories\Accont;
 
+use App\Model\Admin;
+use App\Model\User;
 use App\Repositories\BaseRepository;
 use App\Model\Message;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -68,28 +70,31 @@ class MessagesRepository extends BaseRepository {
 
     }
 
-    public function filter_messages($message){
+    public function filter_messages($content, $message = null){
         $rules['phone'] = "/([(]?[0-9]{2}[)]?[\s]*?)?([0-9]{4,5}[\s-._]*?[0-9]{4})/";
         $rules['email'] = "/[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)/";
         $rules['url'] = "/((http|https|ftp|ftps)?:\/\/)?([a-z0-9\-]+\.)?[a-z0-9\-]+\.[a-z0-9]{2,4}(\.[a-z0-9]{2,4})?(\/.*)?/";
-        $msg_notify = '';
+        $msg_notify = array();
+        $i = 0;
         foreach($rules as $key => $value){
-            if(preg_match($value, $message, $matches, PREG_OFFSET_CAPTURE)){
-                if($key === 'phone'){
-                    $msg_notify .= 'Tentativa de inserção de contato avaliado. ' . mb_strtoupper($key) . ': <b>' . $matches[0][0] . '</b><br>';
-                }elseif($key === 'email'){
-                    $msg_notify .= 'Tentativa de inserção de contato avaliado. ' . mb_strtoupper($key) . ': <b>' . $matches[0][0] . '</b><br>';
-                }elseif($key === 'url'){
-                    $host = ServerRequest::fromGlobals()->getUri()->getHost();
-                    if(!preg_match("/" . $host . "/", $message)){
-                        $msg_notify .= 'Tentativa de inserção de contato avaliado. ' . mb_strtoupper($key) . ': <b>' . $matches[0][0] . '</b><br>';
-                    }
+            $i ++;
+            if(preg_match($value, $content, $matches, PREG_OFFSET_CAPTURE)){
+                $host = ServerRequest::fromGlobals()->getUri()->getHost();
+                $msg_notify[$i] = mb_strtoupper($key) . ': ' . $matches[0][0];
+                if($key == 'url' && preg_match("/" . $host . "/", $content)){
+                    unset($msg_notify[$i]);
+                    $i--;
                 }
             }
         }
-        if($msg_notify !== ''){
-            dd($msg_notify);
-            // Executar ação
+        if($msg_notify){
+            $reason = '';
+            foreach($msg_notify as $key => $value){
+                $reason .= $value . ' | ';
+            }
+            $message->notify()->create([
+                'reason' => $reason
+            ]);
         }
     }
 }

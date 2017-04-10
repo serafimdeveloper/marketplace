@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Services\MoipServices;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class MoipRequest extends Command {
     /**
@@ -37,6 +38,6 @@ class MoipRequest extends Command {
      */
     public function handle(){
         $this->moipService->checkStatusInstructions();
-        \Log::info('Atualização do MOIP  em: '. Carbon::now());
+        Log::info('Atualização do MOIP  em: '. Carbon::now());
     }
 }
