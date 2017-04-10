@@ -32,4 +32,8 @@ class Message extends Model
     public function message(){
         return $this->hasMany($this);
     }
+
+    public function notify(){
+        return $this->hasOne(Notification::class);
+    }
 }

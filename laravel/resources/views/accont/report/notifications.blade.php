@@ -17,27 +17,21 @@
             </thead>
 
             <tbody>
-            @for ($i = 1; $i < 3; $i++)
-                <tr class="t-unread">
+            @foreach($ntfs as $ntf)
+                <tr id="ntf{{ $ntf->id }}"{!! ( !$ntf->read ? ' class="t-unread"' : '') !!}>
                     <td>Alerta</td>
-                    <td><a href="javascript:void(0)" class="jq-notification">Usuário Luís Fernando enviou por mensagem, informações....</a></td>
-                    <td>hoje ás 10:25:14</td>
+                    <td><a href="javascript:void(0)" class="jq-notification" data-id="{{ $ntf->id }}">Usuário {{ $ntf->message->sender->name }} enviou por mensagem, informações....</a></td>
+                    <td>{{$ntf->created_at->diffForHumans()}}</td>
                 </tr>
-            @endfor
-            <tr>
-                <td>Erro</td>
-                <td><a href="javascript:void(0)" class="jq-notification">Resumo da mensagem de erro</a></td>
-                <td>hoje ás 10:25:14</td>
-            </tr>
-            <tr>
-                <td>Alerta</td>
-                <td><a href="javascript:void(0)" class="jq-notification">Usuário Luís Fernando enviou por mensagem, informações....</a></td>
-                <td>hoje ás 10:25:14</td>
-            </tr>
+            @endforeach
             </tbody>
         </table>
-        <a href="javascript:void(0)" id="pop-remove-msg" class="btn btn-small btn-popmartin">remover mensagens selecionada</a>
+
+        {{--<a href="javascript:void(0)" id="pop-remove-msg" class="btn btn-small btn-popmartin">remover mensagens selecionada</a>--}}
+        <div class="fl-right">{!! $ntfs->links() !!}</div>
+        <div class="clear-both"></div>
     </section>
     <div class="clear-both"></div>
-    @include('layouts.parties.alert_notification')
+    <div id="notificationParties"></div>
+    {{--@include('layouts.parties.alert_notification')--}}
 @endsection

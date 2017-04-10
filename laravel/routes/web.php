@@ -93,12 +93,13 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('/report/sales', 'Admin\AdminController@list_sales')->name('report.sales');
     Route::get('/report/sales/{id}', 'Admin\AdminController@get_sale_id')->name('report.sale.info');
 
+    Route::get('/report/notifications', 'Admin\AdminController@list_notify')->name('report.notifications');
+    Route::get('/report/notification/{id}', 'Admin\AdminController@list_notify_id')->name('report.notification');
+    Route::post('/report/notification/edit', 'Admin\AdminController@list_notify_edit')->name('report.notification_edit');
+    Route::post('/report/notification/remove_message', 'Admin\AdminController@list_notify_removemsg')->name('report.notification_edit');
+
     Route::get('/banners', 'Admin\AdminController@list_banners')->name('banners');
     Route::get('/banners/{id}', 'Admin\AdminController@get_banner_id')->name('banner.info');
-
-    Route::get('/report/notifications', function(){
-        return view('accont.report.notifications');
-    })->name('report.notifications');
 
     Route::get('/pages', function(){
         return view('accont.pages');

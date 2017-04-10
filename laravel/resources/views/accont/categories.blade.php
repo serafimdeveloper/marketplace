@@ -4,9 +4,10 @@
     @include('accont.inc.nav')
     <section class="panel-content">
         <header class="pop-title">
-            <h1>Categorias cadastrada no sistema
+            <h1>Categorias cadastrada no sistema</h1>
+            <div class="pop-tile-menu">
                 <a href="javascript:void(0)" class="btn btn-smallextreme btn-popmartin fl-right jq-new-category"> cadastrar nova categoria</a>
-            </h1>
+            </div>
         </header>
         <table class="table table-action">
             <thead>

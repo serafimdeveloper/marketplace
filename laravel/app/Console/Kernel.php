@@ -22,14 +22,13 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule(Schedule $schedule){
-        $schedule->command('request:correios')->everyThirtyMinutes();
-        $schedule->command('request:moip')->everyFiveMinutes();
+        $schedule->command('request:correios')->everyMinute();
+        $schedule->command('request:moip')->everyMinute();
 
     }
 
     /**
      * Register the Closure based commands for the application.
-     *
      * @return void
      */
     protected function commands(){

@@ -413,7 +413,53 @@ $(function(){
 
     /** Modal de informações das notificações */
     $(document).on('click', '.jq-notification', function () {
-        $("#jq-notification").slideDown();
+        var e = $(this);
+        $.get('/accont/report/notification/' + e.data('id'), function(response){
+            $("#notificationParties").html(response);
+            e.parents('tr').removeClass('t-unread');
+            var notify = $('.notify-admin');
+            var v = (parseInt(notify.text()) > 0 ? parseInt(notify.text()) - 1 : 0);
+            notify.text(v);
+        });
+        $("#notificationParties").find("#jq-notification").slideDown();
+    });
+
+    $(document).on('submit', '.form-notfy', function(){
+        var e = $(this);
+        var s = e.serialize();
+        console.log(s);
+        $.ajax({
+            url: '/accont/report/notification/edit',
+            type: 'POST',
+            data: s,
+            dataType: 'json',
+            beforeSend: function () {},
+            error: function (response) {
+                alertify.error(response.responseJSON.msg);
+                e.find("button[type=submit]").text('editar mensagem').css({background: '#B40004'});
+            },
+            success: function (response) {
+                alertify.success(response.msg);
+                e.find("button[type=submit]").text('editar mensagem').css({background: '#B40004'});
+            }
+        });
+        return false;
+    });
+
+    $(document).on('click', '.adm-remove-message', function(){
+        var e = $(this);
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover a mensagem deste usuário?',
+            function () {
+                var data = {'_token': e.data('token'), 'id': e.data('id')};
+                $.post('/accont/report/notification/remove_message', data, function(){
+                    $("#jq-info-product").slideUp();
+                    $("#notificationParties").html('');
+                    $("#ntf" + data.id).slideUp();
+                });
+            }, function () {
+                return true;
+            });
+        return false;
     });
 
     /** Modal de informações de produtos */

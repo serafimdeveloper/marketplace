@@ -120,6 +120,7 @@ class MessagesController extends AbstractController {
             $dados = ['sender_id' => $sender->id, 'sender_type' => get_class($sender), 'recipient_id' => $recipient->id, 'recipient_type' => get_class($recipient), 'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id, 'product_id' => $model->product_id, 'message_id' => $model->message_id, 'title' => $model->title, 'content' => $request->message];
             $this->repo->filter_messages($request->message);
             if($message = $this->repo->store($dados)){
+                $this->repo->filter_messages($request->message, $message);
                 if(($model->sender instanceof Store && $box === 'received') || ($model->recipient instanceof Store && $box === 'send')){
                     $data = ['email' => $recipient->salesman->user->email, 'name' => $recipient->name, 'id' => $message->id, 'message_type' => 'received'];
                     send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$sender->name);

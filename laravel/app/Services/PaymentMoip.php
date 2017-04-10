@@ -33,7 +33,7 @@ class PaymentMoip
         $this->moip->addMessage('Produtos sendo comprados: ' . $this->getStringProducts());
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('api/notification/moip/nasp'));
-        $this->moip->addComission('Comissão de venda Pop Matin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT')), true, true);
+        $this->moip->addComission('Comissão de venda Pop Matin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT')) - 6.95, true, false);
         $this->moip->setReceiver($this->store->salesman->moip);
         $this->moip->addParcel('1', '12', null, true);
         $this->moip->validate('Identification');
