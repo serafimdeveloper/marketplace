@@ -112,7 +112,9 @@ class CheckoutController extends Controller {
 
     public function updateOrder(Request $request){
         $order = \App\Model\Request::where('key', '=', $request->order)->first();
-
+        if(isset($request->response['url'])){
+            $gerarBoleto = file_get_contents($request->response['url']);
+        }
         /** @var  $order_moip - Moip verificação de informações para envio de emails*/
         $order_moip = new MoIPClient;
         $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/ConsultarInstrucao/' . $order->moip->token);
@@ -122,7 +124,6 @@ class CheckoutController extends Controller {
         $moip['taxamoip'] = (float) $infoMoip->Autorizacao->Pagamento->TaxaMoIP;
         $moip['comission'] = ( (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor - $moip['taxamoip']);
 
-//        dd($infoMoip);
 
         $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
         $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
@@ -148,9 +149,6 @@ class CheckoutController extends Controller {
                 $order->fill(['request_status_id' => 1, 'payment_reference' => 'cartão'])->save();
             }
             $order->moip->fill(['codeMoip' => $request->response['CodigoMoIP'], 'codeReturn' => $request->response['CodigoRetorno']])->save();
-        }
-        if(isset($request->response['url'])){
-            $gerarBoleto = file_get_contents($request->response['url']);
         }
     }
 
