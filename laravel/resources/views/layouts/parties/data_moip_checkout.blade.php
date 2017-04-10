@@ -183,6 +183,7 @@
                 "_token": token
             }, type, trg, msg, url;
             $.post('/carrinho/checkout/updateorder', data, function () {
+                loaderAjaxScreen(true, 'só mais um instante...');
                 if (response.Status == undefined) {
                     type = 'boleto';
                     trg = 'accept';
@@ -210,10 +211,13 @@
                     }
                 }
                 location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
+            }).error(function(response){
+                loaderAjaxScreen(false, '');
             });
         };
 
         var moipError = function (response) {
+            loaderAjaxScreen(false, '');
             alertify.error(response.Mensagem);
             $("#formCredences").find('button').html('Confirmar pagamento').css({background: '#B40004'});
         };
@@ -255,7 +259,7 @@
             MoipUtil.calcularParcela(settings);
         }
         returnCalculatePlots = function (data) {
-            console.log(data);
+//            console.log(data);
             var options = '';
             $.each(data.parcelas, function (key, value) {
                 options += '<option value="' + value.quantidade + '">' + value.quantidade + 'x R$' + value.valor + ' =  R$' + value.valor_total + '</span></option>';

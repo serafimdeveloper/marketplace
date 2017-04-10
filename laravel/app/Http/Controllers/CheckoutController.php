@@ -120,12 +120,12 @@ class CheckoutController extends Controller {
         $infoMoip = $xml->RespostaConsultar;
         $moip['valueTodalRementente'] = (float) ($infoMoip->Autorizacao->Pagamento->ValorLiquido - $infoMoip->Autorizacao->Pagamento->Comissao->Valor);
         $moip['taxamoip'] = (float) $infoMoip->Autorizacao->Pagamento->TaxaMoIP;
-        $moip['comission'] = ( (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor - $moip['comission']);
+        $moip['comission'] = ( (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor - $moip['taxamoip']);
 
 //        dd($infoMoip);
 
         $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
-        $this->send_email('client', 'requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
+        $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
 
         if(!isset($request->response['Status'])){
             $order->fill(['request_status_id' => 1, 'payment_reference' => 'boleto'])->save();
