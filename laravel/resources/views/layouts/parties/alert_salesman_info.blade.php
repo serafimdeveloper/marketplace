@@ -2,7 +2,7 @@
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
-            <h2 class="alertbox-title c-pop fontw-500">Nome completo do usuário</h2>
+            <h2 class="alertbox-title c-pop fontw-500">Dados do Vendendor Completo</h2>
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
                     <a class="btn btn-small btn-popmartin fl-right"><i class="fa fa-trash"></i> remover usuário</a>
@@ -72,11 +72,10 @@
                                     <div class="pop-info-user">
                                         <p>Endereço</p>
                                         @if($address = $result->user->addresses->where('master',1)->first())
-                                        {{$address}}
-                                        <span>{{$address->public_place.' | '.$address->number
-                                            .isset($address->complements) ? ' ('.$address->complements.') |' : '| '
-                                            .$address->neighborhood.' | '.$address->city.' | '.$address->state.' | '
-                                            .$address->zip_code}}</span>
+                                            <span>{{ $address->public_place.' | '.$address->number }}
+                                                {{ ($address->complements) ? ' ('.$address->complements.') |' : '| ' }}
+                                                {{ $address->neighborhood.' | '.$address->city.' | '.$address->state.' | ' }}
+                                                {{ $address->zip_code }}</span>
                                         @endif
                                     </div>
                                 </div>
@@ -85,20 +84,20 @@
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Moip</p>
-                                        <span>login</span>
+                                        <span>{{$result->moip}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Documento com foto</p>
-                                        <span><a href="" class="btn btn-smallextreme btn-popmartin"
+                                        <span><a href="{{url('imagem/vendedor/'.$result->photo_document)}}" class="btn btn-smallextreme btn-popmartin"
                                                  target="_blank">ver documento</a></span>
                                     </div>
                                 </div>
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Comprovante de residência</p>
-                                        <span><a href="" class="btn btn-smallextreme btn-popmartin"
+                                        <span><a href="{{url('imagem/vendedor/'.$result->proof_adress)}}" class="btn btn-smallextreme btn-popmartin"
                                                  target="_blank">ver documento</a></span>
                                     </div>
                                 </div>
@@ -113,7 +112,6 @@
                                                         {!! Form::checkbox('status','0') !!}
                                                     </label>
                                                 </div>
-                                                <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                                             </div>
                                         </form>
                                     </div>
@@ -124,7 +122,7 @@
                                         <form class="form-modern pop-form pst-relative pop-tracking" action=""
                                               method="POST">
                                             <label>
-                                                {!! Form::text('commission', '12.00', ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
+                                                {!! Form::text('commission', $result->comission, ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
                                             </label>
                                             <button type="submit" class="btn btn-small btn-popmartin">atualizar</button>
                                         </form>
@@ -134,7 +132,7 @@
                             <div class="clear-both"></div>
                         </div>
                     </div>
-                    @if($type === 'vendedor')
+                    @if($type === 'vendedor' && $result->store)
                     <div class="accordion-box">
                         <div class="accordion-header"><span class="c-pop fontw-500">Dados da loja:</span> <span
                                 class="fa fa-chevron-right"></span></div>
@@ -143,41 +141,45 @@
                             <div class="colbox">
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
-                                        <p>Loja <a href="/loja" class="btn btn-smallextreme btn-popmartin fl-right"
+                                        <p>Loja <a href="{{route('pages.store',$result->store->slug)}}" class="btn btn-smallextreme btn-popmartin fl-right"
                                                    target="_blank">ver
                                                 loja</a></p>
-                                        <span>Nome da Loja</span>
+                                        <span>{{$result->store->name}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>Nome fantasia</p>
-                                        <span>nome</span>
+                                        <span>{{($result->store->fantasy_name) ? $result->store->fantasy_name : 'não informado'}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>CNPJ</p>
-                                        <span>não informado</span>
+                                        <span>{{($result->store->cnpj) ? $result->store->cnpj : 'não informado'}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-full">
                                     <div class="pop-info-user">
                                         <p>Razão Social</p>
-                                        <span>nome</span>
+                                        <span>{{($result->store->social_name) ? $result->store->social_name : 'não informado'}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-2">
                                     <div class="pop-info-user">
                                         <p>Contato</p>
-                                        <span>telefone | celular</span>
+                                        <span>{{$result->phone}} | {{$result->cellphone}} | {{$result->whatsapp}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-full">
                                     <div class="pop-info-user">
                                         <p>Endereço</p>
-                                        <span>Rua Miguel Gustavo | 109 | Volta Redonda | RJ | Brasil | 27281-490</span>
-                                    </div>
+                                        @if($address = $result->store->adress)
+                                            <span>{{ $address->public_place.' | '.$address->number }}
+                                                {{ ($address->complements) ? ' ('.$address->complements.') |' : '| ' }}
+                                                {{ $address->neighborhood.' | '.$address->city.' | '.$address->state.' | ' }}
+                                                {{ $address->zip_code }}</span>
+                                        @endif                                    </div>
                                 </div>
                             </div>
                             <div class="clear-both"></div>

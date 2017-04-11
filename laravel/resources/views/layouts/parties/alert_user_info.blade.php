@@ -2,7 +2,7 @@
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
-            <h2 class="alertbox-title c-pop fontw-500">Nome completo do usuário</h2>
+            <h2 class="alertbox-title c-pop fontw-500">Dados do Usuário completo</h2>
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
                     <a class="btn btn-small btn-popmartin fl-right"><i class="fa fa-trash"></i> remover usuário</a>
@@ -65,18 +65,17 @@
                                     <div class="pop-info-user">
                                         <p>Contato</p>
                                         <span class="dp-inblock">{{$result->email}} | </span>
-                                        <span class="dp-inblock">{{$result->phone}} | </span>
+                                        <span class="dp-inblock">{{$result->phone}}  </span>
                                     </div>
                                 </div>
                                 <div class="colbox-full">
                                     <div class="pop-info-user">
                                         <p>Endereço</p>
                                         @if($address = $result->addresses->where('master',1)->first())
-                                            {{$address}}
-                                            <span>{{$address->public_place.' | '.$address->number
-                                            .isset($address->complements) ? ' ('.$address->complements.') |' : '| '
-                                            .$address->neighborhood.' | '.$address->city.' | '.$address->state.' | '
-                                            .$address->zip_code}}</span>
+                                            <span>{{ $address->public_place.' | '.$address->number }}
+                                            {{ ($address->complements) ? ' ('.$address->complements.') |' : '| ' }}
+                                            {{ $address->neighborhood.' | '.$address->city.' | '.$address->state.' | ' }}
+                                            {{ $address->zip_code }}</span>
                                         @endif
                                     </div>
                                 </div>
@@ -89,24 +88,11 @@
                                             <div class="checkbox-container">
                                                 <div class="checkboxies">
                                                     <label class="checkbox" style="border: none;padding: 0;">
-                                                        <span><span class="fa fa-square-o"></span> ativo</span>
-                                                        {!! Form::checkbox('status','0') !!}
+                                                        <span><i class="fa fa-square-o"></i> ativo</span>
+                                                        {!! Form::checkbox('status', isset($result->active) ? 1 : 0) !!}
                                                     </label>
                                                 </div>
-                                                <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="colbox-4">
-                                    <div class="pop-info-user">
-                                        <p>Comissão (%)</p>
-                                        <form class="form-modern pop-form pst-relative pop-tracking" action=""
-                                              method="POST">
-                                            <label>
-                                                {!! Form::text('commission', '12.00', ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
-                                            </label>
-                                            <button type="submit" class="btn btn-small btn-popmartin">atualizar</button>
                                         </form>
                                     </div>
                                 </div>

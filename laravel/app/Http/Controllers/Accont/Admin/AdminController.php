@@ -28,12 +28,14 @@ class AdminController extends Controller
     protected $columns = ['*'];
     protected $ordy = [];
     protected $title = '';
-    protected $limit = 3;
+    protected $placeholder = '';
+    protected $limit = 15;
 
     public function list_users(Request $request, UserRepository $repo){
         $this->with  = ['addresses','requests'];
         $this->ordy  = ['name'=>'ASC'];
         $this->title = 'Listas de Usuários';
+        $this->placeholder = 'Pesquisar por nome ou email';
         $data = $this->search($request, 'users', $repo);
         if($request->ajax()){
             return view('accont.report.presearch', $data);
@@ -53,6 +55,7 @@ class AdminController extends Controller
     public function list_sallesmans(Request $request, SalesmanRepository $repo){
         $this->ordy = ['name' => 'ASC'];
         $this->title = 'Vendedores cadastrado na loja';
+        $this->placeholder = 'Pesquisar por nome ou email';
         $data = $this->search($request, 'sallesmans', $repo);
         if($request->ajax()){
             return view('accont.report.presearch', $data);
@@ -73,6 +76,7 @@ class AdminController extends Controller
         $this->ordy = ['name' => 'ASC'];
         $this->with = ['store','galeries'];
         $this->title = 'Lista de Todos os Produtos';
+        $this->placeholder = 'Pesquisar pelo nome do produto';
         $data = $this->search($request, 'products', $repo);
         if($request->ajax()){
             return view('accont.report.presearch', $data);
@@ -91,6 +95,7 @@ class AdminController extends Controller
         $this->ordy = ['created_at' => 'DES'];
         $this->title = 'Vendas / Comissões';
         $this->with = ['store','user','adress','freight','products','requeststatus'];
+        $this->placeholder = 'Pesquisar pelo nome do cliente ou código do pedido';
         $data = $this->search($request, 'sales', $repo);
         if($request->ajax()){
             return view('accont.report.presearch', $data);
@@ -98,12 +103,12 @@ class AdminController extends Controller
         return view('accont.report.search', $data);
     }
 
-    public function get_sale_id(SalesmanRepository $repo, $id){
-        $this->with = ['store','user','adress','freight','products','requeststatus'];
+    public function get_sale_id(RequestsRepository $repo, $id){
+        $this->with = ['user','store','adress','products','payment','requeststatus','freight'];
         if($result = $this->getByRepoId($repo, $id)){
             return view('layouts.parties.alert_sales_info', compact('result'));
         }
-        return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
+        return response()->json(['msg' => 'Erro ao encontrar a venda'],404);
     }
 
     public function list_banners(Request $request, AdRepository $repo){
@@ -195,7 +200,7 @@ class AdminController extends Controller
     private function search($request, $type, $repo){
         $page = Input::get('page') ? Input::get('page') : 1 ;
         $result = $repo->search($request->name, $this->columns, $this->with, $this->ordy, $this->limit, $page);
-        return ['type' => $type, 'result' => $result, 'title' => $this->title];
+        return ['type' => $type, 'result' => $result, 'title' => $this->title, 'placeholder' => $this->placeholder];
 
     }
 

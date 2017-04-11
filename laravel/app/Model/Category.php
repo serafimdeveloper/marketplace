@@ -31,4 +31,8 @@ class Category extends Model
     public function subcategories(){
         return $this->hasMany($this);
     }
+
+    public function category(){
+        return $this->belongsTo($this,'category_id');
+    }
 }

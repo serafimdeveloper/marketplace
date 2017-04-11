@@ -107,7 +107,7 @@
                             <div class="colbox">
                                 @forelse( $result->galeries as $galery)
                                 <div class="colbox-5">
-                                    <img src="{{url('imagem/produtos'.$galery->image.'?w=100&h=75&fit=crop')}}">
+                                    <img src="{{url('imagem/produto/'.$galery->image.'?w=130&h=130&fit=crop')}}">
                                 </div>
                                 @empty
                                     <div class="colbox-5">

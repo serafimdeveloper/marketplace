@@ -23,7 +23,7 @@
              @forelse($categories as $category)
                 <tr id="category_01">
                     <td>{{$category->name}}</td>
-                    <td>{{isset($category->category) ? $category->category->name : ''}}</td>
+                    <td>{{($category->category_id) ? $category->category->name : ''}}</td>
                     <td>{{$category->slug}}</td>
                     <td class="txt-center">
                         <div class="form-modern">

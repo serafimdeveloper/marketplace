@@ -19,9 +19,9 @@
                     <tr>
                         <td>#{{$product->id}}</td>
                         <td>{{$product->name}}</td>
-                        <td>{{real($product->requests->pivot->unit_price)}}</td>
-                        <td>{{$product->requests->pivot->quantity}}</td>
-                        <td>{{real($product->requests->pivot->amount)}}</td>
+                        <td>{{real($product->pivot->unit_price)}}</td>
+                        <td>{{$product->pivot->quantity}}</td>
+                        <td>{{real($product->pivot->amount)}}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -70,7 +70,7 @@
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Comissão</p>
-                            <span>{{$result->commission_amount}}</span>
+                            <span>{{($result->commission_amount) ? real($result->commission_amout) : '-'}}</span>
                         </div>
                     </div>
                 </div>
@@ -81,10 +81,10 @@
                     <div class="colbox-full">
                         <div class="pop-info-user">
                             <p>Endereço de entrega</p>
-                            <span>{{$result->adress->public_place.' | '.$result->adress->number
-                            .isset($result->adress->complements) ? ' ('.$request->adress->complements.') |' : '| '
-                            .$request->adress->neighborhood.' | '.$request->adress->city.' | '.$request->adress->state.' | '
-                            .$request->adress->zip_code}}</span>
+                            <span>{{$result->adress->public_place.' | '.$result->adress->number }}
+                            {{ isset($result->adress->complements) ? ' ('.$result->adress->complements.') |' : '| ' }}
+                            {{ $result->adress->neighborhood.' | '.$result->adress->city.' | '.$result->adress->state.' | ' }}
+                            {{ $result->adress->zip_code }}</span>
                         </div>
                     </div>
                 </div>
@@ -98,13 +98,13 @@
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Data de envio</p>
-                            <span>{{$result->send_date->format('d/m/Y H:i:s')}}</span>
+                            <span>{{($result->send_date) ? $result->send_date->format('d/m/Y H:i:s') : 'ainda não enviado'}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Código de Rastreamento</p>
-                            <span>{{$result->tracking_code}}}</span>
+                            <span>{{($result->tracking_code) ? $result->tracking_code : 'não foi enviado'}}</span>
                         </div>
                     </div>
                 </div>

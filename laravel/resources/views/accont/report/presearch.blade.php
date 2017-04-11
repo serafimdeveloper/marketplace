@@ -121,7 +121,7 @@
                 <td>{{$sales->user->name.' '.$sales->user->last_name}}</td>
                 <td>{{$sales->store->name}}</td>
                 <td>{{real($sales->amount)}}</td>
-                <td>{{real($sales->amount * ($sales->store->salesman->comission/100))}}</td>
+                <td>{{($sales->commission_amount) ? real($sales->commission_amount) : '-'}}</td>
                 <td class="txt-center">
                     <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="sales" data-id="{{$sales->id}}">detalhes</a>
                 </td>
