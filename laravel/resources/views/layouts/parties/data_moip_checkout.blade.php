@@ -1,7 +1,4 @@
-<div id="MoipWidget"
-     data-token="{{ $tokenmoip }}"
-     callback-method-success="moipSuccess"
-     callback-method-error="moipError"></div>
+<div id="MoipWidget" data-token="{{ $tokenmoip }}" callback-method-success="moipSuccess" callback-method-error="moipError"></div>
 <iframe name="billetMoip" class="dp-none" id="billetMoip" width="600" height="400" src=""></iframe>
 <form id="formCredences" class="form-modern pop-form dp-none" style="margin-top: -30px;">
     <label>
@@ -111,19 +108,9 @@
             <button type="submit" class="btn btn-popmartin">Confirmar pagamento</button>
         </div>
     </div>
-</form>
-<div id="payBoletoMessage" class="txt-center dp-none padding20 fontem-14" style="margin-top: -30px;">
-    Essa compra está sendo efetuada somente nesta loja. Caso haja produtos de outra loja em seu carrinho, não esqueça de
-    finaliza-las também<br>
-    {{--<a href="/carrinho" class="btn btn-small btn-popmartin-trans">carrinho de compras</a>--}}
-    <a class="btn btn-small btn-popmartin" href="{{env('MOIP_URL')}}/Instrucao.do?token={{ $tokenmoip }}" target="_blank">Imprimir boleto</a>
-</div>
+</form> <!-- FIM FORMULÀRIO PARA CARTÂO DE CRÉDITO -->
 @section('scripts_int')
-    <script
-            type='text/javascript'
-            src='{{env('MOIP_URL')}}/transparente/MoipWidget-v2.js'
-            charset='ISO-8859-1'>
-    </script>
+    <script type='text/javascript' src='{{env('MOIP_URL')}}/transparente/MoipWidget-v2.js' charset='ISO-8859-1'></script>
     <script type="text/javascript">
         var InfoCards = [];
         $(document).on("submit", "#formCredences", function () {
@@ -173,49 +160,6 @@
             };
         });
 
-        var moipSuccess = function (response) {
-            loaderAjaxScreen(true, 'finalizando...');
-            var token = "{!! csrf_token() !!}";
-            var order = "{{ $order_key }}";
-            var data = {
-                "response": response,
-                "order": order,
-                "_token": token
-            }, type, trg, msg, url;
-            $.post('/carrinho/checkout/updateorder', data, function () {
-                loaderAjaxScreen(true, 'só mais um instante...');
-                if (response.Status == undefined) {
-                    type = 'boleto';
-                    trg = 'accept';
-                    msg = 'Compra iniciada. Estamos aguardando o pagamento do boleto';
-                    url = response.url;
-                }else{
-                    if (response.Status == 'Autorizado') {
-                        type = 'credcard';
-                        trg = 'accept';
-                        msg = 'Compra efetuada com sucesso. Agradecemos sua preferência';
-                    } else if (response.Status == 'EmAnalise') {
-                        type = 'credcard';
-                        trg = 'notice';
-                        msg = 'Compra em análise! Aguardando resposta de pagamento da instituição do cartão';
-                        url = '{{ route('accont.request_info', ['id' => $order->id]) }}';
-                    } else if (response.Status == 'Iniciado') {
-                        type = 'credcard';
-                        trg = 'accept';
-                        msg = 'Compra iniciada! Aguardando conclusão de pagamento da instituição do cartão';
-                        url = '{{ route('accont.request_info', ['id' => $order->id]) }}';
-                    } else {
-                        type = 'credcard';
-                        trg = 'error';
-                        msg = 'Compra cancelada!';
-                    }
-                }
-                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
-            }).error(function(response){
-                loaderAjaxScreen(false, '');
-            });
-        };
-
         var moipError = function (response) {
             loaderAjaxScreen(false, '');
             alertify.error(response.Mensagem);
@@ -250,16 +194,14 @@
         }
 
         calculatePlots = function () {
+            $('#plots').html('<option>aguarde...</option>');
             var settings = {
-                cofre: "",
                 instituicao: "Visa",
                 callback: "returnCalculatePlots"
             };
-
             MoipUtil.calcularParcela(settings);
         }
         returnCalculatePlots = function (data) {
-//            console.log(data);
             var options = '';
             $.each(data.parcelas, function (key, value) {
                 options += '<option value="' + value.quantidade + '">' + value.quantidade + 'x R$' + value.valor + ' =  R$' + value.valor_total + '</span></option>';
@@ -277,6 +219,49 @@
         $("#formCredences").find('.checkboxies').find('input').on('click', function () {
             $('.credcard-info').slideDown();
         });
+
+        var moipSuccess = function (response) {
+            loaderAjaxScreen(true, 'finalizando...');
+            var token = "{!! csrf_token() !!}";
+            var order = "{{ $order_key }}";
+            var data = {
+                "response": response,
+                "order": order,
+                "_token": token
+            }, type, trg, msg, url;
+            $.post('/carrinho/checkout/updateorder', data, function () {
+                loaderAjaxScreen(true, 'redirecionando...');
+                if (response.Status == undefined) {
+                    type = 'boleto';
+                    trg = 'accept';
+                    msg = 'Compra iniciada. Estamos aguardando o pagamento do boleto';
+                    url = response.url;
+                }else{
+                    if (response.Status == 'Autorizado') {
+                        type = 'credcard';
+                        trg = 'accept';
+                        msg = 'Compra efetuada com sucesso. Agradecemos sua preferência';
+                    } else if (response.Status == 'EmAnalise') {
+                        type = 'credcard';
+                        trg = 'notice';
+                        msg = 'Compra em análise! Aguardando resposta de pagamento da instituição do cartão';
+                        url = '{{ route('accont.request_info', ['id' => $order->id]) }}';
+                    } else if (response.Status == 'Iniciado') {
+                        type = 'credcard';
+                        trg = 'accept';
+                        msg = 'Compra iniciada! Aguardando conclusão de pagamento da instituição do cartão';
+                        url = '{{ route('accont.request_info', ['id' => $order->id]) }}';
+                    } else {
+                        type = 'credcard';
+                        trg = 'error';
+                        msg = 'Compra cancelada!';
+                    }
+                }
+                location.replace('/carrinho?type='+type+'&trg='+trg+'&msg='+msg+'&redirectURL='+url);
+            }).error(function(response){
+                loaderAjaxScreen(false, '');
+            });
+        };
 
         function setMessage(trigger, msg) {
             var fa = trigger == 'accept' ? 'fa-check' : (trigger == 'error' ? 'fa-times' : 'fa-warning');

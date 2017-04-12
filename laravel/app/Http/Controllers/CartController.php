@@ -77,19 +77,19 @@ class CartController extends Controller
     public function add_address(Request $request){
         if($address = $request->address){
             $zip_code = Auth::user()->addresses->find($address)->zip_code;
-        }else {
-            $this->validate($request,['zip_code'=>'required|regex:/^\d{5}-?\d{3}$/']);
+        }else{
+            $this->validate($request, ['zip_code' => 'required|regex:/^\d{5}-?\d{3}$/']);
             $zip_code = $request->zip_code;
             $address = null;
+            if($is_cep = Correios::cep($zip_code)){
+                flash('Cep inválido!', 'error');
+                return redirect()->route('pages.cart');
+             }
         }
-        if(count(Correios::cep($zip_code))){
-            $oldCart = Session::has('cart') ? Session::get('cart') : null;
-            $cart = new Cart($oldCart);
-            $cart->add_address(['id' => $address, 'zip_code' => $zip_code]);
-            $request->session()->put('cart', $cart);
-        }else{
-            flash('Cep inválido!', 'error');
-        }
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->add_address(['id' => $address, 'zip_code' => $zip_code]);
+        $request->session()->put('cart', $cart);
         return redirect()->route('pages.cart');
     }
 

@@ -33,6 +33,7 @@ class CreateRequestsTable extends Migration
             $table->decimal('freight_price',7,2)->nullable();
             $table->decimal('amount',7,2);
             $table->string('commission_amount',7,2)->nullable();
+            $table->string('rate_moip',5,2)->nullable();
             $table->text('note')->nullable();
             $table->boolean('visualized')->default(0);
             $table->boolean('finalized')->default(0);

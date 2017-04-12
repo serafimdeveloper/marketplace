@@ -1,15 +1,5 @@
 <?php
 
-
-
-
-/*******************************************************
- * ROTAS DE TESTES
- ******************************************************/
-Route::get('/integration/moip/test', 'CheckoutController@order')->name('test.integrationmoip');
-Route::get('/progress/log', function(){
-    return view('log');
-})->name('test.integrationmoip');
 /**---------------------------------------------------------------------------------------*/
 
 Auth::routes();
@@ -24,7 +14,6 @@ Route::post('/contact/sendmail', 'ContactController@sendMail')->name('pages.send
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){
-    // Route::get('/payment/callback', 'PaymentMoip@callback')->name('payment_callback');
 
     /** Clientes */
     Route::get('/', 'Clients\HomeController@index')->name('home');
@@ -171,7 +160,7 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
     });
 });
-Route::get('/appmoip/connect', 'Accont\ConnectAppMoipController@show')->name('appmoip_connect');
+//Route::get('/appmoip/connect', 'Accont\ConnectAppMoipController@show')->name('appmoip_connect');
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 
 Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');

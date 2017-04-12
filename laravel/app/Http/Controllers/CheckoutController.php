@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Accont\AdressesStoreRequest;
-use App\Package\Moip\lib\MoIPClient;
 use App\Repositories\Accont\AdressesRepository;
 use App\Repositories\Accont\RequestsRepository;
 use App\Repositories\Accont\StoresRepository;
 use App\Services\CartServices;
-use App\Services\PaymentMoip;
+use App\Services\MoipServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Correios;
 use DB;
@@ -98,7 +96,8 @@ class CheckoutController extends Controller {
             if($moip = $order->moip){
                 $tokenmoip = $moip->token;
             }else{
-                $payment = new PaymentMoip($order);
+                $payment = new MoipServices;
+                $payment->uniqueInstruction($order);
                 $moip = $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
                 $tokenmoip = $moip->token;
             }
@@ -106,6 +105,7 @@ class CheckoutController extends Controller {
 
             return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key', 'deadline'));
         }
+        return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key', 'deadline'));
 
         return redirect()->route('pages.cart');
     }
@@ -115,58 +115,39 @@ class CheckoutController extends Controller {
         if(isset($request->response['url'])){
             $gerarBoleto = file_get_contents($request->response['url']);
         }
-        /** @var  $order_moip - Moip verificação de informações para envio de emails*/
-        $order_moip = new MoIPClient;
-        $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . '/ws/alpha/ConsultarInstrucao/' . $order->moip->token);
-        $xml = simplexml_load_string($consult_result->xml);
-        $infoMoip = $xml->RespostaConsultar;
-        $moip['valueTodalRementente'] = (float) ($infoMoip->Autorizacao->Pagamento->ValorLiquido - $infoMoip->Autorizacao->Pagamento->Comissao->Valor);
-        $moip['taxamoip'] = (float) $infoMoip->Autorizacao->Pagamento->TaxaMoIP;
-        $moip['comission'] = ( (float) $infoMoip->Autorizacao->Pagamento->Comissao->Valor - $moip['taxamoip']);
 
+        /** Atualização de banco de dados */
+        /** @var  $moipClient - Abrir objeto de consulta ao pedido Moip */
+        $moipClient = new MoipServices(true, '/ws/alpha/ConsultarInstrucao/');
+        $moipClient->checkStatusInstruction($order);
+        if($moipClient->getInstruction()->Autorizacao){
+            $moip['valueTodalRementente'] = (float) ($moipClient->getInstruction()->Autorizacao->Pagamento->ValorLiquido - $moipClient->getInstruction()->Autorizacao->Pagamento->Comissao->Valor);
+            $moip['taxamoip'] = (float) $moipClient->getInstruction()->Autorizacao->Pagamento->TaxaMoIP;
+            $moip['comission'] = ( (float) $moipClient->getInstruction()->Autorizacao->Pagamento->Comissao->Valor - $moip['taxamoip']);
 
-        $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
-        $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
+            $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
+            $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
+        }
 
         if(!isset($request->response['Status'])){
-            $order->fill(['request_status_id' => 1, 'payment_reference' => 'boleto'])->save();
             $order->moip->fill(['url' => $request->response['url']])->save();
         }else{
             if($request->response['Status'] == 'Autorizado'){
                 $this->send_email('client', 'emails.customer_confirmation', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
                 $this->send_email('store', 'emails.merchants_confirmation', $data, 'Você recebeu um pedido do cliente ' . Auth::user()->name);
-
-                /** Atualização de banco de dados */
-                $order->fill(['request_status_id' => 3, 'payment_reference' => 'cartão'])->save();
-
-                /** Decrementar a qauntidade de produtos comprado */
+                /** Decrementar a quantidade de produtos comprado */
                 $order->products->each(function($product){
                     $product->decrement('quantity', $product->requests->pivot->quantity);
                 });
-            }elseif($request->response['Status'] == 'Cancelado'){
-                $order->fill(['request_status_id' => 8, 'payment_reference' => 'cartão'])->save();
-            }else{
-                $order->fill(['request_status_id' => 1, 'payment_reference' => 'cartão'])->save();
             }
-            $order->moip->fill(['codeMoip' => $request->response['CodigoMoIP'], 'codeReturn' => $request->response['CodigoRetorno']])->save();
         }
     }
 
-    public function notification(Request $request, RequestsRepository $rp){
-//        $order = $rp->order(['moip', 'user'], $request->id_transacao);
-//        $amount = number_format($order->amount, 2, '', '');
-//        $st = $order->request_status_id;
-//        if(($request->valor == $amount) && ($order->user->email == $request->email_consumidor)){
-//            if($request->status_pagamento == 4){
-//                $st = 3;
-//                $data = ['user' => Auth::user(), 'store' => $order->store, 'products' => $order->products, 'request' => $order];
-//                $this->send_email('client', 'emails.customer.confirmation', $data, 'Pagamento efetuado com sucesso ' . $order->store->name);
-//                $this->send_email('store', 'emails.merchants.confirmation', $data, 'Pagamento recebido ' . Auth::user()->name);
-//            }elseif($request->status_pagamento == 5){
-//                $st = 6;
-//            }
-//        }
-//        $rp->update(['request_status_id' => $st], $order->id);
+    public function moipNasp(Request $request, RequestsRepository $rp){
+        if($order = $rp->order(['moip', 'user'], $request->id_transacao)){
+            $moipClient = new MoipServices(true, '/ws/alpha/ConsultarInstrucao/');
+            $moipClient->checkStatusInstruction($order);
+        }
     }
 
     private function send_email($type, $template, $data, $subject){
