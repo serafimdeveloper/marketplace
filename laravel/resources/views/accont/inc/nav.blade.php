@@ -58,7 +58,7 @@
                         <a href="{{route('accont.report.users')}}"{!! url()->current() ==  route('accont.report.users') ? ' class="current_rout"' :  ''!!}>Usuários</a>
                     </li>
                     <li>
-                        <a href="{{route('accont.report.salesman')}}"{!! url()->current() ==  route('accont.report.salesman') ? ' class="current_rout"' :  ''!!}>vendedores {!! (notification_sales(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_sales(0).'</span>' : '') !!}</a>
+                        <a href="{{route('accont.report.salesman')}}"{!! url()->current() ==  route('accont.report.salesman') ? ' class="current_rout"' :  ''!!}>vendedores {!! (notification_new_sallesman(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_new_sallesman(0).'</span>' : '') !!}</a>
                     </li>
                     <li>
                         <a href="{{route('accont.report.products')}}"{!! url()->current() ==  route('accont.report.products') ? ' class="current_rout"' :  ''!!}>produtos</a>

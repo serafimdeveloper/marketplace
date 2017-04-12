@@ -25,6 +25,7 @@ class CreateTableSallesmans extends Migration
             $table->string('photo_document',50)->nullable();
             $table->string('proof_adress',50)->nullable();
             $table->boolean('active')->default(0);
+            $table->boolean('read')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

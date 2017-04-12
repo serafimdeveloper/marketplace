@@ -119,7 +119,7 @@ class CheckoutController extends Controller {
         /** Atualização de banco de dados */
         /** @var  $moipClient - Abrir objeto de consulta ao pedido Moip */
         $moipClient = new MoipServices(true, '/ws/alpha/ConsultarInstrucao/');
-        $moipClient->checkStatusInstruction($order);
+        $moipClient->checkStatusInstruction($order->id);
         if($moipClient->getInstruction()->Autorizacao){
             $moip['valueTodalRementente'] = (float) ($moipClient->getInstruction()->Autorizacao->Pagamento->ValorLiquido - $moipClient->getInstruction()->Autorizacao->Pagamento->Comissao->Valor);
             $moip['taxamoip'] = (float) $moipClient->getInstruction()->Autorizacao->Pagamento->TaxaMoIP;
@@ -146,7 +146,7 @@ class CheckoutController extends Controller {
     public function moipNasp(Request $request, RequestsRepository $rp){
         if($order = $rp->order(['moip', 'user'], $request->id_transacao)){
             $moipClient = new MoipServices(true, '/ws/alpha/ConsultarInstrucao/');
-            $moipClient->checkStatusInstruction($order);
+            $moipClient->checkStatusInstruction($order->id);
         }
     }
 
