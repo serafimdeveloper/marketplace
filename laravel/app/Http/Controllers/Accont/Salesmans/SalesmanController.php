@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Gate;
 
 class SalesmanController extends AbstractController
 {
-    public function __construct(App $app)
-    {
-        parent::__construct($app);
-    }
-
     public function repo(){
         return SalesmanRepository::class;
     }
@@ -37,6 +32,9 @@ class SalesmanController extends AbstractController
      * Metodo que salva o vendedor, salva os documentos do mesmo e muda o perfil do usuário como vendedor
      */
     public function store(SalesmanStoreRequest $request){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $user =  Auth::user();
         $dados = $request->except('photo_document','proof_adress');
         $dados['user_id'] = $user->id;
@@ -58,7 +56,7 @@ class SalesmanController extends AbstractController
                 $dados['photo_document'] = $this->upload($request->photo_document,'img/vendedor','D1V'.$salesman->id);
                 $dados['proof_adress'] = $this->upload($request->proof_adress,'img/vendedor','D2V'.$salesman->id);
                 $this->repo->update($dados,$salesman->id);
-                $user->fill(['type_user'=>'salesman'])->save();
+                $user->update(['type_user'=>'salesman']);
                 flash('Vendedor salvo com sucesso!', 'accept');
                 return redirect()->route('accont.salesman.info');
             }
@@ -94,6 +92,9 @@ class SalesmanController extends AbstractController
      * Metodo que atualiza as informações do usuário
      */
     public function update(SalesmanUpdateRequest $request){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $user = Auth::user()->salesman;
         $dados = $request->all();
         if($salesman = $this->repo->update($dados,$user->id)){
@@ -111,6 +112,9 @@ class SalesmanController extends AbstractController
      * Metodo que muda o status do vendedor
      */
     public function toogle_user(Request $request){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $user = Auth::user();
         if(Auth::attempt(['email' => $user->email, 'password' => $request->get('password')])){
             if($user->salesman->active){
@@ -125,6 +129,9 @@ class SalesmanController extends AbstractController
 
 
     public function destroy(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $user = Auth::user();
         if($pendency = $this->check_pending($user->salesman)){
             return response()->json(['salesman'=>$user->salesman, 'pendency'=>$pendency, 'status'=>'pendency']);

@@ -64,6 +64,9 @@ class ProductsController extends AbstractController
 
     public function store(ProductsStoreRequest $request)
     {
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $store = Auth::user()->salesman->store;
         $dados = $request->all();
         $dados['price_out_discount'] = ($request->price_out_discount) ? $request->price_out_discount : null;
@@ -89,7 +92,7 @@ class ProductsController extends AbstractController
     public function edit( TypeMovementStock $typeMovementStock, $id)
     {
         if(Gate::denies('is_active')){
-            return redirect()->route('page,confirm_accont');
+            return redirect()->route('page.confirm_accont');
         }
         $categories = $this->category->whereNull('category_id')->orderBy('name','ASC')->pluck('name', 'id');
         $product = $this->repo->get($id, $this->columns, $this->with);
@@ -102,6 +105,9 @@ class ProductsController extends AbstractController
 
     public function update(ProductsUpdateRequest $request, $id)
     {
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $dados = $request->except('type_operation_stock');
         $dados['price_out_discount'] = ($request->price_out_discount) ? $request->price_out_discount : null;
         $dados['diameter_cm'] = ($request->diameter_cm) ? $request->diameter_cm : null;
@@ -154,6 +160,9 @@ class ProductsController extends AbstractController
 
     public function destroy($id)
     {
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if ($products = $this->repo->get($id, ['*'], ['requests'])) {
            /* if ($requests = $products->requests) {
                 return response()->json(compact('requests'),406);

@@ -9,10 +9,9 @@
 
     class HomeController extends Controller
 	{
-
-		public function index(){
-		    if(Gate::denies('is_active')){
-		        return redirect()->route('page.confirm_accont');
+        public function index(){
+            if(Gate::denies('is_active')){
+                return redirect()->route('page.confirm_accont');
             }
 			$user = Auth::User();
 			$collection = $user->addresses->sortByDesc(function($adress, $key){
@@ -23,8 +22,10 @@
 		}
 
 		public function store(HomeStoreRequest $request){
-//            dd($request);
-			$input = $request->all();
+            if(Gate::denies('is_active')){
+                return redirect()->route('page.confirm_accont');
+            }
+            $input = $request->all();
 			$user = Auth::User()->fill($input);
 			$user->save();
 			flash('Dados atualizado com sucesso!', 'accept');	
@@ -32,6 +33,9 @@
 		}
 
 		public function change_password(ChangePasswordRequest $request){
+            if(Gate::denies('is_active')){
+                return redirect()->route('page.confirm_accont');
+            }
 			$user = Auth::User();
 			if(Auth::attempt(['email'=>$user->email, 'password'=>$request->get('password')])){
 				$user->fill(['password'=> bcrypt($request->get('newpassword'))]);

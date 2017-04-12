@@ -12,27 +12,25 @@ namespace App\Http\Controllers\Accont;
 use App\Http\Controllers\AbstractController;
 use App\Repositories\Accont\RequestsRepository;
 use App\Repositories\Accont\ShopValuationsRepository;
+use Illuminate\Container\Container as App;
 use Illuminate\Http\Request;
 
 class ShopValuationsController extends AbstractController
 {
+
+    public function __construct(App $app)
+    {
+        parent::__construct($app);
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
+    }
+
     public function repo(){
         return ShopValuationsRepository::class;
     }
 
     protected $with = ['store','user','request'];
-
-    public function index(){
-        $all = $this->repo->all($this->columns,$this->with);
-    }
-
-    public function show($id){
-
-    }
-
-    public function create(){
-
-    }
 
     public function store(Request $request, RequestsRepository $order, $id){
         $this->validate($request,
@@ -69,16 +67,5 @@ class ShopValuationsController extends AbstractController
         return response()->json(['msg'=>'Erro ao avaliar'],500);
     }
 
-    public function edit($id){
-
-    }
-
-    public function update(Request $request, $id){
-
-    }
-
-    public function destroy($id){
-
-    }
 
 }

@@ -29,6 +29,9 @@ class MovementStocksController extends AbstractController
     }
 
     public function index($type){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $where = [];
         if(isset($type)){
             if($typeMovementStock = $this->typeMovementStock->where('slug','=',$type)->first()){

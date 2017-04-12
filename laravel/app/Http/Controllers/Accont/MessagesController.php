@@ -61,18 +61,18 @@ class MessagesController extends AbstractController {
             if(Gate::allows('read_message', [$message, $box])){
                 $messages = $this->repo->getMessages($message, $this->with, ['created_at' => 'ASC']);
                 $this->read_type($user, $message, $messages, $box);
-
                 $eu = $user->name;
-
                 return view('accont.message_info', compact('messages', 'message', 'box', 'eu'));
             }
         }
         flash('Mensagem não encontrada', 'error');
-
         return redirect()->intended('accont');
     }
 
     public function comments(Request $request, $type, $id){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->validate($request, ['message' => 'required|min:5:max:500'], ['message.required' => 'A messagem é obrigatório', 'message.min' => 'A quantidade mínima de caracteres é 5', 'message.max' => 'A quantidade máxima é de 500 caracteres']);
         $user = Auth::user();
         $dados = ['sender_id' => $user->id, 'sender_type' => get_class($user), 'content' => $request->message];
@@ -104,15 +104,16 @@ class MessagesController extends AbstractController {
             send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$user->name);
             $this->repo->update(['message_id' => $message->id], $message->id);
             flash('Mensagem enviada com sucesso!', 'accept');
-
             return redirect()->back();
         }
         flash('Não foi possivel enviar a mensagem', 'error');
-
         return redirect()->back();
     }
 
     public function answer(Request $request, $box, $id){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->validate($request, ['message' => 'required|min:5:max:500'], ['message.required' => 'A messagem é obrigatório', 'message.min' => 'A quantidade mínima de caracteres é 5', 'message.max' => 'A quantidade máxima é de 500 caracteres']);
         if($model = $this->repo->get($id, $this->columns, $this->with)){
             $recipient = ($box === 'received') ? $model->sender : $model->recipient;
@@ -134,6 +135,9 @@ class MessagesController extends AbstractController {
     }
 
     public function destroy(Request $request){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($messages = $this->repo->getByIds($request->ids)){
             $messages->each(function($message){
                 $message->update(['desactive' => 1]);
