@@ -15,19 +15,14 @@ use Illuminate\Support\Facades\Gate;
 class RequestsController extends AbstractController {
     protected $with = ['store', 'user', 'adress', 'requeststatus', 'products', 'freight'];
 
-    public function __construct(App $app)
-    {
-        parent::__construct($app);
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
-    }
-
     public function repo(){
         return RequestsRepository::class;
     }
 
     public function index(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $req = Request::capture();
         $request_status = RequestStatus::pluck('description', 'id');
         $selected_status = (isset($req->all()['status']) ? (int) $req->all()['status'] : null);
@@ -41,7 +36,9 @@ class RequestsController extends AbstractController {
     }
 
     public function show($id, MoipServices $moip){
-//        $moip->checkStatusInstruction($id);
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($request = $this->repo->get($id, $this->columns, $this->with)){
             $user = Auth::User();
             if(Gate::allows('vendedor', $user)){
@@ -64,6 +61,9 @@ class RequestsController extends AbstractController {
     }
 
     private function status_request(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $user = Auth::user();
         $req_freights = $user->requests->where('request_status_id', 4);
         $req_freights->each(function($request){

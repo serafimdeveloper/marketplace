@@ -27,19 +27,14 @@ class SalesController extends AbstractController
 {
     protected $with = ['user','store','products','adress','freight','payment','requeststatus'];
 
-    public function __construct(App $app)
-    {
-        parent::__construct($app);
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
-    }
-
     public function repo(){
         return RequestsRepository::class;
     }
 
     public function index(){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $req = Request::capture();
         $request_status = RequestStatus::pluck('description', 'id');
         $selected_status = (isset($req->all()['status']) ? (int) $req->all()['status'] : null);
@@ -104,6 +99,9 @@ class SalesController extends AbstractController
     }
 
     public function tag($id){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($request = $this->repo->get($id,$this->columns,$this->with)){
             $store = Store::with(['adress'])->find($request->store->id);
             $pdf = PDF::loadView('layouts.parties.etiqueta',['request' => $request,'store'=> $store]);

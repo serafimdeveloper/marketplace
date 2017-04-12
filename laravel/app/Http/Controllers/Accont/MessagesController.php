@@ -24,9 +24,6 @@ class MessagesController extends AbstractController {
         $this->user = $user;
         $this->product = $product;
         $this->req = $req;
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
     }
 
     public function repo(){
@@ -34,6 +31,9 @@ class MessagesController extends AbstractController {
     }
 
     public function index($type, $box = 'received'){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($box !== 'received' && $box !== 'send'){
             return redirect()->route('accont.home');
         }
@@ -53,6 +53,9 @@ class MessagesController extends AbstractController {
     }
 
     public function show($box, $id){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $user = Auth::user();
         if($message = $this->repo->get($id)){
             if(Gate::allows('read_message', [$message, $box])){
@@ -67,6 +70,9 @@ class MessagesController extends AbstractController {
     }
 
     public function comments(Request $request, $type, $id){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->validate($request, ['message' => 'required|min:5:max:500'], ['message.required' => 'A messagem é obrigatório', 'message.min' => 'A quantidade mínima de caracteres é 5', 'message.max' => 'A quantidade máxima é de 500 caracteres']);
         $user = Auth::user();
         $dados = ['sender_id' => $user->id, 'sender_type' => get_class($user), 'content' => $request->message];
@@ -105,6 +111,9 @@ class MessagesController extends AbstractController {
     }
 
     public function answer(Request $request, $box, $id){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->validate($request, ['message' => 'required|min:5:max:500'], ['message.required' => 'A messagem é obrigatório', 'message.min' => 'A quantidade mínima de caracteres é 5', 'message.max' => 'A quantidade máxima é de 500 caracteres']);
         if($model = $this->repo->get($id, $this->columns, $this->with)){
             $recipient = ($box === 'received') ? $model->sender : $model->recipient;
@@ -126,6 +135,9 @@ class MessagesController extends AbstractController {
     }
 
     public function destroy(Request $request){
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($messages = $this->repo->getByIds($request->ids)){
             $messages->each(function($message){
                 $message->update(['desactive' => 1]);

@@ -32,16 +32,10 @@ class AdminController extends Controller
     protected $placeholder = '';
     protected $limit = 15;
 
-    public function __construct()
-    {
+    public function list_users(Request $request, UserRepository $repo){
         if(Gate::denies('admin')){
             return redirect()->route('page.confirm_accont');
-        }
-        dd('teste');
-    }
-
-    public function list_users(Request $request, UserRepository $repo){
-        $this->with  = ['addresses','requests'];
+        }        $this->with  = ['addresses','requests'];
         $this->ordy  = ['name'=>'ASC'];
         $this->title = 'Listas de Usuários';
         $this->placeholder = 'Pesquisar por nome ou email';
@@ -53,6 +47,9 @@ class AdminController extends Controller
     }
 
     public function get_user_id(UserRepository $repo, $id){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->with  = ['addresses','requests'];
         $type = 'usuario';
         if($result = $this->getByRepoId($repo, $id)){
@@ -62,6 +59,9 @@ class AdminController extends Controller
     }
 
     public function list_sallesmans(Request $request, SalesmanRepository $repo){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->ordy = ['name' => 'ASC'];
         $this->title = 'Vendedores Cadastrado no Sistema';
         $this->placeholder = 'Pesquisar por nome ou email';
@@ -73,6 +73,9 @@ class AdminController extends Controller
     }
 
     public function get_sallesman_id(SalesmanRepository $repo, $id){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->with = ['user','store'];
         if($result = $this->getByRepoId($repo, $id)){
             $type = 'vendedor';
@@ -82,6 +85,9 @@ class AdminController extends Controller
     }
 
     public function list_products(Request $request, ProductsRepository $repo){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->ordy = ['name' => 'ASC'];
         $this->with = ['store','galeries'];
         $this->title = 'Lista de Todos os Produtos';
@@ -94,6 +100,9 @@ class AdminController extends Controller
     }
 
     public function get_product_id(ProductsRepository $repo, $id){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($result = $this->getByRepoId($repo, $id)){
             return view('layouts.parties.alert_product_info', compact('result'));
         }
@@ -101,6 +110,9 @@ class AdminController extends Controller
     }
 
     public function list_sales(Request $request, RequestsRepository $repo){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->ordy = ['created_at' => 'DES'];
         $this->title = 'Vendas / Comissões';
         $this->with = ['store','user','adress','freight','products','requeststatus'];
@@ -113,6 +125,9 @@ class AdminController extends Controller
     }
 
     public function get_sale_id(RequestsRepository $repo, $id){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->with = ['user','store','adress','products','payment','requeststatus','freight'];
         if($result = $this->getByRepoId($repo, $id)){
             return view('layouts.parties.alert_sales_info', compact('result'));
@@ -121,6 +136,9 @@ class AdminController extends Controller
     }
 
     public function list_banners(Request $request, AdRepository $repo){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->ordy = ['name' => 'ASC'];
         $this->with = ['store'];
         $this->title = 'Banners';

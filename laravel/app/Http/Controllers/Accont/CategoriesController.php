@@ -12,29 +12,31 @@ use Illuminate\Support\Facades\Input;
 
 class CategoriesController extends AbstractController
 {
-    public function __construct(App $app) {
-        parent::__construct($app);
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
-    }
-
     public function repo(){
         return CategoriesRepository::class;
     }
 
     public function index(){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $page = Input::get('page');
         $categories = $this->repo->all($this->columns,$this->with,[],['name'=>'ASC'],10,$page);
         return view('accont.categories', compact('categories'));
     }
 
     public function create(){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $categories = Category::pluck('name','id');
         return response()->json(compact('categories'));
     }
 
     public function store(Request $request){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->validate($request, ['name'=>'required|unique:categories'], ['name.required' => 'O nome é obrigatório', 'name.unique' => 'O nome é único']);
         $dados = $request->except('_token','id');
         $dados['category_id'] = ($dados['category_id'] === "") ? null : $dados['category_id'];
@@ -46,7 +48,9 @@ class CategoriesController extends AbstractController
     }
 
     public function edit($id){
-
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $category = $this->repo->get($id);
         $categories = Category::pluck('name','id');
         return response()->json(compact('categories','category'));
@@ -58,6 +62,9 @@ class CategoriesController extends AbstractController
     }
 
     public function update(Request $request, $id){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $this->validate($request, ['name'=>'required|unique:categories,name,'.$id], ['name.required' => 'O nome é obrigatório', 'name.unique' => 'O nome é único']);
         $dados = $request->all();
         if($category = $this->repo->update($dados,$id)){
@@ -68,6 +75,9 @@ class CategoriesController extends AbstractController
     }
 
     public function destroy($id){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($this->repo->delete($id)){
             return response()->json(['msg'=>'Excluído com sucesso'],200);
         }

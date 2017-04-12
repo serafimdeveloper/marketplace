@@ -26,12 +26,12 @@ class MovementStocksController extends AbstractController
         parent::__construct($app);
         $this->typeMovementStock = $typeMovementsStock;
         $this->product = $product;
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
     }
 
     public function index($type){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $where = [];
         if(isset($type)){
             if($typeMovementStock = $this->typeMovementStock->where('slug','=',$type)->first()){
