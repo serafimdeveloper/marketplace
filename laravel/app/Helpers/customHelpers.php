@@ -109,6 +109,18 @@ if(!function_exists('notification_notify_admin')){
         return 0;
     }
 }
+
+if(!function_exists('notification_new_sallesman')){
+    function notification_new_sallesman($read = 0){
+        if($admin = Auth::user()->admin){
+            $notify = DB::table('salesmans')->where('read', '=', 0)->get();
+            return count($notify);
+        }
+
+        return 0;
+    }
+}
+
 if(!function_exists('amount_products')){
     function amount_products($products){
         $amount = 0;

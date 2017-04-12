@@ -45,11 +45,12 @@
         </thead>
 
         <tbody>
+
         @forelse($result as $salesman)
-            <tr>
+            <tr {!! !$salesman->read ? 'class="t-unread"' : '' !!}>
                 <td>{{$salesman->user->name.' '.$salesman->user->last_name}}</td>
                 <td>{{isset($salesman->store) ? $salesman->store->name : '-'}}</td>
-                <td>{{isset($salesman->store) ? $salesman->store->adress->city.'/'.$salesman->store->adress->state : '-'}}</td>
+                <td>{{isset($salesman->store->adress) ? $salesman->store->adress->city.'/'.$salesman->store->adress->state : '-'}}</td>
                 <td>{{isset($salesman->store) ? $salesman->store->products->count() : '-'}}</td>
                 <td>{{$salesman->moip}}</td>
                 <td>{{($salesman->status) ? 'habilitado' :'desabilitado'}}</td>
