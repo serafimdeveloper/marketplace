@@ -1,12 +1,12 @@
 <?php
+
 namespace App\Services;
 
 use App\Model\address;
 use App\Package\Moip\lib\Moip;
 use Illuminate\Support\Facades\Auth;
 
-class PaymentMoip
-{
+class PaymentMoip {
     private $moip;
     private $order;
     private $address;
@@ -24,12 +24,11 @@ class PaymentMoip
 
     function mount(){
         $user = Auth::user();
-
         $this->moip->setUniqueID($this->order->key)->setValue($this->order->amount);
-        $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT) $this->address->zip_code, 'phone' => $user->phone]]);
+        $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT)$this->address->zip_code, 'phone' => $user->phone]]);
         $this->moip->setReason('Compra efetuada na plataforma PopMartin. Vendedor: ' . $this->store->name);
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
-        $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days",strtotime(date('Y-m-d')))), false, ["Popmatin.com.br", env('MAIL_USERNAME'), ""], url('imagem/pop/logo-popmartin.png'));
+        $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days", strtotime(date('Y-m-d')))), false, ["Popmatin.com.br", env('MAIL_USERNAME'), ""], url('imagem/pop/logo-popmartin.png'));
         $this->moip->addMessage('Produtos sendo comprados: ' . $this->getStringProducts());
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('api/notification/moip/nasp'));
@@ -56,11 +55,9 @@ class PaymentMoip
     private function getStringProducts(){
         $string = '';
         foreach($this->order->products as $product){
-            $string .= '[' .  $product['name'] . "] | "
-                . ' quantidade = ' . $product['qtd'] . " | "
-                . ' Valor unitário = ' . real($product['price_unit']) . " | "
-                . ' total = ' . real($product['subtotal']) . " | ------------";
+            $string .= '[' . $product['name'] . "] | " . ' quantidade = ' . $product['qtd'] . " | " . ' Valor unitário = ' . real($product['price_unit']) . " | " . ' total = ' . real($product['subtotal']) . " | ------------";
         }
+
         return $string;
     }
 

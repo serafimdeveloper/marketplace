@@ -16,13 +16,12 @@
                 <h2 class="c-pop fontem-10">Escolher o meio de pagamento</h2>
                 <br>
                 <a href="javascript:addCredencies()" id="addCredencies" class="btn btn-popmartin-trans">
-                    <i class="fa fa-credit-card"></i>
-                    cartão de crédito</a>
+                    <i class="fa fa-credit-card"></i> cartão de crédito
+                </a>
                 <a href="javascript:payBillet()" class="btn btn-popmartin-trans">
-                    <i class="fa fa-barcode"></i>
-                    boleto</a>
+                    <i class="fa fa-barcode"></i> boleto
+                </a>
                 <p></p>
-
             </div>
             <div class="colbox-2">
                 <h2 class="c-pop fontem-10">Dados da entrega</h2>

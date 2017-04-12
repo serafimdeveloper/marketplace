@@ -35,7 +35,8 @@
         },
         "files":[
             "app/Helpers/customHelpers.php",
-            "app/Package/Moip/lib/MoipClient.php"
+            "app/Package/Moip/lib/MoipClient.php",
+            "app/Package/Moip/lib/Moip.php"
         ]
     },
     "autoload-dev": {
