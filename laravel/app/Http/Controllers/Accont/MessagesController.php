@@ -24,6 +24,9 @@ class MessagesController extends AbstractController {
         $this->user = $user;
         $this->product = $product;
         $this->req = $req;
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
     }
 
     public function repo(){
@@ -31,9 +34,6 @@ class MessagesController extends AbstractController {
     }
 
     public function index($type, $box = 'received'){
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         if($box !== 'received' && $box !== 'send'){
             return redirect()->route('accont.home');
         }
@@ -53,22 +53,16 @@ class MessagesController extends AbstractController {
     }
 
     public function show($box, $id){
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         $user = Auth::user();
         if($message = $this->repo->get($id)){
             if(Gate::allows('read_message', [$message, $box])){
                 $messages = $this->repo->getMessages($message, $this->with, ['created_at' => 'ASC']);
                 $this->read_type($user, $message, $messages, $box);
-
                 $eu = $user->name;
-
                 return view('accont.message_info', compact('messages', 'message', 'box', 'eu'));
             }
         }
         flash('Mensagem não encontrada', 'error');
-
         return redirect()->intended('accont');
     }
 
@@ -104,11 +98,9 @@ class MessagesController extends AbstractController {
             send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$user->name);
             $this->repo->update(['message_id' => $message->id], $message->id);
             flash('Mensagem enviada com sucesso!', 'accept');
-
             return redirect()->back();
         }
         flash('Não foi possivel enviar a mensagem', 'error');
-
         return redirect()->back();
     }
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Accont;
 
-
 use App\Http\Controllers\AbstractController;
+use Illuminate\Container\Container as App;
 use Illuminate\Http\Request;
 use App\Model\Category;
 use App\Repositories\Accont\CategoriesRepository;
@@ -12,14 +12,18 @@ use Illuminate\Support\Facades\Input;
 
 class CategoriesController extends AbstractController
 {
+    public function __construct(App $app) {
+        parent::__construct($app);
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
+    }
+
     public function repo(){
         return CategoriesRepository::class;
     }
 
     public function index(){
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         $page = Input::get('page');
         $categories = $this->repo->all($this->columns,$this->with,[],['name'=>'ASC'],10,$page);
         return view('accont.categories', compact('categories'));

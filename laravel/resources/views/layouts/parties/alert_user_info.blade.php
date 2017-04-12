@@ -18,7 +18,7 @@
                                 <div class="colbox-3">
                                     <div class="pop-info-user">
                                         <p>Nome</p>
-                                        <span>{{$result->name}}</span>
+                                        <span>{{$result->name.' '.$result->last_name}}</span>
                                     </div>
                                 </div>
                                 <div class="colbox-3">

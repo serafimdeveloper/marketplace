@@ -9,10 +9,19 @@ use App\Repositories\Accont\RequestsRepository;
 use App\Services\MoipServices;
 use Auth;
 use Correios;
+use Illuminate\Container\Container as App;
 use Illuminate\Support\Facades\Gate;
 
 class RequestsController extends AbstractController {
     protected $with = ['store', 'user', 'adress', 'requeststatus', 'products', 'freight'];
+
+    public function __construct(App $app)
+    {
+        parent::__construct($app);
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
+    }
 
     public function repo(){
         return RequestsRepository::class;
@@ -20,9 +29,6 @@ class RequestsController extends AbstractController {
 
     public function index(){
         $req = Request::capture();
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         $request_status = RequestStatus::pluck('description', 'id');
         $selected_status = (isset($req->all()['status']) ? (int) $req->all()['status'] : null);
         $user = Auth::User();
@@ -36,9 +42,6 @@ class RequestsController extends AbstractController {
 
     public function show($id, MoipServices $moip){
 //        $moip->checkStatusInstruction($id);
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         if($request = $this->repo->get($id, $this->columns, $this->with)){
             $user = Auth::User();
             if(Gate::allows('vendedor', $user)){
@@ -52,13 +55,11 @@ class RequestsController extends AbstractController {
                 $request = ($request ? $request : false);
                 if($request){
                     $type = ['type' => 'request', 'id' => $request->id];
-//                    PN769221969BR
                     $request->update(['visualized_user'=>1]);
                     return view('accont.request_info', compact('request', 'user', 'type'));
                 }
             }
         }
-
         return redirect()->route('accont.home');
     }
 

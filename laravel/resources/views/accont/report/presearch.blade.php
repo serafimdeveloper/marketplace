@@ -47,7 +47,7 @@
         <tbody>
         @forelse($result as $salesman)
             <tr>
-                <td>{{$salesman->user->name}}</td>
+                <td>{{$salesman->user->name.' '.$salesman->user->last_name}}</td>
                 <td>{{isset($salesman->store) ? $salesman->store->name : '-'}}</td>
                 <td>{{isset($salesman->store) ? $salesman->store->adress->city.'/'.$salesman->store->adress->state : '-'}}</td>
                 <td>{{isset($salesman->store) ? $salesman->store->products->count() : '-'}}</td>

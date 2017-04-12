@@ -18,6 +18,9 @@ class SalesmanController extends AbstractController
     public function __construct(App $app)
     {
         parent::__construct($app);
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
     }
 
     public function repo(){
@@ -25,9 +28,6 @@ class SalesmanController extends AbstractController
     }
 
     public function create(){
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         return view('accont.salesman');
     }
 
@@ -58,7 +58,7 @@ class SalesmanController extends AbstractController
                 $dados['photo_document'] = $this->upload($request->photo_document,'img/vendedor','D1V'.$salesman->id);
                 $dados['proof_adress'] = $this->upload($request->proof_adress,'img/vendedor','D2V'.$salesman->id);
                 $this->repo->update($dados,$salesman->id);
-                $user->fill(['type_user'=>'salesman'])->save();
+                $user->update(['type_user'=>'salesman']);
                 flash('Vendedor salvo com sucesso!', 'accept');
                 return redirect()->route('accont.salesman.info');
             }
@@ -69,9 +69,6 @@ class SalesmanController extends AbstractController
 
 
     public function edit(){
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         if ($user = Auth::user()) {
             if(!$user->cpf){
                 flash('É necessário cadastrar seu cpf para se tornar um vendedor', 'warning');

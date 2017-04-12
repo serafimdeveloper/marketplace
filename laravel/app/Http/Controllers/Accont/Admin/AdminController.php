@@ -20,6 +20,7 @@ use App\Repositories\Accont\UserRepository;
 use App\Repositories\AdRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Input;
 
 class AdminController extends Controller
@@ -30,6 +31,14 @@ class AdminController extends Controller
     protected $title = '';
     protected $placeholder = '';
     protected $limit = 15;
+
+    public function __construct()
+    {
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
+        dd('teste');
+    }
 
     public function list_users(Request $request, UserRepository $repo){
         $this->with  = ['addresses','requests'];
@@ -54,7 +63,7 @@ class AdminController extends Controller
 
     public function list_sallesmans(Request $request, SalesmanRepository $repo){
         $this->ordy = ['name' => 'ASC'];
-        $this->title = 'Vendedores cadastrado na loja';
+        $this->title = 'Vendedores Cadastrado no Sistema';
         $this->placeholder = 'Pesquisar por nome ou email';
         $data = $this->search($request, 'sallesmans', $repo);
         if($request->ajax()){

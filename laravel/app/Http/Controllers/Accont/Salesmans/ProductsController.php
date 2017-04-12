@@ -32,6 +32,9 @@ class ProductsController extends AbstractController
         parent::__construct($app);
         $this->category = $category;
         $this->galery = $galery;
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
     }
 
     public function repo()
@@ -41,9 +44,6 @@ class ProductsController extends AbstractController
 
     public function index()
     {
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         if ($store = Auth::user()->salesman->store) {
             $products = $this->repo->all($this->columns, $this->with, ['store_id' => $store->id], [], 5);
 
@@ -55,9 +55,6 @@ class ProductsController extends AbstractController
 
     public function create()
     {
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         $categories = $this->category->whereNull('category_id')->orderBy('name','ASC')->pluck('name', 'id');
         return view('accont.product_info', compact('categories'));
     }
@@ -88,9 +85,6 @@ class ProductsController extends AbstractController
 
     public function edit( TypeMovementStock $typeMovementStock, $id)
     {
-        if(Gate::denies('is_active')){
-            return redirect()->route('page,confirm_accont');
-        }
         $categories = $this->category->whereNull('category_id')->orderBy('name','ASC')->pluck('name', 'id');
         $product = $this->repo->get($id, $this->columns, $this->with);
         $category_id = isset($product->category->category_id) ? $product->category->category_id : $product->category->id;

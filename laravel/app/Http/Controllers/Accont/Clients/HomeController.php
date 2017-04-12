@@ -10,10 +10,14 @@
     class HomeController extends Controller
 	{
 
-		public function index(){
-		    if(Gate::denies('is_active')){
-		        return redirect()->route('page.confirm_accont');
+	    public function __construct()
+        {
+            if(Gate::denies('is_active')){
+                return redirect()->route('page.confirm_accont');
             }
+        }
+
+        public function index(){
 			$user = Auth::User();
 			$collection = $user->addresses->sortByDesc(function($adress, $key){
 				return $adress->master;

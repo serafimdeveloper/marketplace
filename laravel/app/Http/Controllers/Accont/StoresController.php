@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Accont;
 use App\Http\Controllers\AbstractController;
 use App\Repositories\Accont\StoresRepository;
 use Auth;
+use Illuminate\Container\Container as App;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Input;
@@ -18,25 +19,28 @@ use Illuminate\Support\Facades\Storage;
 
 class StoresController extends AbstractController
 {
+
+    public function __construct(App $app)
+    {
+        parent::__construct($app);
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
+    }
+
     public function repo()
     {
         return StoresRepository::class;
     }
 
     public function index(){
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         $stores = $this->repo->all();
         return view('stores.index', compact('stores'));
     }
 
     public function create(){
-        if(Gate::denies('is_active')){
-            return redirect()->route('page.confirm_accont');
-        }
         if(Gate::denies('vendedor')){
-            return  redirect()->route('accont.home');
+           return  redirect()->route('accont.home');
         }
         $salesman = Auth::user()->salesman;
         $adress = isset($salesman->store->adress) ? $salesman->store->adress : '';
@@ -131,18 +135,6 @@ class StoresController extends AbstractController
 
     public function show($slug){
         $store = $this->repo->bySlug($slug);
-    }
-
-    public function searchstore($page = 1){
-        $stores = $this->repo->search();
-        $stores = $stores->map(function ($store) {
-            return [
-                'name' => $store->name,
-                'slug' => $store->slug,
-                'salesman' => $store->salesman->user->name
-            ];
-        });
-        return view('accont.searchstore', compact('result'));
     }
 
     public function blocked(){
