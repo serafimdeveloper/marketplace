@@ -153,6 +153,9 @@ class StoresController extends AbstractController
 
     public function search(Request $request)
     {
+        if(Gate::denies('is_active')){
+            return redirect()->route('page.confirm_accont');
+        }
         $page = Input::get('page') ? Input::get('page') : 1 ;
         $result = $this->repo->search($request->name, $this->columns, $this->with, ['name'=>'ASC'], $limit = 15, $page);
         if($request->ajax()){

@@ -31,7 +31,7 @@
                 </tr>
                 </tbody>
             </table>
-            <span class="dp-block fontw-500 c-pop">Menssagem relacionada:</span>
+            <span class="dp-block fontw-500 c-pop">Mensagem relacionada:</span>
             <span class="dp-block"><b>Id:</b> {{ $ntf->message->id }} </span>
             <div class="">
                 <form class="form-modern pop-form form-notfy">

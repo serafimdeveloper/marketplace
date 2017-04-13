@@ -5,7 +5,8 @@
             <h2 class="alertbox-title c-pop fontw-500">Dados do Vendendor Completo</h2>
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
-                    <a class="btn btn-small btn-popmartin fl-right"><i class="fa fa-trash"></i> remover usuário</a>
+                    <a class="btn btn-small btn-popmartin fl-right" style="margin-left: 10px;"><i class="fa fa-trash"></i> remover usuário</a>
+                    <a class="btn btn-small btn-popmartin fl-right"><i class="fa fa-unlock"></i> desbloquear vendedor </a>
                 </div>
                 <div class="clear-both"></div>
 

@@ -58,31 +58,8 @@ class AdminController extends Controller
         return response()->json(['msg' => 'Erro ao encontrar o usuário'],404);
     }
 
-    public function list_sallesmans(Request $request, SalesmanRepository $repo){
-        if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
-        }
-        $this->ordy = ['name' => 'ASC'];
-        $this->title = 'Vendedores Cadastrado no Sistema';
-        $this->placeholder = 'Pesquisar por nome ou email';
-        $data = $this->search($request, 'sallesmans', $repo);
-        if($request->ajax()){
-            return view('accont.report.presearch', $data);
-        }
-        return view('accont.report.search', $data);
-    }
 
-    public function get_sallesman_id(SalesmanRepository $repo, $id){
-        if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
-        }
-        $this->with = ['user','store'];
-        if($result = $this->getByRepoId($repo, $id)){
-            $type = 'vendedor';
-            return view('layouts.parties.alert_salesman_info', compact('result','type'));
-        }
-        return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
-    }
+
 
     public function list_products(Request $request, ProductsRepository $repo){
         if(Gate::denies('admin')){

@@ -31,7 +31,7 @@
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Cliente</p>
-                            <span>{{{$result->user->name.' '.$result->user->last_name}}</span>
+                            <span>{{$result->user->name.' '.$result->user->last_name}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">
@@ -82,7 +82,7 @@
                         <div class="pop-info-user">
                             <p>Endereço de entrega</p>
                             <span>{{$result->adress->public_place.' | '.$result->adress->number }}
-                            {{ isset($result->adress->complements) ? ' ('.$result->adress->complements.') |' : '| ' }}
+                            {{ ($result->adress->complements) ? ' ('.$result->adress->complements.') |' : '| ' }}
                             {{ $result->adress->neighborhood.' | '.$result->adress->city.' | '.$result->adress->state.' | ' }}
                             {{ $result->adress->zip_code }}</span>
                         </div>

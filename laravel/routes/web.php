@@ -64,14 +64,20 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     /******************************************* Administrador *********************************************************/
 
-    Route::get('/report/users', 'Admin\AdminController@list_users')->name('report.users');
-    Route::get('/report/users/{id}', 'Admin\AdminController@get_user_id')->name('report.users.info');
+    Route::get('/report/users', 'Admin\UserController@index')->name('report.users');
+    Route::get('/report/users/{id}', 'Admin\UserController@show')->name('report.users.info');
+    Route::get('/report/users/{id}/delete', 'Admin\UserController@destroy')->name('report.users.remove');
 
-    Route::get('/report/salesmans', 'Admin\AdminController@list_sallesmans')->name('report.salesman');
-    Route::get('/report/salesmans/{id}', 'Admin\AdminController@get_sallesman_id')->name('report.sallesman.info');
+    Route::get('/report/salesmans', 'Admin\SalesmanController@index')->name('report.salesman');
+    Route::get('/report/salesmans/{id}', 'Admin\SalesmanController@show')->name('report.salesman.info');
+    Route::get('/report/salesmans/{id}/delete', 'Admin\SalesmanController@destroy')->name('report.salesman.remove');
+    Route::get('/report/salesmans/{id}/change', 'Admin\SalesmanController@change')->name('report.salesman.change');
+    Route::post('/report/salesmans/{id}/update', 'Admin\SalesmanController@update')->name('report.salesman.update');
 
-    Route::get('/report/products', 'Admin\AdminController@list_products')->name('report.products');
-    Route::get('/report/products/{id}', 'Admin\AdminController@get_product_id')->name('report.product.info');
+    Route::get('/report/products', 'Admin\ProductController@index')->name('report.products');
+    Route::get('/report/products/{id}', 'Admin\ProductController@show')->name('report.product.info');
+    Route::get('/report/products/{id}/block', 'Admin\ProductController@destroy')->name('report.product.remove');
+
 
     Route::resource('categories', 'CategoriesController');
     Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
@@ -79,16 +85,16 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::resource('type_movements','TypeMovementsStocksController');
     Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
 
-    Route::get('/report/sales', 'Admin\AdminController@list_sales')->name('report.sales');
-    Route::get('/report/sales/{id}', 'Admin\AdminController@get_sale_id')->name('report.sale.info');
+    Route::get('/report/sales', 'Admin\SalesController@index')->name('report.sales');
+    Route::get('/report/sales/{id}', 'Admin\SalesController@show')->name('report.sale.info');
 
-    Route::get('/report/notifications', 'Admin\AdminController@list_notify')->name('report.notifications');
-    Route::get('/report/notification/{id}', 'Admin\AdminController@list_notify_id')->name('report.notification');
-    Route::post('/report/notification/edit', 'Admin\AdminController@list_notify_edit')->name('report.notification_edit');
-    Route::post('/report/notification/remove_message', 'Admin\AdminController@list_notify_removemsg')->name('report.notification_edit');
+    Route::get('/report/notifications', 'Admin\NotifyController@index')->name('report.notifications');
+    Route::get('/report/notification/{id}', 'Admin\NotifyController@show')->name('report.notification');
+    Route::post('/report/notification/edit', 'Admin\NotifyController@update')->name('report.notification_edit');
+    Route::post('/report/notification/remove_message', 'Admin\NotifyController@destroy')->name('report.notification_edit');
 
-    Route::get('/banners', 'Admin\AdminController@list_banners')->name('banners');
-    Route::get('/banners/{id}', 'Admin\AdminController@get_banner_id')->name('banner.info');
+    Route::get('/banners', 'Admin\AdsController@index')->name('banners');
+    Route::get('/banners/{id}', 'Admin\AdsController@get_banner_id')->name('banner.info');
 
     Route::get('/pages', function(){
         return view('accont.pages');
