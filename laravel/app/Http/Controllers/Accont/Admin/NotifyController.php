@@ -46,12 +46,12 @@ class NotifyController extends AbstractAdminController
                     $sender = [
                         'id' => $ntf->message->sender->salesman->user->id,
                         'name' => $ntf->message->sender->salesman->user->name .' '. $ntf->message->sender->salesman->user->lastname,
-                        'email' => $ntf->message->sender->salesman->email,
+                        'email' => $ntf->message->sender->salesman->user->email,
                         'store' => $ntf->message->sender
                     ];
                 }
 
-                if($ntf->message->recipient_type instanceof User){
+                if(app($ntf->message->recipient_type) instanceof User){
                     $recipient = [
                         'id' => $ntf->message->recipient->id,
                         'name' => $ntf->message->recipient->name . ' ' . $ntf->message->recipient->last_name,

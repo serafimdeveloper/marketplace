@@ -5,8 +5,8 @@
             <h2 class="alertbox-title c-pop fontw-500">Dados do Vendendor Completo</h2>
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
-                    <a class="btn btn-small btn-popmartin fl-right" style="margin-left: 10px;"><i class="fa fa-trash"></i> remover usuário</a>
-                    <a class="btn btn-small btn-popmartin fl-right btn-unlock-salesman"><i class="fa fa-unlock"></i> desbloquear vendedor </a>
+                    <a class="btn btn-small btn-popmartin fl-right btn-delete-salesman" data-id="{{$result->id}}" style="margin-left: 10px;"><i class="fa fa-trash"></i> remover usuário</a>
+                    <a class="btn btn-small btn-popmartin fl-right btn-unlock-salesman" data-id="{{$result->id}}">{!! ($result->active) ? '<i class="fa fa-unlock"></i> bloquear vendedor' : '<i class="fa fa-unlock"></i> desbloquear vendedor'!!} </a>
                 </div>
                 <div class="clear-both"></div>
 
@@ -104,29 +104,13 @@
                                 </div>
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
-                                        <p>Status</p>
-                                        <form class="form-modern" action="" method="POST">
-                                            <div class="checkbox-container">
-                                                <div class="checkboxies">
-                                                    <label class="checkbox" style="border: none;padding: 0;">
-                                                        <span><span class="fa fa-square-o"></span> ativo</span>
-                                                        {!! Form::checkbox('status','0') !!}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="colbox-4">
-                                    <div class="pop-info-user">
                                         <p>Comissão (%)</p>
-                                        <form class="form-modern pop-form pst-relative pop-tracking" action=""
-                                              method="POST">
+                                         {!! Form::open(['action' => 'javascript:void(0)', 'id'=>'form-commission', 'method' => 'post']) !!}
                                             <label>
                                                 {!! Form::text('commission', $result->comission, ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
                                             </label>
                                             <button type="submit" class="btn btn-small btn-popmartin">atualizar</button>
-                                        </form>
+                                         {!! Form::close() !!}
                                     </div>
                                 </div>
                             </div>

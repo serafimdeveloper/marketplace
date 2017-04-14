@@ -487,11 +487,11 @@ $(function(){
             function () {
                 $.get('/accont/report/salesmans/'+salesman+'/change', function(response){
                     if(response.status){
-                        element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear loja');
-                        msg_alert = 'Loja Desbloqueada';
+                        element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear vendedor');
+                        msg_alert = 'Vendedor Desbloqueado';
                     }else{
-                        element.html('<i class="fa fa-lock vertical-middle"></i> desbloquear loja');
-                        msg_alert = 'Loja Bloqueada';
+                        element.html('<i class="fa fa-lock vertical-middle"></i> desbloquear vendedor');
+                        msg_alert = 'Vendedor Bloqueada';
                     }
                     alertify.success(msg_alert);
                 },'json').fail(function(response){
