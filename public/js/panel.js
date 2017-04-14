@@ -467,7 +467,7 @@ $(function(){
         $("#jq-info-product").slideDown();
     });
 
-    /** Modal de informações de usuarios */
+    /** Modal de informações de gerais */
     $(document).on('click', '.jq-info', function () {
         var id = $(this).data('id');
         var type = $(this).data('type');
@@ -475,6 +475,30 @@ $(function(){
             $("#resp_modal").slideDown();
             $('#resp_modal').empty().html(response);
         },'html');
+    });
+
+    /** Desbloquer e bloquear vendedor */
+    $(document).on('click','.btn-unlock-salesman', function(){
+        var salesman = $(this).data('id');
+        var element = $(this);
+        var txt = element.text().trim();
+        var msg = (txt == 'bloquear vendedor' ? 'Tem certeza de que deseja bloquear o vendedor e toda sua loja?<br> Todos os produtos cadastrado serão bloqueados.' : 'O vendedor será desbloqueado e seus produtos e sua loja estará visível para todos verem!')
+        alertify.confirm(alertfyConfirmTitle, msg,
+            function () {
+                $.get('/accont/report/salesmans/'+salesman+'/change', function(response){
+                    if(response.status){
+                        element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear loja');
+                        msg_alert = 'Loja Desbloqueada';
+                    }else{
+                        element.html('<i class="fa fa-lock vertical-middle"></i> desbloquear loja');
+                        msg_alert = 'Loja Bloqueada';
+                    }
+                    alertify.success(msg_alert);
+                },'json').fail(function(response){
+                    alertify.error(response.responseJSON.msg);
+                });
+            },function(){});
+        return false;
     });
 
     /** Chamada de função para remoção de produtos */
