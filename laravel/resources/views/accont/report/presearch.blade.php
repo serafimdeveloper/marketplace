@@ -53,7 +53,7 @@
                 <td>{{isset($salesman->store->adress) ? $salesman->store->adress->city.'/'.$salesman->store->adress->state : '-'}}</td>
                 <td>{{isset($salesman->store) ? $salesman->store->products->count() : '-'}}</td>
                 <td>{{$salesman->moip}}</td>
-                <td>{{($salesman->status) ? 'habilitado' :'desabilitado'}}</td>
+                <td>{{($salesman->active) ? 'habilitado' :'desabilitado'}}</td>
                 <td>{{number_format($salesman->comission,2,',','.')}}%</td>
                 <td class="txt-center">
                     <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="salesmans" data-id="{{$salesman->id}}">detalhes</a>

@@ -60,7 +60,7 @@ class HomeController extends Controller {
 
     public function stores($slug){
         if($store = $this->store->getStoreSlug($this->with_store, $slug)){
-            if(!(!$store->active || $store->blocked)){
+            if($store->active || $store->salesman->active){
                 $favorites = $this->favorite->getProductsFavorites();
                 return view('pages.store', compact('store','favorites'));
             }else{

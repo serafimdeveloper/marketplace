@@ -119,8 +119,6 @@ class MessagesController extends AbstractController {
             $recipient = ($box === 'received') ? $model->sender : $model->recipient;
             $sender    = ($box === 'received') ? $model->recipient : $model->sender;
             $dados = ['sender_id' => $sender->id, 'sender_type' => get_class($sender), 'recipient_id' => $recipient->id, 'recipient_type' => get_class($recipient), 'message_type_id' => $model->message_type_id, 'request_id' => $model->request_id, 'product_id' => $model->product_id, 'message_id' => $model->message_id, 'title' => $model->title, 'content' => $request->message];
-//            $this->repo->filter_messages($request->message, $model);
-
             if($message = $this->repo->store($dados)){
                 $this->repo->filter_messages($request->message, $message);
                 if(($model->sender instanceof Store && $box === 'received') || ($model->recipient instanceof Store && $box === 'send')){
