@@ -108,12 +108,12 @@ class MoipServices {
         $this->moip->addMessage('Produtos comprado na plataforma Popmartin');
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('api/notification/moip/nasp'));
-        $this->moip->addComission('Venda na plataforma popmartin', $this->store->salesman->moip, 100 - ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT')), true, false);
-        $this->moip->setReceiver(env('MOIP_COMISSION'));
+        $this->moip->addComission('Venda na plataforma popmartin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT') - 7), true, true);
+        $this->moip->setReceiver($this->store->salesman->moip);
         $this->moip->addParcel('1', '10', null, true);
         $this->moip->validate('Identification');
-//        dd($this->moip->getXML());
         $this->moip->send();
+
         $this->billetUrl = isset($this->moip->getAnswer()->payment_url) ? $this->moip->getAnswer()->payment_url : null;
         $this->instruction = $this->moip->getXML();
     }

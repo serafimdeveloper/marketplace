@@ -81,7 +81,7 @@ class CartController extends Controller
             $this->validate($request, ['zip_code' => 'required|regex:/^\d{5}-?\d{3}$/']);
             $zip_code = $request->zip_code;
             $address = null;
-            if($is_cep = Correios::cep($zip_code)){
+            if(!Correios::cep($zip_code)){
                 flash('Cep inválido!', 'error');
                 return redirect()->route('pages.cart');
              }
