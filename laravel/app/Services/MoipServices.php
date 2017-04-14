@@ -33,6 +33,10 @@ class MoipServices {
         $this->endpoint = env('MOIP_URL') . $endpoint;
     }
 
+    public function setConstruct($moipClient, $endpoint){
+        $this->__construct($moipClient, $endpoint);
+    }
+
     /**
      * Setar ordem de pedido para Enviar instrução Moip
      * @param $order
@@ -101,11 +105,11 @@ class MoipServices {
         $this->moip->setReason('Compra efetuada na plataforma PopMartin. Vendedor: ' . $this->store->name);
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
         $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days", strtotime(date('Y-m-d')))), false, ["Popmatin.com.br", env('MAIL_USERNAME'), ""], url('imagem/pop/logo-popmartin.png'));
-        $this->moip->addMessage('Produtos sendo comprados na plataforma Popmartin');
+        $this->moip->addMessage('Produtos comprado na plataforma Popmartin');
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('api/notification/moip/nasp'));
-        $this->moip->addComission('Comissão de venda Pop Matin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT')) - 7, true, false);
-        $this->moip->setReceiver($this->store->salesman->moip);
+        $this->moip->addComission('Venda na plataforma popmartin', $this->store->salesman->moip, 100 - ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT')), true, false);
+        $this->moip->setReceiver(env('MOIP_COMISSION'));
         $this->moip->addParcel('1', '10', null, true);
         $this->moip->validate('Identification');
 //        dd($this->moip->getXML());
@@ -124,7 +128,9 @@ class MoipServices {
         $order_moip = new MoIPClient;
         $consult_result = $order_moip->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), $this->endpoint . $this->order->moip->token);
         $xml = simplexml_load_string($consult_result->xml);
-        $this->instruction = $xml->RespostaConsultar;
+        if($xml){
+            $this->instruction = $xml->RespostaConsultar;
+        }
     }
 
     /**
@@ -135,7 +141,7 @@ class MoipServices {
         $this->consultIntruction($orderId);
         $status = $this->order->request_status_id;
         if($status < 3){
-            if($this->instruction->Autorizacao){
+            if(isset($this->instruction->Autorizacao)){
                 $auth = $this->instruction->Autorizacao;
                 $status = (string)$auth->Pagamento->Status;
                 if($status == 'Autorizado'){

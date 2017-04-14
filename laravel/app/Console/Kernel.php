@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\MoipRequest;
 use App\Console\Commands\CorreiosRequest;
+use App\Console\Commands\RateRequest;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel {
      *
      * @var array
      */
-    protected $commands = [CorreiosRequest::class, MoipRequest::class];
+    protected $commands = [CorreiosRequest::class, MoipRequest::class, RateRequest::class];
 
     /**
      * Define the application's command schedule.
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel {
     protected function schedule(Schedule $schedule){
         $schedule->command('request:correios')->everyMinute();
         $schedule->command('request:moip')->everyMinute();
+        $schedule->command('request:rate')->everyMinute();
 
     }
 

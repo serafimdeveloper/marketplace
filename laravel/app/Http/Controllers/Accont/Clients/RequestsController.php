@@ -35,7 +35,7 @@ class RequestsController extends AbstractController {
         return view('accont.requests', compact('requests', 'request_status', 'selected_status'));
     }
 
-    public function show($id, MoipServices $moip){
+    public function show($id){
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
