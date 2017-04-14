@@ -55,8 +55,7 @@ class SalesmanController extends AbstractAdminController {
             }else{
                 $salesman->update(['active' => 1]);
             }
-
-            return response()->json(['status' => true], 200);
+            return response()->json(['status'=>$salesman->active],200);
         }
 
         return response()->json(['status' => false], 500);
