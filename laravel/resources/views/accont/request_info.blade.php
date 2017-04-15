@@ -87,7 +87,6 @@
                 </tr>
                 </tbody>
             </table>
-
             <table class="table table-action">
                 <thead>
                 <tr>
@@ -112,9 +111,28 @@
                 @endif
                 </tbody>
             </table>
+            @if($request->amount_interest > 0)
+                <table class="table table-action">
+                    <thead>
+                    <tr>
+                        <th>Outros valores</th>
+                        <th class="t-small">Total</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>Juros de cartão de crédito em {{ $request->number_installments}}x</td>
+                        <td class="bold">
+                            <span class="fontem-12">R${{ number_format($request->amount_interest, 2, ',', '') }}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            @endif
             <hr>
             <p class="fontem-22 fontw-500">Total do pedido <span
-                        class="fl-right c-pop fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price),2,',','.')}}</span>
+                        class="fl-right c-pop fontw-900">R${{number_format(amount_products_final($request->products,$request->freight_price) + $request->amount_interest,2,',','.')}}</span>
             </p>
             <div class="padding10"></div>
             @if($request->note)

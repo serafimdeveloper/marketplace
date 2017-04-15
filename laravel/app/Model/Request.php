@@ -10,7 +10,8 @@ class Request extends Model
     use SoftDeletes;
     protected $fillable =['user_id','adress_id','store_id','key','freight_id','deadline','settlement_date','cancellation_date',
         'send_date','payment_id','number_installments','tracking_code','freight_price','commission_amount','note',
-        'request_status_id', 'phone','amount','visualized_store','visualized_user'];
+        'request_status_id', 'phone','amount','visualized_store','visualized_user', 'amount_interest', 'rate_moip', 'payment_reference',
+        'payment_institution'];
 
     protected  $dates = ['create_at','update_at','deleted_at','cancellation_date','send_date','settlement_date'];
 

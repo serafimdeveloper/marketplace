@@ -39,6 +39,6 @@ class MoipRequest extends Command {
     public function handle(){
         $this->moipService->setConstruct(true, '/ws/alpha/ConsultarInstrucao/');
         $this->moipService->checkStatusInstructions([['request_status_id', '<', 3]]);
-        Log::info('Atualização do MOIP  em: '. Carbon::now());
+//        Log::info('Atualização do MOIP  em: '. Carbon::now());
     }
 }

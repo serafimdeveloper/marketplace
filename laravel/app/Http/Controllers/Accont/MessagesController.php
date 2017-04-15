@@ -81,8 +81,16 @@ class MessagesController extends AbstractController {
                 $dados['request_id'] = $id;
                 $dados['title'] = 'Comentário de ' . $user->name . ' sobre o pedido ' . $req->key;
                 $store = $req->store;
-                $dados['recipient_id'] = $store->id;
-                $dados['recipient_type'] = get_class($store);
+                if(preg_match("/accont\/salesman\/sale/", redirect()->back()->getTargetUrl())){
+                    $dados['sender_id'] = $store->id;
+                    $dados['sender_type'] = get_class($store);
+                    $dados['recipient_id'] = $req->user_id;
+                    $dados['recipient_type'] = get_class($req->user);
+                }else{
+                    $dados['recipient_id'] = $store->id;
+                    $dados['recipient_type'] = get_class($store);
+                }
+
             }else{
                 flash('Não foi possivel enviar a mensagem, porque o pedido não existe!', 'error');
                 return redirect()->back();
@@ -103,6 +111,7 @@ class MessagesController extends AbstractController {
             $data = ['email' => $store->salesman->user->email, 'name' => $store->name, 'id' => $message->id, 'message_type' => 'received'];
             send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$user->name);
             $this->repo->update(['message_id' => $message->id], $message->id);
+            $this->repo->filter_messages($dados['content'], $message);
             flash('Mensagem enviada com sucesso!', 'accept');
             return redirect()->back();
         }
