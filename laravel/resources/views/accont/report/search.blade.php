@@ -39,7 +39,7 @@
         </div>
     </section>
     <div class="clear-both"></div>
-   <div id="resp_modal" class="alertbox"></div>
+   <div id="resp_modal"></div>
 
 @endsection
 @section('scripts_int')

@@ -54,6 +54,7 @@ class RateRequest extends Command {
                        'comment' => 'Vendedor rápido e atencioso. Recomendo!',
                        'active' => 1
                     ]);
+                    $order->fill(['request_status_id' => 8])->save();
                 }
                 Log::info('Avaliação do pedido: ' . $order->key . ' | hora:'. Carbon::now());
             });

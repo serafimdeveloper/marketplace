@@ -66,7 +66,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     Route::get('/report/users', 'Admin\UserController@index')->name('report.users');
     Route::get('/report/users/{id}', 'Admin\UserController@show')->name('report.users.info');
-    Route::get('/report/users/{id}/delete', 'Admin\UserController@destroy')->name('report.users.remove');
+    Route::post('/report/users/{id}/delete', 'Admin\UserController@destroy')->name('report.users.remove');
 
     Route::get('/report/salesmans', 'Admin\SalesmanController@index')->name('report.salesman');
     Route::get('/report/salesmans/{id}', 'Admin\SalesmanController@show')->name('report.salesman.info');
