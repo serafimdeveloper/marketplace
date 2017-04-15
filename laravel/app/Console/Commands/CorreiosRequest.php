@@ -41,7 +41,8 @@ class CorreiosRequest extends Command {
         $requests = $this->request->where('request_status_id', 4)->get();
         $requests->each(function($request){
             track_object($request->tracking_code, $request->id);
+//            Log::info('Atualização de pedidos via Correios  em: ' . Carbon::now());
         });
-        Log::info('Atualização de pedidos via Correios  em: ' . Carbon::now());
+
     }
 }

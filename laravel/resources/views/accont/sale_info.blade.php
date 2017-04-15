@@ -113,6 +113,9 @@
                 </p>
             </div>
         @endif
+        <div class="txt-center">
+            <a class="btn btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar cliente</a>
+        </div>
         @if($request->request_status_id === 3)
             <div class="txt-center">
                 <a href="{{route('accont.salesman.etiqueta', ['id' => $request->id])}}" class="btn btn-popmartin"
@@ -122,4 +125,5 @@
         <div class="padding20"></div>
     </section>
     <div class="clear-both"></div>
+    @include('layouts.parties.alert_message')
 @endsection

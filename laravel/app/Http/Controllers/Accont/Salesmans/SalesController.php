@@ -70,7 +70,8 @@ class SalesController extends AbstractController
             if($request->visualized_store === 0){
                 $request->fill(['visualized_store' =>1])->save();
             }
-            return view('accont.sale_info', compact('request','rastreamento'));
+            $type = ['type' => 'request', 'id' => $request->id];
+            return view('accont.sale_info', compact('request','rastreamento', 'type'));
         }
 
     }

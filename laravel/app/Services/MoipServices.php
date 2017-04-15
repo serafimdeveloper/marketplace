@@ -145,7 +145,7 @@ class MoipServices {
         if($status < 3){
             if(isset($this->instruction->Autorizacao)){
                 $auth = $this->instruction->Autorizacao;
-                $status = (string)$auth->Pagamento->Status;
+                $status = (string) $auth->Pagamento->Status;
                 if($status == 'Autorizado'){
                     $status = 3;
                     $this->order->products->each(function($product){
@@ -162,7 +162,7 @@ class MoipServices {
                     send_mail('emails.merchants_confirmation', $data, 'Pagamento recebido ' . $this->order->store->name);
                 }elseif($status == 'Cancelado'){
                     $status = 6;
-                }else if($status == 'Iniciado' || $status = 'EmAnalise' || $status = 'boletoEmpresso'){
+                }elseif($status == 'Iniciado' || $status = 'EmAnalise' || $status = 'boletoEmpresso'){
                     $status = 1;
                 }
                 $this->updateOrder($status);
@@ -190,8 +190,8 @@ class MoipServices {
      */
     private function updateOrder($status){
         $cancellation = ($status == 6 ? Carbon::now() : null);
-        dd($this->instruction->Autorizacao);
-        $amount_interest = ((float) $this->instruction->Autorizacao->Pagamento->TotalPago - $this->order->amount);
+        $totalPago = (float) $this->instruction->Autorizacao->Pagamento->TotalPago;
+        $amount_interest = $totalPago - $this->order->amount;
         $this->order->fill([
             'request_status_id' => $status,
             'amount_interest' => $amount_interest,

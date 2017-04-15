@@ -57,7 +57,7 @@ class RateRequest extends Command {
                 }
                 Log::info('Avaliação do pedido: ' . $order->key . ' | hora:'. Carbon::now());
             });
-            Log::info('Avaliação do pedido:  | hora:'. Carbon::now());
+//            Log::info('Avaliação do pedido:  | hora:'. Carbon::now());
         }
     }
 }
