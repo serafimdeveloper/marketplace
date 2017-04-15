@@ -114,6 +114,7 @@ class MoipServices {
         $this->moip->setReceiver($this->store->salesman->moip);
         $this->moip->addParcel('1', '10', null, true);
         $this->moip->validate('Identification');
+        dd($this->moip->send());
         $this->moip->send();
 
         $this->billetUrl = isset($this->moip->getAnswer()->payment_url) ? $this->moip->getAnswer()->payment_url : null;

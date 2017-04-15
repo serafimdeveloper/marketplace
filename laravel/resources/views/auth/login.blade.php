@@ -6,11 +6,14 @@
             <header class="pop-title">
                 <h1>Já sou usuário do Pop Martin</h1>
             </header>
-            <div class="txt-center">
-                <a class="modal modal-blueface" href="{{route('auth.facebook')}}">
-                    <span><i class="fa fa-facebook-f"></i> | conecte-se usando o facebook</span>
-                </a>
-            </div>
+            {{--<div class="txt-center">--}}
+                {{--<a class="modal modal-blueface" href="{{route('auth.facebook')}}">--}}
+                    {{--<span><i class="fa fa-facebook-f"></i> | conecte-se usando o facebook</span>--}}
+                {{--</a>--}}
+            {{--</div>--}}
+            {{--@if($errors->has('g-recaptcha-response'))--}}
+            {{--<div class="trigger error">{{ $errors->first('g-recaptcha-response') }}</div>--}}
+            {{--@endif--}}
             <form class="form-modern pop-form" role="form" method="POST" action="{{ url('/login') }}">
                 {{ csrf_field() }}
                 <label>
@@ -24,6 +27,10 @@
                     <span class="alert{{ $errors->has('password') ? '' : ' hidden' }}">{{ $errors->first('password') }}</span>
                 </label>
                 <div class="txt-center">
+                    <div class="fl-right" style="margin-right: 5px;">
+                        {{--{!! Recaptcha::render() !!}--}}
+                    </div>
+                    <div class="clear-both"></div>
                     <button class="btn btn-popmartin" type="submit" style="padding: 10px 60px;margin-top: 30px;">Entrar</button>
                     <br><br>
                     <a class="txt-decoration-underline c-gray"  href="{{ url('/password/reset') }}" style="margin-top: 10px;">esqueci minha senha</a>
@@ -35,11 +42,11 @@
                 <h1>Quero fazer parte do Pop Martin</h1>
             </header>
 
-            <div class="txt-center">
-                <a class="modal modal-blueface" href="{{route('auth.facebook')}}">
-                    <span><i class="fa fa-facebook-f"></i> | cadastre-se usando o facebook</span>
-                </a>
-            </div>
+            {{--<div class="txt-center">--}}
+                {{--<a class="modal modal-blueface" href="{{route('auth.facebook')}}">--}}
+                    {{--<span><i class="fa fa-facebook-f"></i> | cadastre-se usando o facebook</span>--}}
+                {{--</a>--}}
+            {{--</div>--}}
 
             <form class="form-modern pop-form" role="form" method="POST" action="{{ url('/register') }}" novalidate>
                 {{ csrf_field() }}

@@ -83,6 +83,7 @@ return [
     'unique'               => ':attribute já está em uso.',
     'uploaded'             => ':attribute falhou no upload.',
     'url'                  => 'O formato de :attribute é inválido.',
+    'recaptcha'            => 'Captcha inválido!',
 
     /*
     |--------------------------------------------------------------------------

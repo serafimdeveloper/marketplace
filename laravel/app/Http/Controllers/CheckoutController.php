@@ -98,6 +98,7 @@ class CheckoutController extends Controller {
             }else{
                 $payment = new MoipServices;
                 $payment->uniqueInstruction($order);
+//                dd($payment->)
                 $moip = $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
                 $tokenmoip = $moip->token;
             }

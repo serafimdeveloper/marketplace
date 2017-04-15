@@ -172,6 +172,7 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         // Artesaos\Moip\Providers\MoipServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         //
         /*
          * Application Service Providers...
@@ -181,6 +182,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
 
     ],
     /*
@@ -237,6 +239,7 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
     ],
 
 ];

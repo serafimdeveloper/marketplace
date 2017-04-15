@@ -30,9 +30,20 @@ class LoginController extends Controller
     protected $redirectTo = '';
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Overide validate Login
+     * @param Request $request
+     */
+//    protected function validateLogin(Request $request)
+//    {
+//        $this->validate($request, [
+//            $this->username() => 'required',
+//            'password' => 'required',
+//            'g-recaptcha-response' => 'required|recaptcha',
+//        ]);
+//    }
+
+    /**
+     * LoginController constructor.
      */
     public function __construct()
     {

@@ -16,7 +16,8 @@
         "laravel/socialite": "2.0.18",
         "laravelcollective/html": "^5.3",
         "league/glide-laravel": "^1.0",
-        "resultsystems/validation": "^3.0"
+        "resultsystems/validation": "^3.0",
+        "greggilbert/recaptcha": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
