@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Model\Request;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class RateRequest extends Command {
     /**
@@ -12,7 +13,7 @@ class RateRequest extends Command {
      *
      * @var string
      */
-    protected $signature = 'command:rate';
+    protected $signature = 'request:rate';
     /**
      * The console command description.
      *
@@ -40,8 +41,8 @@ class RateRequest extends Command {
         $now = Carbon::now();
         $limit = $now->subDays(5);
         $orders = $this->rateRequest
-            ->where('reuquest_status_id', '=', 5)
-            ->where('update_at', '<', $limit)->get();
+            ->where('request_status_id', '=', 5)
+            ->where('updated_at', '<', $limit)->get();
         if(count($orders)){
             $orders->each(function($order){
                 if(!$order->shopvaluation){
