@@ -19,7 +19,7 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
-    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+    public function search($name,array $columns = [], array $where = [], array $with = [], $orders = [], $limit = 50, $page = 1){
         $model =  $this->model->search($name, $with)->where('type_user','client');
         foreach ($orders as $column => $order) {
             $model = $model->orderBy($column, $order);

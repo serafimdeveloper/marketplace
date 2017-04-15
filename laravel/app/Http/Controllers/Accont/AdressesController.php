@@ -17,6 +17,7 @@
 
         public function index()
 		{
+		    $this->check_master();
             $adresses = $this->repo->all($this->columns,$this->with,['user_id'=>$this->user->id],['master'=>'DESC']);
             return $adresses;
 		}
@@ -25,6 +26,7 @@
             $dados = $this->save($request, $action);
 			if($adress = $this->repo->store($dados))
 			{
+			    $this->check_master();
 				return response()->json(['status'=>true, 'adress'=>$adress,'action'=>$action]);
 			}
 			return response()->json(['status'=>false,'msg'=>'Ocorreu um erro ao criar o endereço !'], 500);
@@ -39,16 +41,17 @@
             $dados = $this->save($request, $action);
             if($adress = $this->repo->update($dados, $id))
 			{
-				return response()->json(['adress'=>$adress,'action'=>$action]);
+                $this->check_master();
+                return response()->json(['adress'=>$adress,'action'=>$action]);
 			}
 			return response()->json(['msg'=>'Ocorreu um erro ao atualizar o endereço !'], 500);
 		}
 
 		public function destroy($id){
 		    $user = Auth::user();
-		    if($user->adresses->count() > 1 ){
-                if($this->repo->delete($id))
-                {
+		    if($user->addresses->count() > 1 ){
+                if($this->repo->delete($id)) {
+                    $this->check_master();
                     return response()->json(['status'=>true],200);
                 }
                 return response()->json(['msg'=>'Ocorreu um erro ao excluir o endereço !'], 500);
@@ -76,7 +79,7 @@
             $user = Auth::user();
             $dados = $request->except('master');
             if($action === 'user'){
-                if(count($user->addresses)){
+                if($user->addresses->count()){
                     if(isset($request->master)){
                         $this->change_master($user->addresses);
                         $dados['master'] = 1;
@@ -103,8 +106,8 @@
 
         private function check_master(){
             $user = Auth::user();
-            if(!$user->adresses->where('master',1)){
-                $user->adresses->first()->update(['master'=>1]);
+            if(!$user->addresses->where('master',1)->all()){
+                $user->addresses->first()->update(['master'=>1]);
             }
         }
 

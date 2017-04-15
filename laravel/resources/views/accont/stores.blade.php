@@ -153,7 +153,7 @@
                                 </div>
                             @else
                                 <div id="isAddress">
-                                    <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereços cadastrado</p>
+                                    <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereço cadastrado</p>
                                     <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address" data-action="store">cadastrar um endereço</a></p>
                                 </div>
                             @endif
