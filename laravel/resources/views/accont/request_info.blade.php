@@ -43,7 +43,7 @@
                     @endif
                     <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i
                                 class="fa fa-comments-o"></i> contatar o vendedor</a>
-                    @if($request->request_status_id > 3)
+                    @if($request->request_status_id === 4)
                         <span style="margin-bottom: 10px" class="txt-left">
                                 <p style="margin-bottom: 0">Status: <strong>{{$request->object->status}}</strong></p>
                                 <p style="margin-bottom: 0">Código de rastreio: {{ mb_strtoupper($request->tracking_code)}}</p>

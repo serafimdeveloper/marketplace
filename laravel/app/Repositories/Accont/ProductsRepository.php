@@ -22,8 +22,11 @@ class ProductsRepository extends BaseRepository
     public function single_page(array $with, $store, $category, $product) {
         $model = $this->model
             ->with($with)
-            ->select('products.*');
-        $model = $this->productsActive($model)
+            ->select('products.*')
+            ->join('stores', function($join) use($store){
+                $join->on('stores.id','=','products.store_id')
+                    ->where('stores.slug', $store);
+            })
             ->join('categories', function ($join) use ($category) {
                 $join->on('categories.id', '=', 'products.category_id')
                     ->where('categories.slug', $category);

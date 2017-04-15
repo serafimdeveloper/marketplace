@@ -105,7 +105,7 @@
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Comissão (%)</p>
-                                         {!! Form::open(['action' => 'javascript:void(0)', 'id'=>'form-commission', 'method' => 'post']) !!}
+                                         {!! Form::open(['id'=>'form-commission', 'method' => 'post']) !!}
                                             <label>
                                                 {!! Form::text('commission', $result->comission, ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
                                             </label>

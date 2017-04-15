@@ -2,6 +2,11 @@
 
 @section('content')
     <section class="content pop-store">
+        @if(isset($blocked))
+            <p class="trigger warning"><i class="fa fa-warning"></i>
+                ATENÇÃO: Sua loja está bloqueada e todos os seus produtos não estão visíveis ao publico.
+            </p>
+        @endif
         <div class="coltable">
             <div class="coltable-3">
                 <div class="pop-store-info">
@@ -24,6 +29,7 @@
                     @forelse($store->products as $product)
                         <div class="colbox-4">
                             <article class="modal-product">
+                                @if(!isset($blocked))
                                 <ul>
                                     @if(Auth::check())
                                         <li><a href="javascript:void(0)" class="add-favorite" data-product="{{$product->id}}" data-message=" para adicionar ao seus favoritos!">
@@ -36,6 +42,13 @@
                                     <li><a href="javascript:void(0)" data-product="{{$product->id}}" class="add-cart"><i
                                                     class="fa fa-cart-plus"></i></a></li>
                                 </ul>
+                                @else
+                                    <ul>
+                                        <li><a href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="javascript:void(0)"><i class="fa fa-facebook-official"></i></a></li>
+                                        <li><a href="javascript:void(0)"><i class="fa fa-cart-plus"></i></a></li>
+                                    </ul>
+                                @endif
                                 <figure>
                                     <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}" alt="{{$product->name}}" title="{{$product->name}}">
                                     <figcaption><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}</a></figcaption>

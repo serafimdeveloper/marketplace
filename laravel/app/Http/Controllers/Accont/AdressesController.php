@@ -45,11 +45,15 @@
 		}
 
 		public function destroy($id){
-			if($this->repo->delete($id))
-			{
-				return response()->json(['status'=>true],200);
-			}
-			return response()->json(['msg'=>'Ocorreu um erro ao excluir o endereço !'], 500);
+		    $user = Auth::user();
+		    if($user->adresses->count() > 1 ){
+                if($this->repo->delete($id))
+                {
+                    return response()->json(['status'=>true],200);
+                }
+                return response()->json(['msg'=>'Ocorreu um erro ao excluir o endereço !'], 500);
+            }
+            return response()->json(['msg' => 'Necessário ter pelo menos um endereço'],403);
 		}
 
 		public function search_cep($cep){
@@ -95,6 +99,13 @@
                 return  response()->json($zip_code);
             }
             return response()->json(['msg'=>'Endereço inválido'],404);
+        }
+
+        private function check_master(){
+            $user = Auth::user();
+            if(!$user->adresses->where('master',1)){
+                $user->adresses->first()->update(['master'=>1]);
+            }
         }
 
     }
