@@ -79,7 +79,12 @@
                             </div>
                         @else
                             <p>
-                                <img src="{{url('imagem/vendedor/'.$salesman->proof_adress.'?w=180&h=120')}}"><br>
+                                @if(substr($salesman->proof_adress, -3) == 'pdf')
+                                    {{--<a href="{{url('imagem/vendedor/'.$salesman->proof_adress)}}" target="_blank">ver comprovante</a><br>--}}
+                                    <span class="fa fa-file-pdf-o fontem-20"></span><br>
+                                @else
+                                    <img src="{{url('imagem/vendedor/'.$salesman->proof_adress.'?w=180&h=120')}}"><br>
+                                @endif
                                 Comprovante de endereço enviado
                             </p>
                         @endif
