@@ -11,6 +11,7 @@ namespace App\Services;
 use App\Model\Request;
 use App\Package\Moip\lib\Moip;
 use App\Package\Moip\lib\MoIPClient;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class MoipServices {
@@ -97,10 +98,11 @@ class MoipServices {
      */
     function uniqueInstruction($order){
         $this->setOrderMoip($order);
+        $value_products = $this->order->amount - $this->order->price_freight;
         $user = Auth::user();
         $this->moip->setEnvironment(env('MOIP_ENVIRONMENT'));
         $this->moip->setCredential(['key' => env('MOIP_KEY'), 'token' => env('MOIP_TOKEN')]);
-        $this->moip->setUniqueID($this->order->key)->setValue($this->order->amount);
+        $this->moip->setUniqueID($this->order->key)->setValue($value_products)->setAdds($this->order->price_freight);
         $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT)$this->address->zip_code, 'phone' => $user->phone]]);
         $this->moip->setReason('Compra efetuada na plataforma PopMartin. Vendedor: ' . $this->store->name);
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
@@ -108,7 +110,7 @@ class MoipServices {
         $this->moip->addMessage('Produtos comprado na plataforma Popmartin');
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('api/notification/moip/nasp'));
-        $this->moip->addComission('Venda na plataforma popmartin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT') - 7), true, false);
+        $this->moip->addComission('Venda na plataforma popmartin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT')) - 7.3, true, false);
         $this->moip->setReceiver($this->store->salesman->moip);
         $this->moip->addParcel('1', '10', null, true);
         $this->moip->validate('Identification');
@@ -187,14 +189,18 @@ class MoipServices {
      * @param $status
      */
     private function updateOrder($status){
+        $cancellation = ($status == 6 ? Carbon::now() : null);
+        dd($this->instruction->Autorizacao);
+        $amount_interest = ((float) $this->instruction->Autorizacao->Pagamento->TotalPago - $this->order->amount);
         $this->order->fill([
             'request_status_id' => $status,
-            'amount' => (float) $this->instruction->Autorizacao->Pagamento->ValorLiquido,
+            'amount_interest' => $amount_interest,
             'rate_moip' => (float) $this->instruction->Autorizacao->Pagamento->TaxaMoIP,
-            'request_status_id' => $status,
             'payment_reference' => (string) $this->instruction->Autorizacao->Pagamento->FormaPagamento,
             'payment_institution' => (string) $this->instruction->Autorizacao->Pagamento->InstituicaoPagamento,
-            'number_installments' => (string) $this->instruction->Autorizacao->Pagamento->Parcela->TotalParcelas
+            'commission_amount' => (float) $this->instruction->Autorizacao->Pagamento->Comissao->Valor,
+            'number_installments' => (string) $this->instruction->Autorizacao->Pagamento->Parcela->TotalParcelas,
+            'cancellation_date' => $cancellation
         ])->save();
         $this->order->moip->fill([
             'codeMoip' => (string) $this->instruction->Autorizacao->Pagamento->CodigoMoIP

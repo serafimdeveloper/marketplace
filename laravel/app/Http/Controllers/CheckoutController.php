@@ -121,9 +121,9 @@ class CheckoutController extends Controller {
         $moipClient = new MoipServices(true, '/ws/alpha/ConsultarInstrucao/');
         $moipClient->checkStatusInstruction($order->id);
         if($moipClient->getInstruction()->Autorizacao){
-            $moip['valueTodalRementente'] = (float) ($moipClient->getInstruction()->Autorizacao->Pagamento->ValorLiquido - $moipClient->getInstruction()->Autorizacao->Pagamento->Comissao->Valor);
-            $moip['taxamoip'] = (float) $moipClient->getInstruction()->Autorizacao->Pagamento->TaxaMoIP;
-            $moip['comission'] = ( (float) $moipClient->getInstruction()->Autorizacao->Pagamento->Comissao->Valor - $moip['taxamoip']);
+//            $moip['valueTodalRementente'] = (float) ($moipClient->getInstruction()->Autorizacao->Pagamento->ValorLiquido - $moipClient->getInstruction()->Autorizacao->Pagamento->Comissao->Valor);
+//            $moip['taxamoip'] = (float) $moipClient->getInstruction()->Autorizacao->Pagamento->TaxaMoIP;
+//            $moip['comission'] = ( (float) $moipClient->getInstruction()->Autorizacao->Pagamento->Comissao->Valor - $moip['taxamoip']);
 
             $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
             $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
