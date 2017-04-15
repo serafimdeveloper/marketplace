@@ -10,6 +10,7 @@ use App\Services\CartServices;
 use App\Services\MoipServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Correios;
 use DB;
@@ -29,23 +30,22 @@ class CheckoutController extends Controller {
     public function confirmAddress(Request $request){
         $user = Auth::user();
         if(Session::has('cart')){
-            $cart = Session::get('cart');
-            foreach($cart->stores as $key => $values){
-                if($request->sha1 === strtoupper(sha1($key))){
-                    $sha1 = $request->sha1;
-                    if($cart->address['id']){
-                        $address = $this->repo_address->get($cart->address['id']);
-                    }else{
-                        $address = (object)Correios::cep($cart->address['zip_code'])[0];
+            if($cart = $this->service->setCart(Session::get('cart'))->check_cart()->getCart()){
+                foreach($cart->stores as $key => $values){
+                    if($request->sha1 === strtoupper(sha1($key))){
+                        $sha1 = $request->sha1;
+                        if($cart->address['id']){
+                            $address = $this->repo_address->get($cart->address['id']);
+                        }else{
+                            $address = (object)Correios::cep($cart->address['zip_code'])[0];
+                        }
+                        return view('pages.cart_address', compact('address', 'sha1', 'user'));
                     }
-
-                    return view('pages.cart_address', compact('address', 'sha1', 'user'));
                 }
             }
         }
         flash('Não tem nenhum carrinho', 'error');
-
-        return redirect()->back();
+        return redirect()->route('pages.cart');
     }
 
     public function confirmPostAddress(AdressesStoreRequest $req, $sha1){

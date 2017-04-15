@@ -20,6 +20,11 @@
         {{--<li><a href=""></a></li>--}}
         {{--</ul>--}}
     </div>
+    @if(isset($blocked))
+        <p class="trigger warning"><i class="fa fa-warning"></i>
+            ATENÇÃO: Esse produto está bloqueado e não está visível ao publico.
+        </p>
+    @endif
     <section class="content pop-product">
         <div class="colbox">
             <div class="colbox-2">
@@ -76,7 +81,11 @@
                         </div>
                         <div class="colbox-2 txt-center">
                             <div class="btn-purshace">
+                                @if(isset($blocked) || !$product->quantity)
+                                    <p class="trigger error">Produto Indisponível</p>
+                                @else
                                 <a class="btn btn-popmartin" href="{{route('pages.cart.add_product',['id'=>$product->id])}}" title="">COMPRAR</a>
+                                @endif
                                 <br>
                                 <br>
                                 <span>{{$product->quantity}} peça(s) disponível(veis)<br>

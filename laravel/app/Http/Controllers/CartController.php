@@ -12,19 +12,21 @@ use App\Model\Freight;
 use App\Services\CartServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Correios;
 
 class CartController extends Controller
 {
     protected $cart_service;
+
     public function __construct(CartServices $cart_service){
         $this->cart_service = $cart_service;
     }
 
-    public function index(){
+    public function index(Freight $model_freight){
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','id') : null);
-        $freight = Freight::where('name', '!=', 'Frete Grátis')->pluck('name','code');
+        $freight = $model_freight->where('name', '!=', 'Frete Grátis')->pluck('name','code');
         $address = [];
         $cart = [];
         if(Session::has('cart') || isset(Auth::user()->cartsession->stores)){
@@ -38,14 +40,22 @@ class CartController extends Controller
     }
 
     public function add_product(Request $request, $id){
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->add_cart($id);
-        $request->session()->put('cart', $cart);
-        if($request->ajax()){
-            return response()->json(['msg' => 'Produto adicionado no carrinho com sucesso!', 'cart' => $cart->amount], 201);
+        if($this->cart_service->cantBuy($id)) {
+            $oldCart = Session::has('cart') ? Session::get('cart') : null;
+            $cart = new Cart($oldCart);
+            $cart->add_cart($id);
+            $request->session()->put('cart', $cart);
+            if ($request->ajax()) {
+                return response()->json(['msg' => 'Produto adicionado no carrinho com sucesso!', 'cart' => $cart->amount], 201);
+            }
+            return redirect()->route('pages.cart');
+        }else{
+            if($request->ajax()){
+              return response()->json('Você não pode comprar esse produto',403);
+            }
+            flash('Você não pode comprar esse produto','error');
+            return redirect()->back();
         }
-        return redirect()->route('pages.cart');
     }
 
     public function remove_product (Request $request, $id){

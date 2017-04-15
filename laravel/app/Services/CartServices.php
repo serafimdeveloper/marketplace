@@ -6,6 +6,7 @@ use App\Model\Cart;
 use App\Model\Product;
 use App\Model\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
 class CartServices {
@@ -27,21 +28,23 @@ class CartServices {
     public function check_cart(){
         foreach($this->cart->stores as $key_store => $store){
             foreach($store['products'] as $key_product => $product){
-                if($prod = Product::find($key_product)){
+                if($prod = $this->cantBuy($key_product)){
                     if($prod->quantity < $product['qtd']){
-                        unset($store['products'][ $key_product ]);
+                        unset($this->cart->stores[ $key_store ]['products'][ $key_product ]);
                     }
                     $product['price_unit'] = isset($prod->price_out_discount) ? $prod->price_out_discount : $prod->price;
                     $product['subtotal'] = $product['price_unit'] * $product['qtd'];
+                    $this->cart->stores[ $key_store ]['products'][ $key_product ] = $product;
                 }else{
-                    unset($store['products'][ $key_product ]);
+                    unset( $this->cart->stores[ $key_store ]['products'][ $key_product ]);
                 }
-                $this->cart->stores[ $key_store ]['products'][ $key_product ] = $product;
+            }
+            if( empty($this->cart->stores[$key_store]['products'])){
+                $this->deleteRequestCart($key_store);
             }
         }
         $this->cart->calc_freight();
         $this->saveCart();
-
         return $this;
     }
 
@@ -50,7 +53,6 @@ class CartServices {
         foreach($this->cart->stores as $store){
             $requests[] = Request::with($with)->find($store['request']);
         }
-
         return $requests;
     }
 
@@ -69,15 +71,13 @@ class CartServices {
                 Session::forget('cart');
             }
         }
-
         return $this;
     }
 
     public function dbCart($address, $stores){
         $this->cart = new Cart();
         $this->cart->address = $address;
-        $this->cart->stores = $stores;
-
+        $this->cart->stores  = $stores;
         return $this;
     }
 
@@ -99,5 +99,15 @@ class CartServices {
         }else{
             Session::put('cart', $this->cart);
         }
+    }
+
+    public function cantBuy($id){
+        $product = Product::with(['store'])->find($id);
+        if(Auth::check()){
+            if(Gate::allows('store_access',$product->store)){
+                return false;
+            }
+        }
+        return $product;
     }
 }

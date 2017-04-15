@@ -62,22 +62,18 @@ class SalesmanController extends AbstractAdminController {
     }
 
     public function update(Request $request, $id){
-        if($salesman = $this->repo->get($id)){
+        if($salesman = $this->repo->get($id)) {
             $salesman->update($request->all());
-
             return response()->json(['status' => true], 200);
         }
-
         return response()->json(['status' => false, 500]);
     }
 
     public function destroy($id){
         if($salesman = $this->repo->get($id)){
             $salesman->delete();
-
             return response()->json([], 204);
         }
-
         return response()->json(['status' => false], 500);
     }
 }

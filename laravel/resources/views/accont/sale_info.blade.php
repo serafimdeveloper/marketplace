@@ -19,7 +19,7 @@
                     </p>
                 </div>
                 <div class="colbox-2">
-                    @if($request->request_status_id >= 3)
+                    @if($request->request_status_id >= 3 && $request->request_status_id < 5)
                         {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
                         <label>
                             <span>Código de rastreio dos correios</span>

@@ -39,8 +39,17 @@ class HomeController extends Controller {
             $visit_products->add_visit_product($product);
             $notes = $shopvaluations->getNotes($product);
             $count = $this->product->countRequests($product);
-
-            return view('pages.product', compact('product','type','notes', 'count'));
+            $store = $product->store;
+            if($product->active && $store->active && $store->salesman->active){
+                return view('pages.product', compact('product','type','notes', 'count'));
+            }else{
+                if(Auth::check()){
+                    if(Gate::allows('store_access',$store)){
+                        $blocked = true;
+                        return view('pages.product', compact('product','type','notes', 'count', 'blocked'));
+                    }
+                }
+            }
         }
         return view('errors.404');
     }
@@ -60,13 +69,14 @@ class HomeController extends Controller {
 
     public function stores($slug){
         if($store = $this->store->getStoreSlug($this->with_store, $slug)){
-            if($store->active || $store->salesman->active){
-                $favorites = $this->favorite->getProductsFavorites();
+            $favorites = $this->favorite->getProductsFavorites();
+            if($store->active && $store->salesman->active){
                 return view('pages.store', compact('store','favorites'));
             }else{
                 if(Auth::check()){
                     if(Gate::allows('store_access',$store)){
-                        return view('pages.store', compact('store','favorites'));
+                        $blocked = true;
+                        return view('pages.store', compact('store','favorites','blocked'));
                     }
                 }
                 return view('errors.404');
