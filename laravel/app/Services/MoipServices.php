@@ -154,6 +154,11 @@ class MoipServices {
                             send_mail('emails.merchants_lackofproduct', $data, 'Falta de produto em pedido', $this->order->store->name);
                         }else{
                             $product->decrement('quantity', $product->pivot->quantity);
+                            $product->movementstocks()->create([
+                                'type_moviment_stock_id' => 2,
+                                'count' => $product->pivot->quantity,
+                                'request_id' => $this->order->id
+                            ]);
                         }
                     });
                     $data = ['email' => $this->order->user->email, 'user' => $this->order->user, 'store' => $this->order->store, 'products' => $this->order->products, 'request' => $this->order];
