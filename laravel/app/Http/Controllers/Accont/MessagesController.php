@@ -76,6 +76,7 @@ class MessagesController extends AbstractController {
         $this->validate($request, ['message' => 'required|min:5:max:500'], ['message.required' => 'A messagem é obrigatório', 'message.min' => 'A quantidade mínima de caracteres é 5', 'message.max' => 'A quantidade máxima é de 500 caracteres']);
         $user = Auth::user();
         $dados = ['sender_id' => $user->id, 'sender_type' => get_class($user), 'content' => $request->message];
+        $req = null;
         if($type === "request"){
             if($req = $this->req->find($id)){
                 $dados['request_id'] = $id;
@@ -109,7 +110,14 @@ class MessagesController extends AbstractController {
         }
         if($message = $this->repo->store($dados)){
             $data = ['email' => $store->salesman->user->email, 'name' => $store->name, 'id' => $message->id, 'message_type' => 'received'];
-            send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$user->name);
+            if(preg_match("/accont\/salesman\/sale/", redirect()->back()->getTargetUrl())){
+                $data['email'] = $req->user->email;
+                $data['name'] = $req->user->name;
+                send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$data['name']);
+            }else{
+                send_mail('emails.received_message', $data, 'Você recebeu uma mensagem de '.$user->name);
+            }
+
             $this->repo->update(['message_id' => $message->id], $message->id);
             $this->repo->filter_messages($dados['content'], $message);
             flash('Mensagem enviada com sucesso!', 'accept');

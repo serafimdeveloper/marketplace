@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Container\Container as App;
 use Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class SalesmanController extends AbstractController
 {
@@ -40,7 +41,6 @@ class SalesmanController extends AbstractController
         $dados['user_id'] = $user->id;
 
         $moipClient = new MoIPClient;
-
         $result = $moipClient->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . "/ws/alpha/VerificarConta/" . $dados['moip']);
         $xml = simplexml_load_string($result->xml);
         $xmlData = $xml->RespostaVerificarConta;
@@ -97,10 +97,33 @@ class SalesmanController extends AbstractController
         }
         $user = Auth::user()->salesman;
         $dados = $request->all();
-        if($salesman = $this->repo->update($dados,$user->id)){
-            flash('Vendedor salvo com sucesso!', 'accept');
+        $moipClient = new MoIPClient;
+        $result = $moipClient->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . "/ws/alpha/VerificarConta/" . $dados['moip']);
+        $xml = simplexml_load_string($result->xml);
+        $xmlData = $xml->RespostaVerificarConta;
+
+        if($xmlData->Status == 'Inexistente'){
+            flash('Login moip inexistente!', 'error');
+            return redirect()->route('accont.salesman.info');
+        }else if($xmlData->Descricao == 'Pessoal'){
+            flash('É necessário uma conta de Negócios no moip para se tornar vendedor!', 'error');
+            return redirect()->route('accont.salesman.info');
         }else{
-            flash('Ocorreu um erro!', 'error');
+            if($salesman = $this->repo->update($dados, $user->id)){
+                if(isset($dados['photo_document'])){
+                    Storage::delete('img/vendedor/' . $salesman->photo_document);
+                    $dados['photo_document'] = $this->upload($request->photo_document, 'img/vendedor', 'D1V' . $salesman->id);
+                }
+                if(isset($dados['proof_adress'])){
+                    Storage::delete('img/vendedor/' . $salesman->proof_adress);
+                    $dados['proof_adress'] = $this->upload($request->proof_adress, 'img/vendedor', 'D2V' . $salesman->id);
+                }
+                $this->repo->update($dados, $salesman->id);
+                $user->update(['type_user' => 'salesman']);
+                flash('Vendedor salvo com sucesso!', 'accept');
+            }else{
+                flash('Ocorreu um erro!', 'error');
+            }
         }
         return redirect()->route('accont.salesman.info');
     }

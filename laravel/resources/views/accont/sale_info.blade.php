@@ -19,16 +19,19 @@
                     </p>
                 </div>
                 <div class="colbox-2">
-                    @if($request->request_status_id >= 3 && $request->request_status_id < 5)
-                        {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
-                        <label>
-                            <span>Código de rastreio dos correios</span>
-                            {!! Form::text('tracking_code', null, ['class' => 'uppercase', 'placeholder' => 'código', 'maxlength' => 13, 'minlength' => 13]) !!}
-                            <span class="alert hidden"></span>
-                            <span class="fa fa-spinner fa-spin jq-loader dp-none loader-2"></span>
-                        </label>
-                        <button type="submit" class="btn btn-small btn-popmartin">enviar</button>
-                        {!! Form::close() !!}
+                    @if($request->request_status_id >= 3)
+                        @if($request->request_status_id < 5)
+                            {!! Form::model($request, ['route' => ['accont.salesman.request.tracking_code', $request->id],'id' =>'form-tracking' ,'class' => 'form-modern pop-form pst-relative pop-tracking'] ) !!}
+                            <label>
+                                <span>Código de rastreio dos correios</span>
+                                {!! Form::text('tracking_code', null, ['class' => 'uppercase', 'placeholder' => 'código', 'maxlength' => 13, 'minlength' => 13]) !!}
+                                <span class="alert hidden"></span>
+                                <span class="fa fa-spinner fa-spin jq-loader dp-none loader-2"></span>
+                            </label>
+                            <button type="submit" class="btn btn-small btn-popmartin">enviar</button>
+                            {!! Form::close() !!}
+                        @endif
+                            @if($request->request_status_id >= 5) <br> @endif
                         @if($request->object)
                             <div style="padding: 0 17px;margin-top: -10px;">
                                 <p style="margin-bottom: 0">Status: <strong>{{$request->object->status}}</strong></p>
@@ -114,7 +117,8 @@
             </div>
         @endif
         <div class="txt-center">
-            <a class="btn btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar cliente</a>
+            <a class="btn btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar
+                cliente</a>
         </div>
         @if($request->request_status_id === 3)
             <div class="txt-center">

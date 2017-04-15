@@ -125,10 +125,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 Route::get('/pagina/{page}', 'PageController@with_pay')->name('pagina');
 
 Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
-
-/*Route::get('imagem/{path}', function(League\Glide\Server $server, Illuminate\Http\Request $request, $path){
-    $server->outputImage($path, $request->input());
-})->where('path', '.+');*/
+Route::get('documento/pfd/{pdf}','Accont\DocumentPdf@index')->name('document.pdf');
 
 /** Rotas de páginas */
 Route::get('/', 'HomeController@index')->name('homepage');
