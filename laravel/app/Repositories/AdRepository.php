@@ -19,7 +19,7 @@ class AdRepository extends BaseRepository
         return Ad::class;
     }
 
-    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+    public function search($name,array $columns = [],array $where = [], array $with = [], $orders = [], $limit = 50, $page = 1){
         $model =  $this->model->with($with)->select('ads.*')->join('stores', function($join) use($name) {
             $join->on('stores.id','=','ads.store_id')
                 ->where('stores.name','LIKE','%'.$name.'%');

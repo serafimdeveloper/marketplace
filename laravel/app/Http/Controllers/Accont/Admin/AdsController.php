@@ -9,15 +9,19 @@
 namespace App\Http\Controllers\Accont\Admin;
 
 
+use App\Repositories\Accont\StoresRepository;
 use App\Repositories\AdRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class AdsController extends  AbstractAdminController
 {
-    public function __construct(AdRepository $repo)
+    protected  $store_repo;
+
+    public function __construct(AdRepository $repo, StoresRepository $store_repo)
     {
         $this->repo = $repo;
+        $this->store_repo = $store_repo;
     }
 
     public function index(Request $request){
@@ -34,9 +38,15 @@ class AdsController extends  AbstractAdminController
         return view('accont.report.search', $data);
     }
 
+    public function create(){
+        $stores = $this->store_repo->all()->pluck('name','id');
+        return view('layouts.parties.alert_banner', compact('stores'));
+    }
+
     public function show($id){
         if($result = $this->getByRepoId($id)){
-            return response()->json(compact('result'));
+            $stores = $this->store_repo->all()->pluck('name','id');
+            return view('layouts.parties.alert_banner', compact('result', 'stores'));
         }
         return response()->json(['msg' => 'Erro ao encontrar o vendedor'],404);
     }
