@@ -47,6 +47,9 @@ class UserController extends AbstractAdminController
     }
 
     public function destroy($id){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         if($salesman = $this->repo->get($id)){
             $salesman->delete();
             return response()->json([],204);

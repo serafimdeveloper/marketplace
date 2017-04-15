@@ -408,10 +408,6 @@ $(function(){
         return false;
     });
 
-    /** Modal de informações de produtos */
-    $(document).on('click', '.jq-info-sales', function () {
-        $("#jq-info-sales").slideDown();
-    });
 
     /** Modal de informações das notificações */
     $(document).on('click', '.jq-notification', function () {
@@ -464,20 +460,40 @@ $(function(){
         return false;
     });
 
-    /** Modal de informações de produtos */
-    $(document).on('click', '.jq-info-product', function () {
-        $("#jq-info-product").slideDown();
-    });
 
     /** Modal de informações de gerais */
     $(document).on('click', '.jq-info', function () {
         var id = $(this).data('id');
         var type = $(this).data('type');
         $.get('/accont/report/'+type+'/'+id, function (response) {
-            $("#resp_modal").slideDown();
             $('#resp_modal').empty().html(response);
+            $('#resp_modal').find('.alertbox').css({dsiplay: 'block !important'});
+            $(document).ready(function(){
+                $('#resp_modal').find('.alertbox').show();
+            });
         },'html');
     });
+
+    /**
+     * Remoção de usuário por parte do administrador
+     */
+    $(document).on('click', '.jq-remove-user', function(){
+        var e = $(this);
+        var data =  {'_token': e.data('token'), 'id': e.data('id')};
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esse usuário?',
+            function () {
+                var data = {'_token': e.data('token'), 'id': e.data('id')};
+                $.post('/accont/report/users/' + data.id + '/delete', data, function(){
+                    e.parents('#resp_modal').empty();
+                    $('.trUser' + data.id).slideUp().remove();
+                    alertify.success("Usuário removido com sucesso!");
+                }).error(function (response) {
+                    alertify.error(response.responseJSON.msg);
+                });
+            }, function () {
+                return true;
+            });
+    })
 
     /** Desbloquer e bloquear vendedor */
     $(document).on('click','.btn-unlock-salesman', function(){

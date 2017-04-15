@@ -12,7 +12,7 @@
 
         <tbody>
         @forelse($result as $user)
-            <tr>
+            <tr class="trUser{{ $user->id }}">
                 <td>{{$user->name.' '.$user->last_name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->last_access->format('d/m/Y H:i:s')}}</td>
