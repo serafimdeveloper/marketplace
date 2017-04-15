@@ -6,34 +6,30 @@
         <header class="pop-title">
             <h1>{{$title}}</h1>
         </header>
-
-        <form class="form-modern pop-form searh_store" action="javascript:void(0)">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-            <label>
-                <input type="search" class="jq-input-search" name="user_name" placeholder="{{$placeholder}}">
-            </label>
+        @if($type === 'products')
+        <form class="form-modern pop-form form-search" action="javascript:void(0)">
+            <div class="colbox">
+                <div class="colbox-2">
+                    <label>
+                        <input type="search" class="jq-input-search" name="name" data-type="{{$type}}" placeholder="{{$placeholder}}">
+                    </label>
+                </div>
+                <div class="colbox-2">
+                    <div class="form-modern">
+                      {!! Form::select('store_id',$stores,null,['placeholder' => 'Selecione uma loja', 'class'=>'jq-input-search']) !!}
+                    </div>
+                </div>
+            </div>
         </form>
 
-        <div class="colbox">
-            <div class="colbox-2">
-                <form class="form-modern pop-form searh_store" action="javascript:void(0)">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                    <label>
-                        <input type="search" class="jq-input-search" name="user_name" placeholder="{{$placeholder}}">
-                    </label>
-                </form>
-            </div>
-            <div class="colbox-2">
-                <div class="form-modern" style="padding: 20px;">
-                    <select name="">
-                        <option disabled="true" selected="true">Selecionar loja</option>
-                        <option>value 1</option>
-                        <option>value 1</option>
-                    </select>
-                </div>
+        @else
+        <form class="form-modern pop-form form-search" action="javascript:void(0)">
+            <label>
+                <input type="search" class="jq-input-search" name="name" data-type="{{$type}}" placeholder="{{$placeholder}}">
+            </label>
+        </form>
+        @endif
 
-            </div>
-        </div>
 
         <div id="result">
             @include('accont.report.presearch')

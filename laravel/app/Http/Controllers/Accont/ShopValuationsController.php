@@ -14,6 +14,7 @@ use App\Repositories\Accont\RequestsRepository;
 use App\Repositories\Accont\ShopValuationsRepository;
 use Illuminate\Container\Container as App;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ShopValuationsController extends AbstractController
 {

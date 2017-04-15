@@ -10,7 +10,7 @@ class SalesmanRepository extends BaseRepository
         return Salesman::class;
     }
 
-    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+    public function search($name,array $columns = [], array $where = [], array $with = [], $orders = [], $limit = 50, $page = 1){
         $model =  $this->model->with($with)->select('salesmans.*')->join('users', function($join) use($name){
             $join->on('users.id','=','salesmans.user_id')
                 ->where('users.name','LIKE','%'.$name.'%');

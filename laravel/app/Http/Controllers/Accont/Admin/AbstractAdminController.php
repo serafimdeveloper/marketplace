@@ -17,6 +17,7 @@ abstract class AbstractAdminController extends Controller
     protected $repo;
     protected $with = [];
     protected $columns = ['*'];
+    protected $where = [];
     protected $ordy = [];
     protected $title = '';
     protected $placeholder = '';
@@ -24,7 +25,7 @@ abstract class AbstractAdminController extends Controller
 
     protected function search($request, $type){
         $page = Input::get('page') ? Input::get('page') : 1 ;
-        $result = $this->repo->search($request->name, $this->columns, $this->with, $this->ordy, $this->limit, $page);
+        $result = $this->repo->search($request->name, $this->columns, $this->where, $this->with, $this->ordy, $this->limit, $page);
         return ['type' => $type, 'result' => $result, 'title' => $this->title, 'placeholder' => $this->placeholder];
 
     }

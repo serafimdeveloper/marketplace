@@ -101,6 +101,8 @@ class ProductsRepository extends BaseRepository
         return $model;
     }
 
+
+
     public function productsCategory(array $with,$category, $subcategory = null){
         $model_cat = Category::where('slug', $category)->first();
         $categories = $this->getCategory($with, $model_cat->id);
@@ -109,13 +111,15 @@ class ProductsRepository extends BaseRepository
         return $all;
     }
 
-    public function search($name,array $columns = [],array $with = [], $orders = [], $limit = 50, $page = 1){
+    public function search($name,array $columns = [],array $where = [], array $with = [], $orders = [], $limit = 50, $page = 1){
         $model =  $this->model->Search($name, $with);
+        foreach ($where as $key => $value){
+            $model = $model->where($key, $value);
+        }
         foreach ($orders as $column => $order) {
             $model = $model->orderBy($column, $order);
         }
         $model = $model->paginate($limit, $columns, 'page', $page);
-
         return $model;
     }
 

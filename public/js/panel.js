@@ -65,8 +65,8 @@ $(function(){
     });
 
     /** Procura de loja em tempo real no painel */
-    $(".jq-input-search").keyup(function () {
-        var data = 'name=' + $(this).val();
+    $(".jq-input-search").bind('keyup change', function () {
+        var data = $('.form-search').serialize();
         getData(1, data);
     });
 
@@ -272,6 +272,7 @@ $(function(){
                             }
                         });
                     }
+                    location.reload();
                 }
             });
         } else {
@@ -299,6 +300,7 @@ $(function(){
                         $('#end_' + data.adress.id).replaceWith(windowAdress(data.adress, data.action));
                     });
                     clearInput(form);
+                    location.reload();
                 }
             });
         }
