@@ -63,7 +63,7 @@
                                     @endif
                                 </figure>
                                 <header>
-                                    <h2><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{$product->name}}</a></h2>
+                                    <h2><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{limit_text($product->name,50)}}</a></h2>
                                 </header>
                             </article>
                         </div>

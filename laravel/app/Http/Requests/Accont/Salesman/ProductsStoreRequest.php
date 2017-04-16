@@ -35,13 +35,13 @@ class ProductsStoreRequest extends Request
             'name' => ['required',
                 Rule::unique('products')->where(function($query) use($store){
                     $query->where('store_id',$store->id);
-                 }),'max:50','min:3'
+                 }),'max:100','min:3'
             ],
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
             'deadline' => 'required|numeric|max:15',
             'minimum_stock'=>'required|numeric',
-            'details'=>'required|string|max:500',
+            'details'=>'required|string',
             'image_0' => 'required',
             'image.*' => 'mimes:png,jpg,jpeg,pdf|max:10000',
             'length_cm' => 'required|numeric|min:16|max:105',
@@ -55,7 +55,7 @@ class ProductsStoreRequest extends Request
         return [
             'name.required' => 'O nome do produto é obrigatório',
             'name.unique' => 'Já contém um produto com esse nome',
-            'name.max' => 'A quantidade máxima de caracteres é 50',
+            'name.max' => 'A quantidade máxima de caracteres é 100',
             'name.min' => 'A quantidade mínima de caracteres é 3',
             'category_id.required' => 'A categória é obrigatório',
             'category_id.numeric' => 'A categória dever ser um número',
