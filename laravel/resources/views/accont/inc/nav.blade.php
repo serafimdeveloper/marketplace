@@ -67,7 +67,7 @@
                         <a href="{{route('accont.categories.index')}}"{!! url()->current() ==  route('accont.categories.index') ? ' class="current_rout"' :  ''!!}>categorias</a>
                     </li>
                     <li>
-                        <a href="/accont/banners"{!! url()->current() ==  route('accont.home') ? ' class="current_rout"' :  ''!!}>banners</a>
+                        <a href="{{route('accont.banners')}}"{!! url()->current() ==  route('accont.home') ? ' class="current_rout"' :  ''!!}>banners</a>
                     </li>
                     <li>
                         <a href="{{route('accont.report.sales')}}"{!! url()->current() ==  route('accont.report.sales') ? ' class="current_rout"' :  ''!!}>vendas

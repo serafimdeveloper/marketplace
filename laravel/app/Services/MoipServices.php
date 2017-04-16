@@ -103,7 +103,7 @@ class MoipServices {
         $this->moip->setEnvironment(env('MOIP_ENVIRONMENT'));
         $this->moip->setCredential(['key' => env('MOIP_KEY'), 'token' => env('MOIP_TOKEN')]);
         $this->moip->setUniqueID($this->order->key)->setValue($value_products)->setAdds($this->order->price_freight);
-        $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT)$this->address->zip_code, 'phone' => $user->phone]]);
+        $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT)$this->address->zip_code, 'phone' => $this->order->phone]]);
         $this->moip->setReason('Compra efetuada na plataforma PopMartin. Vendedor: ' . $this->store->name);
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
         $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days", strtotime(date('Y-m-d')))), false, ["Popmatin.com.br", env('MAIL_USERNAME'), ""], url('imagem/pop/logo-popmartin.png'));
@@ -114,7 +114,7 @@ class MoipServices {
         $this->moip->setReceiver($this->store->salesman->moip);
         $this->moip->addParcel('1', '10', null, true);
         $this->moip->validate('Identification');
-        dd($this->moip->send());
+//        dd($this->moip->send());
         $this->moip->send();
 
         $this->billetUrl = isset($this->moip->getAnswer()->payment_url) ? $this->moip->getAnswer()->payment_url : null;

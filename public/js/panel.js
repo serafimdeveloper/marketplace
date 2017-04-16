@@ -463,11 +463,11 @@ $(function(){
 
     /** Modal de informações de gerais */
     $(document).on('click', '.jq-info', function () {
-        var id = $(this).data('id');
+        var id = ($(this).data('id') !== "") ?  $(this).data('id') : 'create';
         var type = $(this).data('type');
         $.get('/accont/report/'+type+'/'+id, function (response) {
             $('#resp_modal').empty().html(response);
-            $('#resp_modal').find('.alertbox').css({dsiplay: 'block !important'});
+            $('#resp_modal').find('.alertbox').css({display: 'block !important'});
             $(document).ready(function(){
                 $('#resp_modal').find('.alertbox').show();
             });

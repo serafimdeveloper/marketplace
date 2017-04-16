@@ -60,6 +60,7 @@ class CheckoutController extends Controller {
                         if(!$address){
                             $address = $user->addresses()->create($req->all());
                         }
+                        $this->check_master();
                         $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
                         $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'], 'phone' => $req->phone, 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'], 'deadline' => $store['freight'][ $store['type_freight']['name'] ]['deadline'], 'amount' => $store['amount'], 'note' => $store['obs']];
                         $model_store = $this->repo_stores->get($key);
@@ -163,5 +164,12 @@ class CheckoutController extends Controller {
         });
 
         return $products->max();
+    }
+
+    private function check_master(){
+        $user = Auth::user();
+        if(!$user->addresses->where('master',1)->all()){
+            $user->addresses->first()->update(['master'=>1]);
+        }
     }
 }

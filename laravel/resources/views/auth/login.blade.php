@@ -14,6 +14,7 @@
             {{--@if($errors->has('g-recaptcha-response'))--}}
             {{--<div class="trigger error">{{ $errors->first('g-recaptcha-response') }}</div>--}}
             {{--@endif--}}
+
             <form class="form-modern pop-form" role="form" method="POST" action="{{ url('/login') }}">
                 {{ csrf_field() }}
                 <label>
@@ -41,7 +42,6 @@
             <header class="pop-title">
                 <h1>Quero fazer parte do Pop Martin</h1>
             </header>
-
             {{--<div class="txt-center">--}}
                 {{--<a class="modal modal-blueface" href="{{route('auth.facebook')}}">--}}
                     {{--<span><i class="fa fa-facebook-f"></i> | cadastre-se usando o facebook</span>--}}

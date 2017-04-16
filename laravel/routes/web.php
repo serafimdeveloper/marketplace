@@ -93,8 +93,12 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/report/notification/edit', 'Admin\NotifyController@update')->name('report.notification_edit');
     Route::post('/report/notification/remove_message', 'Admin\NotifyController@destroy')->name('report.notification_edit');
 
-    Route::get('/banners', 'Admin\AdsController@index')->name('banners');
-    Route::get('/banners/{id}', 'Admin\AdsController@get_banner_id')->name('banner.info');
+    Route::get('/report/banners', 'Admin\AdsController@index')->name('banners');
+    Route::get('/report/banners/create', 'Admin\AdsController@create')->name('banner.create');
+    Route::get('/report/banners/{id}', 'Admin\AdsController@edit')->name('banner.edit');
+    Route::post('/report/banners/', 'Admin\AdsController@store')->name('banner.store');
+    Route::post('/report/banners/{id}', 'Admin\AdsController@update')->name('banner.update');
+    Route::delete('/report/banners/{id}', 'Admin\AdsController@destroy')->name('banner.destroy');
 
     Route::get('/pages', function(){
         return view('accont.pages');
