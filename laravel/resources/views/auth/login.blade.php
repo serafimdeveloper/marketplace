@@ -6,11 +6,11 @@
             <header class="pop-title">
                 <h1>Já sou usuário do Pop Martin</h1>
             </header>
-            <div class="txt-center">
+          {{--  <div class="txt-center">
                 <a class="modal modal-blueface" href="{{route('auth.facebook')}}">
                     <span><i class="fa fa-facebook-f"></i> | conecte-se usando o facebook</span>
                 </a>
-            </div>
+            </div>--}}
             <form class="form-modern pop-form" role="form" method="POST" action="{{ url('/login') }}">
                 {{ csrf_field() }}
                 <label>
@@ -35,11 +35,11 @@
                 <h1>Quero fazer parte do Pop Martin</h1>
             </header>
 
-            <div class="txt-center">
+           {{-- <div class="txt-center">
                 <a class="modal modal-blueface" href="{{route('auth.facebook')}}">
                     <span><i class="fa fa-facebook-f"></i> | cadastre-se usando o facebook</span>
                 </a>
-            </div>
+            </div>--}}
 
             <form class="form-modern pop-form" role="form" method="POST" action="{{ url('/register') }}" novalidate>
                 {{ csrf_field() }}

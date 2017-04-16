@@ -1,4 +1,4 @@
-<div class="alertbox" id="jq-new-banner">
+<div class="alertbox">
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
@@ -22,13 +22,13 @@
                 <div class="colbox">
                     <div class="colbox-full">
                         <label>
-                            <span>Descrição</span>
+                            <span>Url da loja</span>
                             {!!  Form::text('url', null, ['placehoder' => 'url da loja']) !!}
                         </label>
                     </div>
                     <div class="colbox-full">
                         <label>
-                            <span>Url da loja</span>
+                            <span>Description</span>
                             {!!  Form::text('description', null, ['placehoder' => 'Descrição do banner']) !!}
                         </label>
                     </div>
@@ -37,13 +37,13 @@
                     <div class="colbox-2">
                         <label>
                             <span>Início</span>
-                            {!! Form::input('datetime-local', 'start',  null, ['class' => 'datetimepicker_datetime', 'placehoder' => 'data e hora inicial']) !!}
+                            {!! Form::input('datetime-local', 'date_start',  null, ['class' => 'datetimepicker_datetime', 'placehoder' => 'data e hora inicial']) !!}
                         </label>
                     </div>
                     <div class="colbox-2">
                         <label>
                             <span>Fim</span>
-                            {!! Form::input('datetime-local', 'end',  null, ['class' => 'datetimepicker_datetime', 'placehoder' => 'data e hora final']) !!}
+                            {!! Form::input('datetime-local', 'date_end',  null, ['class' => 'datetimepicker_datetime', 'placehoder' => 'data e hora final']) !!}
                         </label>
                     </div>
                 </div>

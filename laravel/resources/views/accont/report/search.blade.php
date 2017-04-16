@@ -5,10 +5,10 @@
     <section class="panel-content">
         <header class="pop-title">
             <h1>{{$title}}</h1>
+            @if($type === 'banners')
+                <a href="javascript:void(0)" style="margin-bottom: 5px;" data-type="{{$type}}" data-id="" class="btn btn-small btn-popmartin fl-right jq-info"> cadastrar novo banner</a>
+            @endif
         </header>
-        @if($type === 'banners')
-            <a href="javascript:void(0)" class="btn btn-smallextreme btn-popmartin fl-right jq-new-banner"> cadastrar novo banner</a>
-        @endif
         @if($type === 'products')
         <form class="form-modern pop-form form-search" action="javascript:void(0)">
             <div class="colbox">

@@ -198,7 +198,7 @@
                 </div>
                 <div class="colbox-4">
                     <label>
-                        <span>Peso (gramas)</span>
+                        <span>Peso (gramas) </span>
                         {!! Form::text('weight_gr', null, ['placeholder' => '0', 'class' => 'masksInt', 'maxlength' => 6, 'data-required' => 'notzero']) !!}
                         <span class="alert{{ $errors->has('weight_gr') ? '' : ' hidden' }}">{{ $errors->first('weight_gr') }}</span>
                     </label>

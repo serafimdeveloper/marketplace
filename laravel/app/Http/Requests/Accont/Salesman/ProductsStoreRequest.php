@@ -85,7 +85,7 @@ class ProductsStoreRequest extends Request
             'height_cm.max' => 'O valor máximo é de 105cm',
             'weight_gr.required' => 'A peso é obrigatório',
             'weight_gr.numeric' => 'A peso deve ser um número',
-            'weight_gr.min' => 'O valor mínimo é de 1 grama',
+            'weight_gr.min' => 'O valor mínimo é de 300 gramas',
             'weight_gr.max' => 'O valor máximo é de 30000 gramas'
         ];
     }
