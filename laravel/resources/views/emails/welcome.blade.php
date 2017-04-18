@@ -1,7 +1,7 @@
 <div style="text-align: justify; font-size: 14px; font-family: Arial,Helvetica,Sans-Serif">
-    <a href="{{route('/')}}" style="color: #336699; line-height: 50px" target="_blank">
+    <a href="{{route('homepage')}}" style="color: #336699; line-height: 50px" target="_blank">
         <img alt="Pop Martin" src="{{url('imagem/popmartin/logo-popmartin-msg.png')}}" border="0" />    </a>
-    <p style="font-size: 16px; font-weight: bold; color: #800000">Olá {{$user->name}},</p>
+    <p style="font-size: 16px; font-weight: bold; color: #800000">Olá {{$name}},</p>
     <p>
         O seu cadastro como vendedor no site Pop Martin foi aprovado.<br />
         Agradecemos a sua parceria e esperamos prosperar juntos!!<br />

@@ -226,7 +226,7 @@ class Cart {
                         /** Verifica se algum produto esta marcado como frete grátis, então zera seu valor */
                         if(!$product_data->free_shipping){
                             $volume += $product_data->width_cm * $product_data->length_cm * $product_data->height_cm * $product['qtd'];
-                            $weight += ($product_data->weight_gr < 300) ? 300 : $product_data->weight_gr * $product['qtd'];
+                            $weight += $product_data->weight_gr * $product['qtd'];
                         }
                     }
                 }
@@ -248,7 +248,7 @@ class Cart {
                 $df['comprimento'] = ($r3 < 16) ? 16 : $r3;
                 $df['altura'] = ($r3 < 2) ? 2 : $r3;
                 $df['largura'] = ($r3 < 11) ? 11 : $r3;
-                $df['peso'] = $weight;
+                $df['peso'] = ($weight < 0.3) ? 0.3 : $weight;
                 /** @var  $i - Calcula o frete separadamente de acordo com a separação de pacotes */
                 for($i = 0; $i < $loop; $i++){
                     /** Armazena cada cálculo */

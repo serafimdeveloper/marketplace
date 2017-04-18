@@ -53,7 +53,7 @@
                             <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{$product->name}}</a>
                         </h2>
                         <p class="tagline"><a
-                                    href="{{route('pages.store',['store' => $product->store->slug])}}">{{$product->store->name}}</a>
+                                    href="{{route('pages.store',['store' => $product->store->slug])}}">{{limit_text($product->store->name,50)}}</a>
                             {{is_favorite($favorites, $product->store_id, $product)}}
                         </p>
                     </header>

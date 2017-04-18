@@ -59,7 +59,7 @@ class StoresController extends AbstractController
             'name' => 'required|unique:stores',
             'type_salesman' => 'required',
             'logo_file' => 'required|image|mimes:png,jpg,jpeg',
-            'about' => 'required|max:500'
+            'about' => 'required'
         ];
         if($request->type_salesman === 'J'){
             $validate['cnpj'] = 'required|cnpj_mascara|unique:stores';
@@ -100,9 +100,8 @@ class StoresController extends AbstractController
             'name' => 'required|unique:stores,name,'.$store->id,
             'type_salesman' => 'required',
             'logo_file' => 'image|mimes:png,jpg,jpeg',
-            'about' => 'required|max:500',
-            'exchange_policy' => 'required|max:500',
-            'freight_policy' => 'max:500'
+            'about' => 'required',
+            'exchange_policy' => 'required',
         ];
         if($request->type_salesman === 'J'){
             $validate['cnpj'] = 'required|cnpj_mascara|unique:stores,cnpj,'.$store->id;

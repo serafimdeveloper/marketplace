@@ -35,19 +35,19 @@ class ProductsStoreRequest extends Request
             'name' => ['required',
                 Rule::unique('products')->where(function($query) use($store){
                     $query->where('store_id',$store->id);
-                 }),'max:50','min:3'
+                 }),'max:100','min:3'
             ],
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
             'deadline' => 'required|numeric|max:15',
             'minimum_stock'=>'required|numeric',
-            'details'=>'required|string|max:500',
+            'details'=>'required|string',
             'image_0' => 'required',
             'image.*' => 'mimes:png,jpg,jpeg,pdf|max:10000',
             'length_cm' => 'required|numeric|min:16|max:105',
             'width_cm' => 'required|numeric|min:11|max:105',
             'height_cm' => 'required|numeric|min:2|max:105',
-            'weight_gr' => 'required|numeric|min:300|max:30000',
+            'weight_gr' => 'required|numeric|min:20|max:30000',
         ];
     }
 
@@ -55,7 +55,7 @@ class ProductsStoreRequest extends Request
         return [
             'name.required' => 'O nome do produto é obrigatório',
             'name.unique' => 'Já contém um produto com esse nome',
-            'name.max' => 'A quantidade máxima de caracteres é 50',
+            'name.max' => 'A quantidade máxima de caracteres é 100',
             'name.min' => 'A quantidade mínima de caracteres é 3',
             'category_id.required' => 'A categória é obrigatório',
             'category_id.numeric' => 'A categória dever ser um número',
@@ -85,7 +85,7 @@ class ProductsStoreRequest extends Request
             'height_cm.max' => 'O valor máximo é de 105cm',
             'weight_gr.required' => 'A peso é obrigatório',
             'weight_gr.numeric' => 'A peso deve ser um número',
-            'weight_gr.min' => 'O valor mínimo é de 300 gramas',
+            'weight_gr.min' => 'O valor mínimo é de 20 gramas',
             'weight_gr.max' => 'O valor máximo é de 30000 gramas'
         ];
     }

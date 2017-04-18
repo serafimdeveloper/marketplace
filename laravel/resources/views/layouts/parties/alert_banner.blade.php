@@ -3,7 +3,11 @@
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">
             <h2 class="alertbox-title c-pop fontw-500">Cadastrar banner</h2>
-            {!! Form::model($result,['class' => 'form-modern pop-form', 'action' => 'javascript:void(0)', 'method' => 'POST']) !!}
+            @if(isset($result))
+                {!! Form::model($result,['class' => 'form-modern pop-form form-banner', 'route' =>['accont.banner.update',$result->id], 'method' => 'POST']) !!}
+            @else
+                {!! Form::open(['class' => 'form-modern pop-form form-banner', 'route' => ['accont.banner.store'], 'method' => 'POST']) !!}
+            @endif
                 <div class="colbox">
                     <div class="colbox-2">
                         <label>

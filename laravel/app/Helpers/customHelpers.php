@@ -161,6 +161,15 @@ if(!function_exists('real')){
         return 'R$ ' . number_format($value, 2, ',', '.');
     }
 }
+
+if(!function_exists('limit_text')){
+    function limit_text($text, $limit){
+        if(strlen($text) > $limit){
+            return substr($text,0,$limit-3).'...';
+        }
+        return $text;
+    }
+}
 if(!function_exists('amount_cart')){
     function amount_cart(){
         if(Session::has('cart') || isset(Auth::user()->cartsession->stores)){
