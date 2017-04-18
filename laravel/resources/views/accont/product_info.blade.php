@@ -7,7 +7,7 @@
             <h1>Detalhe do produto</h1>
         </header>
             @if(isset($product))
-                {!!Form::model($product,['route'=>['accont.salesman.products.update', $product->id], 'method'=>'PUT', 'class' => 'form-modern pop-form' ,'enctype'=>'multipart/form-data'])!!}
+                {!!Form::model($product,['route'=>['accont.salesman.products.update', $product->id], 'method'=>'PUT', 'class' => 'form-modern pop-form form-create-product' ,'enctype'=>'multipart/form-data'])!!}
             @else
                 {!! Form::open(['route' => ['accont.salesman.products.store'], 'method' => 'POST', 'class' => 'form-modern pop-form', 'enctype'=>'multipart/form-data']) !!}
             @endif
@@ -167,7 +167,7 @@
             <div class="clear-both"></div>
             <label>
                 <span>Detalhes do produto <i class="fa fa-info-circle c-blue tooltip" title="Informe aqui detalhes como cores disponíveis, tamanhos e etc. Um produto bem detalhado, pode gerar menor volume de perguntas sobre o produto!"></i> <sup class="c-red fontem-06 fl-right">obrigatório</sup></span>
-                {!! Form::textarea('details', null, ['class' => 'textarea_tiny limited_text_withtag required-field', 'placeholder' => 'Informações sobre este produto', 'rows' => 14, 'data-required' => 'minlength', 'data-minlength' => '20']) !!}
+                {!! Form::textarea('details', null, ['id' => 'textarea_tiny', 'class' => 'textarea_tiny limited_text_withtag required-field', 'placeholder' => 'Informações sobre este produto', 'rows' => 14, 'data-required' => 'minlength', 'data-minlength' => '20']) !!}
                 <span class="alert{{ $errors->has('details') ? '' : ' hidden' }}">{{ $errors->first('details') }}</span>
             </label>
         <br>

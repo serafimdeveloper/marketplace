@@ -804,3 +804,19 @@ function windowAdress(obj, action) {
     janela += '</div>';
     return janela;
 }
+
+
+// $(document).on('submit', '.form-create-product', function(){
+//    if(getCharsTinymec('textarea_tiny').chars < 10){
+//        alertify.error('Detalhes do prosuto ultrapassou o limite de caracteres');
+//        return false;
+//    }
+//     document.forms[0].submit();
+// });
+// function getCharsTinymec(id) {
+//     var body = tinymce.get(id).getBody(), text = tinymce.trim(body.innerText || body.textContent);
+//     return {
+//         chars: text.length,
+//         words: text.split(/[\w\u2019\'-]+/).length
+//     };
+// }
