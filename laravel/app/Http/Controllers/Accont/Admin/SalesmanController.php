@@ -54,6 +54,7 @@ class SalesmanController extends AbstractAdminController {
                 $salesman->update(['active' => 0]);
             }else{
                 $salesman->update(['active' => 1]);
+                send_mail('emails.welcome', ['email' => $salesman->user->email, 'name' => $salesman->user->name], 'Vendedor, seja bem vindo ao Popmartin!');
             }
             return response()->json(['status'=>$salesman->active],200);
         }

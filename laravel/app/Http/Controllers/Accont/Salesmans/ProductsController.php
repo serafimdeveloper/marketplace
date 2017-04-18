@@ -20,6 +20,7 @@ use App\Http\Requests\Accont\Salesman\ProductsStoreRequest;
 use Auth;
 use DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends AbstractController
@@ -44,8 +45,9 @@ class ProductsController extends AbstractController
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
+        $page = Input::get('page');
         if ($store = Auth::user()->salesman->store) {
-            $products = $this->repo->all($this->columns, $this->with, ['store_id' => $store->id], [], 5);
+            $products = $this->repo->all($this->columns, $this->with, ['store_id' => $store->id], [], 5, $page);
 
             return view('accont.products', compact('products'));
         }

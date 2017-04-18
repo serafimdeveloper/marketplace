@@ -49,7 +49,7 @@ class ProductsUpdateRequest extends Request
             'length_cm' => 'required|numeric|min:16|max:105',
             'width_cm' => 'required|numeric|min:11|max:105',
             'height_cm' => 'required|numeric|min:2|max:105',
-            'weight_gr' => 'required|numeric|min:300|max:30000'
+            'weight_gr' => 'required|numeric|min:20|max:30000'
         ];
     }
 
@@ -87,7 +87,7 @@ class ProductsUpdateRequest extends Request
             'height_cm.max' => 'O valor máximo é de 105cm',
             'weight_gr.required' => 'A peso é obrigatório',
             'weight_gr.numeric' => 'A peso deve ser um número',
-            'weight_gr.min' => 'O valor mínimo é de 300 gramas',
+            'weight_gr.min' => 'O valor mínimo é de 20 gramas',
             'weight_gr.max' => 'O valor máximo é de 30000 gramas',
 
         ];

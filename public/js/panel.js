@@ -529,23 +529,11 @@ $(function(){
     $(document).on('click', '.jq-block-store', blockStore);
 
     /** Modal de atualização e cadastro de banners */
-    $(document).on('click', '.jq-new-banner', function () {
+    $(document).on('submit', '.form-banner', function () {
         var e = $(this);
-        var modal = $("#jq-new-banner");
-        var form = modal.find('form');
-        var title = (e.data('banner') ? 'Atualizar banner - loja' : 'Cadastrar banner');
-        var buttonText = (e.data('banner') ? 'atualizar' : 'cadastrar');
-        modal.find('h2').text(title);
-        modal.find('button').text(buttonText);
-        $.get('', e.data('banner'), function (response) {
-            inputValue(form, response);
-            form.find('select').find('option').each(function () {
-                if ($(this).val() == response.id) {
-                    $(this).attr('selected', 'true');
-                    return false;
-                }
-            });
-        }).fail(function (response) {
+        $.post(e.attr('action'), e.serialize(), function (response) {
+            alertfy.succes(response.msg);
+        },'json').fail(function (response) {
             alertify.error(response.responseJSON.msg);
         });
         $("#jq-new-banner").slideDown();
