@@ -20,7 +20,7 @@
             @foreach($ntfs as $ntf)
                 <tr id="ntf{{ $ntf->id }}"{!! ( !$ntf->read ? ' class="t-unread"' : '') !!}>
                     <td>Alerta</td>
-                    <td><a href="javascript:void(0)" class="jq-notification" data-id="{{ $ntf->id }}">Usuário {{ $ntf->message->sender->name }} enviou por mensagem, informações....</a></td>
+                    <td><a href="javascript:void(0)" class="jq-notification" data-alertbox="alert-notification" data-id="{{ $ntf->id }}">Usuário {{ $ntf->message->sender->name }} enviou por mensagem, informações....</a></td>
                     <td>{{$ntf->created_at->diffForHumans()}}</td>
                 </tr>
             @endforeach

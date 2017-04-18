@@ -412,14 +412,19 @@ $(function(){
     /** Modal de informações das notificações */
     $(document).on('click', '.jq-notification', function () {
         var e = $(this);
+        loaderAjaxScreen(true, 'carregando..');
         $.get('/accont/report/notification/' + e.data('id'), function(response){
+            loaderAjaxScreen(false, '');
             $("#notificationParties").html(response);
             e.parents('tr').removeClass('t-unread');
             var notify = $('.notify-admin');
             var v = (parseInt(notify.text()) > 0 ? parseInt(notify.text()) - 1 : 0);
             notify.text(v);
+            $(document).ready(function () {
+                toggleAlertbox(e);
+            })
         });
-        $("#notificationParties").find("#jq-notification").slideDown();
+
     });
 
     $(document).on('submit', '.form-notfy', function(){
@@ -463,14 +468,14 @@ $(function(){
 
     /** Modal de informações de gerais */
     $(document).on('click', '.jq-info', function () {
-        var id = ($(this).data('id') !== "") ?  $(this).data('id') : 'create';
-        var type = $(this).data('type');
+        var e = $(this);
+        var id = (e.data('id') !== "") ?  e.data('id') : 'create';
+        var type = e.data('type');
+        loaderAjaxScreen(true, 'carregando..');
         $.get('/accont/report/'+type+'/'+id, function (response) {
+            loaderAjaxScreen(false, '');
             $('#resp_modal').empty().html(response);
-            $('#resp_modal').find('.alertbox').css({display: 'block !important'});
-            $(document).ready(function(){
-                $('#resp_modal').find('.alertbox').show();
-            });
+            toggleAlertbox(e);
         },'html');
     });
 

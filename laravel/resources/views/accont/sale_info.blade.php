@@ -117,8 +117,10 @@
             </div>
         @endif
         <div class="txt-center">
-            <a class="btn btn-popmartin-trans txt-center jq-new-message"><i class="fa fa-comments-o"></i> contatar
-                cliente</a>
+            <a class="btn btn-popmartin-trans txt-center alertbox-open" data-alertbox="alert-message">
+                <i class="fa fa-comments-o"></i>
+                contatarcliente
+            </a>
         </div>
         @if($request->request_status_id === 3)
             <div class="txt-center">

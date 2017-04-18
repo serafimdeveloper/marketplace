@@ -1,4 +1,4 @@
-<div class="alertbox" id="jq-notification" style="display: block;">
+<div class="alertbox" id="alert-notification" style="display: block;">
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">

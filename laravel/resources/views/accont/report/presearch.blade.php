@@ -18,7 +18,7 @@
                 <td>{{$user->last_access->format('d/m/Y H:i:s')}}</td>
                 <td>{{$user->requests->count()}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="users" data-id="{{$user->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-user" data-type="users" data-id="{{$user->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -56,7 +56,7 @@
                 <td>{{($salesman->active) ? 'habilitado' :'desabilitado'}}</td>
                 <td>{{number_format($salesman->comission,2,',','.')}}%</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="salesmans" data-id="{{$salesman->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-salesman" data-type="salesmans" data-id="{{$salesman->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -89,7 +89,7 @@
                 <td class="txt-center">{{$product->quantity}}</td>
                 <td class="t-draft txt-center">{{($product->active) ? 'sim':'não'}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="products" data-id="{{$product->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-product" data-type="products" data-id="{{$product->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -124,7 +124,7 @@
                 <td>{{real($sales->amount)}}</td>
                 <td>{{($sales->commission_amount) ? real($sales->commission_amount) : '-'}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-type="sales" data-id="{{$sales->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-sale" data-type="sales" data-id="{{$sales->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -158,7 +158,7 @@
                 <td>{{$banner->date_start}}</td>
                 <td>{{$banner->date_end}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-edit jq-info" data-id="{{$banner->id}}">editar</a>
+                    <a href="javascript:void(0)" class="t-btn t-edit jq-info" data-alertbox="alert-banner" data-id="{{$banner->id}}">editar</a>
                     <a href="javascript:void(0)" class="t-btn t-remove">remover</a>
                 </td>
             </tr>

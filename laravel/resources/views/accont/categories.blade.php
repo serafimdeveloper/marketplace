@@ -6,7 +6,7 @@
         <header class="pop-title">
             <h1>Categorias cadastrada no sistema</h1>
             <div class="pop-tile-menu">
-                <a href="javascript:void(0)" class="btn btn-smallextreme btn-popmartin fl-right jq-new-category"> cadastrar nova categoria</a>
+                <a href="javascript:void(0)" class="alertbox-open btn btn-smallextreme btn-popmartin fl-right" data-alertbox="alert-newcategory"> cadastrar nova categoria</a>
             </div>
         </header>
         <table class="table table-action">
@@ -39,7 +39,7 @@
                         </div>
                     </td>
                     <td class="txt-center">
-                        <a href="javascript:void(0)" class="t-btn t-edit jq-new-category" data-category="{{$category->id}}">editar</a>
+                        <a href="javascript:void(0)" class="alertbox-open t-btn t-edit jq-info" data-alertbox="alert-newcategory" data-category="{{$category->id}}">editar</a>
                         <a href="javascript:void(0)" class="t-btn t-remove" data-category="{{$category->id}}">remover</a>
                     </td>
                 </tr>

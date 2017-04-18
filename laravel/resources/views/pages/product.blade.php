@@ -49,7 +49,7 @@
                             <p>{{$product->store->name}}</p>
                         </div>
                         <div class="fl-right">
-                            <a class="btn btn-popmartin-trans {{ Auth::check() ? 'jq-new-message' : 'jq-auth' }}" data-message="para contatar o vendedor!">
+                            <a class="btn btn-popmartin-trans {{ Auth::check() ? 'alertbox-open' : 'jq-auth' }}" data-alertbox="alert-message" data-message="para contatar o vendedor!">
                                 <i class="fa fa-comments-o"></i> contatar o vendedor
                             </a>
                         </div>

@@ -166,7 +166,7 @@ ul{list-style: none;}a{text-decoration: none;}a img{border: 0;}img{max-width: 10
 .figure a{display: block; width: 100%; height: 100%;padding: 20%;}
 
 /**** BOXALERT *****/
-.alertbox{display: none;position: absolute; top: 0;left: 0;width: 100%;height: auto;min-height: 100%;background: rgba(0,0,0,0.6);z-index: 999;}
+.alertbox{display: none;position: fixed; top: 0;left: 0;right: 0; bottom: 0;width: 100%;height: auto;min-height: 100%;background: rgba(0,0,0,0.6);z-index: 999;overflow:auto;}
 .alertbox.alertbox-fixed{position: fixed;}
 .alertbox .alertbox-container{width: 70%; margin: 0 15%; position: relative;margin-top: 40px;padding: 10px;
     -webkit-transition: all 0.5s;
@@ -181,8 +181,8 @@ ul{list-style: none;}a{text-decoration: none;}a img{border: 0;}img{max-width: 10
     border-radius:8px 8px 0 0;
 }
 .alertbox .alertbox-close{position: absolute;top: 0; right: 20px; color: #FF0000;padding: 10px;cursor: pointer;  }
-.alertbox .alertbox-title{padding: 5px 0 5px 20px; margin: 10px 0;border-bottom: 4px solid #B71C1C; font-size: 1.4em;}
-
+.alertbox .alertbox-title{cursor: move;padding: 5px 0 5px 20px; margin: 10px 0;border-bottom: 4px solid #B71C1C; font-size: 1.4em;}
+.alertbox-body-hideoverflow{overflow: hidden;}
 /**** BTN - BOTÕES PERSONALIZADO *****/
 .btn{
     display: inline-block;padding: 10px 30px;margin: 5px 0;background-color: #333;border: 1px solid #222;cursor: pointer;font-size: 1em;font-weight: 400;color: #FFF;

@@ -1,4 +1,4 @@
-<div class="alertbox" id="jq-new-category">
+<div class="alertbox" id="alert-newcategory">
     <div class="alertbox-container">
         <span class="alertbox-close"><i class="fa fa-close fontem-18"></i></span>
         <div class="alertbox-content">

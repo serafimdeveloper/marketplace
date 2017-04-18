@@ -6,7 +6,7 @@
         <header class="pop-title">
             <h1>{{$title}}</h1>
             @if($type === 'banners')
-                <a href="javascript:void(0)" style="margin-bottom: 5px;" data-type="{{$type}}" data-id="" class="btn btn-small btn-popmartin fl-right jq-info"> cadastrar novo banner</a>
+                <a href="javascript:void(0)" style="margin-bottom: 5px;" data-type="{{$type}}" data-id="" class="btn btn-small btn-popmartin fl-right jq-info" data-alertbox="alert-banner"> cadastrar novo banner</a>
             @endif
         </header>
         @if($type === 'products')

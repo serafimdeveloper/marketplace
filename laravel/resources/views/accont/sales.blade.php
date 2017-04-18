@@ -21,9 +21,9 @@
                 <tr>
                     <th class="t-small">Pedido</th>
                     <th class="t-medium">Data</th>
-                    <th class="t-small">Valor</th>
+                    <th class="t-medium">Valor</th>
                     <th class="t-medium">Cliente</th>
-                    <th class="t-small">Status</th>
+                    <th class="t-medium">Status</th>
                     <th class="t-small txt-center"><i class="fa fa-gears"></i></th>
                 </tr>
                 </thead>

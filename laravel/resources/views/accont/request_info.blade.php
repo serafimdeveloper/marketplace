@@ -37,11 +37,11 @@
                 </div>
                 <div class="coltable-6 txt-right">
                     @if($request->request_status_id > 4)
-                        <a class="btn btn-small btn-popmartin-trans txt-center jq-new-rating"><i
-                                    class="fa fa-star"></i> {{ (isset($request->shopvaluation) ? 'avaliado' : 'avaliar') }}
+                        <a class="btn btn-small btn-popmartin-trans txt-center alertbox-open" data-alertbox="alert-rating">
+                            <i class="fa fa-star"></i> {{ (isset($request->shopvaluation) ? 'avaliado' : 'avaliar') }}
                         </a>
                     @endif
-                    <a class="btn btn-small btn-popmartin-trans txt-center jq-new-message"><i
+                    <a class="btn btn-small btn-popmartin-trans txt-center alertbox-open" data-alertbox="alert-message"><i
                                 class="fa fa-comments-o"></i> contatar o vendedor</a>
                     @if($request->request_status_id === 4)
                         <span style="margin-bottom: 10px" class="txt-left">

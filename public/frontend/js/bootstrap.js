@@ -11,11 +11,7 @@ $(function () {
     $('.navicon-mobile').click(function () {
         $(this).siblings('.nav-mobile').slideToggle();
     });
-
-    /** altura da modal lightbox */
-    $('.alertbox').height($(document).height() + 60);
 });
-
 
 /**
  * Transforma array em objeto javascript
@@ -93,13 +89,13 @@ function is_null(data) {
  * @param e
  * @returns {boolean}
  */
-function is_numberString(e){
+function is_numberString(e) {
     var exp = new RegExp(/\d/);
     var response = exp.exec(e);
     console.log(response);
-    if(response){
+    if (response) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -121,17 +117,17 @@ function is_Number(val) {
  */
 function compareLenght(v, c, n) {
     // console.log(c);
-    if(c == "<"){
-       return (v.length < n ? true : false);
-    }else if(c == ">"){
+    if (c == "<") {
+        return (v.length < n ? true : false);
+    } else if (c == ">") {
         return (v.length > n ? true : false);
-    }else if(c == "=="){
+    } else if (c == "==") {
         return (v.length == n ? true : false);
-    }else if(c == "!="){
+    } else if (c == "!=") {
         return (v.length != n ? true : false);
-    }else if(c == "==="){
+    } else if (c == "===") {
         return (v.length === n ? true : false);
-    }else if(c == "!=="){
+    } else if (c == "!==") {
         return (v.length !== n ? true : false);
     }
 }
@@ -190,10 +186,10 @@ function previewImg(e) {
  * @type {{money: masks.money}}
  */
 var masks = {
-    uppercase: function(){
-      return $(this).val($(this).val().toUpperCase());
+    uppercase: function () {
+        return $(this).val($(this).val().toUpperCase());
     },
-    int: function(){
+    int: function () {
         var num = this.value;
 
         if (isNaN(num)) {
@@ -331,7 +327,7 @@ function limiter() {
  * @param e
  * @returns {*}
  */
-function cleanAccents(e){
+function cleanAccents(e) {
     return strtr(
         'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ´`"\'~^',
         'AAAAAAACEEEEIIIIDNOOOOOOUUUUYbsaaaaaaaceeeeiiiidnoooooouuuyybyRr',
@@ -346,15 +342,14 @@ function cleanAccents(e){
  * @param _in
  * @returns {string|*}
  */
-function strtr(from, to, _in){
+function strtr(from, to, _in) {
     var i,
         _this = _in.toString();
     from = (from + '').split('');
     to = (to + '').split('');
     i = from.length;
 
-    while (i--)
-    {
+    while (i--) {
         if (_this.match(from[i])) {
             // Troca por to, Se to[i] não existir a nova char será vazia
             _this = _this.replace(new RegExp('\\' + from[i], 'ig'), (to[i] || ''));
@@ -370,11 +365,11 @@ function strtr(from, to, _in){
  * @param e
  * @returns {boolean}
  */
-function fullname(e){
+function fullname(e) {
     var val = e.trim();
-    if(val.indexOf(" ") < 1){
+    if (val.indexOf(" ") < 1) {
         return false;
-    }else{
+    } else {
         return true;
     }
 }
@@ -397,6 +392,41 @@ function objectLength(obj) {
 function closeTrigger() {
     $(this).parent('.trigger-box').slideUp();
 }
+
+/**
+ * Apresentar em tela loafing de processamento de uma ação aqualquer
+ * @param b true - abrir | false - fechar
+ * @param str - comentário a ser apresentado
+ */
+function loaderAjaxScreen(b, str) {
+    $(document).ready(function () {
+        var screen = $('.screen-loader');
+        if (screen.length) {
+            screen.html('<div><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i> ' + str + '</div>');
+            (b === true ? screen.show() : screen.hide());
+        } else {
+            $('body').prepend('<div class="screen-loader">');
+            loaderAjaxScreen(b, str);
+            var time = function () {
+                loaderAjaxScreen(false);
+            };
+
+            setTimeout(time, 10000);
+            clearTimeout(time);
+        }
+    });
+}
+
+function toggleAlertbox(e) {
+    var id = e.data('alertbox');
+    $(document).ready(function () {
+        $('.alertbox .alertbox-container').draggable();
+        $('#' + id).show();
+        $('body').addClass('alertbox-body-hideoverflow');
+    });
+}
+
+
 /*
  * EFEITO ACCORDION INPLEMENTAÇÂO
  * */
@@ -422,15 +452,24 @@ $(document).on('change', "form input[type='file']", function () {
     }
     previewImg(this);
 });
-$(document).ready(function(){$('.trigger-box').append('<span class="trigger-close">x</span>');});
+$(document).ready(function () {
+    $('.trigger-box').append('<span class="trigger-close">x</span>');
+});
 $(document).on('keyup', '.limiter-textarea', limiter);
 $(document).on("keyup", ".masksInt", masks.int);
 $(document).on('keyup', '.uppercase', masks.uppercase);
 $(document).on("keypress", ".masksMoney", masks.money);
 $(document).on("click", ".form-modern .checkbox input[type=checkbox]", checkBox);
 $(document).on("click", ".form-modern .radio input[type=radio]", radiobox);
-$(document).on("click", ".alertbox-close", function () {$(this).parents(".alertbox").hide(600);});
+$(document).on("click", ".alertbox-close", function () {
+    $(this).parents(".alertbox").hide();
+    $('body').removeClass('alertbox-body-hideoverflow');
+    loaderAjaxScreen(false);
+});
 $(document).on('click', '.trigger-close', closeTrigger);
+$(document).on('click', '.alertbox-open', function () {
+    toggleAlertbox($(this))
+});
 
 
 
