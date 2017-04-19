@@ -12,11 +12,11 @@
             {!! Form::open(['route' => ['accont.salesman.products.store'], 'method' => 'POST', 'class' => 'form-modern pop-form', 'enctype'=>'multipart/form-data']) !!}
         @endif
 
-        @if(Auth::user()->admin)
+        @if(!isset($product) && Auth::user()->admin)
             <label>
                 <span>Loja:
                     <i class="fa fa-info-circle c-blue tooltip"
-                       title="Selecione a loja apenas se desejar cadastrar produto para uma outra loja alem da sua!"></i></span>
+                       title="Selecione a loja apenas se desejar cadastrar produto para uma outra loja que não seja a sua!"></i></span>
             <div class="trigger warning">
                 {{--<select class="chosen-select" name="store">--}}
                     {{--<option selected="true" disabled="true">selecionar loja</option>--}}

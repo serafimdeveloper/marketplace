@@ -348,10 +348,13 @@ input{padding: 5px;width: 100%;}
 }
 .chosen-with-drop .chosen-drop .chosen-results .result-selected{
     background: none;
-    color: #B40004;
+    /*color: #B40004;*/
 }
 .chosen-with-drop .chosen-drop .chosen-results .active-result:hover{
     background: #EB9292;
+}
+.chosen-with-drop .chosen-drop .chosen-results .highlighted{
+    background: #B40004;
 }
 /** RESPONSIVIDADE */
 
