@@ -22,7 +22,20 @@ class ProductsUpdateRequest extends Request
     public function authorize()
     {
         $id = $this->route('product');
-        return Product::where('id',$id)->exists();
+        $boolean = Product::where('id',$id);
+        if($boolean->exists()){
+            if(Auth::user()->admin){
+                return true;
+            }else{
+                return $boolean->where('store_id', Auth::user()->store->id)->exists();
+            }
+
+        }elseif($boolean){
+            return false;
+//            $store = Auth::user()->salesman->store;
+//            return Product::where('id',$id)->exists();
+        }
+
     }
 
     /**
@@ -32,14 +45,16 @@ class ProductsUpdateRequest extends Request
      */
     public function rules()
     {
-        $store = Auth::user()->salesman->store;
-        $id = $this->route('product');
+
+//        $store = Auth::user()->salesman->store;
+//        $id = $this->route('product');
         return [
-            'name' => ['required',
-                Rule::unique('products')->where(function($query) use($store){
-                    $query->where('store_id',$store->id);
-                 })->ignore($id),'max:100','min:3'
-            ],
+//            'name' => ['required',
+//                Rule::unique('products')->where(function($query) use($store){
+//                    $query->where('store_id',$store->id);
+//                 })->ignore($id),'max:100','min:3'
+//            ],
+            'name' => 'required|max:100|min:3',
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',
             'deadline' => 'required|numeric|max:15',

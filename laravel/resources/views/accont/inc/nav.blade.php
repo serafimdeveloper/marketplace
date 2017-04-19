@@ -1,3 +1,6 @@
+@section('css')
+    <link rel="stylesheet" href="{{asset('frontend/lib/chosen/chosen.min.css')}}">
+@endsection
 <span class="panel-icon-mobile">menu <i class="fa fa-chevron-down"></i></span>
 <nav class="panel-nav">
     <div>
@@ -84,6 +87,7 @@
     </div>
 </nav>
 @section('scripts')
+    <script src="{{asset('frontend/lib/chosen/chosen.jquery.min.js')}}"></script>
     <script src='//cloud.tinymce.com/stable/tinymce.min.js?apiKey=fv20eupiztq0ic1rww9p0c6mjoo9djm39coldsa6dpzqbs5a'></script>
     <script src="{{ url('/js/panel.js') }}"></script>
 @endsection

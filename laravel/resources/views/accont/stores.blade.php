@@ -149,12 +149,12 @@
 
                                         <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>
                                     </div>
-                                    <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}" data-action="store">editar|excluir</a>
+                                    <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-alertbox="alert-address" data-id="{{$adress->id}}" data-action="store">editar|excluir</a>
                                 </div>
                             @else
                                 <div id="isAddress">
                                     <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereço cadastrado</p>
-                                    <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address" data-action="store">cadastrar um endereço</a></p>
+                                    <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address" data-alertbox="alert-address" data-action="store">cadastrar um endereço</a></p>
                                 </div>
                             @endif
                         @endif

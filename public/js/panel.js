@@ -29,6 +29,9 @@ $(function(){
         }
     });
 
+    /**
+     * Tinymce configurações 1
+     */
     tinymce.init({
         selector: '.textarea_tiny',
         toolbar: "bold italic underline",
@@ -313,9 +316,9 @@ $(function(){
      * Caso seja um cadastro, apnenas abre para preenchimento
      */
     $(document).on('click', '.jq-address', function () {
+        var e = $(this);
         var form = $('#form-adress');
-        $(".alertbox .alertbox-container").css({top: $(document).scrollTop()});
-        var action = $(this).data('action')
+        var action = e.data('action')
         if (action == 'store') {
             form.find("label span").first().text('Loja');
             form.find("label input").first().val('Endereço').attr('readonly', true);
@@ -345,7 +348,7 @@ $(function(){
             $('.address').find('button').text('cadastrar');
         }
         $('.address').find('form').attr('data-action', action);
-        $('.address').show();
+        toggleAlertbox(e);
     });
 
     /** Remover endereço do usuário */
@@ -619,6 +622,11 @@ $(function(){
         clearInput(form);
         return false;
     });
+
+    $(".chosen-select").chosen({
+        no_results_text: "Nada encontrado",
+        width: '100%'
+    });
 });
 
 /***************************************************************
@@ -793,7 +801,7 @@ function windowAdress(obj, action) {
     janela += '<p>CEP: ' + obj.zip_code + '</p>';
     janela += '<p> ' + obj.public_place + ', ' + obj.number + ' - ' + obj.city + '</p>';
     janela += '</div>';
-    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="' + obj.id + '" data-action="' + action + '">editar|excluir</a>';
+    janela += '<a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-alertbox"alert-address" data-id="' + obj.id + '" data-action="' + action + '">editar|excluir</a>';
     janela += '</div>';
     return janela;
 }

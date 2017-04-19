@@ -57,7 +57,7 @@
                 <header class="pop-title">
                     <h1>Endereços</h1>
                     <div class="pop-tile-menu">
-                        <span class="btn btn-smallextreme btn-popmartin jq-address" data-action="user"><i class="fa fa-plus vertical-middle"></i> novo</span>
+                        <span class="btn btn-smallextreme btn-popmartin alertbox-open" data-alertbox="alert-address" data-action="user"><i class="fa fa-plus vertical-middle"></i> novo</span>
                     </div>
                 </header>
                 <div id="group-pnl-end">
@@ -68,7 +68,7 @@
                             <p>CEP: {{$adress->zip_code}}</p>
                             <p>{{$adress->public_place}}, {{$adress->number}} - {{$adress->city}}</p>
                         </div>
-                        <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-id="{{$adress->id}}" data-action="user">editar|excluir</a>
+                        <a href="javascript:void(0)" class="panel-end-edit vertical-flex jq-address" data-alertbox="alert-address" data-id="{{$adress->id}}" data-action="user">editar|excluir</a>
                     </div>
                 @empty
                     <div id="isAddress">

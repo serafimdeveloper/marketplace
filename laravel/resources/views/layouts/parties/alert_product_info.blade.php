@@ -5,6 +5,7 @@
             <h2 class="alertbox-title c-pop fontw-500">{{$result->name}}</h2>
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
+                    <a class="btn btn-small btn-popmartin fl-left" href="/accont/salesman/products/{{ $result->id }}/edit" target="_blank"><i class="fa fa-edit"></i> editar</a>
                     <a class="btn btn-small btn-popmartin fl-right" id="{{$result->id}}"><i class="fa fa-trash"></i> remover produto</a>
                 </div>
                 <div class="clear-both"></div>
