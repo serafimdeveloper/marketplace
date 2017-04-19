@@ -31,7 +31,7 @@
                     </ul>
                     <figure>
                         <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}"
-                             alt="{{$product->name}}" title="{{$product->name}}">
+                             alt="{{$product->name}}" title="{{limit_text($product->name, 40)}}">
                         <figcaption>
                             <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">
                                 {{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}
@@ -50,7 +50,7 @@
                     </figure>
                     <header>
                         <h2>
-                            <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{$product->name}}</a>
+                            <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{limit_text($product->name, 40)}}</a>
                         </h2>
                         <p class="tagline"><a
                                     href="{{route('pages.store',['store' => $product->store->slug])}}">{{limit_text($product->store->name,50)}}</a>
@@ -131,7 +131,7 @@
                     </figure>
                     <header>
                         <h2>
-                            <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{$product->name}}</a>
+                            <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{limit_text($product->name, 40) }}</a>
                         </h2>
                         <p class="tagline"><a
                                     href="{{route('pages.store',['store' => $product->store->slug])}}">{{$product->store->name}}</a>
