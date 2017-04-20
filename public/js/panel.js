@@ -736,10 +736,13 @@ function removePrduct() {
             $.ajax({
                 url: '/accont/salesman/products/' + id,
                 method: 'DELETE',
+                data: {'_token': element.data('token')},
                 type: 'json',
                 success: function (response) {
                     if (response.status) {
                         element.parents('tr').slideUp(500);
+                        element.parents('.alertbox').hide(500);
+                        $('#pr' + id).slideUp().remove();
                         alertify.success('Produto removido');
                     } else {
                         alertify.error(response.msg);
@@ -763,6 +766,7 @@ function removePrduct() {
                     } else {
                         alertify.error(response.responseJSON.msg);
                     }
+                    console.log(response);
                 }
             });
         }, function () {

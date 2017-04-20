@@ -6,7 +6,7 @@
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
                     <a class="btn btn-small btn-popmartin fl-left" href="/accont/salesman/products/{{ $result->id }}/edit" target="_blank"><i class="fa fa-edit"></i> editar</a>
-                    <a class="btn btn-small btn-popmartin fl-right" id="{{$result->id}}"><i class="fa fa-trash"></i> remover produto</a>
+                    <a class="btn btn-small btn-popmartin fl-right jq-remove-product" data-id="{{$result->id}}" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> remover produto</a>
                 </div>
                 <div class="clear-both"></div>
                 <p class="c-pop fontw-500">Dados do produto:</p>

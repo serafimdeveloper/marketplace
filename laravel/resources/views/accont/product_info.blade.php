@@ -14,17 +14,8 @@
 
         @if(!isset($product) && Auth::user()->admin)
             <label>
-                <span>Loja:
-                    <i class="fa fa-info-circle c-blue tooltip"
-                       title="Selecione a loja apenas se desejar cadastrar produto para uma outra loja que não seja a sua!"></i></span>
+                <span>Loja: <i class="fa fa-info-circle c-blue tooltip" title="Selecione a loja apenas se desejar cadastrar produto para uma outra loja que não seja a sua!"></i></span>
             <div class="trigger warning">
-                {{--<select class="chosen-select" name="store">--}}
-                    {{--<option selected="true" disabled="true">selecionar loja</option>--}}
-                    {{--<option value="">Exemplo de loja</option>--}}
-                    {{--<option value="">Exemplo de loja 2</option>--}}
-                    {{--<option value="">Exemplo de loja 3</option>--}}
-                    {{--<option value="">Exemplo de loja 4</option>--}}
-                {{--</select>--}}
                 {!! Form::select('store_id', $stores, Auth::user()->salesman->store->id , ['class' => 'chosen-select', 'placeholder' => 'Selecione uma loja']) !!}
             </div>
             </label>

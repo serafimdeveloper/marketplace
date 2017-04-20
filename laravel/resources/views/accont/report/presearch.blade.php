@@ -82,7 +82,7 @@
 
         <tbody>
         @forelse($result as $product)
-            <tr>
+            <tr id="pr{{ $product->id }}">
                 <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->image) }}" alt="{{$product->name}}" title="{{$product->name}}"></td>
                 <td>{{$product->name}}</td>
                 <td>{{$product->store->salesman->user->name.' '.$product->store->salesman->user->last_name}}<br> <a href="{{route('pages.store',[$product->store->slug])}}" style="color: #B71C1C">{{$product->store->name}}</a></td>

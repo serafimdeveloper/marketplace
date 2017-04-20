@@ -30,11 +30,11 @@ class ProductsStoreRequest extends Request
      */
     public function rules()
     {
-        $store = Auth::user()->salesman->store;
+        $store_id = (isset($this->request->store_id) ? $this->request->store_id :  Auth::user()->salesman->store->id);
         return [
             'name' => ['required',
-                Rule::unique('products')->where(function($query) use($store){
-                    $query->where('store_id',$store->id);
+                Rule::unique('products')->where(function($query) use($store_id){
+                    $query->where('store_id', $store_id);
                  }),'max:100','min:3'
             ],
             'category_id' => 'required|numeric',

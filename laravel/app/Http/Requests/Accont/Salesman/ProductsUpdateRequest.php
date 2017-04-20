@@ -45,15 +45,15 @@ class ProductsUpdateRequest extends Request
      */
     public function rules()
     {
+        $id = $this->route('product');
+        $store = Product::find($id);
 
-//        $store = Auth::user()->salesman->store;
-//        $id = $this->route('product');
         return [
-//            'name' => ['required',
-//                Rule::unique('products')->where(function($query) use($store){
-//                    $query->where('store_id',$store->id);
-//                 })->ignore($id),'max:100','min:3'
-//            ],
+            'name' => ['required',
+                Rule::unique('products')->where(function($query) use($store){
+                    $query->where('store_id',$store->id);
+                 })->ignore($id),'max:100','min:3'
+            ],
             'name' => 'required|max:100|min:3',
             'category_id' => 'required|numeric',
             'price' => 'required|numeric',

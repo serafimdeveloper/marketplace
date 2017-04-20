@@ -67,11 +67,11 @@ class ProductsController extends AbstractController {
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
-        $store = Auth::user()->salesman->store;
+        $store_id = isset($request->store_id) ? $request->store_id : Auth::user()->salesman->store->id;
         $dados = $request->all();
         $dados['price_out_discount'] = ($request->price_out_discount) ? $request->price_out_discount : null;
         $dados['diameter_cm'] = ($request->diameter_cm) ? $request->diameter_cm : 0;
-        $dados['store_id'] = $store->id;
+        $dados['store_id'] = $store_id;
         $dados['category_id'] = ($request->subcategory_id) ? $request->subcategory_id : $request->category_id;
         if($product = $this->repo->store($dados)){
             $value = 1;
@@ -84,7 +84,7 @@ class ProductsController extends AbstractController {
             }
             flash('Produto criado com sucesso!', 'accept');
 
-            return redirect()->route('accont.salesman.products.index');
+            return redirect()->back();
         }
         flash('Erro ao criar o produto!', 'error');
 
