@@ -155,11 +155,11 @@
                 <td>{{$banner->store->name}}</td>
                 <td>{{$banner->description}}</td>
                 <td>{{$banner->store->slug}}</td>
-                <td>{{$banner->date_start}}</td>
-                <td>{{$banner->date_end}}</td>
+                <td>{{$banner->date_start->format('d/m/Y H:i:s')}}</td>
+                <td>{{$banner->date_end->format('d/m/Y H:i:s')}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-edit jq-info" data-alertbox="alert-banner" data-id="{{$banner->id}}">editar</a>
-                    <a href="javascript:void(0)" class="t-btn t-remove">remover</a>
+                    <a href="javascript:void(0)" class="t-btn t-edit jq-info" data-alertbox="alert-banner" data-type="banners" data-id="{{$banner->id}}">editar</a>
+                    <a href="javascript:void(0)" class="t-btn t-remove" data-type="banners" data-id="{{$banner->id}}">remover</a>
                 </td>
             </tr>
         @empty
