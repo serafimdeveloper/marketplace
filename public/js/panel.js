@@ -530,6 +530,9 @@ $(function(){
     /** Chamada de função para remoção de produtos */
     $(document).on('click', '.jq-remove-product', removePrduct);
 
+    /** Chamada de função para remoção de produtos */
+    $(document).on('click', '.jq-remove-banner', removeBanner);
+
     /** Chamada de função para remoção de galerias relaciona a produtos */
     $(document).on('click', '.jq-remove-img-galery', removeImgGarely);
 
@@ -539,12 +542,15 @@ $(function(){
     /** Modal de atualização e cadastro de banners */
     $(document).on('submit', '.form-banner', function () {
         var e = $(this);
+
+        console.log(e.attr('action'));
+
         $.post(e.attr('action'), e.serialize(), function (response) {
             alertfy.succes(response.msg);
         },'json').fail(function (response) {
             alertify.error(response.responseJSON.msg);
+            return false;
         });
-        $("#jq-new-banner").slideDown();
     });
 
     /** Abri modal de categoria */
@@ -767,6 +773,36 @@ function removePrduct() {
                         alertify.error(response.responseJSON.msg);
                     }
                     console.log(response);
+                }
+            });
+        }, function () {
+            return true;
+        });
+    return false;
+}
+
+function removeBanner(){
+    var element = $(this);
+    var id = element.data('id');
+    alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este banner?',
+        function () {
+            $.ajax({
+                url: '/accont/report/banners/' + id,
+                method: 'DELETE',
+                data: {'_token': element.data('token')},
+                type: 'json',
+                error: function (response) {
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.status) {
+                        element.parents('tr').hide().remove();
+                        alertify.success('banner removido');
+                    } else {
+                        alertify.error(response.msg);
+                        return false;
+                    }
                 }
             });
         }, function () {

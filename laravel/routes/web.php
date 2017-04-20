@@ -96,7 +96,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('/report/banners', 'Admin\AdsController@index')->name('banners');
     Route::get('/report/banners/create', 'Admin\AdsController@create')->name('banner.create');
     Route::get('/report/banners/{id}', 'Admin\AdsController@edit')->name('banner.edit');
-    Route::post('/report/banners/', 'Admin\AdsController@store')->name('banner.store');
+    Route::post('/report/banners/store', 'Admin\AdsController@store')->name('banner.store');
     Route::post('/report/banners/{id}', 'Admin\AdsController@update')->name('banner.update');
     Route::delete('/report/banners/{id}', 'Admin\AdsController@destroy')->name('banner.destroy');
 

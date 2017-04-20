@@ -159,7 +159,7 @@
                 <td>{{$banner->date_end->format('d/m/Y H:i:s')}}</td>
                 <td class="txt-center">
                     <a href="javascript:void(0)" class="t-btn t-edit jq-info" data-alertbox="alert-banner" data-type="banners" data-id="{{$banner->id}}">editar</a>
-                    <a href="javascript:void(0)" class="t-btn t-remove" data-type="banners" data-id="{{$banner->id}}">remover</a>
+                    <a href="javascript:void(0)" class="t-btn t-remove jq-remove-banner" data-type="banners" data-id="{{$banner->id}}" data-token="{{ csrf_token() }}">remover</a>
                 </td>
             </tr>
         @empty

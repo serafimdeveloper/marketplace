@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\Model\Store;
 use Illuminate\Database\Eloquent\Model;
 
 class Ad extends Model{

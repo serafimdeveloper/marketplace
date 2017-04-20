@@ -65,7 +65,7 @@
                             @forelse(banner_ads() as $ad)
                             <div class="vertical-flex">
                                 <img src="{{ $ad['image'] }}" title="" alt="[]">
-                                <p>{{ $ad['name'] }} <br> <span>{{ $ad['description'] }}</span></p>
+                                <p>{{ limit_text($ad['name'], 15) }} <br> <span>{{ $ad['description'] }}</span></p>
                                 <a href="{{ $ad['url'] }}"></a>
                             </div>
                             @empty

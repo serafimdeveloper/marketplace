@@ -7,7 +7,7 @@
             <h1>{{$title}}</h1>
             @if($type === 'banners')
                 <div class="pop-tile-menu">
-                <a href="javascript:void(0)" style="margin-bottom: 5px;" data-type="{{$type}}" data-id="" class="btn btn-small btn-popmartin fl-right jq-info" data-alertbox="alert-banner"> cadastrar novo banner</a>
+                    <a href="javascript:void(0)" data-type="{{$type}}" data-id="" class="btn btn-small btn-popmartin fl-right jq-info" data-alertbox="alert-banner"> cadastrar novo banner</a>
                 </div>
             @elseif($type === 'products')
                 <div class="pop-tile-menu">

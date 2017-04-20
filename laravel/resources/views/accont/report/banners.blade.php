@@ -4,9 +4,10 @@
     @include('accont.inc.nav')
     <section class="panel-content">
         <header class="pop-title">
-            <h1>Banners
-                <a href="javascript:void(0)" class="btn btn-smallextreme btn-popmartin fl-right jq-new-banner"> cadastrar novo banner</a>
-            </h1>
+            <h1>Banners</h1>
+            <div class="pop-tile-menu">
+                <a href="javascript:void(0)" class="btn btn-smallextreme btn-popmartin alertbox-open" data-alertbox="alert-banner"> cadastrar novo banner</a>
+            </div>
         </header>
 
         <table class="table table-action">

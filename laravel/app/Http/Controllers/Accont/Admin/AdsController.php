@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Accont\Admin;
 
 
+use App\Model\Store;
 use App\Repositories\Accont\StoresRepository;
 use App\Repositories\AdRepository;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class AdsController extends  AbstractAdminController
 
     public function index(Request $request){
         if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
+            return redirect()->route('accont.home');
         }
         $this->ordy = ['name' => 'ASC'];
         $this->with = ['store'];
@@ -46,10 +47,21 @@ class AdsController extends  AbstractAdminController
 
 
     public function store(Request $request){
+        if(Gate::denies('admin')){
+            return redirect()->route('accont.home');
+        }
         $this->validate($request,['store_id' => 'required','description' => 'required|max:50','date_start' => 'required','date_end' => 'required'],
             ['store_id.required' => 'A loja é obrigatório', 'description.required' => 'A descrição é obrigatória', 'description.max' => 'Máximo de 50 caracteres',
             'date_start.required' => 'A data inicial é obrigatório', 'date_end.required' => 'A data final é obrigatório']);
-        if($ads = $this->repo->store($request->all())){
+
+        $data = $request->all();
+        $date = new \DateTime($request->date_start);
+        $data['date_start'] = $date->format('Y-m-d H:i:s');
+        $date = new \DateTime($request->date_end);
+        $data['date_end'] = $date->format('Y-m-d H:i:s');
+
+        unset($data['_token']);
+        if($ads = $this->repo->store($data)){
             flash('Banner agendado com sucesso', 'accept');
             return redirect()->back();
         }
@@ -58,6 +70,9 @@ class AdsController extends  AbstractAdminController
     }
 
     public function edit($id){
+        if(Gate::denies('admin')){
+            return redirect()->route('accont.home');
+        }
         if($result = $this->getByRepoId($id)){
             $stores = $this->store_repo->all()->pluck('name','id');
             return view('layouts.parties.alert_banner', compact('result', 'stores'));
@@ -66,9 +81,19 @@ class AdsController extends  AbstractAdminController
     }
 
     public function update(Request $request, $id){
+        if(Gate::denies('admin')){
+            return redirect()->route('accont.home');
+        }
         $this->validate($request,['store_id' => 'required','description' => 'required|max:50','date_start' => 'required','date_end' => 'required'],
             ['store_id.required' => 'A loja é obrigatório', 'description.required' => 'A descrição é obrigatória', 'description.max' => 'Máximo de 50 caracteres',
                 'date_start.required' => 'A data inicial é obrigatório', 'date_end.required' => 'A data final é obrigatório']);
+
+        $data = $request->all();
+        $date = new \DateTime($request->date_start);
+        $data['date_start'] = $date->format('Y-m-d H:i:s');
+        $date = new \DateTime($request->date_end);
+        $data['date_end'] = $date->format('Y-m-d H:i:s');
+
         if($ads = $this->repo->update($request->all(), $id)){
             return response()->json(['msg' => 'Banner agendado com sucesso',201]);
         }
@@ -76,8 +101,11 @@ class AdsController extends  AbstractAdminController
     }
 
     public function destroy($id){
+        if(Gate::denies('admin')){
+            return redirect()->route('accont.home');
+        }
         if($this->repo->delete($id)){
-            return response()->json([],204);
+            return response()->json(['status' => true],200);
         }
         return response()->json(['msg'=> 'Erro ao apagar o agendamento do banner'],500);
     }

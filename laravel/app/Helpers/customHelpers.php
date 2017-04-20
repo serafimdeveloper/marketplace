@@ -1,6 +1,7 @@
 <?php
 use App\Model\Ad;
 use App\Model\CountOrder;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -37,7 +38,7 @@ if(!function_exists('track_object')){
 }
 if(!function_exists('banner_ads')){
     function banner_ads(){
-        $date = date('Y-m-d');
+        $date = Carbon::now();
         $ads = Ad::whereDate('date_start', '<=', $date)->whereDate('date_end', '>=', $date)->get();
         $adData = [];
         foreach($ads as $ad){
