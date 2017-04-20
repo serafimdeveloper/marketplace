@@ -159,7 +159,7 @@ input{padding: 5px;width: 100%;}
 .panel-icon-mobile{display: none;position: absolute;z-index: 10;top: 14px; left: 100px;cursor: pointer;font-size: 1.2em;color: #ac2925;border: 1px solid #e0e0e0;padding: 5px 8px;}
 .panel-icon-mobile:active{box-shadow: 0 0 2px #B40004;}
 
-.panel-top-header{border-bottom: 2px solid #E0E0E0;}
+.panel-top-header{background: #FFF;border-bottom: 2px solid #E0E0E0;z-index: 9999;}
 .panel-top-header .pop-logo{background-size: 80%;top: 7px;left: 50px;padding-bottom: 0;width: 100px;height: 70px;float: left;}
 .panel-top-header .pop-top-nav{padding: 5px 10px;}
 .panel-top-header .pop-search{display: none;}
@@ -348,7 +348,7 @@ input{padding: 5px;width: 100%;}
 }
 .chosen-with-drop .chosen-drop .chosen-results .result-selected{
     background: none;
-    /*color: #B40004;*/
+    color: #B40004;
 }
 .chosen-with-drop .chosen-drop .chosen-results .active-result:hover{
     background: #EB9292;

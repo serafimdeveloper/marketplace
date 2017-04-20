@@ -43,6 +43,9 @@ class ProductsController extends AbstractController {
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
+        if(Gate::denies('admin') || Gate::denies('vendedor')){
+            return redirect()->route('accont.home');
+        }
         $page = Input::get('page');
         if($store = Auth::user()->salesman->store){
             $products = $this->repo->all($this->columns, $this->with, ['store_id' => $store->id], [], 5, $page);
@@ -57,6 +60,9 @@ class ProductsController extends AbstractController {
     public function create(){
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
+        }
+        if(Gate::denies('admin') || Gate::denies('vendedor')){
+            return redirect()->route('accont.home');
         }
         $categories = $this->category->whereNull('category_id')->orderBy('name', 'ASC')->pluck('name', 'id');
         $stores = (Auth::user()->admin ? Store::all()->pluck('name', 'id') : null);

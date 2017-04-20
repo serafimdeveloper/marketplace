@@ -4,7 +4,7 @@ $(function(){
     var menuContainer = $('.panel-nav');
     var menu = $('.panel-nav > div');
     var wnd = $(window);
-
+    // $('.panel-nav-acsess').height(menuContainer.height() + 50);
     /** Flutuar menu do painel de controle ao rolar scroll e ajeitar de acordo! */
     wnd.on('scroll', function(){
         if(menuContainer.height() > wnd.height()){

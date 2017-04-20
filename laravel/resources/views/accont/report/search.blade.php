@@ -6,7 +6,14 @@
         <header class="pop-title">
             <h1>{{$title}}</h1>
             @if($type === 'banners')
+                <div class="pop-tile-menu">
                 <a href="javascript:void(0)" style="margin-bottom: 5px;" data-type="{{$type}}" data-id="" class="btn btn-small btn-popmartin fl-right jq-info" data-alertbox="alert-banner"> cadastrar novo banner</a>
+                </div>
+            @elseif($type === 'products')
+                <div class="pop-tile-menu">
+                    <a href="{{route('accont.salesman.products.create')}}" class="btn btn-small btn-popmartin"><i
+                                class="fa fa-plus vertical-middle"></i> novo</a>
+                </div>
             @endif
         </header>
         @if($type === 'products')
