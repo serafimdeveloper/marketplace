@@ -11,8 +11,7 @@
                 </div>
             @elseif($type === 'products')
                 <div class="pop-tile-menu">
-                    <a href="{{route('accont.salesman.products.create')}}" class="btn btn-small btn-popmartin"><i
-                                class="fa fa-plus vertical-middle"></i> novo produto</a>
+                    <a href="{{route('accont.salesman.products.create')}}" class="btn btn-small btn-popmartin"><i class="fa fa-plus vertical-middle"></i> novo produto</a>
                 </div>
             @elseif($type === 'categories')
                 <div class="pop-tile-menu">

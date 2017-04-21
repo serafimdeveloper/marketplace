@@ -17,8 +17,6 @@ class CreateRequestsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('adress_id')->unsigned();
-            $table->foreign('adress_id')->references('id')->on('adresses')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('store_id')->unsigned();
             $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('freight_id')->unsigned()->nullable();
@@ -37,6 +35,8 @@ class CreateRequestsTable extends Migration
             $table->text('note')->nullable();
             $table->boolean('visualized')->default(0);
             $table->boolean('finalized')->default(0);
+            $table->string('address_receiver', 255);
+            $table->string('address_sender', 255);
             $table->timestamp('settlement_date')->nullable();
             $table->timestamp('cancellation_date')->nullable();
             $table->timestamp('send_date')->nullable();
