@@ -74,10 +74,10 @@
                     {{--<a href="{{route('accont.salesman.products.create')}}"{!! url()->current() ==  route('accont.salesman.products.create') ? ' class="current_rout"' :  ''!!}>cadastrar produto</a>--}}
                     {{--</li>--}}
                     <li>
-                        <a href="{{route('accont.categories.index')}}"{!! url()->current() ==  route('accont.categories.index') ? ' class="current_rout"' :  ''!!}>categorias</a>
+                        <a href="{{route('accont.report.categories.index')}}"{!! url()->current() ==  route('accont.report.categories.index') ? ' class="current_rout"' :  ''!!}>categorias</a>
                     </li>
                     <li>
-                        <a href="{{route('accont.banners')}}"{!! url()->current() ==  route('accont.home') ? ' class="current_rout"' :  ''!!}>banners</a>
+                        <a href="{{route('accont.report.banners')}}"{!! url()->current() ==  route('accont.report.banners') ? ' class="current_rout"' :  ''!!}>banners</a>
                     </li>
                     <li>
                         <a href="{{route('accont.report.sales')}}"{!! url()->current() ==  route('accont.report.sales') ? ' class="current_rout"' :  ''!!}>vendas
@@ -85,9 +85,9 @@
                     <li>
                         <a href="{{route('accont.report.notifications')}}"{!! url()->current() ==  route('accont.report.notifications') ? ' class="current_rout"' :  ''!!}>notificações {!! (notification_notify_admin(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray notify-admin" style="margin-top: -5px;">'.notification_notify_admin(0).'</span>' : '') !!}</a>
                     </li>
-                    <li>
-                        <a href="{{route('accont.pages')}}"{!! url()->current() ==  route('accont.pages') ? ' class="current_rout"' :  ''!!}>páginas</a>
-                    </li>
+                    {{--<li>--}}
+                        {{--<a href="{{route('accont.report.pages')}}"{!! url()->current() ==  route('accont.report.pages') ? ' class="current_rout"' :  ''!!}>páginas</a>--}}
+                    {{--</li>--}}
                 </ul>
             </div>
         @endcan

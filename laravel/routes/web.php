@@ -5,9 +5,7 @@
 Auth::routes();
 Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider')->name('auth.facebook');
 Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback')->name('auth.facebook.callback');
-
 Route::get('/calculatefreight', 'FreightController@toCalculate')->name('calculatefreight');
-
 Route::get('/contato', 'ContactController@indexGet')->name('pages.contact');
 Route::post('/contact/sendmail', 'ContactController@sendMail')->name('pages.sendmail');
 
@@ -38,24 +36,24 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         Route::post('store','Salesmans\SalesmanController@store')->name('store');
         Route::get('info','Salesmans\SalesmanController@edit')->name('info');
 
-        Route::get('stores', 'StoresController@create')->name('stores');
-        Route::post('stores', 'StoresController@store')->name('stores.store');
-        Route::post('stores/update', 'StoresController@update')->name('stores.update');
-        Route::get('stores/block', 'StoresController@blocked')->name('stores.blocked');
+        Route::group(['prefix' => 'stores'], function(){
+            Route::get('/', 'StoresController@create')->name('stores');
+            Route::post('/', 'StoresController@store')->name('stores.store');
+            Route::post('update', 'StoresController@update')->name('stores.update');
+            Route::get('block', 'StoresController@blocked')->name('stores.blocked');
+        });
 
         Route::resource('products', 'Salesmans\ProductsController');
         Route::get('products/change/{product}','Salesmans\ProductsController@desactive')->name('producta.desactive');
         Route::get('products/remove/image/{image}','Salesmans\ProductsController@removeImage')->name('products.image.remove');
-
         Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
-
         Route::get('sale/{id}', 'Salesmans\SalesController@edit')->name('sale_info');
         Route::post('sale/tracking_code/{id}','Salesmans\SalesController@tracking_code')->name('request.tracking_code');
-
         Route::get('etiqueta/{id}', 'Salesmans\SalesController@tag')->name('etiqueta');
 
     });
 
+    /** Rotas de mensagens */
     Route::get('/messages/{type}/{box}', 'MessagesController@index')->name('messages.box');
     Route::get('/message/{type}/{id}', 'MessagesController@show')->name('message.info');
     Route::post('/messages/answer/{box}/{id}', 'MessagesController@answer')->name('message.answer');
@@ -63,65 +61,65 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/messages/destroy', 'MessagesController@destroy')->name('message.destroy');
 
     /******************************************* Administrador *********************************************************/
+    Route::group(['as'=>'report.', 'prefix' => 'report'], function(){
+        /** Apresentação de usuários */
+        Route::get('users', 'Admin\UserController@index')->name('users');
+        Route::get('users/{id}', 'Admin\UserController@show')->name('users.info');
+        Route::post('users/{id}/delete', 'Admin\UserController@destroy')->name('users.remove');
 
-    Route::get('/report/users', 'Admin\UserController@index')->name('report.users');
-    Route::get('/report/users/{id}', 'Admin\UserController@show')->name('report.users.info');
-    Route::post('/report/users/{id}/delete', 'Admin\UserController@destroy')->name('report.users.remove');
+        /** Apresentação de vendedores */
+//        Route::resource('salemans', 'Admin\SalesmanController')->name('salesman');
+        Route::get('salesmans', 'Admin\SalesmanController@index')->name('salesman');
+        Route::get('salesmans/{id}', 'Admin\SalesmanController@show')->name('salesman.info');
+        Route::get('salesmans/{id}/change', 'Admin\SalesmanController@change')->name('salesman.change');
+        Route::put('salesmans/{id}/update', 'Admin\SalesmanController@update')->name('salesman.update');
+        Route::delete('salesmans/{id}/delete', 'Admin\SalesmanController@destroy')->name('salesman.remove');
 
-    Route::get('/report/salesmans', 'Admin\SalesmanController@index')->name('report.salesman');
-    Route::get('/report/salesmans/{id}', 'Admin\SalesmanController@show')->name('report.salesman.info');
-    Route::get('/report/salesmans/{id}/change', 'Admin\SalesmanController@change')->name('report.salesman.change');
-    Route::put('/report/salesmans/{id}/update', 'Admin\SalesmanController@update')->name('report.salesman.update');
-    Route::delete('/report/salesmans/{id}/delete', 'Admin\SalesmanController@destroy')->name('report.salesman.remove');
-
-    Route::get('/report/products', 'Admin\ProductController@index')->name('report.products');
-    Route::get('/report/products/{id}', 'Admin\ProductController@show')->name('report.product.info');
-    Route::get('/report/products/{id}/block', 'Admin\ProductController@destroy')->name('report.product.remove');
-
-
-    Route::resource('type_movements','TypeMovementsStocksController');
-    Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
-
-    Route::get('/report/sales', 'Admin\SalesController@index')->name('report.sales');
-    Route::get('/report/sales/{id}', 'Admin\SalesController@show')->name('report.sale.info');
-
-    Route::get('/report/notifications', 'Admin\NotifyController@index')->name('report.notifications');
-    Route::get('/report/notification/{id}', 'Admin\NotifyController@show')->name('report.notification');
-    Route::post('/report/notification/edit', 'Admin\NotifyController@update')->name('report.notification_edit');
-    Route::post('/report/notification/remove_message', 'Admin\NotifyController@destroy')->name('report.notification_edit');
-
-    Route::get('/report/banners', 'Admin\AdsController@index')->name('banners');
-    Route::get('/report/banners/create', 'Admin\AdsController@create')->name('banner.create');
-    Route::get('/report/banners/{id}', 'Admin\AdsController@edit')->name('banner.edit');
-    Route::post('/report/banners/store', 'Admin\AdsController@store')->name('banner.store');
-    Route::post('/report/banners/{id}', 'Admin\AdsController@update')->name('banner.update');
-    Route::delete('/report/banners/{id}', 'Admin\AdsController@destroy')->name('banner.destroy');
-
-    Route::get('/report/categories', 'CategoriesController@index')->name('categories.index');
-    Route::get('/report/categories/create', 'CategoriesController@index')->name('categories.create');
-    Route::get('/report/categories/store', 'CategoriesController@index')->name('categories.store');
-    Route::get('/report/categories/{id}', 'CategoriesController@edit')->name('categories.edit');
-    Route::post('/report/categories/{id}', 'CategoriesController@update')->name('categories.update');
-    Route::delete('/report/categories/{id}', 'CategoriesController@destroy')->name('categories.destroy');
-
-//    Route::get('/report/categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
-
-    Route::get('/pages', function(){
-        return view('accont.pages');
-    })->name('pages');
-
-    Route::get('/page', function(){
-        return view('accont.page');
-    })->name('page.create');
-
-    Route::get('/page/{id}', function(){
-        return view('accont.page');
-    })->name('page.update');
+        /** Apresentação de produtos */
+        Route::get('products', 'Admin\ProductController@index')->name('products');
+        Route::get('products/{id}', 'Admin\ProductController@show')->name('product.info');
+        Route::get('products/{id}/block', 'Admin\ProductController@destroy')->name('product.remove');
 
 
-    /**
-     * PROCESSO DE REQUISIÇÕES VIA AJAX DO SISTEMA
-     */
+        Route::resource('type_movements','TypeMovementsStocksController');
+        Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
+
+        Route::get('sales', 'Admin\SalesController@index')->name('sales');
+        Route::get('sales/{id}', 'Admin\SalesController@show')->name('sale.info');
+
+        /** Apresentação de notificações */
+        Route::get('notifications', 'Admin\NotifyController@index')->name('notifications');
+        Route::get('notification/{id}', 'Admin\NotifyController@show')->name('notification');
+        Route::post('notification/edit', 'Admin\NotifyController@update')->name('notification_edit');
+        Route::post('notification/remove_message', 'Admin\NotifyController@destroy')->name('notification_edit');
+
+        /** Apresentação de banners */
+//        Route::resource('banners', 'Admin\AdsController')->name('banners');
+        Route::get('banners', 'Admin\AdsController@index')->name('banners');
+        Route::get('banners/create', 'Admin\AdsController@create')->name('banner.create');
+        Route::get('banners/{id}', 'Admin\AdsController@edit')->name('banner.edit');
+        Route::post('banners/store', 'Admin\AdsController@store')->name('banner.store');
+        Route::post('banners/{id}', 'Admin\AdsController@update')->name('banner.update');
+        Route::delete('banners/{id}', 'Admin\AdsController@destroy')->name('banner.destroy');
+
+        /** Apresentação de categorias */
+//        Route::resource('categories', 'CategoriesController')->name('categories');
+        Route::get('categories', 'CategoriesController@index')->name('categories.index');
+        Route::get('categories/create', 'CategoriesController@index')->name('categories.create');
+        Route::get('categories/store', 'CategoriesController@index')->name('categories.store');
+        Route::get('categories/{id}', 'CategoriesController@edit')->name('categories.edit');
+        Route::post('categories/{id}', 'CategoriesController@update')->name('categories.update');
+        Route::delete('categories/{id}', 'CategoriesController@destroy')->name('categories.destroy');
+
+        /** Apresentação de páginas */
+
+//        Route::get('pages', "PageController@index")->name('pages');
+//        Route::get('page/{id}', "PageController@show")->name('page.show');
+//        Route::post('page/{id}', "PageController@update")->name('page.update');
+    });
+
+    /** Retorna subcategorias de produtos */
+//    Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
 
     /** Adress */
     Route::get('adresses/destroy/{adress}','AdressesController@destroy')->name('adress.destroy');

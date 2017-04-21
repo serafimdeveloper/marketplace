@@ -6,9 +6,10 @@
  * Time: 14:48
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Accont;
 
 
+use App\Http\Controllers\Controller;
 use App\Model\Page;
 use App\Repositories\FavoritesRepository;
 use Illuminate\Support\Facades\Auth;
