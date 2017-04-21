@@ -41,7 +41,7 @@ class ProductsRepository extends BaseRepository
         $model = $this->productsActive($model)
             ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
             'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr',
-            'active', 'created_at', 'updated_at')
+            'active', 'created_at', 'updated_at','deleted_at')
             ->orderBy('qtd_product_request','desc')
             ->limit(15)
             ->get();
@@ -56,7 +56,7 @@ class ProductsRepository extends BaseRepository
         $model = $this->productsActive($model)
             ->groupBy('id', 'store_id', 'name', 'category_id', 'quantity', 'price', 'price_out_discount', 'slug', 'deadline',
                 'free_shipping', 'minimum_stock', 'details', 'length_cm', 'width_cm', 'height_cm', 'weight_gr',
-                'active', 'created_at', 'updated_at')
+                'active', 'created_at', 'updated_at','deleted_at')
             ->orderBy('qtd_product_visit', 'desc')
             ->limit(15)
             ->get();
