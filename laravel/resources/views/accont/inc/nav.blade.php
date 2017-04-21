@@ -12,7 +12,8 @@
                         cadastro</a></li>
                 <li>
                     <a href="{{route('accont.requests')}}"{!! url()->current() ==  route('accont.requests') ? ' class="current_rout"' :  ''!!}>meus
-                        pedidos {!! (notification_request(0) > 0 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">'.notification_request(0).'</span>' : '') !!}</a></li>
+                        pedidos {!! (notification_request(0) > 0 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">'.notification_request(0).'</span>' : '') !!}</a>
+                </li>
                 <li>
                     <a href="{{route('accont.searchstore')}}"{!! url()->current() ==  route('accont.searchstore') ? ' class="current_rout"' :  ''!!}>procurar
                         loja</a></li>
@@ -29,18 +30,20 @@
                         <a href="{{route('accont.salesman.info')}}"{!! url()->current() ==  route('accont.salesman.info') ? ' class="current_rout"' :  ''!!}>informações</a>
                     </li>
                     <li>
-                        <a href="{{route('accont.salesman.stores')}}"{!! url()->current() ==  route('accont.salesman.stores') ? ' class="current_rout"' :  ''!!}>minha
-                            loja</a></li>
-                    <li>
-                        <a href="{{route('accont.salesman.products.index')}}"{!! url()->current() ==  route('accont.salesman.products.index') ? ' class="current_rout"' :  ''!!}>meus
-                            produtos</a></li>
-                    <li>
-                        <a href="{{route('accont.salesman.sales')}}"{!! url()->current() ==  route('accont.salesman.sales') ? ' class="current_rout"' :  ''!!}>minhas
-                            vendas {!! (notification_sales(0) > 0 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">'.notification_sales(0).'</span>' : '') !!}</a>
+                        <a href="{{route('accont.salesman.stores')}}"{!! url()->current() ==  route('accont.salesman.stores') ? ' class="current_rout"' :  ''!!}>minha loja</a>
                     </li>
-                    <li>
-                        <a href="{{route('accont.messages.box',['type'=>'store', 'box' => 'received'])}}" {!! url()->current() ==  route('accont.messages.box',['type'=>'store', 'box' => 'received']) ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_message_salesman() >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_message_salesman().'</span>' : '') !!}</a>
-                    </li>
+                    @if(Auth::user()->salesman->store)
+                        <li>
+                            <a href="{{route('accont.salesman.products.index')}}"{!! url()->current() ==  route('accont.salesman.products.index') ? ' class="current_rout"' :  ''!!}>meus
+                                produtos</a></li>
+                        <li>
+                            <a href="{{route('accont.salesman.sales')}}"{!! url()->current() ==  route('accont.salesman.sales') ? ' class="current_rout"' :  ''!!}>minhas
+                                vendas {!! (notification_sales(0) > 0 ? '<span class="fl-right padding05-10 radius bg-reddark" style="margin-top: -5px;">'.notification_sales(0).'</span>' : '') !!}</a>
+                        </li>
+                        <li>
+                            <a href="{{route('accont.messages.box',['type'=>'store', 'box' => 'received'])}}" {!! url()->current() ==  route('accont.messages.box',['type'=>'store', 'box' => 'received']) ? ' class="current_rout"' :  ''!!}>mensagens {!! (notification_message_salesman() >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray" style="margin-top: -5px;">'.notification_message_salesman().'</span>' : '') !!}</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         @endcan
@@ -49,7 +52,8 @@
                 <h3>Área do vendedor</h3>
                 <ul>
                     <li>
-                        <a href="{{route('accont.salesman.info')}}"{!! url()->current() ==  route('accont.salesman.info') ? ' class="current_rout"' :  ''!!}>Torne-se um vendedor</a></li>
+                        <a href="{{route('accont.salesman.info')}}"{!! url()->current() ==  route('accont.salesman.info') ? ' class="current_rout"' :  ''!!}>Torne-se
+                            um vendedor</a></li>
                 </ul>
             </div>
         @endcannot
@@ -67,7 +71,7 @@
                         <a href="{{route('accont.report.products')}}"{!! url()->current() ==  route('accont.report.products') ? ' class="current_rout"' :  ''!!}>produtos</a>
                     </li>
                     {{--<li>--}}
-                        {{--<a href="{{route('accont.salesman.products.create')}}"{!! url()->current() ==  route('accont.salesman.products.create') ? ' class="current_rout"' :  ''!!}>cadastrar produto</a>--}}
+                    {{--<a href="{{route('accont.salesman.products.create')}}"{!! url()->current() ==  route('accont.salesman.products.create') ? ' class="current_rout"' :  ''!!}>cadastrar produto</a>--}}
                     {{--</li>--}}
                     <li>
                         <a href="{{route('accont.categories.index')}}"{!! url()->current() ==  route('accont.categories.index') ? ' class="current_rout"' :  ''!!}>categorias</a>

@@ -73,7 +73,7 @@
                 @empty
                     <div id="isAddress">
                         <p class="trigger warning txt-center"><i class="fa fa-exclamation-circle"></i> Você ainda não possui endereços cadastrado</p>
-                        <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address" data-action="user">cadastrar um endereço</a></p>
+                        <p class="txt-center"><a href="javascript:void(0)" class="btn btn-popmartin jq-address" data-alertbox="alert-address" data-action="user">cadastrar um endereço</a></p>
                     </div>
                 @endforelse
                 </div>
