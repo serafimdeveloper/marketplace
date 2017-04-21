@@ -17,7 +17,7 @@ class CategoriesController extends AbstractAdminController
         $this->repo = $repository;
     }
 
-    public function index(Request $request){;
+    public function index(Request $request){
         if(Gate::denies('admin')){
             return redirect()->route('accont.home');
         }
@@ -33,7 +33,9 @@ class CategoriesController extends AbstractAdminController
         }
         return view('accont.report.search', $data);
     }
+    public function show(Request $request){
 
+    }
     public function create(){
         if(Gate::denies('admin')){
             return redirect()->route('page.confirm_accont');

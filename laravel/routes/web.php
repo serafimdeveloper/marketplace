@@ -79,9 +79,6 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('/report/products/{id}/block', 'Admin\ProductController@destroy')->name('report.product.remove');
 
 
-    Route::resource('categories', 'CategoriesController');
-    Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
-
     Route::resource('type_movements','TypeMovementsStocksController');
     Route::post('movement_stock/{type}', 'MovementStocksController@store')->name('movement_stocks.store');
 
@@ -99,6 +96,15 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::post('/report/banners/store', 'Admin\AdsController@store')->name('banner.store');
     Route::post('/report/banners/{id}', 'Admin\AdsController@update')->name('banner.update');
     Route::delete('/report/banners/{id}', 'Admin\AdsController@destroy')->name('banner.destroy');
+
+    Route::get('/report/categories', 'CategoriesController@index')->name('categories.index');
+    Route::get('/report/categories/create', 'CategoriesController@index')->name('categories.create');
+    Route::get('/report/categories/store', 'CategoriesController@index')->name('categories.store');
+    Route::get('/report/categories/{id}', 'CategoriesController@edit')->name('categories.edit');
+    Route::post('/report/categories/{id}', 'CategoriesController@update')->name('categories.update');
+    Route::delete('/report/categories/{id}', 'CategoriesController@destroy')->name('categories.destroy');
+
+//    Route::get('/report/categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
 
     Route::get('/pages', function(){
         return view('accont.pages');
