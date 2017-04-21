@@ -7,12 +7,16 @@
             <h1>{{$title}}</h1>
             @if($type === 'banners')
                 <div class="pop-tile-menu">
-                    <a href="javascript:void(0)" data-type="{{$type}}" data-id="" class="btn btn-small btn-popmartin fl-right jq-info" data-alertbox="alert-banner"> cadastrar novo banner</a>
+                    <a href="javascript:void(0)" data-type="{{$type}}" class="btn btn-small btn-popmartin fl-right jq-info" data-alertbox="alert-banner"> cadastrar novo banner</a>
                 </div>
             @elseif($type === 'products')
                 <div class="pop-tile-menu">
                     <a href="{{route('accont.salesman.products.create')}}" class="btn btn-small btn-popmartin"><i
-                                class="fa fa-plus vertical-middle"></i> novo</a>
+                                class="fa fa-plus vertical-middle"></i> novo produto</a>
+                </div>
+            @elseif($type === 'categories')
+                <div class="pop-tile-menu">
+                    <a href="javascript:void(0)" data-type="{{$type}}" class="btn btn-small btn-popmartin fl-right jq-info" data-alertbox="alert-newcategory"> cadastrar nova categoria</a>
                 </div>
             @endif
         </header>
@@ -31,7 +35,6 @@
                 </div>
             </div>
         </form>
-
         @else
         <form class="form-modern pop-form form-search" action="javascript:void(0)">
             <label>

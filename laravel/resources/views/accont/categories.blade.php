@@ -6,7 +6,7 @@
         <header class="pop-title">
             <h1>Categorias cadastrada no sistema</h1>
             <div class="pop-tile-menu">
-                <a href="javascript:void(0)" class="alertbox-open btn btn-smallextreme btn-popmartin fl-right" data-alertbox="alert-newcategory"> cadastrar nova categoria</a>
+                <a href="javascript:void(0)" class="alertbox-open btn btn-small btn-popmartin fl-right" data-alertbox="alert-newcategory"> cadastrar nova categoria</a>
             </div>
         </header>
         <table class="table table-action">

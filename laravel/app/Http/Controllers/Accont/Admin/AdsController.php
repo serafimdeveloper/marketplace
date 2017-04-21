@@ -1,15 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: DouglasSerafim
- * Date: 12/04/2017
- * Time: 20:44
- */
 
 namespace App\Http\Controllers\Accont\Admin;
 
-
-use App\Model\Store;
 use App\Repositories\Accont\StoresRepository;
 use App\Repositories\AdRepository;
 use Illuminate\Http\Request;
@@ -32,7 +24,9 @@ class AdsController extends  AbstractAdminController
         $this->ordy = ['name' => 'ASC'];
         $this->with = ['store'];
         $this->title = 'Banners';
+
         $data = $this->search($request, 'banners');
+
         if($request->ajax()){
             return view('accont.report.presearch', $data);
         }
@@ -94,10 +88,14 @@ class AdsController extends  AbstractAdminController
         $date = new \DateTime($request->date_end);
         $data['date_end'] = $date->format('Y-m-d H:i:s');
 
-        if($ads = $this->repo->update($request->all(), $id)){
-            return response()->json(['msg' => 'Banner agendado com sucesso',201]);
+        unset($data['_token']);
+
+        if($ads = $this->repo->update($data, $id)){
+            flash('Agendamento atualizado!', 'accept');
+            return redirect()->back();
         }
-        return response()->json(['msg' => 'Erro ao agendar o banner'],500);
+        flash('Erro atualizar agendamento!', 'error');
+        return redirect()->back();
     }
 
     public function destroy($id){

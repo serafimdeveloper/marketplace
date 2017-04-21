@@ -2,27 +2,36 @@
 
 namespace App\Http\Controllers\Accont;
 
-use App\Http\Controllers\AbstractController;
+use App\Http\Controllers\Accont\Admin\AbstractAdminController;
 use Illuminate\Container\Container as App;
 use Illuminate\Http\Request;
 use App\Model\Category;
 use App\Repositories\Accont\CategoriesRepository;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Input;
 
-class CategoriesController extends AbstractController
+class CategoriesController extends AbstractAdminController
 {
-    public function repo(){
-        return CategoriesRepository::class;
+    protected $repo;
+    public function __construct(CategoriesRepository $repository)
+    {
+        $this->repo = $repository;
     }
 
-    public function index(){
+    public function index(Request $request){;
         if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
+            return redirect()->route('accont.home');
         }
-        $page = Input::get('page');
-        $categories = $this->repo->all($this->columns,$this->with,[],['name'=>'ASC'],10,$page);
-        return view('accont.categories', compact('categories'));
+        $this->ordy = ['name' => 'ASC'];
+        $this->with = ['products'];
+        $this->title = 'Categorias cadastrada no sistema';
+        $this->placeholder = "Pesquisar por nome de categoria";
+
+        $data = $this->search($request, 'categories');
+
+        if($request->ajax()){
+            return view('accont.report.presearch', $data);
+        }
+        return view('accont.report.search', $data);
     }
 
     public function create(){

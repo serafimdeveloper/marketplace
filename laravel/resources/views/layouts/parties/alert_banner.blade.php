@@ -12,13 +12,14 @@
                     <div class="colbox-full">
                         <label>
                            <span>Loja</span>
-                           {!! Form::select('store_id',$stores,null,['placeholder' => 'Selecione uma loja']) !!}
+                           {!! Form::select('store_id',$stores,null,['placeholder' => 'Selecione uma loja', 'required' => true]) !!}
                         </label>
                     </div>
                     <div class="colbox-full">
                         <label>
                             <span>Description</span>
-                            {!!  Form::text('description', null, ['placehoder' => 'Descrição do banner']) !!}
+                            {!!  Form::text('description', null, ['placehoder' => 'Descrição do banner', 'required' => 'true', 'maxlenght' => 30]) !!}
+                            <span class="alert{{ $errors->has('description') ? '' : ' hidden' }}">{{ $errors->first('description') }}</span>
                         </label>
                     </div>
                 </div>
@@ -26,13 +27,13 @@
                     <div class="colbox-2">
                         <label>
                             <span>Início</span>
-                            {!! Form::input('datetime-local', 'date_start',  isset($result->date_start) ? $result->date_start->format('Y-m-d H:i:s') : null, ['class' => 'datetimepicker_datetime', 'placehoder' => 'data e hora inicial']) !!}
+                            {!! Form::input('datetime-local', 'date_start',  isset($result->date_start) ? $result->date_start->format('Y-m-d H:i:s') : null, ['class' => 'datetimepicker_datetime', 'placehoder' => 'data e hora inicial', 'required' => true]) !!}
                         </label>
                     </div>
                     <div class="colbox-2">
                         <label>
                             <span>Fim</span>
-                            {!! Form::input('datetime-local', 'date_end',  isset($result->date_end) ? $result->date_end->format('Y-m-d H:i:s') : null, ['class' => 'datetimepicker_datetime', 'placehoder' => 'data e hora final']) !!}
+                            {!! Form::input('datetime-local', 'date_end',  isset($result->date_end) ? $result->date_end->format('Y-m-d H:i:s') : null, ['class' => 'datetimepicker_datetime', 'placehoder' => 'data e hora final', 'required' => true]) !!}
                         </label>
                     </div>
                 </div>

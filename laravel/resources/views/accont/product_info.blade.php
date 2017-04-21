@@ -6,6 +6,13 @@
         <header class="pop-title">
             <h1>Detalhe do produto</h1>
         </header>
+        @if(isset($product) && Auth::user()->admin)
+            @if($product->store->salesman->user->id !== Auth::user()->id)
+                <div class="trigger warning">
+                    <span>Você está editando um produto da loja <b>{{ $product->store->name }}</b></span>
+                </div>
+            @endif
+        @endif
         @if(isset($product))
             {!!Form::model($product,['route'=>['accont.salesman.products.update', $product->id], 'method'=>'PUT', 'class' => 'form-modern pop-form form-create-product' ,'enctype'=>'multipart/form-data'])!!}
         @else
@@ -16,7 +23,7 @@
             <label>
                 <span>Loja: <i class="fa fa-info-circle c-blue tooltip" title="Selecione a loja apenas se desejar cadastrar produto para uma outra loja que não seja a sua!"></i></span>
             <div class="trigger warning">
-                {!! Form::select('store_id', $stores, Auth::user()->salesman->store->id , ['class' => 'chosen-select', 'placeholder' => 'Selecione uma loja']) !!}
+                {!! Form::select('store_id', $stores, (isset(Auth::user()->salesman->store) ? Auth::user()->salesman->store->id : null) , ['class' => 'chosen-select', 'placeholder' => 'Selecione uma loja']) !!}
             </div>
             </label>
 

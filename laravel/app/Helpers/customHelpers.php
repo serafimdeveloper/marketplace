@@ -65,8 +65,10 @@ if(!function_exists('discont_percent')){
 if(!function_exists('notification_sales')){
     function notification_sales($visualized){
         if(Gate::allows('vendedor')){
-            if($store = Auth::user()->salesman->store){
-                return count(DB::table('requests')->where('visualized_store', $visualized)->where('store_id', $store->id)->get());
+            if(Auth::user()->salesman){
+                if($store = Auth::user()->salesman->store){
+                    return count(DB::table('requests')->where('visualized_store', $visualized)->where('store_id', $store->id)->get());
+                }
             }
         }
 
@@ -95,10 +97,12 @@ if(!function_exists('notification_message_client')){
 }
 if(!function_exists('notification_message_salesman')){
     function notification_message_salesman($visualized = 'received'){
-        if($store = Auth::user()->salesman->store){
-            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->where('desactive', '=', 0)->get();
+        if(Auth::user()->salesman){
+            if($store = Auth::user()->salesman->store){
+                $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->where('desactive', '=', 0)->get();
 
-            return count($messages);
+                return count($messages);
+            }
         }
 
         return 0;

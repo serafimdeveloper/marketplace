@@ -43,7 +43,7 @@ class ProductsController extends AbstractController {
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
-        if(Gate::denies('admin') || Gate::denies('vendedor')){
+        if(Gate::denies('vendedor')){
             return redirect()->route('accont.home');
         }
         $page = Input::get('page');
@@ -61,7 +61,7 @@ class ProductsController extends AbstractController {
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
-        if(Gate::denies('admin') || Gate::denies('vendedor')){
+        if(Gate::denies('vendedor')){
             return redirect()->route('accont.home');
         }
         $categories = $this->category->whereNull('category_id')->orderBy('name', 'ASC')->pluck('name', 'id');
@@ -90,7 +90,7 @@ class ProductsController extends AbstractController {
             }
             flash('Produto criado com sucesso!', 'accept');
 
-            return redirect()->back();
+            return redirect()->route('accont.salesman.products.edit', ['id' => $product->id])->withInput();
         }
         flash('Erro ao criar o produto!', 'error');
 

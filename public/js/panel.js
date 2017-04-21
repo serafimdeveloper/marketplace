@@ -540,18 +540,15 @@ $(function(){
     $(document).on('click', '.jq-block-store', blockStore);
 
     /** Modal de atualização e cadastro de banners */
-    $(document).on('submit', '.form-banner', function () {
-        var e = $(this);
-
-        console.log(e.attr('action'));
-
-        $.post(e.attr('action'), e.serialize(), function (response) {
-            alertfy.succes(response.msg);
-        },'json').fail(function (response) {
-            alertify.error(response.responseJSON.msg);
-            return false;
-        });
-    });
+    // $(document).on('submit', '.form-banner', function () {
+    //     var e = $(this);
+    //     $.post(e.attr('action'), e.serialize(), function (response) {
+    //         alertfy.succes(response.msg);
+    //     },'json').fail(function (response) {
+    //         alertify.error(response.responseJSON.msg);
+    //         return false;
+    //     });
+    // });
 
     /** Abri modal de categoria */
     $(document).on('click', '.jq-new-category', function () {

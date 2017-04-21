@@ -21,7 +21,7 @@
                 </li>
             </ul>
         </div>
-        @can('vendedor')
+        @can('sallesman')
             <div class="panel-nav-acsess">
                 <h3>Área do vendedor</h3>
                 <ul>
@@ -44,7 +44,7 @@
                 </ul>
             </div>
         @endcan
-        @cannot('vendedor')
+        @cannot('sallesman')
             <div class="panel-nav-acsess">
                 <h3>Área do vendedor</h3>
                 <ul>
@@ -66,6 +66,9 @@
                     <li>
                         <a href="{{route('accont.report.products')}}"{!! url()->current() ==  route('accont.report.products') ? ' class="current_rout"' :  ''!!}>produtos</a>
                     </li>
+                    {{--<li>--}}
+                        {{--<a href="{{route('accont.salesman.products.create')}}"{!! url()->current() ==  route('accont.salesman.products.create') ? ' class="current_rout"' :  ''!!}>cadastrar produto</a>--}}
+                    {{--</li>--}}
                     <li>
                         <a href="{{route('accont.categories.index')}}"{!! url()->current() ==  route('accont.categories.index') ? ' class="current_rout"' :  ''!!}>categorias</a>
                     </li>

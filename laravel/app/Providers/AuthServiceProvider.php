@@ -27,6 +27,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Gate::define('vendedor', function(User $user){
+            if($user->salesman || $user->admin){
+                return true;
+            }
+            return false;
+        });
+        Gate::define('sallesman', function(User $user){
             return !!$user->salesman;
         });
         Gate::define('admin', function(User $user){
@@ -44,7 +50,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('produtc_access', function(User $user, $product){
             if($product){
-                $store_id = ($user->store ? $user->store->id : null);
+                $store_id = (isset($user->salesman->store) && $user->salesman->store ? $user->salesman->store->id : null);
                 if($product->store->id == $store_id || $user->admin){
                     return true;
                 }

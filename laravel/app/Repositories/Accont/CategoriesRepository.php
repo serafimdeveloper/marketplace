@@ -24,4 +24,14 @@ class CategoriesRepository extends BaseRepository
         $subcategories = $this->model->select('id', 'name')->where('category_id', $category)->orderBy('name','ASC')->get();
         return $subcategories;
     }
+
+    public function search($name,array $columns = [],array $where = [], array $with = [], $orders = [], $limit = 50, $page = 1){
+        $model =  $this->model->with($with)->select('categories.*')->where('categories.name','LIKE','%'.$name.'%');
+        foreach ($orders as $column => $order) {
+            $model = $model->orderBy($column, $order);
+        }
+        $model = $model->paginate($limit, $columns, 'page', $page);
+
+        return $model;
+    }
 }
