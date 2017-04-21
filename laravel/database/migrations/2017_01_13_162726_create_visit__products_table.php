@@ -15,7 +15,7 @@ class CreateVisitProductsTable extends Migration
     {
         Schema::create('visit_products', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('SET NULL');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('count');

@@ -16,9 +16,9 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('NO ACTION');
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('NO ACTION');
+            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('category_id')->unsigned()->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('SET NULL');
             $table->string('name',100);
             $table->integer('quantity')->unsigned()->default(1);
             $table->decimal('price',8,2);
@@ -33,6 +33,7 @@ class CreateProductsTable extends Migration
             $table->float('height_cm');
             $table->float('weight_gr',10,3);
             $table->boolean('active')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -24,10 +24,9 @@ class CreateMessagesTable extends Migration
             $table->integer('request_id')->unsigned()->nullable();
             $table->foreign('request_id')->references('id')->on('requests')->onUpdate('cascade')->onDelete('SET NULL');
             $table->integer('product_id')->unsigned()->nullable();
-            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('SET NULL');
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('message_id')->unsigned()->nullable();
-            $table->foreign('message_id')->references('id')->on('messages')->onUpdate('cascade')->onDelete('SET NULL');
-            $table->string('title',200);
+            $table->foreign('message_id')->references('id')->on('messages')->onUpdate('cascade')->onDelete('cascade');
             $table->text('content');
             $table->boolean('desactive')->default(0);
             $table->enum('status',['readed','received', 'answered'])->default('received');

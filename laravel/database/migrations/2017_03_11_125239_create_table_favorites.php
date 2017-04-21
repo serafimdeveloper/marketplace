@@ -14,13 +14,14 @@ class CreateTableFavorites extends Migration
     public function up()
     {
         //
-        /*Schema::create('favorites', function(Blueprint $table){
+        Schema::create('favorites', function(Blueprint $table){
             $table->increments('id');
-            $table->integer('request_id')->unsigned();
-            $table->foreign('request_id')->references('id')->on('requests')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('token', 20);
+            $table->integer('user_id')->unsigned();
+            $table->integer('product_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('user')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
-        });*/
+        });
     }
 
     /**
