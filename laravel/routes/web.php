@@ -70,9 +70,9 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     Route::get('/report/salesmans', 'Admin\SalesmanController@index')->name('report.salesman');
     Route::get('/report/salesmans/{id}', 'Admin\SalesmanController@show')->name('report.salesman.info');
-    Route::get('/report/salesmans/{id}/delete', 'Admin\SalesmanController@destroy')->name('report.salesman.remove');
     Route::get('/report/salesmans/{id}/change', 'Admin\SalesmanController@change')->name('report.salesman.change');
-    Route::post('/report/salesmans/{id}/update', 'Admin\SalesmanController@update')->name('report.salesman.update');
+    Route::put('/report/salesmans/{id}/update', 'Admin\SalesmanController@update')->name('report.salesman.update');
+    Route::delete('/report/salesmans/{id}/delete', 'Admin\SalesmanController@destroy')->name('report.salesman.remove');
 
     Route::get('/report/products', 'Admin\ProductController@index')->name('report.products');
     Route::get('/report/products/{id}', 'Admin\ProductController@show')->name('report.product.info');
