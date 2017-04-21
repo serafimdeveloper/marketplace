@@ -103,7 +103,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         Route::delete('banners/{id}', 'Admin\AdsController@destroy')->name('banner.destroy');
 
         /** Apresentação de categorias */
-        Route::resource('categories', 'CategoriesController')->name('categories');
+        Route::resource('categories', 'CategoriesController');
 //        Route::get('categories', 'CategoriesController@index')->name('categories.index');
 //        Route::get('categories/create', 'CategoriesController@index')->name('categories.create');
 //        Route::get('categories/store', 'CategoriesController@index')->name('categories.store');
