@@ -487,7 +487,6 @@ $(function(){
      */
     $(document).on('click', '.jq-remove-user', function(){
         var e = $(this);
-        var data =  {'_token': e.data('token'), 'id': e.data('id')};
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esse usuário?',
             function () {
                 var data = {'_token': e.data('token'), 'id': e.data('id')};
@@ -501,7 +500,52 @@ $(function(){
             }, function () {
                 return true;
             });
-    })
+    });
+
+
+    /**
+     * Remoção de vendedor por parte do administrador
+     */
+    $(document).on('click', '.btn-delete-salesman', function(){
+        var e = $(this);
+        alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esse vendedor?',
+            function () {
+                var data = {'_token': e.data('token'), 'id': e.data('id')};
+                $.post('/accont/report/salesmans/' + data.id + '/delete', data, function(){
+                    e.parents('#resp_modal').empty();
+                    alertify.success("Vendedor removido com sucesso!");
+                }).error(function (response) {
+                    alertify.error(response.responseJSON.msg);
+                });
+            }, function () {
+                return true;
+            });
+    });
+
+    /**
+     * Atualizar comissão de vendedor
+     */
+    $(document).on('submit', '#form-commission', function(){
+        var e = $(this);
+        var buttonTextloading = '<i class="fa fa-spin fa-spinner"></i> processando...';
+        console.log(e.attr('action'), e.attr());
+       $.ajax({
+            url: e.attr('action'),
+            method: e.attr('method'),
+            data: e.serialize(),
+            beforeSend: function(){
+                e.find('button').html(buttonTextloading);
+            },
+            error: function(response){
+                alertify.error(response.responseJSON.msg);
+            },
+            success: function(response){
+                $('#jq-info-salesman').slideUp();
+                alertify.success('Comissão atualizada com sucesso');
+            }
+        });
+        return false;
+    });
 
     /** Desbloquer e bloquear vendedor */
     $(document).on('click','.btn-unlock-salesman', function(){

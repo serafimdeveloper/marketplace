@@ -5,7 +5,7 @@
             <h2 class="alertbox-title c-pop fontw-500">Dados do Vendendor Completo</h2>
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
-                    <a class="btn btn-small btn-popmartin fl-right btn-delete-salesman" data-id="{{$result->id}}" style="margin-left: 10px;"><i class="fa fa-trash"></i> remover usuário</a>
+                    <a class="btn btn-small btn-popmartin fl-right btn-delete-salesman" data-token="{{csrf_token()}}" data-id="{{$result->id}}" style="margin-left: 10px;"><i class="fa fa-trash"></i> remover usuário</a>
                     <a class="btn btn-small btn-popmartin fl-right btn-unlock-salesman" data-id="{{$result->id}}">{!! ($result->active) ? '<i class="fa fa-unlock"></i> bloquear vendedor' : '<i class="fa fa-unlock"></i> desbloquear vendedor'!!} </a>
                 </div>
                 <div class="clear-both"></div>
@@ -105,7 +105,7 @@
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Comissão (%)</p>
-                                         {!! Form::open(['id'=>'form-commission', 'method' => 'post']) !!}
+                                         {!! Form::open(['route' =>['accont.report.salesman.update', $result->id],'id'=>'form-commission', 'method' => 'PUT']) !!}
                                             <label>
                                                 {!! Form::text('commission', $result->comission, ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
                                             </label>
