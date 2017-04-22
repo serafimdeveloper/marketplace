@@ -63,22 +63,14 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     /******************************************* Administrador *********************************************************/
     Route::group(['as'=>'report.', 'prefix' => 'report'], function(){
         /** Apresentação de usuários */
-        Route::get('users', 'Admin\UserController@index')->name('users');
-        Route::get('users/{id}', 'Admin\UserController@show')->name('users.info');
-        Route::post('users/{id}/delete', 'Admin\UserController@destroy')->name('users.remove');
+        Route::resource('users', 'Admin\UserController',['only' =>['index','show','destroy']]);
 
         /** Apresentação de vendedores */
-//        Route::resource('salemans', 'Admin\SalesmanController')->name('salesman');
-        Route::get('salesmans', 'Admin\SalesmanController@index')->name('salesman');
-        Route::get('salesmans/{id}', 'Admin\SalesmanController@show')->name('salesman.info');
+        Route::resource('salesmans', 'Admin\SalesmanController',['except' => ['create', 'store', 'edit']]);
         Route::get('salesmans/{id}/change', 'Admin\SalesmanController@change')->name('salesman.change');
-        Route::put('salesmans/{id}/update', 'Admin\SalesmanController@update')->name('salesman.update');
-        Route::delete('salesmans/{id}/delete', 'Admin\SalesmanController@destroy')->name('salesman.remove');
 
         /** Apresentação de produtos */
-        Route::get('products', 'Admin\ProductController@index')->name('products');
-        Route::get('products/{id}', 'Admin\ProductController@show')->name('product.info');
-        Route::get('products/{id}/block', 'Admin\ProductController@destroy')->name('product.remove');
+        Route::resource('products','Admin\ProductController',['only' => ['index','show','destroy']]);
 
 
         Route::resource('type_movements','TypeMovementsStocksController');

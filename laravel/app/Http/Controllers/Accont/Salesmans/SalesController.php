@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Input;
 
 class SalesController extends AbstractController
 {
-    protected $with = ['user','store','products','adress','freight','payment','requeststatus'];
+    protected $with = ['user','store','products','adress','freight','requeststatus'];
 
     public function repo(){
         return RequestsRepository::class;

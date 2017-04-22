@@ -9,7 +9,7 @@ class Request extends Model
 {
     use SoftDeletes;
     protected $fillable =['user_id','adress_id','store_id','key','freight_id','deadline','settlement_date','cancellation_date',
-        'send_date','payment_id','number_installments','tracking_code','freight_price','commission_amount','note',
+        'send_date','number_installments','tracking_code','freight_price','commission_amount','note',
         'request_status_id', 'phone','amount','visualized_store','visualized_user', 'amount_interest', 'rate_moip', 'payment_reference',
         'payment_institution'];
 
@@ -33,10 +33,6 @@ class Request extends Model
 
     public function freight(){
         return $this->belongsTo(Freight::class);
-    }
-
-    public function payment(){
-        return $this->belongsTo(Payment::class);
     }
 
     public function requeststatus(){

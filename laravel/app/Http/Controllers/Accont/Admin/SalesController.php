@@ -37,7 +37,7 @@ class SalesController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('page.confirm_accont');
         }
-        $this->with = ['user','store','adress','products','payment','requeststatus','freight'];
+        $this->with = ['user','store','adress','products','requeststatus','freight'];
         if($result = $this->getByRepoId($id)){
             return view('layouts.parties.alert_sales_info', compact('result'));
         }

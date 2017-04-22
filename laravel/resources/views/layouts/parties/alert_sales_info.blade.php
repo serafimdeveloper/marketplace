@@ -70,7 +70,7 @@
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Comissão</p>
-                            <span>{{($result->commission_amount) ? real($result->commission_amout) : '-'}}</span>
+                            <span>{{($result->commission_amount) ? real($result->commission_amount) : '-'}}</span>
                         </div>
                     </div>
                 </div>

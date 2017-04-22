@@ -105,7 +105,7 @@
                                 <div class="colbox-4">
                                     <div class="pop-info-user">
                                         <p>Comissão (%)</p>
-                                         {!! Form::open(['route' =>['accont.report.salesman.update', $result->id],'id'=>'form-commission', 'method' => 'PUT']) !!}
+                                         {!! Form::open(['route' =>['accont.report.salesmans.update', $result->id],'id'=>'form-commission', 'method' => 'PUT']) !!}
                                             <label>
                                                 {!! Form::text('comission', $result->comission, ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
                                             </label>
