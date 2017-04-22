@@ -13,6 +13,8 @@ use App\Http\Controllers\AbstractController;
 use Illuminate\Container\Container as App;
 use Illuminate\Http\Request;
 use App\Repositories\Accont\TypeMovementsStocksRepository as Repository;
+use Illuminate\Support\Facades\Gate;
+
 class TypeMovementsStocksController extends AbstractController
 {
 

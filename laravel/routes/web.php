@@ -44,7 +44,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         });
 
         Route::resource('products', 'Salesmans\ProductsController');
-        Route::get('products/change/{product}','Salesmans\ProductsController@desactive')->name('producta.desactive');
+        Route::get('products/change/{product}','Salesmans\ProductsController@desactive')->name('products.desactive');
         Route::get('products/remove/image/{image}','Salesmans\ProductsController@removeImage')->name('products.image.remove');
         Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
         Route::get('sale/{id}', 'Salesmans\SalesController@edit')->name('sale_info');
@@ -130,7 +130,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('adresses/getmycep/{myidcep}','AdressesController@get_mycep')->name('adress.getmycep');
 });
 
-Route::get('/pagina/{page}', 'PageController@with_pay')->name('pagina');
+Route::get('/pagina/{page}', 'Accont\PageController@with_pay')->name('pagina');
 
 Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
 Route::get('documento/pfd/{pdf}','Accont\DocumentPdf@index')->name('document.pdf');

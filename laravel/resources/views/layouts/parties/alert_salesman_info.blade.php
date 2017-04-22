@@ -107,7 +107,7 @@
                                         <p>Comissão (%)</p>
                                          {!! Form::open(['route' =>['accont.report.salesman.update', $result->id],'id'=>'form-commission', 'method' => 'PUT']) !!}
                                             <label>
-                                                {!! Form::text('commission', $result->comission, ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
+                                                {!! Form::text('comission', $result->comission, ['class' => 'masksMoney', 'placeholder' => 'código']) !!}
                                             </label>
                                             <button type="submit" class="btn btn-small btn-popmartin">atualizar</button>
                                          {!! Form::close() !!}

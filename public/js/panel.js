@@ -525,13 +525,13 @@ $(function(){
     /**
      * Atualizar comissão de vendedor
      */
-    $(document).on('submit', '#form-commission', function(){
+    $(document).on('submit', '#form-commission', function(event){
+        event.preventDefault();
         var e = $(this);
         var buttonTextloading = '<i class="fa fa-spin fa-spinner"></i> processando...';
-        console.log(e.attr('action'), e.attr());
        $.ajax({
-            url: e.attr('action'),
-            method: e.attr('method'),
+            url: $('#form-commission').attr('action'),
+            method: $('#form-commission').attr('method'),
             data: e.serialize(),
             beforeSend: function(){
                 e.find('button').html(buttonTextloading);
