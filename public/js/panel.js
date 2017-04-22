@@ -488,14 +488,21 @@ $(function(){
     $(document).on('click', '.jq-remove-user', function(){
         var e = $(this);
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esse usuário?',
-            function () {
+            function(){
                 var data = {'_token': e.data('token'), 'id': e.data('id')};
-                $.post('/accont/report/users/' + data.id + '/delete', data, function(){
-                    e.parents('#resp_modal').empty();
-                    $('.trUser' + data.id).slideUp().remove();
-                    alertify.success("Usuário removido com sucesso!");
-                }).error(function (response) {
-                    alertify.error(response.responseJSON.msg);
+                $.ajax({
+                    url: '/accont/report/users/' + data.id,
+                    method: 'DELETE',
+                    data: data,
+                    dataType: 'json',
+                    error: function(response){
+                        alertify.error(response.responseJSON.msg);
+                    },
+                    success: function(response){
+                        e.parents('#resp_modal').empty();
+                        $('.trUser' + data.id).slideUp().remove();
+                        alertify.success("Usuário removido com sucesso!");
+                    }
                 });
             }, function () {
                 return true;
@@ -511,12 +518,20 @@ $(function(){
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esse vendedor?',
             function () {
                 var data = {'_token': e.data('token'), 'id': e.data('id')};
-                $.get('/accont/report/salesmans/' + data.id + '/delete', data, function(){
-                    e.parents('#resp_modal').empty();
-                    alertify.success("Vendedor removido com sucesso!");
-                }).error(function (response) {
-                    alertify.error(response.responseJSON.msg);
+                $.ajax({
+                    url: '/accont/report/salesmans/' + data.id,
+                    method: 'DELETE',
+                    data: data,
+                    dataType: 'json',
+                    error: function(response){
+                        alertify.error(response.responseJSON.msg);
+                    },
+                    success: function(response){
+                        $('#jq-info-salesman').slideUp();
+                        alertify.success('Vendedor deletado com sucesso');
+                    }
                 });
+
             }, function () {
                 return true;
             });
@@ -533,6 +548,7 @@ $(function(){
             url: $('#form-commission').attr('action'),
             method: $('#form-commission').attr('method'),
             data: e.serialize(),
+            dataType: 'json',
             beforeSend: function(){
                 e.find('button').html(buttonTextloading);
             },
