@@ -34,6 +34,9 @@ class AdsController extends  AbstractAdminController
     }
 
     public function create(){
+        if(Gate::denies('admin')){
+            return redirect()->route('page.confirm_accont');
+        }
         $stores = $this->store_repo->all()->pluck('name','id');
         return view('layouts.parties.alert_banner', compact('stores'));
     }
@@ -62,6 +65,7 @@ class AdsController extends  AbstractAdminController
         flash('Erro ao agendar banner', 'error');
         return redirect()->back();
     }
+
 
     public function edit($id){
         if(Gate::denies('admin')){

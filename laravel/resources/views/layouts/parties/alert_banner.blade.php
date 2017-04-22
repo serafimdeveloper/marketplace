@@ -4,10 +4,11 @@
         <div class="alertbox-content">
             <h2 class="alertbox-title c-pop fontw-500">{{isset($result) ? 'Editar Banner' : 'Cadastrar Banner'}}</h2>
             @if(isset($result))
-                {!! Form::model($result,['class' => 'form-modern pop-form form-banner', 'route' =>['accont.banner.update',$result->id], 'method' => 'POST']) !!}
+                {!! Form::model($result,['class' => 'form-modern pop-form form-banner', 'route' =>['accont.report.banner.update',$result->id], 'method' => 'POST']) !!}
             @else
-                {!! Form::open(['class' => 'form-modern pop-form form-banner', 'route' => ['accont.banner.store'], 'method' => 'POST']) !!}
+                {!! Form::open(['class' => 'form-modern pop-form form-banner', 'route' => ['accont.report.banner.store'], 'method' => 'POST']) !!}
             @endif
+
                 <div class="colbox">
                     <div class="colbox-full">
                         <label>

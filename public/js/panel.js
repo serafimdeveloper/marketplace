@@ -472,7 +472,7 @@ $(function(){
     /** Modal de informações de gerais */
     $(document).on('click', '.jq-info', function () {
         var e = $(this);
-        var id = (e.data('id') !== "") ?  e.data('id') : 'create';
+        var id = (typeof e.data('id') !== "undefined") ?  e.data('id') : 'create';
         var type = e.data('type');
         loaderAjaxScreen(true, 'carregando..');
         $.get('/accont/report/'+type+'/'+id, function (response) {
@@ -511,7 +511,7 @@ $(function(){
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esse vendedor?',
             function () {
                 var data = {'_token': e.data('token'), 'id': e.data('id')};
-                $.post('/accont/report/salesmans/' + data.id + '/delete', data, function(){
+                $.get('/accont/report/salesmans/' + data.id + '/delete', data, function(){
                     e.parents('#resp_modal').empty();
                     alertify.success("Vendedor removido com sucesso!");
                 }).error(function (response) {

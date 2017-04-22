@@ -170,7 +170,6 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-        // Artesaos\Moip\Providers\MoipServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         //
         /*

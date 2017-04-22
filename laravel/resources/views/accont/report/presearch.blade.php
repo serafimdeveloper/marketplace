@@ -130,8 +130,8 @@
                     </div>
                 </td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="alertbox-open t-btn t-edit jq-info" data-alertbox="alert-newcategory" data-category="{{$category->id}}">editar</a>
-                    <a href="javascript:void(0)" class="t-btn t-remove" data-category="{{$category->id}}">remover</a>
+                    <a href="javascript:void(0)" class="alertbox-open t-btn t-edit jq-info" data-alertbox="alert-newcategory" data-type="categories" data-id="{{$category->id}}">editar</a>
+                    <a href="javascript:void(0)" class="t-btn t-remove" data-type="categories" data-id={{$category->id}}">remover</a>
                 </td>
             </tr>
         @empty

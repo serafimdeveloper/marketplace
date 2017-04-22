@@ -33,20 +33,29 @@ class CategoriesController extends AbstractAdminController
         }
         return view('accont.report.search', $data);
     }
-    public function show(Request $request){
 
+
+    public function show($id){
+        if(Gate::denies('admin')){
+            return redirect()->route('accont.home');
+        }
+        $category = $this->repo->get($id);
+        $categories = Category::pluck('name','id');
+        return view('layouts.parties.alert_newcategory', compact('categories', 'category'));
     }
+
+
     public function create(){
         if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
+            return redirect()->route('accont.home');
         }
         $categories = Category::pluck('name','id');
-        return response()->json(compact('categories'));
+        return view('layouts.parties.alert_newcategory', compact('categories'));
     }
 
     public function store(Request $request){
         if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
+            return redirect()->route('accont.home');
         }
         $this->validate($request, ['name'=>'required|unique:categories'], ['name.required' => 'O nome é obrigatório', 'name.unique' => 'O nome é único']);
         $dados = $request->except('_token','id');
@@ -59,12 +68,7 @@ class CategoriesController extends AbstractAdminController
     }
 
     public function edit($id){
-        if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
-        }
-        $category = $this->repo->get($id);
-        $categories = Category::pluck('name','id');
-        return response()->json(compact('categories','category'));
+
     }
 
     public function subcategories($category){
@@ -74,20 +78,22 @@ class CategoriesController extends AbstractAdminController
 
     public function update(Request $request, $id){
         if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
+            return redirect()->route('accont.home');
         }
         $this->validate($request, ['name'=>'required|unique:categories,name,'.$id], ['name.required' => 'O nome é obrigatório', 'name.unique' => 'O nome é único']);
         $dados = $request->all();
         if($category = $this->repo->update($dados,$id)){
-            return response()->json(['status'=>true, 'category'=>$category],201);
+            flash('categoria atualizada com sucesso', 'accept');
+            return redirect()->back();
         }else{
-            return response()->json(['status'=>false,'msg'=>'Ocorreu um erro ao atualizar a categória !'], 500);
+            flash('Ocorreu um erro ao atualizar a categória !', 'error');
+            return redirect()->back();
         }
     }
 
     public function destroy($id){
         if(Gate::denies('admin')){
-            return redirect()->route('page.confirm_accont');
+            return redirect()->route('accont.home');
         }
         if($this->repo->delete($id)){
             return response()->json(['msg'=>'Excluído com sucesso'],200);
