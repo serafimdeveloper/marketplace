@@ -574,11 +574,17 @@ $(function(){
     /** Chamada de função para remoção de produtos */
     $(document).on('click', '.jq-remove-product', removePrduct);
 
-    /** Chamada de função para remoção de produtos */
+    /** Chamada de função para remoção de banners */
     $(document).on('click', '.jq-remove-banner', removeBanner);
+
+    /** Chamada de função para remoção de categprias */
+    $(document).on('click', '.jq-remove-category', removeCategory);
 
     /** Chamada de função para remoção de galerias relaciona a produtos */
     $(document).on('click', '.jq-remove-img-galery', removeImgGarely);
+
+    /** Chamada de função para trocar status de menu referente a categoria */
+    $(document).on('click', '.jq-category-menu', alterCategoryMenu);
 
     /** Chamada de função para bloquear ou desbloqueer loja */
     $(document).on('click', '.jq-block-store', blockStore);
@@ -707,6 +713,27 @@ function getData(page, data){
 }
 
 /**
+ * Alterar status de menu das categorias
+ */
+function alterCategoryMenu(){
+    var e = $(this);
+    var msg = (element.is(":checked") ? 'Tem certeza de que deseja remover esta categoria do menu' : 'Tem certeza que deseja adicionar essa categoria ao menu?');
+    alertify.confirm(alertfyConfirmTitle, msg,
+        function () {
+            loaderAjaxScreen(true, 'atualizando..');
+            $.post('/accont/report/categories/' + {'_token': e.data('token'), 'id': e.data('id')}, function (response) {
+                loaderAjaxScreen(false, '');
+                alertify.success(response.msg);
+            }, 'json').fail(function (response) {
+                loaderAjaxScreen(false, '');
+                alertify.error(response.responseJSON.msg);
+            });
+        }, function () {
+            return true;
+        });
+}
+
+/**
  * Bloquear e desbloquear loja
  */
 function blockStore() {
@@ -822,6 +849,43 @@ function removePrduct() {
     return false;
 }
 
+
+function removeCategory(){
+    var element = $(this);
+    var id = element.data('id');
+    alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover esta categoria?',
+        function () {
+            loaderAjaxScreen(true, 'removendo...');
+            $.ajax({
+                url: '/accont/report/categories/' + id,
+                method: 'DELETE',
+                data: {'_token': element.data('token')},
+                type: 'json',
+                error: function (response) {
+                    loaderAjaxScreen(false, '');
+                    alertify.error(response.responseJSON.msg);
+                },
+                success: function (response) {
+                    loaderAjaxScreen(false, '');
+                    if (response.status == 'accept') {
+                        element.parents('tr').hide().remove();
+                        alertify.success(response.msg);
+                    } else {
+                        alertify.error(response.msg);
+                        return false;
+                    }
+                }
+            });
+        }, function () {
+            return true;
+        });
+    return false;
+}
+
+/**
+ * Remoção de banners de publicidade do sistema
+ * @return {boolean}
+ */
 function removeBanner(){
     var element = $(this);
     var id = element.data('id');

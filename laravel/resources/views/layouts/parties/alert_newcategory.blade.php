@@ -21,11 +21,10 @@
                         <label>
                             <span>categoria Pai <i class="fa fa-info-circle c-blue tooltip" title="Não selecionar se esta for uma categoria genérica"></i></span>
                             @if($categories)
-                                {!! Form::select('category_id',$categories,(isset($category) ? $category->id : null),['placeholder' => 'Selecione uma categoria pai', 'class'=>'jq-input-search']) !!}
+                                {!! Form::select('category_id',$categories,(isset($category) ? $category->category_id : null),['placeholder' => 'Selecione uma categoria pai', 'class'=>'jq-input-search']) !!}
                                 @endif
                         </label>
                     </div>
-
                 </div>
                 <div class="clear-both"></div>
                 <div class="txt-center">

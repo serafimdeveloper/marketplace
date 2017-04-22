@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accont;
 
 use App\Http\Controllers\Accont\Admin\AbstractAdminController;
+use App\Model\Product;
 use Illuminate\Container\Container as App;
 use Illuminate\Http\Request;
 use App\Model\Category;
@@ -40,7 +41,7 @@ class CategoriesController extends AbstractAdminController
             return redirect()->route('accont.home');
         }
         $category = $this->repo->get($id);
-        $categories = Category::pluck('name','id');
+        $categories = Category::orderBy('name', 'ASC')->pluck('name','id');
         return view('layouts.parties.alert_newcategory', compact('categories', 'category'));
     }
 
@@ -49,7 +50,7 @@ class CategoriesController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('accont.home');
         }
-        $categories = Category::pluck('name','id');
+        $categories = Category::orderBy('name', 'ASC')->pluck('name','id');
         return view('layouts.parties.alert_newcategory', compact('categories'));
     }
 
@@ -57,13 +58,15 @@ class CategoriesController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('accont.home');
         }
-        $this->validate($request, ['name'=>'required|unique:categories'], ['name.required' => 'O nome é obrigatório', 'name.unique' => 'O nome é único']);
+        $this->validate($request, ['name'=>'required'], ['name.required' => 'O nome é obrigatório']);
         $dados = $request->except('_token','id');
         $dados['category_id'] = ($dados['category_id'] === "") ? null : $dados['category_id'];
         if($category = $this->repo->store($dados)){
-            return response()->json(['status'=>true, 'category'=>$category],201);
+            flash('Categoria criada com sucesso!', 'accept');
+            return redirect()->back();
         }else{
-            return response()->json(['status'=>false,'msg'=>'Ocorreu um erro ao criar a categória !'], 500);
+            flash('Ocorreu um erro ao criar a categória!', 'error');
+            return redirect()->back();
         }
     }
 
@@ -80,8 +83,10 @@ class CategoriesController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('accont.home');
         }
-        $this->validate($request, ['name'=>'required|unique:categories,name,'.$id], ['name.required' => 'O nome é obrigatório', 'name.unique' => 'O nome é único']);
+        $this->validate($request, ['name'=>'required'], ['name.required' => 'O nome é obrigatório']);
         $dados = $request->all();
+        $dados['name'] = $request->name;
+        $dados['category_id'] = $request->category_id;
         if($category = $this->repo->update($dados,$id)){
             flash('categoria atualizada com sucesso', 'accept');
             return redirect()->back();
@@ -95,10 +100,16 @@ class CategoriesController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('accont.home');
         }
-        if($this->repo->delete($id)){
-            return response()->json(['msg'=>'Excluído com sucesso'],200);
+
+        $category = $this->repo->get($id);
+        if(!count($category->products)){
+            if($this->repo->delete($id)){
+                return response()->json(['status' => 'accept', 'msg' => 'Categoria removida!', ], 200);
+            }
+            return response()->json(['status' => 'error', 'msg' => 'Ocorreu um erro ao excluir a categória!'], 500);
+        }else{
+            return response()->json(['status' => 'error', 'msg' => 'Primeiro remova os produtos relacionado a esta categoria!'], 403);
         }
-        return response()->json(['msg'=>'Ocorreu um erro ao excluir a categória !'], 500);
     }
 
 }

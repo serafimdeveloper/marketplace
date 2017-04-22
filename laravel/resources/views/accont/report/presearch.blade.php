@@ -114,24 +114,23 @@
         @forelse($result as $category)
             <tr id="category_01">
                 <td>{{$category->name}}</td>
-                <td>{{($category->category_id) ? $category->category->name : ''}}</td>
+                <td>{{($category->category_id) ? $category->name : ''}}</td>
                 <td>{{$category->slug}}</td>
                 <td class="txt-center">
                     <div class="form-modern">
                         <div class="checkbox-container">
                             <div class="checkboxies">
                                 <label class="checkbox" style="border: none;padding: 0;">
-                                    <span><span class="fa fa-square-o"></span></span>
-                                    {!! Form::checkbox('status','0') !!}
+                                    <span><span class="fa {{ ($category->menu ? 'fa-check-square-o' : 'fa-square-o') }}"></span></span>
+                                    {!! Form::checkbox('status', $category->menu, ($category->menu ? true : false), ['class' => 'jq-category-menu', 'data-id' => $category->id, 'data-token' => csrf_token()]) !!}
                                 </label>
                             </div>
-                            <span class="alert{{ $errors->has('genre') ? '' : ' hidden' }}">{{ $errors->first('genre') }}</span>
                         </div>
                     </div>
                 </td>
                 <td class="txt-center">
                     <a href="javascript:void(0)" class="alertbox-open t-btn t-edit jq-info" data-alertbox="alert-newcategory" data-type="categories" data-id="{{$category->id}}">editar</a>
-                    <a href="javascript:void(0)" class="t-btn t-remove" data-type="categories" data-id={{$category->id}}">remover</a>
+                    <a href="javascript:void(0)" class="t-btn t-remove jq-remove-category" data-type="categories" data-token="{{ csrf_token() }}" data-id="{{$category->id}}">remover</a>
                 </td>
             </tr>
         @empty
