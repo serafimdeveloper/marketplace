@@ -171,6 +171,11 @@ Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
         Route::get('/', 'CheckoutController@checkout')->name('cart.cart_checkout');
     });
 });
+Route::get('/manutencao', function(){
+    return view('page.manutencao');
+})->name('manutencao');
+
+
 //Route::get('/appmoip/connect', 'Accont\ConnectAppMoipController@show')->name('appmoip_connect');
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 

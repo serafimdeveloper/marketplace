@@ -170,9 +170,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-        // Artesaos\Moip\Providers\MoipServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         //
         /*
          * Application Service Providers...
@@ -239,7 +237,6 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
     ],
 
 ];
