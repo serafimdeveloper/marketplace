@@ -11,7 +11,7 @@ class Request extends Model
     protected $fillable =['user_id','adress_id','store_id','key','freight_id','deadline','settlement_date','cancellation_date',
         'send_date','number_installments','tracking_code','freight_price','commission_amount','note',
         'request_status_id', 'phone','amount','visualized_store','visualized_user', 'amount_interest', 'rate_moip', 'payment_reference',
-        'payment_institution'];
+        'payment_institution','address_receiver','address_sender'];
 
     protected  $dates = ['create_at','update_at','deleted_at','cancellation_date','send_date','settlement_date'];
 
