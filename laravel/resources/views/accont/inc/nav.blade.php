@@ -85,9 +85,9 @@
                     <li>
                         <a href="{{route('accont.report.notifications')}}"{!! url()->current() ==  route('accont.report.notifications') ? ' class="current_rout"' :  ''!!}>notificações {!! (notification_notify_admin(0) >= 1 ? '<span class="fl-right padding05-10 radius bg-blue-gray notify-admin" style="margin-top: -5px;">'.notification_notify_admin(0).'</span>' : '') !!}</a>
                     </li>
-                    {{--<li>--}}
-                        {{--<a href="{{route('accont.report.pages')}}"{!! url()->current() ==  route('accont.report.pages') ? ' class="current_rout"' :  ''!!}>páginas</a>--}}
-                    {{--</li>--}}
+                    <li>
+                        <a href="{{route('accont.report.pages')}}"{!! url()->current() ==  route('accont.report.pages') ? ' class="current_rout"' :  ''!!}>páginas</a>
+                    </li>
                 </ul>
             </div>
         @endcan

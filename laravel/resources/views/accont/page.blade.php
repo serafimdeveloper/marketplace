@@ -4,12 +4,17 @@
     @include('accont.inc.nav')
     <section class="panel-content">
         <header class="pop-title">
-            <h1>Nome da página</h1>
+            <h1>{{ $pages->title }}</h1>
         </header>
-        <form class="form-modern pop-form" action="" method="POST">
-            <label>
-                {{ Form::text('name', null, ['placeholder' => 'nome da página']) }}
-            </label>
+        @if(isset($erros))
+            @foreach($erros->all() as $error)
+                <div class="trigger error">
+                    <p>{{ $error }}</p>
+                </div>
+            @endforeach
+
+        @endif
+        {{ Form::model($pages, ['route' => ['accont.report.page.update', $pages->id], 'class' => 'form form-modern pop-form']) }}
             <label>
                 {{ Form::text('title', null, ['placeholder' => 'Título da página']) }}
             </label>
@@ -19,16 +24,15 @@
             <div class="txt-center">
                 <button type="submit" class="btn btn btn-popmartin">Atualizar</button>
             </div>
-        </form>
+        {{ Form::close() }}
     </section>
     <div class="clear-both"></div>
-@endsection
 @section('scripts_int')
-    <script src="/public/frontend/lib/tinymce/tinymce.min.js"></script>
     <script>
         tinymce.init({
             selector:'textarea',
             language: 'pt_BR',
+            language_url: '{{ url('frontend/lib/tinymce/langs/pt_BR.js') }}',
             theme: 'modern',
             plugins: [
                 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
@@ -48,4 +52,5 @@
             ]
         });
     </script>
+@endsection
 @endsection

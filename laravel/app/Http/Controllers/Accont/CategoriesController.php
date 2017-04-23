@@ -83,10 +83,15 @@ class CategoriesController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('accont.home');
         }
-        $this->validate($request, ['name'=>'required'], ['name.required' => 'O nome é obrigatório']);
         $dados = $request->all();
-        $dados['name'] = $request->name;
-        $dados['category_id'] = $request->category_id;
+
+        if(isset($request->name)){
+            $this->validate($request, ['name'=>'required'], ['name.required' => 'O nome é obrigatório']);
+        }
+        if(isset($request->menu)){
+            $dados['menu'] = ($dados['menu'] == "0" ? "1" : "0");
+        }
+
         if($category = $this->repo->update($dados,$id)){
             flash('categoria atualizada com sucesso', 'accept');
             return redirect()->back();

@@ -18,7 +18,8 @@
                 <td>{{$user->last_access->format('d/m/Y H:i:s')}}</td>
                 <td>{{$user->requests->count()}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-user" data-type="users" data-id="{{$user->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-user"
+                       data-type="users" data-id="{{$user->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -56,7 +57,8 @@
                 <td>{{($salesman->active) ? 'habilitado' :'desabilitado'}}</td>
                 <td>{{number_format($salesman->comission,2,',','.')}}%</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-salesman" data-type="salesmans" data-id="{{$salesman->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-salesman"
+                       data-type="salesmans" data-id="{{$salesman->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -83,13 +85,17 @@
         <tbody>
         @forelse($result as $product)
             <tr id="pr{{ $product->id }}">
-                <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->image) }}" alt="{{$product->name}}" title="{{$product->name}}"></td>
+                <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->image) }}" alt="{{$product->name}}"
+                         title="{{$product->name}}"></td>
                 <td>{{$product->name}}</td>
-                <td>{{$product->store->salesman->user->name.' '.$product->store->salesman->user->last_name}}<br> <a href="{{route('pages.store',[$product->store->slug])}}" style="color: #B71C1C">{{$product->store->name}}</a></td>
+                <td>{{$product->store->salesman->user->name.' '.$product->store->salesman->user->last_name}}<br> <a
+                            href="{{route('pages.store',[$product->store->slug])}}"
+                            style="color: #B71C1C">{{$product->store->name}}</a></td>
                 <td class="txt-center">{{$product->quantity}}</td>
                 <td class="t-draft txt-center">{{($product->active) ? 'sim':'não'}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-product" data-type="products" data-id="{{$product->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-product"
+                       data-type="products" data-id="{{$product->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -114,23 +120,27 @@
         @forelse($result as $category)
             <tr id="category_01">
                 <td>{{$category->name}}</td>
-                <td>{{($category->category_id) ? $category->name : ''}}</td>
+                <td>{{($category->category_id) ? $category->category->name : ''}}</td>
                 <td>{{$category->slug}}</td>
                 <td class="txt-center">
-                    <div class="form-modern">
-                        <div class="checkbox-container">
-                            <div class="checkboxies">
-                                <label class="checkbox" style="border: none;padding: 0;">
-                                    <span><span class="fa {{ ($category->menu ? 'fa-check-square-o' : 'fa-square-o') }}"></span></span>
-                                    {!! Form::checkbox('status', $category->menu, ($category->menu ? true : false), ['class' => 'jq-category-menu', 'data-id' => $category->id, 'data-token' => csrf_token()]) !!}
-                                </label>
+                    @if(!$category->category)
+                        <div class="form-modern">
+                            <div class="checkbox-container">
+                                <div class="checkboxies">
+                                    <label class="checkbox" style="border: none;padding: 0;">
+                                        <span><span class="fa {{ ($category->menu ? 'fa-check-square-o' : 'fa-square-o') }}"></span></span>
+                                        {!! Form::checkbox('menu', $category->menu, ($category->menu ? true : false), ['class' => 'jq-category-menu', 'data-id' => $category->id, 'data-token' => csrf_token()]) !!}
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="alertbox-open t-btn t-edit jq-info" data-alertbox="alert-newcategory" data-type="categories" data-id="{{$category->id}}">editar</a>
-                    <a href="javascript:void(0)" class="t-btn t-remove jq-remove-category" data-type="categories" data-token="{{ csrf_token() }}" data-id="{{$category->id}}">remover</a>
+                    <a href="javascript:void(0)" class="alertbox-open t-btn t-edit jq-info"
+                       data-alertbox="alert-newcategory" data-type="categories" data-id="{{$category->id}}">editar</a>
+                    <a href="javascript:void(0)" class="t-btn t-remove jq-remove-category" data-type="categories"
+                       data-token="{{ csrf_token() }}" data-id="{{$category->id}}">remover</a>
                 </td>
             </tr>
         @empty
@@ -164,11 +174,12 @@
                 <td>{{real($sales->amount)}}</td>
                 <td>{{($sales->commission_amount) ? real($sales->commission_amount) : '-'}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-sale" data-type="sales" data-id="{{$sales->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-sale"
+                       data-type="sales" data-id="{{$sales->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
-            <tr >
+            <tr>
                 <td colspan="7"><h3>Nenhuma Vendas encontradas </h3></td>
             </tr>
         @endforelse
@@ -198,12 +209,14 @@
                 <td>{{$banner->date_start->format('d/m/Y H:i:s')}}</td>
                 <td>{{$banner->date_end->format('d/m/Y H:i:s')}}</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-edit jq-info" data-alertbox="alert-banner" data-type="banners" data-id="{{$banner->id}}">editar</a>
-                    <a href="javascript:void(0)" class="t-btn t-remove jq-remove-banner" data-type="banners" data-id="{{$banner->id}}" data-token="{{ csrf_token() }}">remover</a>
+                    <a href="javascript:void(0)" class="t-btn t-edit jq-info" data-alertbox="alert-banner"
+                       data-type="banners" data-id="{{$banner->id}}">editar</a>
+                    <a href="javascript:void(0)" class="t-btn t-remove jq-remove-banner" data-type="banners"
+                       data-id="{{$banner->id}}" data-token="{{ csrf_token() }}">remover</a>
                 </td>
             </tr>
         @empty
-            <tr >
+            <tr>
                 <td colspan="7"><h3>Nenhum banner cadastrado</h3></td>
             </tr>
         @endforelse

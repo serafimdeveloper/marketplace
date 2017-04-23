@@ -9,12 +9,11 @@
                 {!! Form::open(['class' => 'form-modern pop-form form-category', 'route' => ['accont.report.categories.store'], 'method' => 'POST']) !!}
             @endif
                 {{ csrf_field() }}
-                <input type="hidden" name="id" />
                 <div class="colbox">
                     <div class="colbox-2">
                         <label>
                             <span>Nome</span>
-                            <input type="text" name="name" value="{{ (isset($category) ? $category->name : null) }}">
+                            <input type="text" name="name" value="{{ (isset($category) ? $category->name : null) }}" required="true">
                         </label>
                     </div>
                     <div class="colbox-2">

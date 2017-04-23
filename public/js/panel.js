@@ -714,14 +714,15 @@ function getData(page, data){
 
 /**
  * Alterar status de menu das categorias
+ *
  */
 function alterCategoryMenu(){
     var e = $(this);
-    var msg = (element.is(":checked") ? 'Tem certeza de que deseja remover esta categoria do menu' : 'Tem certeza que deseja adicionar essa categoria ao menu?');
+    var msg = (!e.is(":checked") ? 'Tem certeza de que deseja remover esta categoria do menu' : 'Tem certeza que deseja adicionar essa categoria ao menu?');
     alertify.confirm(alertfyConfirmTitle, msg,
         function () {
             loaderAjaxScreen(true, 'atualizando..');
-            $.post('/accont/report/categories/' + {'_token': e.data('token'), 'id': e.data('id')}, function (response) {
+            $.post('/accont/report/categories/' + e.data('id'), {'_method': 'PUT', '_token': e.data('token'), 'menu': e.val()}, function (response) {
                 loaderAjaxScreen(false, '');
                 alertify.success(response.msg);
             }, 'json').fail(function (response) {
