@@ -65,7 +65,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user =  User::create([
             'name' => $data['name'],
             'last_name' => $data['last_name'],
             'email' => $data['email_register'],
@@ -74,5 +74,10 @@ class RegisterController extends Controller
             'remember_token'=>str_random(20),
             'active'=> 0
         ]);
+
+        $data = ['email' => $user->email, 'user' => $user];
+        send_mail('emails.confirmation_accont',$data,'Confirmação de sua conta');
+        return $user;
+
     }
 }
