@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
@@ -13,7 +13,7 @@ class Product extends Model
         'free_shipping','minimum_stock','details','length_cm','width_cm','height_cm','weight_gr','slug',
         'active','featured'];
 
-    use Sluggable;
+    use Sluggable, SoftDeletes;
 
     /**
      * Return the sluggable configuration array for this model.

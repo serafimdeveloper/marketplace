@@ -30,7 +30,8 @@ class RequestsController extends AbstractController {
         $this->status_request();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $where = ($selected_status ? [['user_id', '=', $user->id], ['request_status_id', '=', $selected_status]] : ['user_id' => $user->id]);
-        $requests = $this->repo->all($this->columns, $this->with, $where, ['id' => 'DESC'], 10, $page);
+        $requests = \App\Model\Request::withTrashed()->where($where)->orderBy('id', 'DESC')->paginate(10);
+//        $requests = $this->repo->all($this->columns, $this->with, $where, ['id' => 'DESC'], 10, $page);
 //        dd($selected_status);
         return view('accont.requests', compact('requests', 'request_status', 'selected_status'));
     }
@@ -39,7 +40,8 @@ class RequestsController extends AbstractController {
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
-        if($request = $this->repo->get($id, $this->columns, $this->with)){
+//        if($request = $this->repo->get($id, $this->columns, $this->with)){
+        if($request = \App\Model\Request::withTrashed()->find($id)){
             $user = Auth::User();
             if(Gate::allows('vendedor', $user)){
                 if($store = $user->salesman->store){

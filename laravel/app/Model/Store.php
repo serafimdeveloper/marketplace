@@ -6,15 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Store extends Model
-{
-    use SoftDeletes;
-    use Sluggable;
-
-    protected $fillable = ['salesman_id','name','type_salesman','cnpj','fantasy_name','social_name','slug','brach_activity'
-        ,'about','exchange_policy','freight_policy','logo_file','rate','active','blocked'];
+class Store extends Model {
+    use Sluggable, SoftDeletes;
+    protected $fillable = ['salesman_id', 'name', 'type_salesman', 'cnpj', 'fantasy_name', 'social_name', 'slug', 'brach_activity', 'about', 'exchange_policy', 'freight_policy', 'logo_file', 'rate', 'active', 'blocked'];
     protected $dates = ['deleted_at'];
-
 
     /**
      * Return the sluggable configuration array for this model.
@@ -22,19 +17,15 @@ class Store extends Model
      * @return array
      */
     public function sluggable(){
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
+        return ['slug' => ['source' => 'name']];
     }
 
     public function owner_sender(){
-        return $this->morphOne(Message::class,'sender' );
+        return $this->morphOne(Message::class, 'sender');
     }
 
     public function owner_recipient(){
-        return $this->morphOne(Message::class,'recipient' );
+        return $this->morphOne(Message::class, 'recipient');
     }
 
     public function salesman(){
@@ -57,8 +48,8 @@ class Store extends Model
         return $this->hasMany(ShopValuation::class);
     }
 
-    public function scopeSearch($query, $name, $with) {
-        return $query->where('name', 'LIKE', '%'.$name.'%')->with($with);
+    public function scopeSearch($query, $name, $with){
+        return $query->where('name', 'LIKE', '%' . $name . '%')->with($with);
     }
 
     public function ad(){

@@ -5,10 +5,9 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Salesman extends Model
-{
+class Salesman extends Model {
     use SoftDeletes;
-    protected $fillable = ['moip','user_id','cpf','facebook','phone','whatsapp','cellphone','photo_document', 'proof_adress', 'comission', 'read', 'active'];
+    protected $fillable = ['moip', 'user_id', 'cpf', 'facebook', 'phone', 'whatsapp', 'cellphone', 'photo_document', 'proof_adress', 'comission', 'read', 'active'];
     protected $table = 'salesmans';
     protected $dates = ['deleted_at'];
 

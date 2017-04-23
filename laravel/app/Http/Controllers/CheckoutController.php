@@ -18,7 +18,7 @@ use DB;
 class CheckoutController extends Controller {
     private $moip, $address;
     protected $repo_address, $repo_stores, $service, $repo;
-    protected $with = ['user', 'adress', 'freight', 'payment', 'requeststatus', 'products', 'store', 'movementstocks'];
+    protected $with = ['user', 'adress', 'freight', 'requeststatus', 'products', 'store', 'movementstocks'];
 
     function __construct(AdressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service, RequestsRepository $repo){
         $this->repo_address = $repo_address;
