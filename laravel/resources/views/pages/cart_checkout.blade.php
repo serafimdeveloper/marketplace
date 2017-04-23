@@ -14,6 +14,7 @@
         <div class="colbox">
             <div class="colbox-2">
                 <h2 class="c-pop fontem-10">Escolher o meio de pagamento</h2>
+                @if($order->request_status_id < 3)
                 <br>
                 <a href="javascript:addCredencies()" id="addCredencies" class="btn btn-popmartin-trans">
                     <i class="fa fa-credit-card"></i> cartão de crédito
@@ -21,6 +22,9 @@
                 <a href="javascript:payBillet()" class="btn btn-popmartin-trans">
                     <i class="fa fa-barcode"></i> boleto
                 </a>
+                @else
+                    <div class="trigger accept"><i class="fa fa-check"></i> Pago</div>
+                @endif
                 <p></p>
             </div>
             <div class="colbox-2">
@@ -30,14 +34,18 @@
                     <div class="colbox-full">
                         <span><span class="fontw-500 c-graydark">Forma de envio: </span>{{$order->freight->name}}</span>
                         <br>
-                        <span><span class="fontw-500 c-graydark">Prazo de postagem:</span> {{$deadline}} dias úteis</span>
+                        <span><span class="fontw-500 c-graydark">Prazo de postagem:</span> {{$deadline}}
+                            dias úteis</span>
                         <br>
-                        <span class="fontw-500 c-graydark">Prazo de entrega:</span> prazo de postagem da loja + {{$order->deadline}} dias
+                        <span class="fontw-500 c-graydark">Prazo de entrega:</span> prazo de postagem da loja
+                        + {{$order->deadline}} dias
                         <br>
                         <p><span class="fontw-500 c-graydark">Endereço:</span>
-                            {{$order->adress->public_place.', '.$order->adress->number.(($order->adress->complements)
-                            ? ' ('.$order->adress->complements.')' : '')
-                            .', '.$order->adress->neighborhood.', '.$order->adress->city.' - '.$order->adress->state}}
+                            @if($address['receiver'])
+                                {{$address['receiver']['public_place'].', '.$address['receiver']['number'].(($address['receiver']['complements'])
+                                ? ' ('.$address['receiver']['complements'].')' : '')
+                                .', '.$address['receiver']['neighborhood'].', '.$address['receiver']['city'].' - '.$address['receiver']['state']}}
+                            @endif
                         </p>
                     </div>
                 </div>

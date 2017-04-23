@@ -80,7 +80,6 @@
                 </tr>
                 </tbody>
             </table>
-
             <table class="table table-action">
                 <thead>
                 <tr>
@@ -91,15 +90,18 @@
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>{{$request->freight->name}}</td>
-                    <td>
-                        <span>{{$request->adress->name}}</span><br>
-                        <span>{{$request->adress->zip_code}} ({{$request->adress->state}})</span><br>
-                    </td>
-                    <td class="t-active bold"><span
-                                class="fontem-12">R${{number_format($request->freight_price,2,',','.')}}</span></td>
-                </tr>
+                @if($address['receiver'])
+                    <tr>
+                        <td>{{ $request->freight->name }}</td>
+                        <td>
+                            <span>{{ $address['receiver']['name'] }}</span><br>
+                            <span>{{ $address['receiver']['zip_code'] }} ({{ $address['receiver']['state'] }})</span><br>
+                        </td>
+                        <td class="bold"><span
+                                    class="fontem-12">R${{ number_format($request->freight_price, 2, ',', '') }}</span>
+                        </td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
             <hr>
@@ -119,7 +121,7 @@
         <div class="txt-center">
             <a class="btn btn-popmartin-trans txt-center alertbox-open" data-alertbox="alert-message">
                 <i class="fa fa-comments-o"></i>
-                contatarcliente
+                contatar cliente
             </a>
         </div>
         @if($request->request_status_id === 3)

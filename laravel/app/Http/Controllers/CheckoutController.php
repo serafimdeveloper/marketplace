@@ -18,7 +18,7 @@ use DB;
 class CheckoutController extends Controller {
     private $moip, $address;
     protected $repo_address, $repo_stores, $service, $repo;
-    protected $with = ['user', 'adress', 'freight', 'requeststatus', 'products', 'store', 'movementstocks'];
+    protected $with = ['user', 'adress', 'freight', 'requeststatus', 'products', 'store', 'movementstocks', 'moip'];
 
     function __construct(AdressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service, RequestsRepository $repo){
         $this->repo_address = $repo_address;
@@ -92,23 +92,21 @@ class CheckoutController extends Controller {
     }
 
     public function order($order_key){
-        $order = $this->repo->order($this->with, $order_key);
+//        $order = $this->repo->order($this->with, $order_key);
+        $order = \App\Model\Request::withTrashed()->with($this->with)->where('key', $order_key)->first();
         if($order){
             if($moip = $order->moip){
                 $tokenmoip = $moip->token;
             }else{
                 $payment = new MoipServices;
                 $payment->uniqueInstruction($order);
-//                dd($payment->)
                 $moip = $order->moip()->create(['request_id' => $order->id, 'token' => $payment->getToken()]);
                 $tokenmoip = $moip->token;
             }
             $deadline = $this->max_deadline($order->products);
-
-            return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key', 'deadline'));
+            $address = $this->orderAddress($order);
+            return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key', 'deadline', 'address'));
         }
-        return view('pages.cart_checkout', compact('order', 'tokenmoip', 'order_key', 'deadline'));
-
         return redirect()->route('pages.cart');
     }
 
@@ -171,5 +169,16 @@ class CheckoutController extends Controller {
         if(!$user->addresses->where('master',1)->all()){
             $user->addresses->first()->update(['master'=>1]);
         }
+    }
+
+    /**
+     * Retorna endereços de uma ordem de pedido
+     * @param $order
+     * @return mixed
+     */
+    private function orderAddress($order){
+        $address['receiver'] = json_decode($order->address_receiver);
+        $address['sender'] = json_decode($order->address_sender);
+        return $address;
     }
 }

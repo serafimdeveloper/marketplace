@@ -39,8 +39,20 @@ class SalesController extends AbstractAdminController
         }
         $this->with = ['user','store','adress','products','requeststatus','freight'];
         if($result = $this->getByRepoId($id)){
+            $result['address'] = $this->orderAddress($result);
             return view('layouts.parties.alert_sales_info', compact('result'));
         }
         return response()->json(['msg' => 'Erro ao encontrar a venda'],404);
+    }
+
+    /**
+     * Retorna endereços de uma ordem de pedido
+     * @param $order
+     * @return mixed
+     */
+    private function orderAddress($order){
+        $address['receiver'] = json_decode($order->address_receiver);
+        $address['sender'] = json_decode($order->address_sender);
+        return $address;
     }
 }

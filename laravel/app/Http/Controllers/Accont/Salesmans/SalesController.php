@@ -42,7 +42,10 @@ class SalesController extends AbstractController
         if($store = Auth::user()->salesman->store){
             $this->status_request();
             $where = ($selected_status ? [['store_id', '=', $store->id], ['request_status_id', '=', $selected_status]] : ['store_id' => $store->id]);
-            $requests = $this->repo->all($this->columns,$this->with,$where,['id' => 'DESC'],10,$page);
+
+//            $requests = $this->repo->all($this->columns,$this->with,$where,['id' => 'DESC'],10,$page);
+
+            $requests = \App\Model\Request::withTrashed()->where($where)->orderBy('id', 'DESC')->paginate(10);
             return view('accont.sales', compact('requests', 'request_status', 'selected_status'));
         }
         flash('Você ainda não possui uma Loja!', 'warning');
@@ -65,13 +68,15 @@ class SalesController extends AbstractController
     }
 
     public function edit($id){
-        $request = $this->repo->get($id,$this->columns,$this->with);
+//        $request = $this->repo->get($id,$this->columns,$this->with);
+        $request = \App\Model\Request::withTrashed()->find($id);
         if($request->store->id == Auth::user()->salesman->store->id){
+            $address = $this->orderAddress($request);
             if($request->visualized_store === 0){
                 $request->fill(['visualized_store' =>1])->save();
             }
             $type = ['type' => 'request', 'id' => $request->id];
-            return view('accont.sale_info', compact('request','rastreamento', 'type'));
+            return view('accont.sale_info', compact('request','rastreamento', 'type', 'address'));
         }
 
     }
@@ -103,7 +108,8 @@ class SalesController extends AbstractController
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
-        if($request = $this->repo->get($id,$this->columns,$this->with)){
+//        if($request = $this->repo->get($id,$this->columns,$this->with)){
+        if($request = \App\Model\Request::withTrashed()->find($id)){
             $store = Store::with(['adress'])->find($request->store->id);
             $pdf = PDF::loadView('layouts.parties.etiqueta',['request' => $request,'store'=> $store]);
             return $pdf->inline($request->key.'.pdf');
@@ -121,5 +127,16 @@ class SalesController extends AbstractController
             }
             return $request;
         });
+    }
+
+    /**
+     * Retorna endereços de uma ordem de pedido
+     * @param $order
+     * @return mixed
+     */
+    private function orderAddress($order){
+        $address['receiver'] = json_decode($order->address_receiver);
+        $address['sender'] = json_decode($order->address_sender);
+        return $address;
     }
 }

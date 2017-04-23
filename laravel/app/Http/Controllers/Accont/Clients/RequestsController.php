@@ -43,19 +43,21 @@ class RequestsController extends AbstractController {
 //        if($request = $this->repo->get($id, $this->columns, $this->with)){
         if($request = \App\Model\Request::withTrashed()->find($id)){
             $user = Auth::User();
-            if(Gate::allows('vendedor', $user)){
-                if($store = $user->salesman->store){
-                    if($store->id === $request->store->id){
-                        return redirect()->route('accont.salesman.sale_info', ['id' => $request->id]);
-                    }
-                }
-            }
+            $address['receiver'] = json_decode($request->address_receiver);
+            $address['sender'] = json_decode($request->address_sender);
+//            if(Gate::allows('vendedor', $user)){
+//                if($store = $user->salesman->store){
+//                    if($store->id === $request->store->id){
+//                        return redirect()->route('accont.salesman.sale_info', ['id' => $request->id]);
+//                    }
+//                }
+//            }
             if($request->user->id === $user->id || Gate::allows('admin', $user)){
                 $request = ($request ? $request : false);
                 if($request){
                     $type = ['type' => 'request', 'id' => $request->id];
                     $request->update(['visualized_user'=>1]);
-                    return view('accont.request_info', compact('request', 'user', 'type'));
+                    return view('accont.request_info', compact('request', 'user', 'type', 'address'));
                 }
             }
         }
