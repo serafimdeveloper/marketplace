@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Request;
+use App\Model\User;
 use App\Repositories\Accont\ProductsRepository;
 use App\Repositories\Accont\CategoriesRepository;
 use App\Repositories\Accont\ShopValuationsRepository;
@@ -23,6 +24,7 @@ class HomeController extends Controller {
         $this->category = $category;
         $this->store = $store;
         $this->favorite = $favorite;
+//        Auth::login(User::find(18));
     }
 
     public function index(){

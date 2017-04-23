@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Providers;
 
 use App\Model\Admin;
@@ -8,8 +9,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Model\User;
 
-class AuthServiceProvider extends ServiceProvider
-{
+class AuthServiceProvider extends ServiceProvider {
     /**
      * The policy mappings for the application.
      *
@@ -23,13 +23,13 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot(){
         $this->registerPolicies();
         Gate::define('vendedor', function(User $user){
             if($user->salesman || $user->admin){
                 return true;
             }
+
             return false;
         });
         Gate::define('sallesman', function(User $user){
@@ -40,14 +40,14 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('store_access', function($user, $store){
             if(Gate::allows('vendedor')){
-                return $user->salesman->id === $store->salesman->id;
+                if($user->salesman && $store->salesman){
+                    return $user->salesman->id === $store->salesman->id;
+                }
             }
         });
-
         Gate::define('is_active', function($user){
             return !!$user->active;
         });
-
         Gate::define('produtc_access', function(User $user, $product){
             if($product){
                 $store_id = (isset($user->salesman->store) && $user->salesman->store ? $user->salesman->store->id : null);
@@ -55,37 +55,35 @@ class AuthServiceProvider extends ServiceProvider
                     return true;
                 }
             }
+
             return false;
         });
-
-
         Gate::define('orders', function(User $user, Request $order){
             if($user->salesman->store->id === $order->store->id){
                 return true;
             }elseif($user->id === $order->user->id){
                 return true;
             }
+
             return false;
         });
-
         Gate::define('read_message', function($user, $message, $box){
             $reader = ($box === 'received') ? app($message->recipient_type) : app($message->sender_type);
-            $reader_id = ($box === 'received') ?  $message->recipient_id : $message->sender_id;
+            $reader_id = ($box === 'received') ? $message->recipient_id : $message->sender_id;
             if($reader instanceof User){
                 if($reader_id === $user->id){
                     return true;
                 }
-            }
-            else if($reader instanceof Store){
-                if(Gate::denies('vendedor',$user)){
+            }elseif($reader instanceof Store){
+                if(Gate::denies('vendedor', $user)){
                     return false;
-                }else if($reader_id === $user->salesman->store->id){
+                }elseif($reader_id === $user->salesman->store->id){
                     return true;
                 }
+            }elseif($reader instanceof Admin){
+                return true;
             }
-            else if($reader instanceof Admin){
-                    return true;
-            }
+
             return false;
         });
 

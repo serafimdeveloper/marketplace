@@ -96,18 +96,11 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
         /** Apresentação de categorias */
         Route::resource('categories', 'CategoriesController');
-//        Route::get('categories', 'CategoriesController@index')->name('categories.index');
-//        Route::get('categories/create', 'CategoriesController@index')->name('categories.create');
-//        Route::get('categories/store', 'CategoriesController@index')->name('categories.store');
-//        Route::get('categories/{id}', 'CategoriesController@edit')->name('categories.edit');
-//        Route::post('categories/{id}', 'CategoriesController@update')->name('categories.update');
-//        Route::delete('categories/{id}', 'CategoriesController@destroy')->name('categories.destroy');
 
         /** Apresentação de páginas */
-
-//        Route::get('pages', "PageController@index")->name('pages');
-//        Route::get('page/{id}', "PageController@show")->name('page.show');
-//        Route::post('page/{id}', "PageController@update")->name('page.update');
+        Route::get('pages', "PageController@index")->name('pages');
+        Route::get('page/{id}', "PageController@show")->name('page.show');
+        Route::post('page/{id}', "PageController@update")->name('page.update');
     });
 
     /** Retorna subcategorias de produtos */

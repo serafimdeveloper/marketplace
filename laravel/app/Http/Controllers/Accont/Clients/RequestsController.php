@@ -30,7 +30,8 @@ class RequestsController extends AbstractController {
         $this->status_request();
         $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
         $where = ($selected_status ? [['user_id', '=', $user->id], ['request_status_id', '=', $selected_status]] : ['user_id' => $user->id]);
-        $requests = $this->repo->all($this->columns, $this->with, $where, ['id' => 'DESC'], 10, $page);
+        $requests = \App\Model\Request::withTrashed()->where($where)->orderBy('id', 'DESC')->paginate(10);
+//        $requests = $this->repo->all($this->columns, $this->with, $where, ['id' => 'DESC'], 10, $page);
 //        dd($selected_status);
         return view('accont.requests', compact('requests', 'request_status', 'selected_status'));
     }
@@ -39,21 +40,24 @@ class RequestsController extends AbstractController {
         if(Gate::denies('is_active')){
             return redirect()->route('page.confirm_accont');
         }
-        if($request = $this->repo->get($id, $this->columns, $this->with)){
+//        if($request = $this->repo->get($id, $this->columns, $this->with)){
+        if($request = \App\Model\Request::withTrashed()->find($id)){
             $user = Auth::User();
-            if(Gate::allows('vendedor', $user)){
-                if($store = $user->salesman->store){
-                    if($store->id === $request->store->id){
-                        return redirect()->route('accont.salesman.sale_info', ['id' => $request->id]);
-                    }
-                }
-            }
+            $address['receiver'] = json_decode($request->address_receiver);
+            $address['sender'] = json_decode($request->address_sender);
+//            if(Gate::allows('vendedor', $user)){
+//                if($store = $user->salesman->store){
+//                    if($store->id === $request->store->id){
+//                        return redirect()->route('accont.salesman.sale_info', ['id' => $request->id]);
+//                    }
+//                }
+//            }
             if($request->user->id === $user->id || Gate::allows('admin', $user)){
                 $request = ($request ? $request : false);
                 if($request){
                     $type = ['type' => 'request', 'id' => $request->id];
                     $request->update(['visualized_user'=>1]);
-                    return view('accont.request_info', compact('request', 'user', 'type'));
+                    return view('accont.request_info', compact('request', 'user', 'type', 'address'));
                 }
             }
         }

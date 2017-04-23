@@ -81,10 +81,14 @@
                     <div class="colbox-full">
                         <div class="pop-info-user">
                             <p>Endereço de entrega</p>
-                            <span>{{$result->adress->public_place.' | '.$result->adress->number }}
-                            {{ ($result->adress->complements) ? ' ('.$result->adress->complements.') |' : '| ' }}
-                            {{ $result->adress->neighborhood.' | '.$result->adress->city.' | '.$result->adress->state.' | ' }}
-                            {{ $result->adress->zip_code }}</span>
+                            @if($result->address['receiver'])
+                                <span>{{$result->address['receiver']['public_place'].' | '.$result->address['receiver']['number'] }}
+                                    {{ ($result->address['receiver']['complements']) ? ' ('.$result->address['receiver']['complements'].') |' : '| ' }}
+                                    {{ $result->address['receiver']['neighborhood'].' | '.$result->address['receiver']['city'].' | '.$result->address['receiver']['state'].' | ' }}
+                                    {{ $result->address['receiver']['zip_code'] }}</span>
+                            @else
+                                <span>Endereço de entrega não identificado!</span>
+                            @endif
                         </div>
                     </div>
                 </div>
