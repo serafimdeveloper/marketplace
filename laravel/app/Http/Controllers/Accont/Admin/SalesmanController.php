@@ -73,8 +73,20 @@ class SalesmanController extends AbstractAdminController {
 
     public function destroy($id){
         if($salesman = $this->repo->get($id)){
-            $salesman->delete();
-            return response()->json([], 204);
+            if($salesman->delete()){
+                if($salesman->store){
+                    $salesman->store->products->each(function($product){
+                        if($product->requests){
+                            $product->delete();
+                        }else{
+                            $product->forceDelete();
+                        }
+                    });
+                    $salesman->store->delete();
+                }
+                return response()->json([], 204);
+            }
+
         }
         return response()->json(['status' => false], 500);
     }

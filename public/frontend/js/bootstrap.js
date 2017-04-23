@@ -462,7 +462,7 @@ $(document).on("keypress", ".masksMoney", masks.money);
 $(document).on("click", ".form-modern .checkbox input[type=checkbox]", checkBox);
 $(document).on("click", ".form-modern .radio input[type=radio]", radiobox);
 $(document).on("click", ".alertbox-close", function () {
-    $(this).parents(".alertbox").hide().remove();
+    $(this).parents(".alertbox").hide();
     $('body').removeClass('alertbox-body-hideoverflow');
     loaderAjaxScreen(false);
 });
