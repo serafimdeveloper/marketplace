@@ -81,11 +81,9 @@ class HomeController extends Controller {
                         return view('pages.store', compact('store','favorites','blocked'));
                     }
                 }
-                return view('errors.404');
             }
         }
-
-
+        return view('errors.404');
     }
 
 }
