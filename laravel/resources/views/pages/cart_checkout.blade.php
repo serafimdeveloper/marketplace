@@ -42,9 +42,9 @@
                         <br>
                         <p><span class="fontw-500 c-graydark">Endereço:</span>
                             @if($address['receiver'])
-                                {{$address['receiver']['public_place'].', '.$address['receiver']['number'].(($address['receiver']['complements'])
-                                ? ' ('.$address['receiver']['complements'].')' : '')
-                                .', '.$address['receiver']['neighborhood'].', '.$address['receiver']['city'].' - '.$address['receiver']['state']}}
+                                {{$address['receiver']->public_place.', '.$address['receiver']->number.(($address['receiver']->complements)
+                                ? ' ('.$address['receiver']->complements.')' : '')
+                                .', '.$address['receiver']->neighborhood.', '.$address['receiver']->city.' - '.$address['receiver']->state}}
                             @endif
                         </p>
                     </div>

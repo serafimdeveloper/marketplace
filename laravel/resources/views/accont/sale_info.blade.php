@@ -61,7 +61,7 @@
                         <td>
                             <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=60&h=60&fit=crop') }}">
                         </td>
-                        <td><a href="/loja/nome/categoria/produto" class="fontem-12"
+                        <td><a href="{{ route('pages.product', ['store' => $product->store->slug, 'category' => $product->category->slug, 'product' => $product->slug])  }}" class="fontem-12"
                                target="_blank">{{$product->name}}</a></td>
                         <td>{{$product->pivot->quantity}}</td>
                         <td><span class="fontem-12">R${{number_format($product->pivot->unit_price,2,',','.')}}</span>
@@ -94,8 +94,8 @@
                     <tr>
                         <td>{{ $request->freight->name }}</td>
                         <td>
-                            <span>{{ $address['receiver']['name'] }}</span><br>
-                            <span>{{ $address['receiver']['zip_code'] }} ({{ $address['receiver']['state'] }})</span><br>
+                            <span>{{ $address['receiver']->name }}</span><br>
+                            <span>{{ $address['receiver']->zip_code }} ({{ $address['receiver']->state }})</span><br>
                         </td>
                         <td class="bold"><span
                                     class="fontem-12">R${{ number_format($request->freight_price, 2, ',', '') }}</span>

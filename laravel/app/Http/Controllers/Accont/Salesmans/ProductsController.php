@@ -185,13 +185,15 @@ class ProductsController extends AbstractController {
             return redirect()->route('accont.home');
         }
         if($products = $this->repo->get($id, ['*'], ['requests'])){
-            /* if ($requests = $products->requests) {
-                 return response()->json(compact('requests'),406);
-             } else {*/
-            $products->delete();
+            if ($products->requests->count()) {
+                $products->delete();
+                return response()->json(['status' => true]);
 
-            return response()->json(['status' => true]);
-            // }
+            } else {
+                $products->forceDelete();
+                return response()->json(['status' => true]);
+
+            }
         }
 
         return response()->json(['msg' => 'Produto não encontrado'], 404);

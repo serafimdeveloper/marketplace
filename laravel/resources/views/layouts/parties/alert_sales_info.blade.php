@@ -82,10 +82,10 @@
                         <div class="pop-info-user">
                             <p>Endereço de entrega</p>
                             @if($result->address['receiver'])
-                                <span>{{$result->address['receiver']['public_place'].' | '.$result->address['receiver']['number'] }}
-                                    {{ ($result->address['receiver']['complements']) ? ' ('.$result->address['receiver']['complements'].') |' : '| ' }}
-                                    {{ $result->address['receiver']['neighborhood'].' | '.$result->address['receiver']['city'].' | '.$result->address['receiver']['state'].' | ' }}
-                                    {{ $result->address['receiver']['zip_code'] }}</span>
+                                <span>{{$result->address['receiver']->public_place.' | '.$result->address['receiver']->number }}
+                                    {{ ($result->address['receiver']->complements) ? ' ('.$result->address['receiver']->complements.') |' : '| ' }}
+                                    {{ $result->address['receiver']->neighborhood.' | '.$result->address['receiver']->city.' | '.$result->address['receiver']->state.' | ' }}
+                                    {{ $result->address['receiver']->zip_code }}</span>
                             @else
                                 <span>Endereço de entrega não identificado!</span>
                             @endif

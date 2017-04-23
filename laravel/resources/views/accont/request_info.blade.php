@@ -101,8 +101,8 @@
                     <tr>
                         <td>{{ $request->freight->name }}</td>
                         <td>
-                            <span>{{ $address['receiver']['name'] }}</span><br>
-                            <span>{{ $address['receiver']['zip_code'] }} ({{ $address['receiver']['state'] }})</span><br>
+                            <span>{{ $address['receiver']->name }}</span><br>
+                            <span>{{ $address['receiver']->zip_code }} ({{ $address['receiver']->state }})</span><br>
                         </td>
                         <td class="bold"><span
                                     class="fontem-12">R${{ number_format($request->freight_price, 2, ',', '') }}</span>

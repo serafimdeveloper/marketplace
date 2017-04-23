@@ -104,7 +104,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     });
 
     /** Retorna subcategorias de produtos */
-//    Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
+    Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
 
     /** Adress */
     Route::get('adresses/destroy/{adress}','AdressesController@destroy')->name('adress.destroy');

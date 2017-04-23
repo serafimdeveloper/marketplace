@@ -20,35 +20,35 @@
         <table>
             <tr>
                 <td class="th">Destinatário:</td>
-                <td style="font-weight: 900 !important;"><strong>{{ mb_strtoupper($request->adress->name)}}</strong></td>
+                <td style="font-weight: 900 !important;"><strong>{{ mb_strtoupper($address['receiver']->name)}}</strong></td>
             </tr>
             <tr>
                 <td class="th">Rua:</td>
-                <td>{{$request->adress->public_place}}</td>
+                <td>{{$address['receiver']->public_place}}</td>
             </tr>
             <tr>
                 <td class="th">Número:</td>
-                <td>{{$request->adress->number}}</td>
+                <td>{{$address['receiver']->number}}</td>
             </tr>
             <tr>
                 <td class="th">Complemento:</td>
-                <td>{{$request->adress->complements}}</td>
+                <td>{{$address['receiver']->complements}}</td>
             </tr>
             <tr>
                 <td class="th">Bairro:</td>
-                <td>{{$request->adress->neighborhood}}</td>
+                <td>{{$address['receiver']->neighborhood}}</td>
             </tr>
             <tr>
                 <td class="th">Cidade:</td>
-                <td>{{$request->adress->city}}</td>
+                <td>{{$address['receiver']->city}}</td>
             </tr>
             <tr>
                 <td class="th">Cep:</td>
-                <td>{{$request->adress->zip_code}}</td>
+                <td>{{$address['receiver']->zip_code}}</td>
             </tr>
             <tr>
                 <td class="th">UF:</td>
-                <td>{{$request->adress->state}}</td>
+                <td>{{$address['receiver']->state}}</td>
             </tr>
         </table>
         <img src="{{ url('image/logo-popmartin.png') }}" alt="[Pop Martin]" title="Pop Martin">
@@ -64,23 +64,23 @@
             </tr>
             <tr>
                 <td class="th">Rua:</td>
-                <td>{{$store->adress->public_place}}</td>
+                <td>{{$address['sender']->public_place}}</td>
                 <td class="th">Número:</td>
-                <td>{{$store->adress->number}}</td>
+                <td>{{$address['sender']->number}}</td>
                 <td>Complemento:</td>
-                <td>{{$store->adress->complements}}</td>
+                <td>{{$address['sender']->complements}}</td>
             </tr>
             <tr>
                 <td class="th">Bairro:</td>
-                <td>{{$store->adress->neighborhood}}</td>
+                <td>{{$address['sender']->neighborhood}}</td>
                 <td class="th">Cidade:</td>
-                <td>{{$store->adress->city}}</td>
+                <td>{{$address['sender']->city}}</td>
                 <td class="th">UF:</td>
-                <td>{{$store->adress->state}}</td>
+                <td>{{$address['sender']->state}}</td>
             </tr>
             <tr>
                 <td class="th">Cep:</td>
-                <td>{{$store->adress->zip_code}}</td>
+                <td>{{$address['sender']->zip_code}}</td>
                 <td colspan="4"></td>
             </tr>
         </table>

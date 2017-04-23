@@ -499,9 +499,9 @@ $(function(){
                         alertify.error(response.responseJSON.msg);
                     },
                     success: function(response){
-                        e.parents('#resp_modal').empty();
                         $('.trUser' + data.id).slideUp().remove();
                         alertify.success("Usuário removido com sucesso!");
+                        location.reload();
                     }
                 });
             }, function () {
@@ -527,8 +527,9 @@ $(function(){
                         alertify.error(response.responseJSON.msg);
                     },
                     success: function(response){
-                        $('#jq-info-salesman').slideUp();
+                        e.parents('.alertbox').hide().remove();
                         alertify.success('Vendedor deletado com sucesso');
+                        location.reload();
                     }
                 });
 
