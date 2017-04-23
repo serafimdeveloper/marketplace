@@ -61,9 +61,12 @@ class CheckoutController extends Controller {
                             $address = $user->addresses()->create($req->all());
                         }
                         $this->check_master();
-                        $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
-                        $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'], 'phone' => $req->phone, 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'], 'deadline' => $store['freight'][ $store['type_freight']['name'] ]['deadline'], 'amount' => $store['amount'], 'note' => $store['obs']];
                         $model_store = $this->repo_stores->get($key);
+                        $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
+                        $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'],
+                            'phone' => $req->phone, 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'],
+                            'deadline' => $store['freight'][ $store['type_freight']['name'] ]['deadline'], 'amount' => $store['amount'],
+                            'note' => $store['obs'], 'address_receiver' => \GuzzleHttp\json_encode($address), 'address_sender' => \GuzzleHttp\json_encode($model_store->adress)];
                         $request = $model_store->requests()->create($dados);
                         $cart->add_request($key, $request->id);
                         $request->products()->sync($this->products($store));
