@@ -360,11 +360,11 @@ $(function(){
                 $.get('/accont/adresses/destroy/' + id, function (response) {
                     if (response.status) {
                         alertify.success('Endereço removido!');
-                        $('#end_'+id).remove();
-                    } else {
-                        alertify.error(response.msg);
+                        location.reload();
                     }
-                }, 'json');
+                }, 'json').fail(function (response) {
+                    alertify.error(response.responseJSON.msg);
+                });;
                 $('.alertbox-close').click();
             }, function () {
                 return true;

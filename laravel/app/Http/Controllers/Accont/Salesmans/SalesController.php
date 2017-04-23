@@ -110,8 +110,9 @@ class SalesController extends AbstractController
         }
 //        if($request = $this->repo->get($id,$this->columns,$this->with)){
         if($request = \App\Model\Request::withTrashed()->find($id)){
-            $store = Store::with(['adress'])->find($request->store->id);
-            $pdf = PDF::loadView('layouts.parties.etiqueta',['request' => $request,'store'=> $store]);
+            $store = Store::find($request->store->id);
+            $address = $this->orderAddress($request);
+            $pdf = PDF::loadView('layouts.parties.etiqueta',['request' => $request,'store'=> $store, 'address' => $address]);
             return $pdf->inline($request->key.'.pdf');
         }
 

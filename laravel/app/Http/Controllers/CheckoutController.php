@@ -56,7 +56,7 @@ class CheckoutController extends Controller {
                     $user = Auth::user();
                     DB::beginTransaction();
                     try{
-                        $address = $user->addresses->where('name', $req->name)->where('zip_code', $req->zip_code)->first();
+                        $address = $user->addresses->where('name', $req->name)->where('zip_code', $req->zip_code)->where('complements',$req->complements)->first();
                         if(!$address){
                             $address = $user->addresses()->create($req->all());
                         }
@@ -77,7 +77,7 @@ class CheckoutController extends Controller {
                     }catch(\Exception $e){
                         DB::rollback();
                         flash('Ocorreu um erro ao confirmar o endereço', 'error');
-                        redirect()->route('cart.cart_address');
+                        redirect()->route('pages.cart.cart_address');
                     }
                 }
             }
@@ -169,8 +169,10 @@ class CheckoutController extends Controller {
 
     private function check_master(){
         $user = Auth::user();
-        if(!$user->addresses->where('master',1)->all()){
-            $user->addresses->first()->update(['master'=>1]);
+        if($user->addresses->count()){
+            if(!$user->addresses->where('master',1)->first()){
+                $user->addresses->first()->update(['master'=>1]);
+            }
         }
     }
 

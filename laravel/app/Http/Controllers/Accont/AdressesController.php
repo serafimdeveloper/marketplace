@@ -106,8 +106,10 @@
 
         private function check_master(){
             $user = Auth::user();
-            if(!$user->addresses->where('master',1)->all()){
-                $user->addresses->first()->update(['master'=>1]);
+            if($user->addresses->count()){
+                if(!$user->addresses->where('master',1)->first()){
+                    $user->addresses->first()->update(['master'=>1]);
+                }
             }
         }
 
