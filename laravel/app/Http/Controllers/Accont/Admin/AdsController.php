@@ -44,6 +44,9 @@ class AdsController extends  AbstractAdminController
 
 
     public function store(Request $request){
+        $this->validate($request, [
+           'description' => 'max:50'
+        ]);
         if(Gate::denies('admin')){
             return redirect()->route('accont.home');
         }

@@ -226,3 +226,22 @@ if(!function_exists('send_mail_type')){
         send_mail($template, $data, $subject);
     }
 }
+
+if(!function_exists('clear_special_chars')){
+    function clear_special_chars($string, $separator = null){
+        $separator = ($separator ? $separator : '-');
+
+        $Formato = array();
+        $Formato['a'] = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª';
+        $Formato['b'] = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
+
+        $Info = strtr(utf8_decode($string), utf8_decode($Formato['a']), $Formato['b']);
+        $Info = strip_tags(trim($Info));
+        $Info = strtolower(utf8_encode($Info));
+
+        $Info = str_replace(' ', $separator, $Info);
+        $Info = str_replace(array(str_repeat($separator, 5), str_repeat($separator, 4), str_repeat($separator, 3), str_repeat($separator, 2)), $separator, $Info);
+
+        return $Info;
+    }
+}

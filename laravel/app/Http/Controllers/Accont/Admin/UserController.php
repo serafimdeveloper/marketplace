@@ -50,8 +50,8 @@ class UserController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('page.confirm_accont');
         }
-        if($salesman = $this->repo->get($id)){
-            $salesman->delete();
+        if($user = $this->repo->get($id)){
+            $user->delete();
             return response()->json([],204);
         }
         return response()->json(['status'=>false],500);

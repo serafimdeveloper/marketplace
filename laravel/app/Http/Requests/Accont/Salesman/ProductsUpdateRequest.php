@@ -27,7 +27,7 @@ class ProductsUpdateRequest extends Request
             if(Auth::user()->admin){
                 return true;
             }else{
-                return $boolean->where('store_id', Auth::user()->store->id)->exists();
+                return $boolean->where('store_id', Auth::user()->salesman->store->id)->exists();
             }
 
         }elseif($boolean){
