@@ -1,2 +1,3 @@
 User-agent: *
+https://popmartin.com/sitemap.xml
 Disallow:

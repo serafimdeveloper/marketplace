@@ -190,6 +190,31 @@ if(!function_exists('amount_cart')){
         return real(0);
     }
 }
+
+if(!function_exists('amount_cart_value')){
+    function amount_cart_value(){
+        $amount = 0.00;
+        if(Session::has('cart') || isset(Auth::user()->cartsession->stores)){
+            $cart_service = new \App\Services\CartServices();
+            $cartDB = isset(Auth::user()->cartsession) ? Auth::user()->cartsession : null;
+            $cartModelDB = ($cartDB) ? $cart_service->dbCart(json_decode($cartDB->address, true), json_decode($cartDB->stores, true))->getCart() : null;
+            $oldCart = (Session::has('cart')) ? Session::get('cart') : $cartModelDB;
+            $cart_service->setCart($oldCart)->getCart();
+            if($cartDB){
+                if($cartDB->stores){
+                    $jsonCartDB = json_decode($cartDB->stores);
+//                    dd($jsonCartDB);
+                    foreach($jsonCartDB as $store){
+                        $amount += $store->amount;
+                    }
+                }
+
+            }
+        }
+        return real($amount);
+    }
+}
+
 if(!function_exists('generate_key')){
     function generate_key(){
         $count = CountOrder::first();

@@ -24,7 +24,7 @@ class HomeController extends Controller {
         $this->category = $category;
         $this->store = $store;
         $this->favorite = $favorite;
-//        Auth::login(User::find(18));
+//        Auth::login(User::find(28));
     }
 
     public function index(){

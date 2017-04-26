@@ -51,8 +51,7 @@
                         {!! Form::file('image_0', ['data-preview' => 0, 'onchange' => 'previewFile($(this))']) !!}
                         <input type="text" placeholder="informe aqui a imagem principal deste produto"
                                readonly="readonly">
-                        <input type="hidden" name="image_name_0"
-                               value="{{isset($galeries) ? $galeries[0]['image'] : ''}}">
+                        <input type="hidden" name="image_name_0" value="{{isset($galeries) && $galeries ? $galeries[0]['image'] : ''}}">
                         <button type="button" class="btn btn-orange">Imagem</button>
                         <div class="clear-both"></div>
                         <span class="alert{{ $errors->has('image_0') ? '' : ' hidden' }}">{{ $errors->first('image_0') }}</span>
@@ -243,8 +242,8 @@
         <div class="colbox">
             @for ($i = 1; $i < 5; $i++)
                 <div class="colbox-4 product-galery">
-                    <p class="c-blue fontw-500">Imagem {{$i}} <a href="javascript:void(0)"
-                                                                 class="c-pop fl-right jq-remove-img-galery"
+                    <p class="c-blue fontw-500">Imagem {{$i}}
+                        <a href="javascript:void(0)" class="c-pop fl-right jq-remove-img-galery"
                                                                  data-id="{{ (isset($galeries[$i]) ? $galeries[$i]['id'] : 0) }}"
                                                                  data-preview="{{ $i }}"
                                                                  data-action="{{ (Request::segment('5') == 'edit' ? 'update' : 'create') }}"><i

@@ -30,7 +30,7 @@
                 <tbody>
                 @forelse ($products as $product)
                     <tr>
-                        <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=42&h=42') }}"
+                        <td><img src="{{ ($product->galeries->first() ? url('imagem/produto/'.$product->galeries->first()->image.'?w=42&h=42') : url('/imagem/popmartin/img-exemple.jpg?w=42&h=42')) }}"
                                  alt="[]" title=""></td>
                         <td>{{$product->name}}</td>
                         <td class="text-capitalize">{{real($product->price)}}</td>
