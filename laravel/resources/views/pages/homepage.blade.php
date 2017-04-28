@@ -50,7 +50,7 @@
                     </figure>
                     <header>
                         <h2>
-                            <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{limit_text($product->name, 40)}}</a>
+                            <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}" alt="Clique para ir para página do produto">{{limit_text($product->name, 40)}}</a>
                         </h2>
                         <p class="tagline"><a
                                     href="{{route('pages.store',['store' => $product->store->slug])}}">{{limit_text($product->store->name,50)}}</a>

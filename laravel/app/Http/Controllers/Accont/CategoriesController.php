@@ -50,7 +50,7 @@ class CategoriesController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('accont.home');
         }
-        $categories = Category::orderBy('name', 'ASC')->pluck('name','id');
+        $categories = Category::whereNull('category_id')->orderBy('name', 'ASC')->pluck('name','id');
         return view('layouts.parties.alert_newcategory', compact('categories'));
     }
 
