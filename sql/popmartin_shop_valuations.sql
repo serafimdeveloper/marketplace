@@ -1,0 +1,1 @@
+INSERT INTO popmartin.shop_valuations (user_id, store_id, request_id, note_store, note_term, note_service, comment, active, created_at, updated_at) VALUES (1, 1, 5, 3, 3, 4, 'Ok 4 aqui', 1, '2017-02-21 12:10:58', '2017-02-21 12:10:58');
