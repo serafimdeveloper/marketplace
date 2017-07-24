@@ -160,7 +160,7 @@ $(function(){
                 '_token': token
             }
             $.ajax({
-                url: '/accont/movement_stock' + type,
+                url: '/accont/report/movement_stock' + type,
                 type: 'POST',
                 dataType: 'json',
                 data: data,
