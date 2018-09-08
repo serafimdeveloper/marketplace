@@ -35,28 +35,19 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    /*public function subcategory(){
-        return $this->belongsTo(SubCategory::class);
-    }
-
-    public function requests(){
-        return $this->belongsToMany(Request::class);
-    }*/
-
-
     public function requests(){
         return $this->belongsToMany(Request::class)->withPivot(['quantity', 'unit_price', 'amount']);
     }
 
-    public function movementstocks(){
+    public function movement_stocks(){
         return $this->hasMany(MovementStock::class);
     }
 
-    public function galeries(){
-        return $this->hasMany(Galery::class);
+    public function galleries(){
+        return $this->hasMany(Gallery::class);
     }
 
-    public function visitproduct(){
+    public function visit_product(){
         return $this->hasMany(VisitProduct::class);
     }
 

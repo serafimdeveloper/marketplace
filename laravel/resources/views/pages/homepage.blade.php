@@ -30,8 +30,13 @@
                                         class="fa fa-cart-plus"></i></a></li>
                     </ul>
                     <figure>
-                        <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}"
-                             alt="{{$product->name}}" title="{{limit_text($product->name, 40)}}">
+                        @if($product->galleries->first())
+                            <img src="{{ url('imagem/produto/'.$product->galleries->first()->image.'?w=250&h=250&fit=crop') }}"
+                                alt="{{$product->name}}" title="{{limit_text($product->name, 40)}}">
+                        @else
+                            <img src="{{ url('imagem/popmartin/img-exemple.jpg?w=250&h=250&fit=crop') }}" alt="[]"
+                                 title="">
+                        @endif
                         <figcaption>
                             <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">
                                 {{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}
@@ -111,7 +116,7 @@
                                         class="fa fa-cart-plus"></i></a></li>
                     </ul>
                     <figure>
-                        <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}"
+                        <img src="{{ url('imagem/produto/'.$product->galleries->first()->image.'?w=250&h=250&fit=crop') }}"
                              alt="{{$product->name}}" title="{{$product->name}}">
                         <figcaption>
                             <a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">

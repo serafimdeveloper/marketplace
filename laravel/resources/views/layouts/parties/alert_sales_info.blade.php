@@ -51,7 +51,7 @@
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Tipo de frete</p>
-                            <span>{{$result->freight->name}}</span>
+                            <span>{{$result->type_freight->name}}</span>
                         </div>
                     </div>
                     <div class="colbox-4">
@@ -70,7 +70,7 @@
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Comissão</p>
-                            <span>{{($result->commission_amount) ? real($result->commission_amount) : '-'}}</span>
+                            <span>{{($result->payment) ? real($result->payment->commission_amount) : '-'}}</span>
                         </div>
                     </div>
                 </div>

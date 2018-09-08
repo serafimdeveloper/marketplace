@@ -11,8 +11,12 @@ class TypeMovementStockTableSeeder extends Seeder
      */
     public function run()
     {
-        if(!TypeMovementStock::find(1)){
-            factory(TypeMovementStock::class, 4)->create();
-        }
+        TypeMovementStock::insert([
+            ['name' => 'Inclusão', 'description' => 'Inclusão no estoque pelo vendedor', 'type' => 'in', 'active' => 1],
+            ['name' => 'Saída', 'description' => 'Venda concluída', 'type' => 'out', 'active' => 1],
+            ['name' => 'Estorno', 'description' => 'Venda cancelada', 'type' => 'in', 'active' => 1],
+            ['name' => 'Retirada', 'description' => 'Redução de estoque pelo vendedor', 'type' => 'out', 'active' => 1]
+        ]);
+
     }
 }

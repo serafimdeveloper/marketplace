@@ -9,13 +9,13 @@
 namespace App\Repositories\Accont;
 
 
-use App\Model\ConnectSallesman;
+use App\Model\ConnectSeller;
 use App\Repositories\BaseRepository;
 
 class ConnectSallesmanRepository extends BaseRepository
 {
     public function model()
     {
-        return ConnectSallesman::class;
+        return ConnectSeller::class;
     }
 }

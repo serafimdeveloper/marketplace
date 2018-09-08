@@ -37,9 +37,13 @@
                                 <td>
                                     <div class="coltable">
                                         <div class="coltable-2 product-cart-img">
-                                            <img src="{{ url('imagem/produto/'.$product->galeries->first()->image) }}"
-                                                 alt="{{$product->name}}"
-                                                 title="{{$product->name}}">
+                                            @if($product->galleries->first())
+                                                <img src="{{ url('imagem/produto/'.$product->galleries->first()->image) }}"
+                                                     alt="{{$product->name}}" title="{{limit_text($product->name, 40)}}">
+                                            @else
+                                                <img src="{{ url('imagem/popmartin/img-exemple.jpg') }}" alt="[]"
+                                                     title="">
+                                            @endif
                                         </div>
                                         <div class="coltable-10 product-cart-info">
                                             <p><a href="{{route('pages.product',['store' => $store['store']->slug, 'category' => $product->category->slug, 'product' => $product->slug])}}" class="c-pop fontem-12 fontw-400">{{$product->name}}</a></p>.

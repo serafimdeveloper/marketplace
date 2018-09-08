@@ -25,19 +25,19 @@ class AuthServiceProvider extends ServiceProvider {
      */
     public function boot(){
         $this->registerPolicies();
-        Gate::define('vendedor', function(User $user){
-            if($user->salesman || $user->admin){
-                return true;
-            }
 
-            return false;
+        Gate::define('vendedor', function(User $user){
+           return $user->salesman || $user->admin;
         });
+
         Gate::define('sallesman', function(User $user){
             return !!$user->salesman;
         });
+
         Gate::define('admin', function(User $user){
             return !!$user->admin;
         });
+
         Gate::define('store_access', function($user, $store){
             if(Gate::allows('vendedor')){
                 if($user->salesman && $store->salesman){
@@ -45,9 +45,11 @@ class AuthServiceProvider extends ServiceProvider {
                 }
             }
         });
+
         Gate::define('is_active', function($user){
             return !!$user->active;
         });
+
         Gate::define('produtc_access', function(User $user, $product){
             if($product){
                 $store_id = (isset($user->salesman->store) && $user->salesman->store ? $user->salesman->store->id : null);
@@ -58,6 +60,7 @@ class AuthServiceProvider extends ServiceProvider {
 
             return false;
         });
+
         Gate::define('orders', function(User $user, Request $order){
             if($user->salesman->store->id === $order->store->id){
                 return true;
@@ -67,6 +70,7 @@ class AuthServiceProvider extends ServiceProvider {
 
             return false;
         });
+
         Gate::define('read_message', function($user, $message, $box){
             $reader = ($box === 'received') ? app($message->recipient_type) : app($message->sender_type);
             $reader_id = ($box === 'received') ? $message->recipient_id : $message->sender_id;

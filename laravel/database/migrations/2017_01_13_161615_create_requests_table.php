@@ -15,28 +15,26 @@ class CreateRequestsTable extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('freight_id')->unsigned()->nullable();
-            $table->foreign('freight_id')->references('id')->on('freights')->onUpdate('cascade')->onDelete('SET NULL');
-            $table->integer('payment_id')->unsigned()->nullable();
-            $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('SET NULL');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('SET NULL');
+            $table->integer('store_id')->unsigned()->nullable();
+            $table->foreign('store_id')->references('id')->on('stores')->onUpdate('cascade')->onDelete('SET NULL');
+            $table->integer('type_freight_id')->unsigned()->nullable();
+            $table->foreign('type_freight_id')->references('id')->on('type_freights')->onUpdate('cascade')->onDelete('SET NULL');
             $table->integer('request_status_id')->unsigned();
             $table->foreign('request_status_id')->references('id')->on('request_statuses')->onUpdate('cascade');
             $table->string('key', 100)->unique();
-            $table->tinyInteger('number_installments')->nullable()->default(1);
+            $table->integer('deadline')->unsigned();
             $table->string('tracking_code',15)->nullable();
-            $table->decimal('freight_price',7,2)->nullable();
-            $table->decimal('amount',7,2);
-            $table->string('commission_amount',7,2)->nullable();
-            $table->string('rate_moip',5,2)->nullable();
+            $table->decimal('freight_price',7,2)->default(0);
+            $table->decimal('amount',7,2)->unsigned();
             $table->text('note')->nullable();
-            $table->boolean('visualized')->default(0);
+            $table->boolean('visualized_user')->default(0);
+            $table->boolean('visualized_store')->default(0);
             $table->boolean('finalized')->default(0);
-            $table->string('address_receiver', 255);
-            $table->string('address_sender', 255);
+            $table->text('address_receiver');
+            $table->text('address_sender');
+            $table->string('phone', 15);
             $table->timestamp('settlement_date')->nullable();
             $table->timestamp('cancellation_date')->nullable();
             $table->timestamp('send_date')->nullable();
@@ -54,9 +52,7 @@ class CreateRequestsTable extends Migration
     {
         Schema::table('requests', function(Blueprint $table){
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['payment_id']);
-            $table->dropForeign(['freight_id']);
-            $table->dropForeign(['adress_id']);
+            $table->dropForeign(['type_freight_id']);
             $table->dropForeign(['store_id']);
             $table->dropForeign(['request_status_id']);
         });

@@ -10,15 +10,15 @@ use App\Services\CartServices;
 use App\Services\MoipServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Correios;
-use DB;
+use App\Services\CorreiosService as Correios;
 
 class CheckoutController extends Controller {
     private $moip, $address;
     protected $repo_address, $repo_stores, $service, $repo;
-    protected $with = ['user', 'adress', 'freight', 'requeststatus', 'products', 'store', 'movementstocks', 'moip'];
+    protected $with = ['user', 'freight', 'requeststatus', 'products', 'store', 'movementstocks', 'moip'];
 
     function __construct(AdressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service, RequestsRepository $repo){
         $this->repo_address = $repo_address;
@@ -27,7 +27,7 @@ class CheckoutController extends Controller {
         $this->repo = $repo;
     }
 
-    public function confirmAddress(Request $request){
+    public function confirmAddress(Correios $correios, Request $request){
         $user = Auth::user();
         if(Session::has('cart')){
             if($cart = $this->service->setCart(Session::get('cart'))->check_cart()->getCart()){
@@ -37,7 +37,7 @@ class CheckoutController extends Controller {
                         if($cart->address['id']){
                             $address = $this->repo_address->get($cart->address['id']);
                         }else{
-                            $address = (object)Correios::cep($cart->address['zip_code'])[0];
+                            $address = (object)$correios->zip_code($cart->address['zip_code'])[0];
                         }
                         return view('pages.cart_address', compact('address', 'sha1', 'user'));
                     }
@@ -62,22 +62,23 @@ class CheckoutController extends Controller {
                         }
                         $this->check_master();
                         $model_store = $this->repo_stores->get($key);
-                        $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
-                        $dados = ['user_id' => $user->id, 'adress_id' => $address->id, 'freight_id' => $store['type_freight']['id'],
+                        $dados = ['user_id' => $user->id, 'type_freight_id' => $store['type_freight']['id'],
                             'phone' => $req->phone, 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'],
                             'deadline' => $store['freight'][ $store['type_freight']['name'] ]['deadline'], 'amount' => $store['amount'],
-                            'note' => $store['obs'], 'address_receiver' => \GuzzleHttp\json_encode($address), 'address_sender' => \GuzzleHttp\json_encode($model_store->adress)];
+                            'note' => $store['obs'], 'address_receiver' => json_encode($address), 'address_sender' => json_encode($model_store->adress)];
                         $request = $model_store->requests()->create($dados);
+                        $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
                         $cart->add_request($key, $request->id);
-                        $request->products()->sync($this->products($store));
+                        $request->products()->attach($this->products($store));
                         $this->service->setCart($cart)->deleteRequestCart($key)->saveCart();
                         DB::commit();
-
                         return redirect()->route('pages.cart.cart_order', ['order_key' => $request->key]);
                     }catch(\Exception $e){
                         DB::rollback();
+                        Log::info($e);
+                        $cart->address['id'] = null;
                         flash('Ocorreu um erro ao confirmar o endereço', 'error');
-                        redirect()->route('pages.cart.cart_address');
+                        redirect()->route('pages.cart.cart_address', [$sha1]);
                     }
                 }
             }
@@ -128,7 +129,7 @@ class CheckoutController extends Controller {
             $moip['taxamoip'] = (float) $moipClient->getInstruction()->Autorizacao->Pagamento->TaxaMoIP;
             $moip['comission'] = ( (float) $moipClient->getInstruction()->Autorizacao->Pagamento->Comissao->Valor - $moip['taxamoip']);
 
-            $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => $order->adress, 'products' => $order->products, 'request' => $order, 'moip' => $moip];
+            $data = ['user' => Auth::user(), 'store' => $order->store, 'address' => json_decode($order->address_receiver), 'products' => $order->products, 'request' => $order, 'moip' => $moip];
             $this->send_email('client', 'emails.requested_request', $data, 'Você enviou um pedido para a loja ' . $order->store->name);
         }
 

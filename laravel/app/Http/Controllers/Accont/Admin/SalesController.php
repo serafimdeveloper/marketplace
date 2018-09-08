@@ -24,7 +24,7 @@ class SalesController extends AbstractAdminController
         }
         $this->ordy = ['created_at' => 'DES'];
         $this->title = 'Vendas / Comissões';
-        $this->with = ['store','user','adress','freight','products','requeststatus'];
+        $this->with = ['store','user','type_freight','products','request_status'];
         $this->placeholder = 'Pesquisar pelo nome do cliente ou código do pedido';
         $data = $this->search($request, 'sales');
         if($request->ajax()){
@@ -37,7 +37,7 @@ class SalesController extends AbstractAdminController
         if(Gate::denies('admin')){
             return redirect()->route('page.confirm_accont');
         }
-        $this->with = ['user','store','adress','products','requeststatus','freight'];
+        $this->with = ['user','store','products','request_status','type_freight'];
         if($result = $this->getByRepoId($id)){
             $result['address'] = $this->orderAddress($result);
             return view('layouts.parties.alert_sales_info', compact('result'));

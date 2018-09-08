@@ -23,7 +23,7 @@ class User extends Authenticatable {
     protected $hidden = ['password', 'remember_token',];
 
     public function addresses(){
-        return $this->hasMany(Adress::class);
+        return $this->hasMany(Address::class);
     }
 
     public function requests(){
@@ -31,7 +31,7 @@ class User extends Authenticatable {
     }
 
     public function salesman(){
-        return $this->hasOne(Salesman::class);
+        return $this->hasOne(Seller::class);
     }
 
     public function admin(){

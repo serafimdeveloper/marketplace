@@ -39,7 +39,6 @@ class SalesmanController extends AbstractController
         $user =  Auth::user();
         $dados = $request->except('photo_document','proof_adress');
         $dados['user_id'] = $user->id;
-
         $moipClient = new MoIPClient;
         $result = $moipClient->curlGet(env('MOIP_TOKEN') . ":" . env('MOIP_KEY'), env('MOIP_URL') . "/ws/alpha/VerificarConta/" . $dados['moip']);
         $xml = simplexml_load_string($result->xml);

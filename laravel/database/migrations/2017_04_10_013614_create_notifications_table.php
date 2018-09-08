@@ -25,7 +25,10 @@ class CreateNotificationsTable extends Migration {
      *
      * @return void
      */
-    public function down(){
+    public function down() {
+        Schema::table('notifications', function(Blueprint $table) {
+            $table->dropForeign(['message_id']);
+        });
         Schema::dropIfExists('notifications');
     }
 }

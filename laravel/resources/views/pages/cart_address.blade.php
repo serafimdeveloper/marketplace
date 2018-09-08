@@ -21,7 +21,7 @@
                     <div class="colbox-3">
                         <label>
                             <span>CEP:</span>
-                            {!! Form::text('zip_code', (isset($address->zip_code) ? $address->zip_code : $address->cep), ['readonly'=>'readonly']) !!}
+                            {!! Form::text('zip_code', (isset($address->zip_code) ? $address->zip_code : $address->zip_code), ['readonly'=>'readonly']) !!}
                             <span class="alert hidden"></span>
                         </label>
                     </div>

@@ -143,9 +143,9 @@ class ProductsRepository extends BaseRepository
       $model->join('stores',function($join){
           $join->on('products.store_id','=','stores.id')
               ->where('stores.active',1);
-      })->join('salesmans', function($join){
-          $join->on('salesmans.id','=','stores.salesman_id')
-              ->where('salesmans.active',1);
+      })->join('sellers', function($join){
+          $join->on('sellers.id','=','stores.seller_id')
+              ->where('sellers.active',1);
       })->where('products.quantity','>',0)->where('products.active',1);
       return $model;
     }

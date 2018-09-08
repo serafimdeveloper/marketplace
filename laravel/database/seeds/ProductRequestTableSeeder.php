@@ -12,17 +12,23 @@ class ProductRequestTableSeeder extends Seeder
      */
     public function run()
     {
-
-        //Cria uma instância da classe Faker/Factory
-        $faker = Faker\Factory::create();
-        //Factory Request
-        factory(Request::class,20)->create()->each(function($request) use($faker){
-            Product::all()->random(3)->each(function($product) use($request, $faker){
-                $quantity = $faker->randomDigitNotNull;
-                $unit_price = $faker->randomFloat(2, 5, 100);
-                $amount = $unit_price * $quantity;
-                $request->products()->save($product,['quantity'=> $quantity, 'unit_price'=>$unit_price, 'amount'=>$amount]);
-            });
+        factory(Request::class, 20)->create()->each(function ($r) {
+            $products = $r->store->products->random(rand(2,4));
+            $r->products()->attach($this->listProducts($products));
+            $r->fill([
+                'amount' => $r->products->reduce(function($carry, $product) {
+                    return $carry + $product->pivot->amount;
+                }, $r->freight_price)
+            ])->save();
         });
+    }
+
+    private function listProducts($products){
+        $array = [];
+        $products->each(function($p) use(&$array) {
+           $quantity = rand(1,3);
+               $array[$p->id] = ['quantity' => $quantity, 'unit_price' => $p->price, 'amount' => $p->price * $quantity ];
+        });
+        return $array;
     }
 }

@@ -87,7 +87,7 @@ if(!function_exists('notification_request')){
 if(!function_exists('notification_message_client')){
     function notification_message_client($visualized = 'received'){
         if($user = Auth::user()){
-            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $user->id)->where('recipient_type', '=', get_class($user))->where('desactive', '=', 0)->get();
+            $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $user->id)->where('recipient_type', '=', get_class($user))->where('disabled', '=', 0)->get();
 
             return count($messages);
         }
@@ -99,7 +99,7 @@ if(!function_exists('notification_message_salesman')){
     function notification_message_salesman($visualized = 'received'){
         if(Auth::user()->salesman){
             if($store = Auth::user()->salesman->store){
-                $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->where('desactive', '=', 0)->get();
+                $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->where('disabled', '=', 0)->get();
 
                 return count($messages);
             }
@@ -122,7 +122,7 @@ if(!function_exists('notification_notify_admin')){
 if(!function_exists('notification_new_sallesman')){
     function notification_new_sallesman($read = 0){
         if($admin = Auth::user()->admin){
-            $notify = DB::table('salesmans')->where('read', '=', 0)->get();
+            $notify = DB::table('sellers')->where('read', '=', 0)->get();
             return count($notify);
         }
 

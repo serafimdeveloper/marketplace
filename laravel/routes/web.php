@@ -106,7 +106,7 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     /** Retorna subcategorias de produtos */
     Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
 
-    /** Adress */
+    /** Address */
     Route::get('adresses/destroy/{adress}','AdressesController@destroy')->name('adress.destroy');
     Route::get('adresses/zip_code/{zip}','AdressesController@search_cep')->name('adress.zip_code');
     Route::post('adresses/{action}','AdressesController@store')->name('adress.store');

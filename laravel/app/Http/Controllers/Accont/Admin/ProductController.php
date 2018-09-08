@@ -27,7 +27,7 @@ class ProductController extends  AbstractAdminController
             return redirect()->route('page.confirm_accont');
         }
         $this->ordy = ['name' => 'ASC'];
-        $this->with = ['store','galeries'];
+        $this->with = ['store','galleries'];
         $this->where = ($request->store_id) ? ['store_id' => $request->store_id] : [];
         $this->title = 'Lista de Todos os Produtos';
         $this->placeholder = 'Pesquisar pelo nome do produto';

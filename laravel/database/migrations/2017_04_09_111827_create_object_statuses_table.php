@@ -21,7 +21,7 @@ class CreateObjectStatusesTable extends Migration
             $table->string('status', 100);
             $table->date('date');
             $table->string('local', 255);
-            $table->string('encaminhado', 255)->nullable();
+            $table->string('forwarded', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +33,9 @@ class CreateObjectStatusesTable extends Migration
      */
     public function down()
     {
+        Schema::table('object_statuses', function(Blueprint $table) {
+            $table->dropForeign(['request_id']);
+        });
         Schema::dropIfExists('object_statuses');
     }
 }

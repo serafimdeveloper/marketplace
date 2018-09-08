@@ -7,14 +7,15 @@
  */
 
 namespace App\Http\Controllers;
+
 use App\Model\Cart;
-use App\Model\Freight;
+use App\Model\TypeFreight;
 use App\Services\CartServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
-use Correios;
+use App\Services\CorreiosService as Correios;
 
 class CartController extends Controller
 {
@@ -24,7 +25,7 @@ class CartController extends Controller
         $this->cart_service = $cart_service;
     }
 
-    public function index(Freight $model_freight){
+    public function index(Correios $correios, TypeFreight $model_freight){
         $addresses = (isset(Auth::user()->addresses) ? Auth::user()->addresses->pluck('name','id') : null);
         $freight = $model_freight->where('name', '!=', 'Frete Grátis')->pluck('name','code');
         $address = [];
@@ -34,7 +35,7 @@ class CartController extends Controller
             $cartModelDB = ($cartDB) ? $this->cart_service->dbCart(json_decode($cartDB->address, true), json_decode($cartDB->stores, true))->getCart() : null;
             $oldCart = (Session::has('cart')) ?  Session::get('cart') : $cartModelDB;
             $cart = $this->cart_service->setCart($oldCart)->getCart();
-            $address = isset($cart->address['zip_code']) ? Correios::cep($cart->address['zip_code']) : [];
+            $address = isset($cart->address['zip_code']) ? $correios->zip_code($cart->address['zip_code']) : [];
         }
         return view('pages.cart', compact('cart', 'addresses', 'freight', 'address'));
     }
@@ -84,14 +85,14 @@ class CartController extends Controller
         return response()->json(['msg' => 'Observação salva com sucesso!'],200);
     }
 
-    public function add_address(Request $request){
+    public function add_address(Correios $correios, Request $request){
         if($address = $request->address){
             $zip_code = Auth::user()->addresses->find($address)->zip_code;
         }else{
             $this->validate($request, ['zip_code' => 'required|regex:/^\d{5}-?\d{3}$/']);
             $zip_code = $request->zip_code;
             $address = null;
-            if(!Correios::cep($zip_code)){
+            if(!$correios->zip_code($zip_code)){
                 flash('Cep inválido!', 'error');
                 return redirect()->route('pages.cart');
              }

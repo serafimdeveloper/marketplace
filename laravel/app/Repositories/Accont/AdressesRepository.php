@@ -10,12 +10,12 @@ namespace App\Repositories\Accont;
 
 
 use App\Repositories\BaseRepository;
-use App\Model\Adress;
+use App\Model\Address;
 
 class AdressesRepository extends BaseRepository
 {
     public function model()
     {
-        return Adress::class;
+        return Address::class;
     }
 }

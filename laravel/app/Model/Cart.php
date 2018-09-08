@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use Correios;
+use App\Services\CorreiosService as Correios;
 
 class Cart {
     /**
@@ -35,7 +35,7 @@ class Cart {
      */
     public function add_cart($id){
         $product = Product::find($id);
-        $storedItem = ['name' => $product->name, 'qtd' => 0, 'price_unit' => isset($product->price_out_discount) ? $product->price_out_discount : $product->price, 'subtotal' => 0, 'image' => $product->galeries->first()->image, 'slug' => $product->slug, 'free_shipping' => $product->free_shipping, 'category' => $product->category->slug];
+        $storedItem = ['name' => $product->name, 'qtd' => 0, 'price_unit' => isset($product->price_out_discount) ? $product->price_out_discount : $product->price, 'subtotal' => 0, 'image' => $product->galleries->first()->image, 'slug' => $product->slug, 'free_shipping' => $product->free_shipping, 'category' => $product->category->slug];
         $store = $product->store;
         if(array_key_exists($store->id, $this->stores)){
             if(array_key_exists($id, $this->stores[ $store->id ]['products'])){
@@ -205,7 +205,8 @@ class Cart {
          * @var  $products
          */
         foreach($this->stores as $id => $store){
-            $freights = Freight::where('code', '!=', null)->get();
+            $freights = TypeFreight::whereNotNull('code')->where('active', 1)->get();
+            $correios = app()->make(Correios::class);
             foreach($freights as $freight){
                 $volume = 0;
                 $weight = 0;
@@ -252,7 +253,7 @@ class Cart {
                 /** @var  $i - Calcula o frete separadamente de acordo com a separação de pacotes */
                 for($i = 0; $i < $loop; $i++){
                     /** Armazena cada cálculo */
-                    $return[ $id ][ $freight->name ][] = Correios::frete($df);
+                    $return[ $id ][ $freight->name ][] = $correios->frete($df);
                 }
                 /**
                  * Monta o array com informações a serem retornadas separadas pelo Id de cada loja

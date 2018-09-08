@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Accont;
 
 
 use App\Http\Controllers\Controller;
-use App\Model\ConnectSallesman;
+use App\Model\ConnectSeller;
 use App\Repositories\Accont\ConnectSallesmanRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -101,7 +101,7 @@ class ConnectAppMoipController extends Controller {
 
     private function crud(){
 //        $connect = $this->connect->all(['*'], [], ['moipAccount_id' => $this->data->moipAccount_id]);
-        $connect = ConnectSallesman::where('moipAccount_id' , '=', $this->data->moipAccount_id)->first();
+        $connect = ConnectSeller::where('moipAccount_id' , '=', $this->data->moipAccount_id)->first();
         $this->data->salesman_id = Auth::user()->salesman->id;
         if(!isset($connect->id)){
             $this->result = $this->connect->store((array) $this->data);

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Gate;
 class HomeController extends Controller {
 
     protected $category, $store, $product, $favorite;
-    protected $with_product = ['galeries','store','category'],$with_category = [], $with_store = ['products','adress'] ;
+    protected $with_product = ['galleries','store','category'],$with_category = [], $with_store = ['products','address'] ;
     protected $columns = ['*'];
 
     public function __construct(ProductsRepository $product, CategoriesRepository $category, StoresRepository $store, FavoritesRepository $favorite){
@@ -42,7 +42,7 @@ class HomeController extends Controller {
             $notes = $shopvaluations->getNotes($product);
             $count = $this->product->countRequests($product);
             $store = $product->store;
-            if($product->active && $store->active && $store->salesman->active){
+            if($product->active && $store->active && $store->seller->active){
                 return view('pages.product', compact('product','type','notes', 'count'));
             }else{
                 if(Auth::check()){
@@ -72,7 +72,7 @@ class HomeController extends Controller {
     public function stores($slug){
         if($store = $this->store->getStoreSlug($this->with_store, $slug)){
             $favorites = $this->favorite->getProductsFavorites();
-            if($store->active && $store->salesman->active){
+            if($store->active && $store->seller->active){
                 return view('pages.store', compact('store','favorites'));
             }else{
                 if(Auth::check()){

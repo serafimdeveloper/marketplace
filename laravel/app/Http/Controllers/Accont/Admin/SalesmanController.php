@@ -24,7 +24,7 @@ class SalesmanController extends AbstractAdminController {
         $this->ordy = ['name' => 'ASC'];
         $this->title = 'Vendedores Cadastrado no Sistema';
         $this->placeholder = 'Pesquisar por nome ou email';
-        $data = $this->search($request, 'sallesmans');
+        $data = $this->search($request, 'sellers');
         if($request->ajax()){
             return view('accont.report.presearch', $data);
         }

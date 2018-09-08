@@ -1,0 +1,42 @@
+Sessão => [
+	
+	lojas => [
+		idloja1 => [
+			produtos = > [
+				idproduto1 => [ ‘name' => ‘nome do produto 1’, ‘qtd’ => 1, ’preco_unit’ => '14.90', 'subtotal' => '14.90'
+				],
+				idproduto2 => [ ‘name' => ‘nome do produto 2’, ‘qtd’ => 2, ’preco_unit’ => '14.90', 'subtotal' => '29.80'
+				]
+		    ],
+		    obs=>'observacao sobre os produtos',
+		    frete => '12.00',
+		    subtotal => '56.70'  
+		],
+		idloja2 => [
+			produtos = > [
+				idproduto1 => [ ‘name' => ‘nome do produto 1’, ‘qtd’ => 1, ’preco_unit’ => '14.90', 'subtotal' => '14.90'
+				],
+				idproduto2 => [ ‘name' => ‘nome do produto 2’, ‘qtd’ => 2, ’preco_unit’ => '14.90', 'subtotal' => '29.80'
+				], 
+				idproduto3 => [ 'name' => 'nome do produto 3', 'qtd' => 4, 'preco_unit' => '15.00', 'subtotal' => '60.00']
+		    ],
+		    obs=>'',
+		    frete => '28.00',
+		    subtotal => '132.70'  
+		],
+		iddaloja3 => [
+			produtos = > [
+				idproduto1 => [ ‘name' => ‘nome do produto 1’, ‘qtd’ => 3, ’preco_unit’ => '11.90', 'subtotal' => '35.70'
+				]
+		    ],
+		    obs=>'',
+		    frete => '3.00',
+		    subtotal => '38.70'  
+		]
+	],
+	'address' => [
+		'id' => 
+		'cep' => '27211-840'
+	],
+	'total' => '225.20'
+]

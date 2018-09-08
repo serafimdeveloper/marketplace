@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model {
     use Sluggable, SoftDeletes;
-    protected $fillable = ['salesman_id', 'name', 'type_salesman', 'cnpj', 'fantasy_name', 'social_name', 'slug', 'brach_activity', 'about', 'exchange_policy', 'freight_policy', 'logo_file', 'rate', 'active', 'blocked'];
+    protected $fillable = ['seller_id', 'name', 'type_seller', 'cnpj', 'fantasy_name', 'social_name', 'slug', 'brach_activity', 'about', 'exchange_policy', 'freight_policy', 'logo_file', 'rate', 'active', 'blocked'];
     protected $dates = ['deleted_at'];
 
     /**
@@ -28,12 +28,12 @@ class Store extends Model {
         return $this->morphOne(Message::class, 'recipient');
     }
 
-    public function salesman(){
-        return $this->belongsTo(Salesman::class);
+    public function seller(){
+        return $this->belongsTo(Seller::class);
     }
 
-    public function adress(){
-        return $this->hasOne(Adress::class);
+    public function address(){
+        return $this->hasOne(Address::class);
     }
 
     public function products(){
@@ -44,7 +44,7 @@ class Store extends Model {
         return $this->hasMany(Request::class);
     }
 
-    public function shopvaluation(){
+    public function shop_valuations(){
         return $this->hasMany(ShopValuation::class);
     }
 

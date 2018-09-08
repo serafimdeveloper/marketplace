@@ -30,7 +30,7 @@
         </tbody>
     </table>
 
-@elseif($type === 'sallesmans')
+@elseif($type === 'sellers')
     <table id="jq-search-table-result" class="table table-action">
         <thead>
         <tr>
@@ -47,18 +47,18 @@
 
         <tbody>
 
-        @forelse($result as $salesman)
-            <tr {!! !$salesman->read ? 'class="t-unread"' : '' !!}>
-                <td>{{$salesman->user->name.' '.$salesman->user->last_name}}</td>
-                <td>{{isset($salesman->store) ? $salesman->store->name : '-'}}</td>
-                <td>{{isset($salesman->store->adress) ? $salesman->store->adress->city.'/'.$salesman->store->adress->state : '-'}}</td>
-                <td>{{isset($salesman->store) ? $salesman->store->products->count() : '-'}}</td>
-                <td>{{$salesman->moip}}</td>
-                <td>{{($salesman->active) ? 'habilitado' :'desabilitado'}}</td>
-                <td>{{number_format($salesman->comission,2,',','.')}}%</td>
+        @forelse($result as $seller)
+            <tr {!! !$seller->read ? 'class="t-unread"' : '' !!}>
+                <td>{{$seller->user->name.' '.$seller->user->last_name}}</td>
+                <td>{{isset($seller->store) ? $seller->store->name : '-'}}</td>
+                <td>{{isset($seller->store->adress) ? $seller->store->adress->city.'/'.$seller->store->adress->state : '-'}}</td>
+                <td>{{isset($seller->store) ? $seller->store->products->count() : '-'}}</td>
+                <td>{{$seller->moip}}</td>
+                <td>{{($seller->active) ? 'habilitado' :'desabilitado'}}</td>
+                <td>{{number_format($seller->comission,2,',','.')}}%</td>
                 <td class="txt-center">
-                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-salesman"
-                       data-type="salesmans" data-id="{{$salesman->id}}">detalhes</a>
+                    <a href="javascript:void(0)" class="t-btn t-popmartin jq-info" data-alertbox="jq-info-seller"
+                       data-type="sellers" data-id="{{$seller->id}}">detalhes</a>
                 </td>
             </tr>
         @empty
@@ -85,10 +85,10 @@
         <tbody>
         @forelse($result as $product)
             <tr id="pr{{ $product->id }}">
-                <td><img src="{{ url('imagem/produto/'.$product->galeries->first()->image) }}" alt="{{$product->name}}"
+                <td><img src="{{ url('imagem/produto/'.$product->galleries->first()->image) }}" alt="{{$product->name}}"
                          title="{{$product->name}}"></td>
                 <td>{{$product->name}}</td>
-                <td>{{$product->store->salesman->user->name.' '.$product->store->salesman->user->last_name}}<br> <a
+                <td>{{$product->store->seller->user->name.' '.$product->store->seller->user->last_name}}<br> <a
                             href="{{route('pages.store',[$product->store->slug])}}"
                             style="color: #B71C1C">{{$product->store->name}}</a></td>
                 <td class="txt-center">{{$product->quantity}}</td>

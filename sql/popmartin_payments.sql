@@ -1,0 +1,3 @@
+INSERT INTO popmartin.payments (name, active, created_at, updated_at) VALUES ('Cartão', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
+INSERT INTO popmartin.payments (name, active, created_at, updated_at) VALUES ('Moip', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
+INSERT INTO popmartin.payments (name, active, created_at, updated_at) VALUES ('Boleto', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');

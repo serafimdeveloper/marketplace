@@ -11,11 +11,15 @@ class RequestStatusTableSeeder extends Seeder
      */
     public function run()
     {
-        if(!RequestStatus::find(1)){
-            for($i = 0; $i < 8; $i++){
-                factory(RequestStatus::class)->create();
-            }
-
-        }
+        RequestStatus::insert([
+            ['description' => 'Aguardando pagamento', 'trigger' => 'warning'],
+            ['description' => 'Compra incompleta', 'trigger' => 'error'],
+            ['description' => 'Aguardando envio', 'trigger' => 'warning'],
+            ['description' => 'Aguardando chegada', 'trigger' => 'notice'],
+            ['description' => 'Aguardando avaliação', 'trigger' => 'notice'],
+            ['description' => 'Negociação concluído', 'trigger' => 'accept'],
+            ['description' => 'Pedido devolvido', 'trigger' => 'default'],
+            ['description' => 'Compra cancelada', 'trigger' => 'error']
+        ]);
     }
 }

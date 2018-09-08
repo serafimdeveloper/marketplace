@@ -5,8 +5,8 @@
     <meta property="og:title" content="{{ $product->name }}">
     <meta property="og:site_name" content="Pop Martin">
     <meta property="og:description" content="{{ strip_tags(substr($product->details, 0, 220)) }}">
-    <meta property="og:image" content="{!! url('imagem/produto/'. $product->galeries->first()->image . '?w=500&h=500&fit=crop') !!}">
-    <meta property="og:image:type" content="image/{{ image_type($product->galeries->first()->image) }}">
+    <meta property="og:image" content="{!! url('imagem/produto/'. $product->galleries->first()->image . '?w=500&h=500&fit=crop') !!}">
+    <meta property="og:image:type" content="image/{{ image_type($product->galleries->first()->image) }}">
 
     <meta property="article:author" content="{{$product->store->name}}">
     <meta property="article:section" content="{{ strip_tags(substr($product->details, 0, 220)) }}">
@@ -30,15 +30,15 @@
             <div class="colbox-2">
                 <div class="coltable">
                     <div class="coltable-2">
-                        <ul class="pop-product-galery">
-                            @foreach($product->galeries as $galery)
-                                <li><img src="{{ url('/imagem/produto/'.$galery->image.'?w=100&h=100&fit=crop') }}"></li>
+                        <ul class="pop-product-gallery">
+                            @foreach($product->galleries as $gallery)
+                                <li><img src="{{ url('/imagem/produto/'.$gallery->image.'?w=100&h=100&fit=crop') }}"></li>
                             @endforeach
                         </ul>
                     </div>
                     <div class="coltable-10">
                         <figure style="border-bottom: 1px solid #e0e0e0;margin-bottom: 10px;">
-                            <img id="img-product" src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=500&h=500&fit=crop') }}" alt="[]"
+                            <img id="img-product" src="{{ url('imagem/produto/'.$product->galleries->first()->image.'?w=500&h=500&fit=crop') }}" alt="[]"
                                  title="">
                         </figure>
                     </div>

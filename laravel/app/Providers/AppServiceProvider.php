@@ -1,6 +1,7 @@
 <?php
 namespace App\Providers;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\ServiceProvider;
 use Faker\Generator as FakerGenerator;
 use Faker\Factory as FakerFactory;
@@ -23,8 +24,17 @@ class AppServiceProvider extends ServiceProvider
             \URL::forceSchema('https');
         }
 
-    }
+       /* Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
+            return $value == 'foo';
+        });*/
 
+       /*if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
+// Ignores notices and reports all other kinds... and warnings
+            error_reporting(E_ALL ^ E_WARNING);
+// error_reporting(E_ALL ^ E_WARNING); // Maybe this is enough
+        }*/
+
+    }
     /**
      * Register any application services.
      *

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Accont;
 
 use App\Http\Controllers\Controller;
-use App\Model\Salesman;
+use App\Model\Seller;
 use Auth;
 use Correios;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +15,7 @@ class DocumentPdf extends Controller {
         if(file_exists($file)){
             $id = (int) substr($pdf, -5);
 
-            if($sallesman = Salesman::find($id) && $user = Auth::user()){
+            if($sallesman = Seller::find($id) && $user = Auth::user()){
                 echo 'osdasd';
             }
         }

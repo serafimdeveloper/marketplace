@@ -66,7 +66,7 @@ class Zend_Http_Response
         // Client Error 4xx
         400 => 'Bad Request',
         401 => 'Unauthorized',
-        402 => 'Payment Required',
+        402 => 'TypePayment Required',
         403 => 'Forbidden',
         404 => 'Not Found',
         405 => 'Method Not Allowed',

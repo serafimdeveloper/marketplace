@@ -5,9 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,9 +45,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if (config('app.debug')) {
-            return $this->renderExceptionWithWhoops($request, $exception);
-        }
         return parent::render($request, $exception);
     }
 
@@ -67,39 +62,5 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest('login');
-    }
-
-    /**
-     * Render an exception using Whoops.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception $e
-     * @return \Illuminate\Http\Response
-     */
-    protected function renderExceptionWithWhoops($request, Exception $e)
-    {
-        $e = $this->prepareException($e);
-
-        if ($e instanceof HttpResponseException) {
-            return $e->getResponse();
-        } elseif ($e instanceof AuthenticationException) {
-            return $this->unauthenticated($request, $e);
-        } elseif ($e instanceof ValidationException) {
-            return $this->convertValidationExceptionToResponse($e, $request);
-        } elseif($e instanceof HttpException){
-            return $this->renderHttpException($e, $request);
-        }
-
-        $whoops = new \Whoops\Run;
-        if ($request->ajax()) {
-            $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
-        } else {
-            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-        }
-        return new \Illuminate\Http\Response(
-            $whoops->handleException($e),
-            $e->getStatusCode(),
-            $e->getHeaders()
-        );
     }
 }

@@ -7,7 +7,7 @@
                data-required="minlength" data-minlength="3">
         <span class="alert hidden"></span>
     </label>
-    <input type="hidden" name="Telefone" value="{{ $order->user->phone }}">
+    <input type="hidden" name="Telefone" value="{{ $order->phone }}">
     <div class="colbox">
         <div class="colbox-3">
             <label>
@@ -112,16 +112,16 @@
 @section('scripts_int')
     <script type='text/javascript' src='{{env('MOIP_URL')}}/transparente/MoipWidget-v2.js' charset='ISO-8859-1'></script>
     <script type="text/javascript">
-        var InfoCards = [];
+        let InfoCards = [];
         $(document).on("submit", "#formCredences", function () {
-            var serialize = $(this).serializeArray();
+            const serialize = $(this).serializeArray();
+            console.log(serialize);
             $.each(serialize, function (key, value) {
-                if (value.name == 'DataNascimento') {
-                    var data = value.value;
-                    var dataBr = data.split("-");
-                    var myData = dataBr[2] + '/' + dataBr[1] + '/' + dataBr[0];
-                    value.value = myData;
-                } else if (value.name == 'Telefone') {
+                if (value.name === 'DataNascimento') {
+                    const data = value.value;
+                    const dataBr = data.split("-");
+                    value.value =  dataBr[2] + '/' + dataBr[1] + '/' + dataBr[0];
+                } else if (value.name === 'Telefone') {
                     value.value = value.value.replace(" ", "");
                 }
 

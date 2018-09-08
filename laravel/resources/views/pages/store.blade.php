@@ -14,7 +14,7 @@
                     <div>
                         <p>
                             <span class="fontem-14 fontw-800 c-pop">{{$store->name}}</span><br>
-                            <span>{{$store->adress->city.', '.$store->adress->state}}</span>
+                            <span>{{$store->address->city.', '.$store->address->state}}</span>
                         </p>
                         <p></p>
                         <p>Cadastrado em: {{$store->created_at->format('d/m/Y')}}<br>{{$store->products->count()}} produto(s)</p>
@@ -50,7 +50,7 @@
                                     </ul>
                                 @endif
                                 <figure>
-                                    <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}" alt="{{$product->name}}" title="{{$product->name}}">
+                                    <img src="{{ url('imagem/produto/'.$product->galleries->first()->image.'?w=250&h=250&fit=crop') }}" alt="{{$product->name}}" title="{{$product->name}}">
                                     <figcaption><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}</a></figcaption>
                                     @if($product->free_shipping)
                                         <span class="modal-product-frete"><i class="fa fa-truck"></i> frete grátis</span>

@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Request extends Model
 {
     use SoftDeletes;
-    protected $fillable =['user_id','adress_id','store_id','key','freight_id','deadline','settlement_date','cancellation_date',
-        'send_date','number_installments','tracking_code','freight_price','commission_amount','note',
-        'request_status_id', 'phone','amount','visualized_store','visualized_user', 'amount_interest', 'rate_moip', 'payment_reference',
-        'payment_institution','address_receiver','address_sender'];
 
-    protected  $dates = ['create_at','update_at','deleted_at','cancellation_date','send_date','settlement_date'];
+    protected $fillable =['user_id','store_id','key','freight_id','deadline','settlement_date','cancellation_date',
+        'send_date', 'tracking_code','freight_price','note', 'request_status_id', 'phone','amount','visualized_store',
+        'visualized_user', 'address_receiver','address_sender'];
 
-    protected $casts = ['number_installments'=>'integer','freight_price'=>'double','amount'=>'double'];
+    protected $dates = ['create_at','update_at','deleted_at','cancellation_date','send_date','settlement_date'];
+
+    protected $casts = ['freight_price'=>'double','amount'=>'double'];
 
 
 
@@ -27,15 +27,11 @@ class Request extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    public function adress(){
-        return $this->belongsTo(Adress::class)->withTrashed();
+    public function type_freight(){
+        return $this->belongsTo(TypeFreight::class);
     }
 
-    public function freight(){
-        return $this->belongsTo(Freight::class);
-    }
-
-    public function requeststatus(){
+    public function request_status(){
         return $this->belongsTo(RequestStatus::class,'request_status_id');
     }
 
@@ -43,15 +39,19 @@ class Request extends Model
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'unit_price', 'amount'])->withTrashed();
     }
 
+    public function payment() {
+        return $this->hasOne(Payment::class);
+    }
+
     public function store(){
         return $this->belongsTo(Store::class)->withTrashed();
     }
 
-    public function shopvaluation(){
+    public function shop_valuation(){
         return $this->hasOne(ShopValuation::class);
     }
 
-    public function movementstocks(){
+    public function movement_stocks(){
         return $this->hasMany(MovementStock::class);
     }
 

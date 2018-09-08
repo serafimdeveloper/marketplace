@@ -15,7 +15,7 @@ use App\Model\Store;
 use App\Model\TypeMovementStock;
 use Illuminate\Container\Container as App;
 use App\Http\Requests\Accont\Salesman\ProductsUpdateRequest;
-use App\Model\Galery;
+use App\Model\Gallery;
 use App\Repositories\Accont\ProductsRepository;
 use App\Model\Category;
 use App\Http\Requests\Accont\Salesman\ProductsStoreRequest;
@@ -29,7 +29,7 @@ class ProductsController extends AbstractController {
     protected $with = ['category', 'store', 'galeries'];
     protected $galery, $category;
 
-    public function __construct(App $app, Galery $galery, Category $category){
+    public function __construct(App $app, Gallery $galery, Category $category){
         parent::__construct($app);
         $this->category = $category;
         $this->galery = $galery;

@@ -44,7 +44,7 @@ class MoipServices {
      */
     public function setOrderMoip($order){
         $this->order = $order;
-        $this->address = $this->order->adress;
+        $this->address = json_decode($this->order->address_receiver);
         $this->store = $order->store;
     }
 
@@ -103,18 +103,17 @@ class MoipServices {
         $this->moip->setEnvironment(env('MOIP_ENVIRONMENT'));
         $this->moip->setCredential(['key' => env('MOIP_KEY'), 'token' => env('MOIP_TOKEN')]);
         $this->moip->setUniqueID($this->order->key)->setValue($value_products)->setAdds($this->order->price_freight);
-        $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => (INT)$this->address->zip_code, 'phone' => $this->order->phone]]);
+        $this->moip->setPayer(['name' => $user->name . ' ' . $user->lastname, 'email' => $user->email, 'payerId' => $user->id, 'billingAddress' => ['address' => $this->address->public_place, 'number' => $this->address->number, 'complement' => $this->address->complements, 'city' => $this->address->city, 'neighborhood' => $this->address->neighborhood, 'state' => $this->address->state, 'country' => 'BR', 'zipCode' => str_replace('-','',$this->address->zip_code), 'phone' => $this->order->phone]]);
         $this->moip->setReason('Compra efetuada na plataforma PopMartin. Vendedor: ' . clear_special_chars($this->store->name, ' '));
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
         $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days", strtotime(date('Y-m-d')))), false, ["Popmatin.com.br", env('MAIL_USERNAME'), ""], url('imagem/pop/logo-popmartin.png'));
         $this->moip->addMessage('Produtos comprado na plataforma Popmartin');
         $this->moip->setReturnURL(url('accont/payment/callback'));
         $this->moip->setNotificationURL(url('api/notification/moip/nasp'));
-        $this->moip->addComission('Venda na plataforma popmartin', env('MOIP_COMISSION'), ($this->store->salesman->comission ? $this->store->salesman->comission : env('MOIP_COMISSION_DEFAULT')) - 7.3, true, false);
-        $this->moip->setReceiver($this->store->salesman->moip);
+        $this->moip->addComission('Venda na plataforma popmartin', env('MOIP_COMISSION'), ($this->store->seller->comission ? $this->store->seller->comission : env('MOIP_COMISSION_DEFAULT')), true, false);
+        $this->moip->setReceiver($this->store->seller->moip);
         $this->moip->addParcel('1', '10', null, true);
         $this->moip->validate('Identification');
-//        dd($this->moip->send());
         $this->moip->send();
 
         $this->billetUrl = isset($this->moip->getAnswer()->payment_url) ? $this->moip->getAnswer()->payment_url : null;
@@ -151,7 +150,7 @@ class MoipServices {
                     $status = 3;
                     $this->order->products->each(function($product){
                         if($product->pivot->quantity > $product->quantity){
-                            $data = ['email' => $this->order->store->salesman->user->email, 'store' => $this->order->store,'order' => $this->order, 'product' => $product];
+                            $data = ['email' => $this->order->store->seller->user->email, 'store' => $this->order->store,'order' => $this->order, 'product' => $product];
                             send_mail('emails.merchants_lackofproduct', $data, 'Falta de produto em pedido', $this->order->store->name);
                         }else{
                             $product->decrement('quantity', $product->pivot->quantity);
@@ -164,7 +163,7 @@ class MoipServices {
                     });
                     $data = ['email' => $this->order->user->email, 'user' => $this->order->user, 'store' => $this->order->store, 'products' => $this->order->products, 'request' => $this->order];
                     send_mail('emails.customer_confirmation', $data, 'Pagamento efetuado com sucesso ' . $this->order->user->name);
-                    $data['email'] = $this->order->store->salesman->user->email;
+                    $data['email'] = $this->order->store->seller->user->email;
                     send_mail('emails.merchants_confirmation', $data, 'Pagamento recebido ' . $this->order->store->name);
                 }elseif($status == 'Cancelado'){
                     $status = 6;

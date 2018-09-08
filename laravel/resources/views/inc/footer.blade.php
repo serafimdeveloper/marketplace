@@ -1,7 +1,7 @@
 <br>
 <div class="container bg-graylightextreme">
     <div class="content txt-center">
-        <img src="{{ url('imagem/popmartin/SiteSeguroPopMartin.png') }}?w=200" alt="[Site seguro. Compra protegida]" title="Site seguro. Compra protegida">
+        <img src="{{ url('imagem/popmartin/compra-segura.jpg') }}?w=200" alt="[Site seguro. Compra protegida]" title="Site seguro. Compra protegida">
     </div>
 </div>
 <div class="clear-both"></div>
