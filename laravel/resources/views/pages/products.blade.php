@@ -22,7 +22,7 @@
                                             class="fa fa-cart-plus"></i></a></li>
                         </ul>
                         <figure>
-                            <img src="{{ url('imagem/produto/'.$product->galeries->first()->image.'?w=250&h=250&fit=crop') }}" alt="[]" title="">
+                            <img src="{{ url('imagem/produto/'.$product->galleries->first()->image.'?w=250&h=250&fit=crop') }}" alt="[]" title="">
                             <figcaption><a href="{{route('pages.product',[$product->store->slug, $product->category->slug, $product->slug])}}">{{real(isset($product->price_out_discount)? $product->price_out_discount : $product->price)}}</a></figcaption>
                             @if($product->free_shipping)
                                 <span class="modal-product-frete"><i class="fa fa-truck"></i> frete grátis</span>

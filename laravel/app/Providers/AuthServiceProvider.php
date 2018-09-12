@@ -27,11 +27,11 @@ class AuthServiceProvider extends ServiceProvider {
         $this->registerPolicies();
 
         Gate::define('vendedor', function(User $user){
-           return $user->salesman || $user->admin;
+           return $user->seller || $user->admin;
         });
 
-        Gate::define('sallesman', function(User $user){
-            return !!$user->salesman;
+        Gate::define('seller', function(User $user){
+            return !!$user->seller;
         });
 
         Gate::define('admin', function(User $user){
@@ -40,8 +40,8 @@ class AuthServiceProvider extends ServiceProvider {
 
         Gate::define('store_access', function($user, $store){
             if(Gate::allows('vendedor')){
-                if($user->salesman && $store->salesman){
-                    return $user->salesman->id === $store->salesman->id;
+                if($user->seller && $store->seller){
+                    return $user->seller->id === $store->seller->id;
                 }
             }
         });
@@ -52,7 +52,7 @@ class AuthServiceProvider extends ServiceProvider {
 
         Gate::define('produtc_access', function(User $user, $product){
             if($product){
-                $store_id = (isset($user->salesman->store) && $user->salesman->store ? $user->salesman->store->id : null);
+                $store_id = (isset($user->seller->store) && $user->seller->store ? $user->seller->store->id : null);
                 if($product->store->id == $store_id || $user->admin){
                     return true;
                 }
@@ -62,7 +62,7 @@ class AuthServiceProvider extends ServiceProvider {
         });
 
         Gate::define('orders', function(User $user, Request $order){
-            if($user->salesman->store->id === $order->store->id){
+            if($user->seller->store->id === $order->store->id){
                 return true;
             }elseif($user->id === $order->user->id){
                 return true;
@@ -81,7 +81,7 @@ class AuthServiceProvider extends ServiceProvider {
             }elseif($reader instanceof Store){
                 if(Gate::denies('vendedor', $user)){
                     return false;
-                }elseif($reader_id === $user->salesman->store->id){
+                }elseif($reader_id === $user->seller->store->id){
                     return true;
                 }
             }elseif($reader instanceof Admin){

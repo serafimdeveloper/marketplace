@@ -30,7 +30,7 @@ class User extends Authenticatable {
         return $this->hasMany(Request::class);
     }
 
-    public function salesman(){
+    public function seller(){
         return $this->hasOne(Seller::class);
     }
 

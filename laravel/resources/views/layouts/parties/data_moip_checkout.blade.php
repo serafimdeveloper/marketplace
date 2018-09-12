@@ -245,12 +245,12 @@
                         type = 'credcard';
                         trg = 'notice';
                         msg = 'Compra em análise! Aguardando resposta de pagamento da instituição do cartão';
-                        url = '{{ route('accont.request_info', ['id' => $order->id]) }}';
+                        url = '{{ route('account.request_info', ['id' => $order->id]) }}';
                     } else if (response.Status == 'Iniciado') {
                         type = 'credcard';
                         trg = 'accept';
                         msg = 'Compra iniciada! Aguardando conclusão de pagamento da instituição do cartão';
-                        url = '{{ route('accont.request_info', ['id' => $order->id]) }}';
+                        url = '{{ route('account.request_info', ['id' => $order->id]) }}';
                     } else {
                         type = 'credcard';
                         trg = 'error';

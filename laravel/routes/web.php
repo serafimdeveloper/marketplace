@@ -11,7 +11,12 @@ Route::post('/contact/sendmail', 'ContactController@sendMail')->name('pages.send
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
-Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth', 'as' => 'accont.'], function(){
+Route::get('/teste', function() {
+    $correios = app()->make(\App\Services\CorreiosService::class);
+    return $correios->rastrear('Pp929844232br');
+});
+
+Route::group(['prefix' => 'account','namespace' => 'Account','middleware'=>'auth', 'as' => 'account.'], function(){
 
     /** Clientes */
     Route::get('/', 'Clients\HomeController@index')->name('home');
@@ -29,12 +34,12 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
 
     /** Vendedores */
     Route::get('/appmoip/connect', 'ConnectAppMoipController@show')->name('appmoip_connect');
-    Route::group(['as'=>'salesman.', 'prefix' => 'salesman'], function(){
+    Route::group(['as'=>'seller.', 'prefix' => 'seller'], function(){
 
-        Route::get('create','Salesmans\SalesmanController@create')->name('create');
-        Route::post('update','Salesmans\SalesmanController@update')->name('update');
-        Route::post('store','Salesmans\SalesmanController@store')->name('store');
-        Route::get('info','Salesmans\SalesmanController@edit')->name('info');
+        Route::get('create','Sellers\SellerController@create')->name('create');
+        Route::post('update','Sellers\SellerController@update')->name('update');
+        Route::post('store','Sellers\SellerController@store')->name('store');
+        Route::get('info','Sellers\SellerController@edit')->name('info');
 
         Route::group(['prefix' => 'stores'], function(){
             Route::get('/', 'StoresController@create')->name('stores');
@@ -43,13 +48,13 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
             Route::get('block', 'StoresController@blocked')->name('stores.blocked');
         });
 
-        Route::resource('products', 'Salesmans\ProductsController');
-        Route::get('products/change/{product}','Salesmans\ProductsController@desactive')->name('products.desactive');
-        Route::get('products/remove/image/{image}','Salesmans\ProductsController@removeImage')->name('products.image.remove');
-        Route::get('sales', 'Salesmans\SalesController@index')->name('sales');
-        Route::get('sale/{id}', 'Salesmans\SalesController@edit')->name('sale_info');
-        Route::post('sale/tracking_code/{id}','Salesmans\SalesController@tracking_code')->name('request.tracking_code');
-        Route::get('etiqueta/{id}', 'Salesmans\SalesController@tag')->name('etiqueta');
+        Route::resource('products', 'Sellers\ProductsController');
+        Route::get('products/change/{product}','Sellers\ProductsController@desactive')->name('products.desactive');
+        Route::get('products/remove/image/{image}','Sellers\ProductsController@removeImage')->name('products.image.remove');
+        Route::get('sales', 'Sellers\SalesController@index')->name('sales');
+        Route::get('sale/{id}', 'Sellers\SalesController@edit')->name('sale_info');
+        Route::post('sale/tracking_code/{id}','Sellers\SalesController@tracking_code')->name('request.tracking_code');
+        Route::get('etiqueta/{id}', 'Sellers\SalesController@tag')->name('etiqueta');
 
     });
 
@@ -66,8 +71,8 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
         Route::resource('users', 'Admin\UserController',['only' =>['index','show','destroy']]);
 
         /** Apresentação de vendedores */
-        Route::resource('salesmans', 'Admin\SalesmanController',['except' => ['create', 'store', 'edit']]);
-        Route::get('salesmans/{id}/change', 'Admin\SalesmanController@change')->name('salesman.change');
+        Route::resource('sellers', 'Admin\SellerController',['except' => ['create', 'store', 'edit']]);
+        Route::get('sellers/{id}/change', 'Admin\SellerController@change')->name('seller.change');
 
         /** Apresentação de produtos */
         Route::resource('products','Admin\ProductController',['only' => ['index','show','destroy']]);
@@ -107,18 +112,18 @@ Route::group(['prefix' => 'accont','namespace' => 'Accont','middleware'=>'auth',
     Route::get('categories/subcategories/{category}','CategoriesController@subcategories')->name('categories.subcategories');
 
     /** Address */
-    Route::get('adresses/destroy/{adress}','AdressesController@destroy')->name('adress.destroy');
-    Route::get('adresses/zip_code/{zip}','AdressesController@search_cep')->name('adress.zip_code');
-    Route::post('adresses/{action}','AdressesController@store')->name('adress.store');
-    Route::get('adresses/{action}/{adress}','AdressesController@edit')->name('adress.edit');
-    Route::post('adresses/{action}/{adress}','AdressesController@update')->name('adress.update');
-    Route::get('adresses/getmycep/{myidcep}','AdressesController@get_mycep')->name('adress.getmycep');
+    Route::get('addresses/destroy/{address}','AddressesController@destroy')->name('address.destroy');
+    Route::get('addresses/zip_code/{zip}','AddressesController@search_cep')->name('address.zip_code');
+    Route::post('addresses/{action}','AddressesController@store')->name('address.store');
+    Route::get('addresses/{action}/{address}','AddressesController@edit')->name('address.edit');
+    Route::post('addresses/{action}/{address}','AddressesController@update')->name('address.update');
+    Route::get('addresses/getmycep/{myidcep}','AddressesController@get_mycep')->name('address.getmycep');
 });
 
-Route::get('/pagina/{page}', 'Accont\PageController@with_pay')->name('pagina');
+Route::get('/pagina/{page}', 'Account\PageController@with_pay')->name('pagina');
 
 Route::get('imagem/{path}','ImageController@show')->where('path', '.+');
-Route::get('documento/pfd/{pdf}','Accont\DocumentPdf@index')->name('document.pdf');
+Route::get('documento/pfd/{pdf}','Account\DocumentPdf@index')->name('document.pdf');
 
 /** Rotas de páginas */
 Route::get('/', 'HomeController@index')->name('homepage');
@@ -132,10 +137,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/favoritos/adicionar/carrinho', 'FavoritesController@add_cart')->name('pages.favorites.cart');
     Route::get('/favoritos/{product}/adicionar', 'FavoritesController@store')->name('pages.favorites.add');
     Route::get('/favoritos/{product}/deletar', 'FavoritesController@destroy')->name('pages.favorites.delete');
-    Route::get('/user/confirmation/accont','Auth\ConfirmAccontController@confirm_page')->name('page.confirm_accont');
-    Route::get('/user/confirmation/send_email','Auth\ConfirmAccontController@send_email')->name('confirm.send_email');
+    Route::get('/user/confirmation/account','Auth\ConfirmAccountController@confirm_page')->name('page.confirm_account');
+    Route::get('/user/confirmation/send_email','Auth\ConfirmAccountController@send_email')->name('confirm.send_email');
 });
-Route::get('/user/confirmation/{email}/confirm_token/{confirm_token}','Auth\ConfirmAccontController@confirm')->name('auth.confirm');
+Route::get('/user/confirmation/{email}/confirm_token/{confirm_token}','Auth\ConfirmAccountController@confirm')->name('auth.confirm');
 
 Route::group(['as'=>'pages.', 'prefix' => 'carrinho'], function(){
     Route::get('/', 'CartController@index')->name('cart');
@@ -161,7 +166,7 @@ Route::get('/manutencao', function(){
 })->name('manutencao');
 
 
-//Route::get('/appmoip/connect', 'Accont\ConnectAppMoipController@show')->name('appmoip_connect');
+//Route::get('/appmoip/connect', 'Account\ConnectAppMoipController@show')->name('appmoip_connect');
 Route::get('/{store}', 'HomeController@stores')->name('pages.store');
 
 Route::get('/{store}/{category}/{product}', 'HomeController@single_page')->name('pages.product');

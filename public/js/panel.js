@@ -149,7 +149,7 @@ function getData(page, data){
 
     $.ajax({
 
-        url: '/accont/searchstore?page='+page,
+        url: '/account/searchstore?page='+page,
 
         type: "get",
 
@@ -267,7 +267,7 @@ $(function(){
         }
     });
 
-    /** Modelo de container aprecer conforme clique menu CPF ou CNPJ accont do painel */
+    /** Modelo de container aprecer conforme clique menu CPF ou CNPJ account do painel */
     $(".select_type_sallesman input").on("click", function () {
         $(".selects_people:visible").slideUp();
         if ($(this).val() === 'F') {
@@ -288,7 +288,7 @@ $(function(){
         var loader = $(this).data('loader');
         if (category !== "") {
             $.ajax({
-                url: '/accont/categories/subcategories/' + category,
+                url: '/account/categories/subcategories/' + category,
                 type: 'GET',
                 dataType: 'json',
                 beforeSend: function () {
@@ -341,7 +341,7 @@ $(function(){
                 '_token': token
             }
             $.ajax({
-                url: '/accont/report/movement_stock' + type,
+                url: '/account/report/movement_stock' + type,
                 type: 'POST',
                 dataType: 'json',
                 data: data,
@@ -369,7 +369,7 @@ $(function(){
             function () {
                 var indexes = arrayToObject(checkInputsMsg('select_msg'));
                 var dados = {'ids': indexes, '_token': token};
-                $.post('/accont/messages/destroy', dados, function (response) {
+                $.post('/account/messages/destroy', dados, function (response) {
                     if (response.status) {
                         $.each(indexes, function (key, value) {
                             $('.select_msg').eq(key).parents('tr').hide(800);
@@ -392,7 +392,7 @@ $(function(){
         var cep = element.val();
         if ((/^\d{5}-?\d{3}$/).test(cep)) {
             $.ajax({
-                url: '/accont/adresses/zip_code/' + cep,
+                url: '/account/adresses/zip_code/' + cep,
                 type: 'GET',
                 dataType: 'json',
                 beforeSend: function () {
@@ -426,7 +426,7 @@ $(function(){
         var id = form.find('input[name=id]').val();
         if (id.length == 0) {
             $.ajax({
-                url: '/accont/adresses/' + action,
+                url: '/account/adresses/' + action,
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
@@ -461,7 +461,7 @@ $(function(){
             });
         } else {
             $.ajax({
-                url: '/accont/adresses/' + action + '/' + id,
+                url: '/account/adresses/' + action + '/' + id,
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
@@ -509,7 +509,7 @@ $(function(){
             $('.address_remove').html('<span class="btn btn-small btn-red jq-remove-address" data-id="' + $(this).data('id') + '"><i class="fa fa-trash"></i> remover endereço</span>');
             $('.address').find('button').text('atualizar');
             $.ajax({
-                url: '/accont/adresses/' + action + '/' + $(this).data('id'),
+                url: '/account/adresses/' + action + '/' + $(this).data('id'),
                 type: 'GET',
                 dataType: 'json',
                 beforeSend: function () {
@@ -538,7 +538,7 @@ $(function(){
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este endereço?',
             function () {
                 var id = element.data('id');
-                $.get('/accont/adresses/destroy/' + id, function (response) {
+                $.get('/account/adresses/destroy/' + id, function (response) {
                     if (response.status) {
                         alertify.success('Endereço removido!');
                         location.reload();
@@ -571,7 +571,7 @@ $(function(){
         var data = element.find('input').val();
         var implementTr = $('.pop-select-cep');
         $.ajax({
-            url: '/accont/adresses/zip_code/' + cleanAccents(data),
+            url: '/account/adresses/zip_code/' + cleanAccents(data),
             type: 'GET',
             dataType: 'json',
             beforeSend: function () {
@@ -597,7 +597,7 @@ $(function(){
     $(document).on('click', '.jq-notification', function () {
         var e = $(this);
         loaderAjaxScreen(true, 'carregando..');
-        $.get('/accont/report/notification/' + e.data('id'), function(response){
+        $.get('/account/report/notification/' + e.data('id'), function(response){
             loaderAjaxScreen(false, '');
             $("#notificationParties").html(response);
             e.parents('tr').removeClass('t-unread');
@@ -616,7 +616,7 @@ $(function(){
         var s = e.serialize();
         console.log(s);
         $.ajax({
-            url: '/accont/report/notification/edit',
+            url: '/account/report/notification/edit',
             type: 'POST',
             data: s,
             dataType: 'json',
@@ -638,7 +638,7 @@ $(function(){
         alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover a mensagem deste usuário?',
             function () {
                 var data = {'_token': e.data('token'), 'id': e.data('id')};
-                $.post('/accont/report/notification/remove_message', data, function(){
+                $.post('/account/report/notification/remove_message', data, function(){
                     $("#jq-info-product").slideUp();
                     $("#notificationParties").html('');
                     $("#ntf" + data.id).slideUp();
@@ -656,7 +656,7 @@ $(function(){
         var id = (typeof e.data('id') !== "undefined") ?  e.data('id') : 'create';
         var type = e.data('type');
         loaderAjaxScreen(true, 'carregando..');
-        $.get('/accont/report/'+type+'/'+id, function (response) {
+        $.get('/account/report/'+type+'/'+id, function (response) {
             loaderAjaxScreen(false, '');
             $('#resp_modal').empty().html(response);
             toggleAlertbox(e);
@@ -672,7 +672,7 @@ $(function(){
             function(){
                 var data = {'_token': e.data('token'), 'id': e.data('id')};
                 $.ajax({
-                    url: '/accont/report/users/' + data.id,
+                    url: '/account/report/users/' + data.id,
                     method: 'DELETE',
                     data: data,
                     dataType: 'json',
@@ -700,7 +700,7 @@ $(function(){
             function () {
                 var data = {'_token': e.data('token'), 'id': e.data('id')};
                 $.ajax({
-                    url: '/accont/report/salesmans/' + data.id,
+                    url: '/account/report/salesmans/' + data.id,
                     method: 'DELETE',
                     data: data,
                     dataType: 'json',
@@ -753,7 +753,7 @@ $(function(){
         var msg = (txt == 'bloquear vendedor' ? 'Tem certeza de que deseja bloquear o vendedor e toda sua loja?<br> Todos os produtos cadastrado serão bloqueados.' : 'O vendedor será desbloqueado e seus produtos e sua loja estará visível para todos verem!')
         alertify.confirm(alertfyConfirmTitle, msg,
             function () {
-                $.get('/accont/report/salesmans/'+salesman+'/change', function(response){
+                $.get('/account/report/salesmans/'+salesman+'/change', function(response){
                     if(response.status){
                         element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear vendedor');
                         msg_alert = 'Vendedor Desbloqueado';
@@ -808,7 +808,7 @@ $(function(){
         var category = (e.data('category') ? '/' + e.data('category') : '');
         modal.find('h2').text(title);
         modal.find('button').text(buttonText);
-        $.get('/accont/categories' + category, function (response) {
+        $.get('/account/categories' + category, function (response) {
             var select = form.find('select');
             select.html('<option value="">Escolher uma categória pai</option>');
             if (response.category) {
@@ -838,7 +838,7 @@ $(function(){
         var buttonTextloading = '<i class="fa fa-spin fa-spinner"></i> processando...';
         if (!id) {
             $.ajax({
-                url: '/accont/categories',
+                url: '/account/categories',
                 type: 'POST',
                 dataType: 'json',
                 data: dados,
@@ -855,7 +855,7 @@ $(function(){
             });
         } else {
             $.ajax({
-                url: '/accont/categories/' + id,
+                url: '/account/categories/' + id,
                 type: 'PUT',
                 dataType: 'json',
                 data: dados,
@@ -920,7 +920,7 @@ function alterCategoryMenu(){
     alertify.confirm(alertfyConfirmTitle, msg,
         function () {
             loaderAjaxScreen(true, 'atualizando..');
-            $.post('/accont/report/categories/' + e.data('id'), {'_method': 'PUT', '_token': e.data('token'), 'menu': e.val()}, function (response) {
+            $.post('/account/report/categories/' + e.data('id'), {'_method': 'PUT', '_token': e.data('token'), 'menu': e.val()}, function (response) {
                 loaderAjaxScreen(false, '');
                 alertify.success(response.msg);
             }, 'json').fail(function (response) {
@@ -942,7 +942,7 @@ function blockStore() {
     alertify.confirm(alertfyConfirmTitle, msg,
         function () {
             var msg_alert;
-            $.get('/accont/salesman/stores/block', function (response) {
+            $.get('/account/salesman/stores/block', function (response) {
                 if (response.status) {
                     if (response.lock) {
                         element.html('<i class="fa fa-unlock vertical-middle"></i> bloquear loja');
@@ -980,7 +980,7 @@ function removeImgGarely() {
             function () {
                 var id = element.data('id');
                 var prev = element.data('preview');
-                $.get('/accont/salesman/products/remove/image/' + id, function (response) {
+                $.get('/account/salesman/products/remove/image/' + id, function (response) {
                     if (response.status) {
                         clearImgGalery(element);
                         alertify.success('Produto removido!');
@@ -1007,7 +1007,7 @@ function removePrduct() {
     alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este produto?',
         function () {
             $.ajax({
-                url: '/accont/salesman/products/' + id,
+                url: '/account/salesman/products/' + id,
                 method: 'DELETE',
                 data: {'_token': element.data('token')},
                 type: 'json',
@@ -1025,7 +1025,7 @@ function removePrduct() {
                     if (response.status === 406) {
                         alertify.confirm(alertfyConfirmTitle, 'Voce tem pendências, você não pode remover este produto, no máximo pode desativar deseja fazer isso agora?  ',
                             function () {
-                                $.get('accont/salesman/products/change/' + id, function (response) {
+                                $.get('account/salesman/products/change/' + id, function (response) {
                                     if (response.status) {
                                         element.parents('tr').slideUp(500);
                                         alertify.success('Produto removido');
@@ -1056,7 +1056,7 @@ function removeCategory(){
         function () {
             loaderAjaxScreen(true, 'removendo...');
             $.ajax({
-                url: '/accont/report/categories/' + id,
+                url: '/account/report/categories/' + id,
                 method: 'DELETE',
                 data: {'_token': element.data('token')},
                 type: 'json',
@@ -1091,7 +1091,7 @@ function removeBanner(){
     alertify.confirm(alertfyConfirmTitle, 'Tem certeza de que deseja remover este banner?',
         function () {
             $.ajax({
-                url: '/accont/report/banners/' + id,
+                url: '/account/report/banners/' + id,
                 method: 'DELETE',
                 data: {'_token': element.data('token')},
                 type: 'json',

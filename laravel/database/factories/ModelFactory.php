@@ -48,7 +48,7 @@ $factory->define(User::class, function (Generator $faker) {
 
 $factory->define(Seller::class, function(Generator $faker){
     $folder = DIRECTORY_SEPARATOR . 'app'. DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . 'vendedor';
-    $user = factory(User::class)->create(['type_user' => 'salesman']);
+    $user = factory(User::class)->create(['type_user' => 'seller']);
     return [
         'user_id' => $user->id,
         'moip' => $user->name,
@@ -64,9 +64,9 @@ $factory->define(Seller::class, function(Generator $faker){
 
 $factory->define(Store::class, function(Generator $faker){
     $folder = DIRECTORY_SEPARATOR . 'app'. DIRECTORY_SEPARATOR . 'img'. DIRECTORY_SEPARATOR . 'loja';
-    $salesman = factory(Seller::class)->create(['active' => 1]);
+    $seller = factory(Seller::class)->create(['active' => 1]);
     return [
-        'seller_id' => $salesman->id,
+        'seller_id' => $seller->id,
         'name' => $faker->unique()->word(),
         'type_seller' => $faker->randomElement(array('F','J')),
         'cnpj' => $faker->numerify('##.###.###/####-##'),
@@ -219,8 +219,8 @@ $factory->define(Message::class, function(Generator $faker){
 
                 $sender = Seller::where('user_id', $data['sender_id'])->get();
                 $recipient = Seller::where('user_id', $data['recipient_id'])->get();
-                $storeSender = ($sender->first() ? Store::where('salesman_id', $sender->first()->id)->get()->first() : null);
-                $storeRecipient = ($recipient->first() ? Store::where('salesman_id', $recipient->first()->id)->get()->first() : null);
+                $storeSender = ($sender->first() ? Store::where('seller_id', $sender->first()->id)->get()->first() : null);
+                $storeRecipient = ($recipient->first() ? Store::where('seller_id', $recipient->first()->id)->get()->first() : null);
 
                 if($storeSender || $storeRecipient){
                     $storeSender = ($storeSender ? $storeSender->id : null);

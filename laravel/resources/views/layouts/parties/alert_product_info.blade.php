@@ -5,7 +5,7 @@
             <h2 class="alertbox-title c-pop fontw-500">{{$result->name}}</h2>
             <div class="pop-user-info">
                 <div class="pop-user-info-action">
-                    <a class="btn btn-small btn-popmartin fl-left" href="/accont/salesman/products/{{ $result->id }}/edit" target="_blank"><i class="fa fa-edit"></i> editar</a>
+                    <a class="btn btn-small btn-popmartin fl-left" href="/account/seller/products/{{ $result->id }}/edit" target="_blank"><i class="fa fa-edit"></i> editar</a>
                     <a class="btn btn-small btn-popmartin fl-right jq-remove-product" data-id="{{$result->id}}" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> remover produto</a>
                 </div>
                 <div class="clear-both"></div>
@@ -28,7 +28,7 @@
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Vendedor</p>
-                            <span>{{$result->store->salesman->user->name}}</span>
+                            <span>{{$result->store->seller->user->name}}</span>
                         </div>
                     </div>
                 </div>
@@ -106,9 +106,9 @@
                         <div class="pop-info-user">
                             <p>Galeria</p>
                             <div class="colbox">
-                                @forelse( $result->galeries as $galery)
+                                @forelse( $result->galleries as $gallery)
                                 <div class="colbox-5">
-                                    <img src="{{url('imagem/produto/'.$galery->image.'?w=130&h=130&fit=crop')}}">
+                                    <img src="{{url('imagem/produto/'.$gallery->image.'?w=130&h=130&fit=crop')}}">
                                 </div>
                                 @empty
                                     <div class="colbox-5">

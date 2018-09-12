@@ -1,4 +1,4 @@
-@if (Request::segment(1) == 'accont')
+@if (Request::segment(1) == 'account')
     <header class="pop-header" style="background: none; height: 43px;">
         <div class="pop-top-header panel-top-header">
             @else
@@ -41,7 +41,7 @@
                                                         class="fa fa-caret-down vertical-middle"></i></span></a>
                                         <div class="menu-hidden">
                                             <ul>
-                                                <li><a href="/accont">minha conta</a>
+                                                <li><a href="/account">minha conta</a>
                                                 </li>
                                                 <li><a href="/logout">sair</a>
                                                 </li>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="clear-both"></div>
                 </div>
-                @if (Request::segment(1) != 'accont')
+                @if (Request::segment(1) != 'account')
                     <div class="content-ads">
                         <div class="pop-ads owl-carousel">
                             @forelse(banner_ads() as $ad)

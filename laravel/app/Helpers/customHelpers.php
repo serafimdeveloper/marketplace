@@ -13,7 +13,7 @@ if(!function_exists('track_object')){
         $local = false;
         $order = \App\Model\Request::find($id);
         $st = ($order->tracking_code == $code ? 4 : 3);
-        if($order->requeststatus->id >= $st){
+        if($order->request_status->id >= $st){
             $tracking = Correios::rastrear($code);
 //            dd($tracking);
             if($tracking){
@@ -65,8 +65,8 @@ if(!function_exists('discont_percent')){
 if(!function_exists('notification_sales')){
     function notification_sales($visualized){
         if(Gate::allows('vendedor')){
-            if(Auth::user()->salesman){
-                if($store = Auth::user()->salesman->store){
+            if(Auth::user()->seller){
+                if($store = Auth::user()->seller->store){
                     return count(DB::table('requests')->where('visualized_store', $visualized)->where('store_id', $store->id)->get());
                 }
             }
@@ -95,10 +95,10 @@ if(!function_exists('notification_message_client')){
         return 0;
     }
 }
-if(!function_exists('notification_message_salesman')){
-    function notification_message_salesman($visualized = 'received'){
-        if(Auth::user()->salesman){
-            if($store = Auth::user()->salesman->store){
+if(!function_exists('notification_message_seller')){
+    function notification_message_seller($visualized = 'received'){
+        if(Auth::user()->seller){
+            if($store = Auth::user()->seller->store){
                 $messages = DB::table('messages')->where('status', '=', $visualized)->where('recipient_id', '=', $store->id)->where('recipient_type', '=', get_class($store))->where('disabled', '=', 0)->get();
 
                 return count($messages);
@@ -246,8 +246,8 @@ if(!function_exists('send_mail')){
 }
 if(!function_exists('send_mail_type')){
     function send_mail_type($type, $template, $data, $subject){
-        $data['email'] = ($type === 'client') ? $data['user']->email : $data['store']->salesman->user->email;
-        $data['name'] = ($type === 'client') ? $data['user']->name : $data['store']->salesman->user->name;
+        $data['email'] = ($type === 'client') ? $data['user']->email : $data['store']->seller->user->email;
+        $data['name'] = ($type === 'client') ? $data['user']->name : $data['store']->seller->user->name;
         send_mail($template, $data, $subject);
     }
 }

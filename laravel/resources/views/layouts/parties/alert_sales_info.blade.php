@@ -51,7 +51,7 @@
                     <div class="colbox-4">
                         <div class="pop-info-user">
                             <p>Tipo de frete</p>
-                            <span>{{$result->type_freight->name}}</span>
+                            <span>{{$result->type_freight->name ?? 'sem frete'}}</span>
                         </div>
                     </div>
                     <div class="colbox-4">
@@ -96,7 +96,7 @@
                     <div class="colbox-3">
                         <div class="pop-info-user">
                             <p>Status</p>
-                            <span>{{$result->requeststatus->description}}</span>
+                            <span>{{$result->request_status->description}}</span>
                         </div>
                     </div>
                     <div class="colbox-3">

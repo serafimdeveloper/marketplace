@@ -125,7 +125,7 @@
                 alertify.error("Comentário precisa ter no mínimo 4 caracteres!");
             } else {
                 $.ajax({
-                    url: '/accont/request/shop_valuations/' + id,
+                    url: '/account/request/shop_valuations/' + id,
                     data: data,
                     type: 'POST',
                     dataType: 'json',

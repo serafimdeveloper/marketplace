@@ -13,7 +13,7 @@
         O vendedor está aguardando a confirmação da instituição financeira para realizar o envio, respeitando o prazo de envio definido para cada produto.
     </p>
 
-    <p><a href="{{route('accont.request_info', [$request->id])}}">Envie uma mensagem para o vendedor</a></p>
+    <p><a href="{{route('account.request_info', [$request->id])}}">Envie uma mensagem para o vendedor</a></p>
 
     <h3>Detalhes do pedido</h3>
     <table style="margin-bottom: 20px; font-size: 14px">
@@ -46,7 +46,7 @@
         <tbody>
         @foreach($products as $product)
             <tr>
-                <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image.'?w=40') }}"></td>
+                <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galleries[0]->image.'?w=40') }}"></td>
                 <td><a href="{{route('pages.product',[$store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                 <td>{{ $product->pivot->quantity }}</td>
                 <td><span class="fontem-12">{{ real($product->pivot->unit_price)}}</span></td>

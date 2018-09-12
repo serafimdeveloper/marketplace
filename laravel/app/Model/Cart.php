@@ -245,7 +245,7 @@ class Cart {
                     $weight = $weight / 2;
                     $loop++;
                 }
-                $df['cep_origem'] = preg_replace("/-/", '', Store::find($id)->adress['zip_code']);
+                $df['cep_origem'] = preg_replace("/-/", '', Store::find($id)->address['zip_code']);
                 $df['comprimento'] = ($r3 < 16) ? 16 : $r3;
                 $df['altura'] = ($r3 < 2) ? 2 : $r3;
                 $df['largura'] = ($r3 < 11) ? 11 : $r3;

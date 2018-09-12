@@ -18,7 +18,8 @@ class CorreiosService
 
     const FRETE_URL    = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
     const CEP_URL      = 'http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm';
-    const RASTREIO_URL = 'https://www2.correios.com.br/sistemas/rastreamento/ctrl/ctrlRastreamento.cfm?';
+    const RASTREIO_URL = 'https://www2.correios.com.br/sistemas/rastreamento/resultado_semcontent.cfm';
+
 
     public function __construct(\GuzzleHttp\Client $client){
         $this->client = $client;
@@ -192,26 +193,42 @@ class CorreiosService
 
     public function rastrear($codigo)
     {
-        /*$curl = new Curl;
-
-        $html = $curl->simple('http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&P_TIPO=001&P_COD_UNI='.$codigo);*/
-
-        $html = $this->client->post(self::RASTREIO_URL, [
+        $res = $this->client->post(self::RASTREIO_URL, [
             'form_params' => [
-                'objetos' => $codigo
-            ]
+                'P_LINGUA' => '001',
+                'P_TIPO' => '001',
+                'objetos' => $codigo            ]
         ]);
+        $html = $res->getBody()->getContents();
+        $html = str_replace(['/\\r/\\n/', '/\\r/', '/\\n/', '/\\t/', "  ", '?',], '', $html);
+        $html = str_replace([' / '], '-', $html);
         phpQuery::newDocumentHTML($html, $charset = 'utf-8');
 
-        $rastreamento = array();
-        $c = 0;
+        $rastreamento = [];
+        foreach(phpQuery::pq('tr') as $tr) {
+            if(count(phpQuery::pq($tr)->find('td')) == 2) {
+                $td1 = trim(strip_tags(phpQuery::pq($tr)->find('td:eq(0)')->text()));
+                $td2 = trim(strip_tags(phpQuery::pq($tr)->find('td:eq(1)')->text()));
+                $pieces = explode("para", $td2);
+                $event = $pieces[0];
+                if (isset($pieces[1])) {
+                    $forwarded = $pieces[1];
+                } else {
+                    $forwarded = '';
 
-        foreach(phpQuery::pq('tr') as $tr){$c++;
-            if(count(phpQuery::pq($tr)->find('td')) == 3 && $c > 1)
-                $rastreamento[] = array('data'=>phpQuery::pq($tr)->find('td:eq(0)')->text(),'local'=>phpQuery::pq($tr)->find('td:eq(1)')->text(),'status'=>phpQuery::pq($tr)->find('td:eq(2)')->text());
+                }
+                if (strcmp(trim($event), "Objeto saiu") == 0) {
+                    $event = $pieces[0] . " para " . $pieces[1];
+                    $forwarded = '';
+                }
+                $rastreamento[] = [
+                    'date' =>trim(substr($td1, 0, 19)),
+                    'local'=>trim(str_replace(['/'],'-', substr($td1, 20, strlen($td1)))),
+                    'event' => trim($event),
+                    'forwarded' => trim($forwarded)
+                ];
 
-            if(count(phpQuery::pq($tr)->find('td')) == 1 && $c > 1)
-                $rastreamento[count($rastreamento)-1]['encaminhado'] = phpQuery::pq($tr)->find('td:eq(0)')->text();
+            }
         }
 
         if(!count($rastreamento))

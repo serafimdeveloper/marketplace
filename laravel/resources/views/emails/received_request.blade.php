@@ -14,7 +14,7 @@
         Como o pedido ainda não foi confirmado, pedimos que você aguarde o email de confirmação do pagamento para realizar o envio dos produtos.
     </p>
 
-    <p><a href="{{route('accont.salesman.sale_info', [$request->id])}}">Envie uma mensagem para o comprador</a></p>
+    <p><a href="{{route('account.seller.sale_info', [$request->id])}}">Envie uma mensagem para o comprador</a></p>
 
     <h3>Detalhes do pedido</h3>
     <table>
@@ -47,7 +47,7 @@
         <tbody>
         @foreach($products as $product)
             <tr>
-                <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image.'?w=40') }}"></td>
+                <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galleries[0]->image.'?w=40') }}"></td>
                 <td><a href="{{route('pages.product',[$request->store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                 <td>{{ $product->pivot->quantity }}</td>
                 <td><span class="fontem-12">{{ real($product->pivot->unit_price)}}</span></td>

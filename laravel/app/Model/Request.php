@@ -9,7 +9,7 @@ class Request extends Model
 {
     use SoftDeletes;
 
-    protected $fillable =['user_id','store_id','key','freight_id','deadline','settlement_date','cancellation_date',
+    protected $fillable =['user_id','store_id','key','type_freight_id','deadline','settlement_date','cancellation_date',
         'send_date', 'tracking_code','freight_price','note', 'request_status_id', 'phone','amount','visualized_store',
         'visualized_user', 'address_receiver','address_sender'];
 

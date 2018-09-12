@@ -13,6 +13,7 @@ use App\Package\Moip\lib\Moip;
 use App\Package\Moip\lib\MoIPClient;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
 
 class MoipServices {
     private $instruction;
@@ -69,7 +70,13 @@ class MoipServices {
      * @return null
      */
     public function getToken(){
-        return $this->moip->getAnswer()->token ? $this->moip->getAnswer()->token : null;
+        dd($this->moip->getAnswer());
+        if(!$this->moip->getAnswer()->response) {
+            $error = $this->moip->getAnswer()->error ? $this->moip->getAnswer()->error : 'Erro ao gerar o  token';
+            dd($error);
+            throw new \Exception($error, 500);
+        }
+        return $this->moip->getAnswer()->token;
     }
 
     /**
@@ -108,7 +115,7 @@ class MoipServices {
         $this->moip->addPaymentWay('creditCard')->addPaymentWay('billet');
         $this->moip->setBilletConf(date('d/m/Y', strtotime("+3 days", strtotime(date('Y-m-d')))), false, ["Popmatin.com.br", env('MAIL_USERNAME'), ""], url('imagem/pop/logo-popmartin.png'));
         $this->moip->addMessage('Produtos comprado na plataforma Popmartin');
-        $this->moip->setReturnURL(url('accont/payment/callback'));
+        $this->moip->setReturnURL(url('account/payment/callback'));
         $this->moip->setNotificationURL(url('api/notification/moip/nasp'));
         $this->moip->addComission('Venda na plataforma popmartin', env('MOIP_COMISSION'), ($this->store->seller->comission ? $this->store->seller->comission : env('MOIP_COMISSION_DEFAULT')), true, false);
         $this->moip->setReceiver($this->store->seller->moip);
@@ -122,7 +129,7 @@ class MoipServices {
 
 
     /**
-     * Cunsulta instrução
+     * Consulta instrução
      * @param null $orderId
      */
     public function consultIntruction($orderId = null){

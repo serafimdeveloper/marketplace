@@ -8,7 +8,7 @@
     <br>
 
     Produto <a style="font-weight: bold" href="{{ route('pages.product', ['store' => $store->slug, 'category' => $product->category->slug, 'product' => $product->slug]) }}">{{ $product->name }}</a> está em falta para o pedido
-    <a style="font-weight: bold" href="{{ url('/accont/salesman/sale/') . $order->id }}">{{ $order->key }}</a>
+    <a style="font-weight: bold" href="{{ url('/account/seller/sale/') . $order->id }}">{{ $order->key }}</a>
     <p>
         <br />
         Atenciosamente,<br />

@@ -4,9 +4,9 @@
         <div class="alertbox-content">
             <h2 class="alertbox-title c-pop fontw-500">Cadastrar categoria</h2>
             @if(isset($category))
-                {!! Form::model($category,['class' => 'form-modern pop-form form-category', 'route' =>['accont.report.categories.update',$category->id], 'method' => 'PUT']) !!}
+                {!! Form::model($category,['class' => 'form-modern pop-form form-category', 'route' =>['account.report.categories.update',$category->id], 'method' => 'PUT']) !!}
             @else
-                {!! Form::open(['class' => 'form-modern pop-form form-category', 'route' => ['accont.report.categories.store'], 'method' => 'POST']) !!}
+                {!! Form::open(['class' => 'form-modern pop-form form-category', 'route' => ['account.report.categories.store'], 'method' => 'POST']) !!}
             @endif
                 {{ csrf_field() }}
                 <div class="colbox">

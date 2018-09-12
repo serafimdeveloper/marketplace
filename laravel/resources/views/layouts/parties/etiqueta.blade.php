@@ -2,11 +2,11 @@
 <head>
     <title>Etiqueta de pedido para correios</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url('/frontend/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/frontend/css/font-awesome.min.css') }}">
     <style>
-        .destinatario{position: relative;}
+        .destinatario {position: relative;}
         .destinatario img{width: 15%;position: absolute; right: 50px; top: 20px;}
-        table{width: 100%;border: 1px solid #888888;font-size: 1.2em;padding: 10px;text-align: left;}
+        table{width: 100%;border: 1px solid #888888;font-size: 1.4em;padding: 10px;text-align: left;}
         table tr .th{width: 16%;text-align: right;}
         table td{padding: 7px 5px;}
         .tesoura{padding: 10px 0;border-bottom: 1px dashed #555555;position: relative;}
@@ -20,7 +20,7 @@
         <table>
             <tr>
                 <td class="th">Destinatário:</td>
-                <td style="font-weight: 900 !important;"><strong>{{ mb_strtoupper($address['receiver']->name)}}</strong></td>
+                <td style="font-weight: 900 !important;">{{ mb_strtoupper($address['receiver']->name)}}</td>
             </tr>
             <tr>
                 <td class="th">Rua:</td>
@@ -59,7 +59,7 @@
         <table>
             <tr>
                 <td class="th">Remetente:</td>
-                <td class="fontw-500" colspan="3">{{$store->salesman->user->name}} {{$store->salesman->user->last_name}} ({{$store->name}})</td>
+                <td class="fontw-500" colspan="3">{{$store->seller->user->name}} {{$store->seller->user->last_name}} ({{$store->name}})</td>
                 <td colspan="4"></td>
             </tr>
             <tr>

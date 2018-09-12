@@ -55,7 +55,7 @@
 .bg-green-avocado{background-color: #8BC34A; color: #FFFFFF;}
 .bg-green-avocadolight{background-color: #C5E1A5; color: #000000;}
 .bg-green-avocadodark{background-color: #33691E; color: #FFFFFF;}
-.c-green{color: #4CAF50;}
+.c-green{color: #4CAF50 !important;}
 .c-greenA{color: #00E676;}
 .c-greendark{color: #1B5E20;}
 .c-green-avocado{color: #8BC34A;}

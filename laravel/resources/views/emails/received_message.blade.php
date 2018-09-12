@@ -6,7 +6,7 @@
     <p>
         Você recebeu uma mensagem.
     </p>
-    <p><a href="{{ route('accont.message.info', ['type' => $message_type, 'id' => $id]) }}">Clique aqui para visualizar sua mensagem.</a></p>
+    <p><a href="{{ route('account.message.info', ['type' => $message_type, 'id' => $id]) }}">Clique aqui para visualizar sua mensagem.</a></p>
 
     <br/>
     <p>

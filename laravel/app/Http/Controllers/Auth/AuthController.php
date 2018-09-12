@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
-use App\Repositories\Accont\UserRepository;
+use App\Repositories\Account\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Socialite;
 

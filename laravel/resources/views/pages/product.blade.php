@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="clear-both"></div>
-                <div class="pop-product-salesman">
+                <div class="pop-product-seller">
                         <div class="fl-left">
                             <p>{{$product->store->name}}</p>
                         </div>

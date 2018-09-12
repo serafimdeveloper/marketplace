@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Request;
 use App\Model\User;
-use App\Repositories\Accont\ProductsRepository;
-use App\Repositories\Accont\CategoriesRepository;
-use App\Repositories\Accont\ShopValuationsRepository;
-use App\Repositories\Accont\StoresRepository;
+use App\Repositories\Account\ProductsRepository;
+use App\Repositories\Account\CategoriesRepository;
+use App\Repositories\Account\ShopValuationsRepository;
+use App\Repositories\Account\StoresRepository;
 use App\Repositories\FavoritesRepository;
 use App\Repositories\VisitProductsRepository;
 use Illuminate\Support\Facades\Auth;

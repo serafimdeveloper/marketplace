@@ -37,7 +37,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->redirectTo = (Session::has('oldUrl')) ? redirect()->intended() : 'accont';
+        $this->redirectTo = (Session::has('oldUrl')) ? redirect()->intended() : 'account';
         $this->middleware('guest');
     }
 
@@ -76,7 +76,7 @@ class RegisterController extends Controller
         ]);
 
         $data = ['email' => $user->email, 'user' => $user];
-        send_mail('emails.confirmation_accont',$data,'Confirmação de sua conta');
+        send_mail('emails.confirmation_account',$data,'Confirmação de sua conta');
         return $user;
 
     }

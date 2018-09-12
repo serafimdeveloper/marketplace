@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Accont\AdressesStoreRequest;
-use App\Repositories\Accont\AdressesRepository;
-use App\Repositories\Accont\RequestsRepository;
-use App\Repositories\Accont\StoresRepository;
+use App\Http\Requests\Account\AddressesStoreRequest;
+use App\Repositories\Account\AddressesRepository;
+use App\Repositories\Account\RequestsRepository;
+use App\Repositories\Account\StoresRepository;
 use App\Services\CartServices;
 use App\Services\MoipServices;
 use Illuminate\Http\Request;
@@ -18,9 +18,9 @@ use App\Services\CorreiosService as Correios;
 class CheckoutController extends Controller {
     private $moip, $address;
     protected $repo_address, $repo_stores, $service, $repo;
-    protected $with = ['user', 'freight', 'requeststatus', 'products', 'store', 'movementstocks', 'moip'];
+    protected $with = ['user', 'type_freight', 'request_status', 'products', 'store', 'movement_stocks', 'moip'];
 
-    function __construct(AdressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service, RequestsRepository $repo){
+    function __construct(AddressesRepository $repo_address, StoresRepository $repo_stores, CartServices $service, RequestsRepository $repo){
         $this->repo_address = $repo_address;
         $this->repo_stores = $repo_stores;
         $this->service = $service;
@@ -48,7 +48,7 @@ class CheckoutController extends Controller {
         return redirect()->route('pages.cart');
     }
 
-    public function confirmPostAddress(AdressesStoreRequest $req, $sha1){
+    public function confirmPostAddress(AddressesStoreRequest $req, $sha1){
         if(Session::has('cart')){
             $cart = Session::get('cart');
             foreach($cart->stores as $key => $store){
@@ -65,7 +65,7 @@ class CheckoutController extends Controller {
                         $dados = ['user_id' => $user->id, 'type_freight_id' => $store['type_freight']['id'],
                             'phone' => $req->phone, 'request_status_id' => 2, 'key' => generate_key(), 'freight_price' => $store['freight'][ $store['type_freight']['name'] ]['val'],
                             'deadline' => $store['freight'][ $store['type_freight']['name'] ]['deadline'], 'amount' => $store['amount'],
-                            'note' => $store['obs'], 'address_receiver' => json_encode($address), 'address_sender' => json_encode($model_store->adress)];
+                            'note' => $store['obs'], 'address_receiver' => json_encode($address), 'address_sender' => json_encode($model_store->address)];
                         $request = $model_store->requests()->create($dados);
                         $cart->add_address(['id' => $address->id, 'zip_code' => $address->zip_code, 'phone' => $req->phone]);
                         $cart->add_request($key, $request->id);
@@ -155,8 +155,8 @@ class CheckoutController extends Controller {
     }
 
     private function send_email($type, $template, $data, $subject){
-        $data['email'] = ($type === 'client') ? $data['user']->email : $data['store']->salesman->user->email;
-        $data['name'] = ($type === 'client') ? $data['user']->name : $data['store']->salesman->user->name;
+        $data['email'] = ($type === 'client') ? $data['user']->email : $data['store']->seller->user->email;
+        $data['name'] = ($type === 'client') ? $data['user']->name : $data['store']->seller->user->name;
         send_mail($template, $data, $subject);
     }
 

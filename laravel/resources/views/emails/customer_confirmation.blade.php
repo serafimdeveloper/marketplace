@@ -11,7 +11,7 @@
     <p>
         Caso queira falar com o vendedor agora, clique no link abaixo:
     </p>
-    <p><a href="{{route('accont.request_info',['id' => $request->id])}}">Envie uma mensagem para o vendedor</a></p>
+    <p><a href="{{route('account.request_info',['id' => $request->id])}}">Envie uma mensagem para o vendedor</a></p>
 
     <h3>Detalhes do pedido</h3>
     <table style="margin-bottom: 20px; font-size: 14px">
@@ -44,7 +44,7 @@
         <tbody>
         @foreach($request->products as $product)
             <tr>
-                <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galeries[0]->image.'?w=40') }}"></td>
+                <td class="txt-center" style="max-width: 100px;"><img src="{{ url('imagem/produto/' . $product->galleries[0]->image.'?w=40') }}"></td>
                 <td><a href="{{route('pages.product',[$request->store->slug, $product->category->slug, $product->slug])}}" class="fontem-12" target="_blank">{{ $product->name }}</a></td>
                 <td>{{ $product->pivot->quantity }}</td>
                 <td><span class="fontem-12">{{ real($product->pivot->unit_price)}}</span></td>
@@ -71,9 +71,9 @@
     <h3>Endereço de entrega</h3>
     <p>
         <span>{{ $request->user->name }} {{ $request->user->last_name }}</span><br>
-        <span> {{'CEP: '.$request->adress->zip_code.' - '.$request->adress->public_place.', '.$request->adress->number
-        .(($request->adress->complements) ? ' ('.$request->adress->complements.')' : '')
-        .', '.$request->adress->neighborhood.', '.$request->adress->city.' - '.$request->adress->state}}</span><br>
+        <span> {{'CEP: '.$request->address->zip_code.' - '.$request->address->public_place.', '.$request->address->number
+        .(($request->address->complements) ? ' ('.$request->address->complements.')' : '')
+        .', '.$request->address->neighborhood.', '.$request->address->city.' - '.$request->address->state}}</span><br>
     </p>
     <p>
         <br />
