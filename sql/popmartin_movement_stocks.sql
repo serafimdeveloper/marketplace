@@ -1,1 +1,0 @@
-INSERT INTO popmartin.movement_stocks (type_movement_stock_id, product_id, count, reason, request_id, created_at, updated_at) VALUES (3, 12, 6, null, null, '2017-02-21 12:53:54', '2017-02-21 12:53:54');

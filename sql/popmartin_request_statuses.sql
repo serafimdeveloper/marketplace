@@ -1,8 +1,0 @@
-INSERT INTO popmartin.request_statuses (`trigger`, description, active, created_at, updated_at) VALUES ('warning', 'Aguardando pagamento', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
-INSERT INTO popmartin.request_statuses (`trigger`, description, active, created_at, updated_at) VALUES ('error', 'Compra incompleta', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
-INSERT INTO popmartin.request_statuses (`trigger`, description, active, created_at, updated_at) VALUES ('warning', 'Aguardando envio', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
-INSERT INTO popmartin.request_statuses (`trigger`, description, active, created_at, updated_at) VALUES ('notice', 'Aguardando chegada', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
-INSERT INTO popmartin.request_statuses (`trigger`, description, active, created_at, updated_at) VALUES ('notice', 'Aguardando avaliação', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
-INSERT INTO popmartin.request_statuses (`trigger`, description, active, created_at, updated_at) VALUES ('accept', 'Negociação concluída', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
-INSERT INTO popmartin.request_statuses (`trigger`, description, active, created_at, updated_at) VALUES ('default', 'Pedido devolvido', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');
-INSERT INTO popmartin.request_statuses (`trigger`, description, active, created_at, updated_at) VALUES ('error', 'Compra cancelada', 1, '2017-02-21 10:40:34', '2017-02-21 10:40:34');

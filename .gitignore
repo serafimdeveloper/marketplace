@@ -6,3 +6,4 @@ laravel/Homestead.yaml
 /laravel/.env
 /laravel/vendor
 /PopBox
+.ssh

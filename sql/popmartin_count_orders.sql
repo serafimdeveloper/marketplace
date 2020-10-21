@@ -1,1 +1,0 @@
-INSERT INTO popmartin.count_orders (count) VALUES (20);
